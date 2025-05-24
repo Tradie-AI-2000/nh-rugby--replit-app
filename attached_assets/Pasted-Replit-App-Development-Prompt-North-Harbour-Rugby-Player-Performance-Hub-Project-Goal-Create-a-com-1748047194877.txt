@@ -1,0 +1,168 @@
+Replit App Development Prompt: North Harbour Rugby Player Performance Hub
+Project Goal:
+Create a comprehensive and visually stunning "Player Performance Hub" web application for North Harbour Rugby. This application will serve as a central dashboard for players, coaches, medical staff, and recruiters to view and analyze detailed player information, track development, and gain insights into performance and wellbeing. The app should be built using React, Tailwind CSS for styling, Recharts (or a similar library) for data visualization, and Firebase Firestore as the backend database. It must also integrate with an LLM (e.g., Gemini API) to provide summaries and player ratings.
+
+Target Users & Roles:
+
+Players: View their own profiles, track progress, see feedback.
+
+Coaches: Monitor player development, access performance data, review reports.
+
+Strength & Conditioning Staff: Track physical testing data, compare against benchmarks, identify areas for physical improvement.
+
+Medical Staff (Physios, Doctors): Log and review injury data, track recovery progress, manage medical reports.
+
+Recruiters/Academy Directors: Access comprehensive player profiles for talent identification and development planning.
+
+Team Management: Overview of squad health, performance, and development.
+
+Core Data Model:
+The application will manage player data based on a comprehensive schema. Each player will have a document in Firestore. (Refer to the example JSON structure provided previously for a detailed breakdown of fields, including: Personal Details, Rugby Profile, Off-Field Activities, Core & General Rugby Skills, Physical Attributes (historical), Physical Performance Testing (with benchmarks and historical results), Health & Wellbeing (injury log, medical reports, wellbeing metrics), Game Time (current/previous seasons), and various Reports (Coach, Physio, Doctor, Recruitment)).
+
+Key Features & Functionality:
+
+User Authentication & Roles (Simplified for V1):
+
+For the initial version, you can focus on a single view or assume a logged-in admin/coach persona. Full role-based access can be a future enhancement.
+
+The app should be able to display data for any selected player.
+
+Player Dashboard/Profile View:
+
+Main View: A visually appealing and easy-to-navigate page dedicated to a single player.
+
+Player Selection: A mechanism to search or select a player to view their dashboard (e.g., a dropdown or search bar).
+
+Modular Design: Organize information into clear sections/tabs:
+
+Overview/Snapshot: Key highlights, latest updates, overall rating (LLM-generated).
+
+Bio & Rugby Profile: Basic info, positions, playing history, off-field activities.
+
+Skills: Display core and general rugby skills with ratings/notes.
+
+Physical Performance:
+
+Current physical attributes (Height, Weight, Body Comp).
+
+Graphs:
+
+Line charts showing trends over time for Weight, Body Fat %, Lean Mass.
+
+Bar charts or radar charts comparing latest test results (Bench Press, Squat, Sprints, Yo-Yo, Bronco) against positional benchmarks. Show both player score and benchmark target.
+
+Line charts showing trends for key physical test results over time.
+
+Health & Wellbeing:
+
+Injury Log: A chronological list or table of injuries, detailing type, date, severity, recovery.
+
+Wellbeing metrics trends (if available).
+
+Links to or summaries of latest physio/doctor reports.
+
+Game Time & Stats:
+
+Current season vs. previous season minutes played (bar chart).
+
+Key in-game statistics (tries, tackles, etc.).
+
+Reports: Access to view coaches, physio, doctor, and recruitment reports.
+
+LLM Integration (Gemini API or similar):
+
+Player Summary: On the player's overview page, use the LLM to generate a concise textual summary of the player's current status, recent performance, key strengths, and development areas based on all available data.
+
+Player Scorecard/Rating:
+
+Develop a system where the LLM analyzes the player's data (skills, physical performance, game time, coach feedback) to generate an overall "Player Rating" (e.g., out of 100 or a descriptive A-F grade).
+
+Potentially generate sub-ratings for categories like "Physicality," "Skillset," "Game Impact," "Potential."
+
+Clearly display these ratings on the player's dashboard.
+
+Recruitment Report Assistance: The LLM could assist in drafting the "Recruitment Report" summary by pulling key information from the database.
+
+Visual Design & UX:
+
+Professional & Modern: The app must look polished and professional, suitable for a sports organization. Use North Harbour Rugby's branding (colors, logo if available) subtly.
+
+Data Visualization: Graphs and charts should be clear, well-labeled, and interactive (e.g., tooltips on hover). Use Recharts or a comparable library.
+
+Responsive Design: Ensure the application is usable across desktop, tablet, and mobile devices.
+
+Intuitive Navigation: Easy to find information and switch between player profiles or sections.
+
+Readability: Excellent typography, contrast, and spacing for easy consumption of data.
+
+Player Image: Prominently display the player's profile image.
+
+Technology Stack:
+
+Frontend: React (functional components, hooks), Tailwind CSS.
+
+Charting Library: Recharts (or suggest an alternative if better suited).
+
+Backend Database: Firebase Firestore.
+
+Structure data as collections of player documents.
+
+Ensure Firestore rules are set up for secure data access (initially, can be open for development, but plan for user-specific access).
+
+LLM Integration: Use fetch to call the Gemini API (or another LLM API if specified).
+
+Deployment: Replit.
+
+Implementation Details for Firestore & Auth (Guidance for the LLM):
+
+Initialize Firebase in your React app.
+
+Use firebase/app, firebase/firestore, firebase/auth.
+
+For Firestore data paths, use:
+
+Private data (default): /artifacts/{appId}/users/{userId}/players/{playerId}
+
+If data needs to be shared among coaches/staff (public within the organization): /artifacts/{appId}/public/data/players/{playerId}
+
+The appId will be typeof __app_id !== 'undefined' ? __app_id : 'your-app-specific-default-id'.
+
+The userId can be derived from auth.currentUser.uid after sign-in. For V1, if not implementing full auth, you might hardcode a test userId or use a simpler path like /players/{playerId} for initial development, but note the target structure.
+
+Implement onSnapshot listeners for real-time data updates where appropriate (e.g., if multiple staff might be viewing/updating).
+
+For authentication, use signInWithCustomToken with __initial_auth_token if available, otherwise signInAnonymously. Store auth state and userId.
+
+All Firestore operations should only occur after auth state is confirmed.
+
+Key Infographics/Graphs to Prioritize:
+
+Physical Stats Trends: Line graphs for weight, body fat %, key strength numbers (e.g., Bench 1RM), and endurance scores (e.g., Yo-Yo level) over time (multiple data points from physicalAttributes and testResults arrays).
+
+Physical Stats vs. Benchmarks: Bar chart comparing the player's latest test results for 3-5 key metrics against the defined positional benchmarks.
+
+Season Game Time Comparison: Bar chart showing total minutes played this season vs. last season.
+
+Injury Overview: A simple timeline or a summary card showing recent/significant injuries and current status.
+
+Deliverables:
+
+A fully functional Replit application meeting the requirements above.
+
+Well-structured and commented React code.
+
+Clear instructions on how to run the app and populate initial data into Firestore (if needed for demo).
+
+Success Criteria:
+
+All specified features are implemented.
+
+The application is visually appealing, responsive, and user-friendly.
+
+Data is accurately fetched from Firestore and displayed.
+
+Graphs and visualizations are clear and insightful.
+
+LLM integration for summaries and ratings is functional.
+
+The app provides a valuable "at-a-glance" understanding of a player's profile and progress.
