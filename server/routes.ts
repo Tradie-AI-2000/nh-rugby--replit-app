@@ -220,6 +220,70 @@ export function registerRoutes(app: Express) {
           fitness: "available",
           medical: "cleared"
         },
+        videoAnalysis: [
+          {
+            id: "video-1",
+            title: "Match Highlights vs Auckland Blues",
+            description: "Outstanding performance showcasing exceptional lineout throwing and attacking play",
+            videoUrl: "https://example.com/video1.mp4",
+            thumbnailUrl: "https://example.com/thumb1.jpg",
+            duration: 185,
+            matchDate: "2024-01-18",
+            opponent: "Auckland Blues",
+            analysisType: "highlight",
+            tags: ["lineout", "attack", "leadership", "tries"],
+            keyMoments: [
+              {
+                timestamp: 45,
+                title: "Perfect Lineout Throw",
+                description: "Pinpoint accuracy under pressure leading to attacking platform",
+                category: "lineout"
+              },
+              {
+                timestamp: 92,
+                title: "Try Assist",
+                description: "Quick hands to create space for winger's try",
+                category: "try"
+              }
+            ],
+            metrics: {
+              tackles: 12,
+              carries: 8,
+              metersGained: 45,
+              turnovers: 2,
+              passesCompleted: 23,
+              lineoutSuccess: 95
+            },
+            coachNotes: "Excellent game management and leadership qualities on display.",
+            isHighlight: true,
+            uploadedBy: "Coach Williams",
+            uploadedAt: "2024-01-19T10:30:00Z"
+          },
+          {
+            id: "video-2",
+            title: "Lineout Training Session",
+            description: "Technical breakdown of lineout throwing technique",
+            videoUrl: "https://example.com/video2.mp4",
+            duration: 420,
+            matchDate: "2024-01-15",
+            analysisType: "skill_focus",
+            tags: ["lineout", "technique", "accuracy"],
+            keyMoments: [
+              {
+                timestamp: 120,
+                title: "Throwing Technique",
+                description: "Demonstration of proper body positioning",
+                category: "skill"
+              }
+            ],
+            metrics: {
+              lineoutSuccess: 98
+            },
+            isHighlight: false,
+            uploadedBy: "Coach Thompson",
+            uploadedAt: "2024-01-16T14:15:00Z"
+          }
+        ],
         aiRating: {
           overall: 87,
           physicality: 92,

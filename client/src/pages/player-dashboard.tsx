@@ -10,6 +10,7 @@ import PhysicalPerformance from "@/components/physical-performance";
 import GameStatistics from "@/components/game-statistics";
 import RecentActivity from "@/components/recent-activity";
 import ReportsAccess from "@/components/reports-access";
+import VideoAnalysisComponent from "@/components/video-analysis";
 import { usePlayerData } from "@/hooks/use-player-data";
 
 export default function PlayerDashboard() {
@@ -137,6 +138,12 @@ export default function PlayerDashboard() {
                       >
                         Reports
                       </TabsTrigger>
+                      <TabsTrigger 
+                        value="video" 
+                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                      >
+                        Video Analysis
+                      </TabsTrigger>
                     </div>
                   </TabsList>
                 </div>
@@ -163,6 +170,10 @@ export default function PlayerDashboard() {
 
                 <TabsContent value="reports" className="p-6">
                   <ReportsAccess playerId={selectedPlayerId} player={player} />
+                </TabsContent>
+
+                <TabsContent value="video" className="p-6">
+                  <VideoAnalysisComponent playerId={selectedPlayerId} player={player} />
                 </TabsContent>
               </Tabs>
             </div>

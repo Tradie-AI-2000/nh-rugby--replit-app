@@ -173,6 +173,7 @@ export type GameStats = z.infer<typeof gameStatsSchema>;
 export type Skills = z.infer<typeof skillsSchema>;
 export type Report = z.infer<typeof reportSchema>;
 export type Activity = z.infer<typeof activitySchema>;
+export type VideoAnalysis = z.infer<typeof videoAnalysisSchema>;
 export type Benchmark = z.infer<typeof benchmarkSchema>;
 
 // Database Tables
@@ -265,6 +266,36 @@ export const players = pgTable("players", {
     type: string;
     description: string;
     details?: string;
+  }>>(),
+  videoAnalysis: jsonb("video_analysis").default('[]').$type<Array<{
+    id: string;
+    title: string;
+    description: string;
+    videoUrl: string;
+    thumbnailUrl?: string;
+    duration: number;
+    matchDate: string;
+    opponent?: string;
+    analysisType: string;
+    tags: string[];
+    keyMoments: Array<{
+      timestamp: number;
+      title: string;
+      description: string;
+      category: string;
+    }>;
+    metrics?: {
+      tackles?: number;
+      carries?: number;
+      metersGained?: number;
+      turnovers?: number;
+      passesCompleted?: number;
+      lineoutSuccess?: number;
+    };
+    coachNotes?: string;
+    isHighlight: boolean;
+    uploadedBy: string;
+    uploadedAt: string;
   }>>(),
   status: jsonb("status").notNull().$type<{
     fitness: string;
