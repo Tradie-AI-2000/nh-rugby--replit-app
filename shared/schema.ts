@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { pgTable, text, serial, integer, real, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
 
 // Physical attribute entry schema
 export const physicalAttributeSchema = z.object({
@@ -129,7 +132,7 @@ export const benchmarkSchema = z.object({
   }),
 });
 
-export type Player = z.infer<typeof playerSchema>;
+export type PlayerZodType = z.infer<typeof playerSchema>;
 export type PhysicalAttribute = z.infer<typeof physicalAttributeSchema>;
 export type TestResult = z.infer<typeof testResultSchema>;
 export type Injury = z.infer<typeof injurySchema>;
@@ -139,6 +142,136 @@ export type Report = z.infer<typeof reportSchema>;
 export type Activity = z.infer<typeof activitySchema>;
 export type Benchmark = z.infer<typeof benchmarkSchema>;
 
+// Database Tables
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
+  hashedPassword: text("hashed_password").notNull(),
+  role: text("role").notNull().default("coach"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const players = pgTable("players", {
+  id: text("id").primaryKey(),
+  personalDetails: jsonb("personal_details").notNull().$type<{
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    email: string;
+    phone: string;
+    address: string;
+    emergencyContact: {
+      name: string;
+      relationship: string;
+      phone: string;
+    };
+  }>(),
+  rugbyProfile: jsonb("rugby_profile").notNull().$type<{
+    jerseyNumber: number;
+    primaryPosition: string;
+    secondaryPositions: string[];
+    playingLevel: string;
+    yearsInTeam: number;
+    previousClubs: string[];
+  }>(),
+  physicalAttributes: jsonb("physical_attributes").notNull().$type<Array<{
+    date: string;
+    weight: number;
+    bodyFat: number;
+    leanMass: number;
+    height?: number;
+  }>>(),
+  testResults: jsonb("test_results").notNull().$type<Array<{
+    date: string;
+    testType: string;
+    value: number;
+    unit: string;
+  }>>(),
+  skills: jsonb("skills").notNull().$type<{
+    ballHandling: number;
+    passing: number;
+    kicking: number;
+    lineoutThrowing: number;
+    scrummaging: number;
+    rucking: number;
+    defense: number;
+    communication: number;
+  }>(),
+  gameStats: jsonb("game_stats").notNull().$type<Array<{
+    season: string;
+    matchesPlayed: number;
+    minutesPlayed: number;
+    tries: number;
+    tackles: number;
+    lineoutWins: number;
+    turnovers: number;
+    penalties: number;
+  }>>(),
+  injuries: jsonb("injuries").notNull().$type<Array<{
+    id: string;
+    date: string;
+    type: string;
+    severity: string;
+    description: string;
+    recoveryDate?: string;
+    status: string;
+  }>>(),
+  reports: jsonb("reports").notNull().$type<Array<{
+    id: string;
+    type: string;
+    title: string;
+    content: string;
+    author: string;
+    date: string;
+    lastUpdated: string;
+  }>>(),
+  activities: jsonb("activities").notNull().$type<Array<{
+    id: string;
+    date: string;
+    type: string;
+    description: string;
+    details?: string;
+  }>>(),
+  status: jsonb("status").notNull().$type<{
+    fitness: string;
+    medical: string;
+  }>(),
+  aiRating: jsonb("ai_rating").$type<{
+    overall: number;
+    physicality: number;
+    skillset: number;
+    gameImpact: number;
+    potential: number;
+    lastUpdated: string;
+  }>(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  // Future: user-player assignments, reports, etc.
+}));
+
+export const playersRelations = relations(players, ({ one }) => ({
+  // Future: relationships with other tables
+}));
+
+// Database types
+export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type Player = typeof players.$inferSelect;
+export type InsertPlayer = typeof players.$inferInsert;
+
 // Insert schemas
-export const insertPlayerSchema = playerSchema.omit({ id: true });
-export type InsertPlayer = z.infer<typeof insertPlayerSchema>;
+export const insertUserSchema = createInsertSchema(users);
+export const insertPlayerSchema = createInsertSchema(players);
+
+// Legacy Zod schemas for backwards compatibility  
+export type PlayerZod = z.infer<typeof playerSchema>;
+export type InsertPlayerZod = z.infer<typeof insertPlayerSchema>;
+
+// Re-export for components that expect the original Player type
+export type { Player as PlayerDB } from "./schema";
+export { PlayerZodType as Player };
