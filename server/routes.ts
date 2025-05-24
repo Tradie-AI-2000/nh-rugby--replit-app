@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { storage } from "./storage";
 
-export async function registerRoutes(app: Express) {
+export function registerRoutes(app: Express) {
   // Get all players
   app.get("/api/players", async (req, res) => {
     try {

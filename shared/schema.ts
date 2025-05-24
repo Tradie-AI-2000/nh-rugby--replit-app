@@ -75,6 +75,38 @@ export const activitySchema = z.object({
   details: z.string().optional(),
 });
 
+// Video analysis schema
+export const videoAnalysisSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+  videoUrl: z.string(),
+  thumbnailUrl: z.string().optional(),
+  duration: z.number(), // in seconds
+  matchDate: z.string(),
+  opponent: z.string().optional(),
+  analysisType: z.enum(['highlight', 'full_match', 'training', 'skill_focus', 'tactical_analysis']),
+  tags: z.array(z.string()),
+  keyMoments: z.array(z.object({
+    timestamp: z.number(), // seconds from start
+    title: z.string(),
+    description: z.string(),
+    category: z.enum(['try', 'tackle', 'lineout', 'scrum', 'turnover', 'kick', 'skill', 'error']),
+  })),
+  metrics: z.object({
+    tackles: z.number().optional(),
+    carries: z.number().optional(),
+    metersGained: z.number().optional(),
+    turnovers: z.number().optional(),
+    passesCompleted: z.number().optional(),
+    lineoutSuccess: z.number().optional(),
+  }).optional(),
+  coachNotes: z.string().optional(),
+  isHighlight: z.boolean().default(false),
+  uploadedBy: z.string(),
+  uploadedAt: z.string(),
+});
+
 // Main player schema
 export const playerSchema = z.object({
   id: z.string(),
@@ -106,6 +138,7 @@ export const playerSchema = z.object({
   injuries: z.array(injurySchema),
   reports: z.array(reportSchema),
   activities: z.array(activitySchema),
+  videoAnalysis: z.array(videoAnalysisSchema),
   status: z.object({
     fitness: z.enum(['available', 'injured', 'recovering', 'unavailable']),
     medical: z.enum(['cleared', 'under_review', 'restricted']),
