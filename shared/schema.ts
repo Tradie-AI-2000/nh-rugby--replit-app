@@ -1,0 +1,144 @@
+import { z } from "zod";
+
+// Physical attribute entry schema
+export const physicalAttributeSchema = z.object({
+  date: z.string(),
+  weight: z.number(),
+  bodyFat: z.number(),
+  leanMass: z.number(),
+  height: z.number().optional(),
+});
+
+// Physical test result schema
+export const testResultSchema = z.object({
+  date: z.string(),
+  testType: z.enum(['bench_press', 'squat', 'sprint_40m', 'yo_yo', 'bronco', 'vo2_max']),
+  value: z.number(),
+  unit: z.string(),
+});
+
+// Injury record schema
+export const injurySchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  type: z.string(),
+  severity: z.enum(['minor', 'moderate', 'major']),
+  description: z.string(),
+  recoveryDate: z.string().optional(),
+  status: z.enum(['active', 'recovering', 'cleared']),
+});
+
+// Game statistics schema
+export const gameStatsSchema = z.object({
+  season: z.string(),
+  matchesPlayed: z.number(),
+  minutesPlayed: z.number(),
+  tries: z.number(),
+  tackles: z.number(),
+  lineoutWins: z.number(),
+  turnovers: z.number(),
+  penalties: z.number(),
+});
+
+// Skills rating schema
+export const skillsSchema = z.object({
+  ballHandling: z.number().min(1).max(10),
+  passing: z.number().min(1).max(10),
+  kicking: z.number().min(1).max(10),
+  lineoutThrowing: z.number().min(1).max(10),
+  scrummaging: z.number().min(1).max(10),
+  rucking: z.number().min(1).max(10),
+  defense: z.number().min(1).max(10),
+  communication: z.number().min(1).max(10),
+});
+
+// Report schema
+export const reportSchema = z.object({
+  id: z.string(),
+  type: z.enum(['coach', 'medical', 'strength_conditioning', 'recruitment']),
+  title: z.string(),
+  content: z.string(),
+  author: z.string(),
+  date: z.string(),
+  lastUpdated: z.string(),
+});
+
+// Activity log schema
+export const activitySchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  type: z.enum(['training', 'match', 'test', 'medical', 'meeting']),
+  description: z.string(),
+  details: z.string().optional(),
+});
+
+// Main player schema
+export const playerSchema = z.object({
+  id: z.string(),
+  personalDetails: z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    dateOfBirth: z.string(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    emergencyContact: z.object({
+      name: z.string(),
+      relationship: z.string(),
+      phone: z.string(),
+    }),
+  }),
+  rugbyProfile: z.object({
+    jerseyNumber: z.number(),
+    primaryPosition: z.string(),
+    secondaryPositions: z.array(z.string()),
+    playingLevel: z.string(),
+    yearsInTeam: z.number(),
+    previousClubs: z.array(z.string()),
+  }),
+  physicalAttributes: z.array(physicalAttributeSchema),
+  testResults: z.array(testResultSchema),
+  skills: skillsSchema,
+  gameStats: z.array(gameStatsSchema),
+  injuries: z.array(injurySchema),
+  reports: z.array(reportSchema),
+  activities: z.array(activitySchema),
+  status: z.object({
+    fitness: z.enum(['available', 'injured', 'recovering', 'unavailable']),
+    medical: z.enum(['cleared', 'under_review', 'restricted']),
+  }),
+  aiRating: z.object({
+    overall: z.number(),
+    physicality: z.number(),
+    skillset: z.number(),
+    gameImpact: z.number(),
+    potential: z.number(),
+    lastUpdated: z.string(),
+  }).optional(),
+});
+
+// Positional benchmarks schema
+export const benchmarkSchema = z.object({
+  position: z.string(),
+  benchmarks: z.object({
+    bench_press: z.number(),
+    squat: z.number(),
+    sprint_40m: z.number(),
+    yo_yo: z.number(),
+    vo2_max: z.number(),
+  }),
+});
+
+export type Player = z.infer<typeof playerSchema>;
+export type PhysicalAttribute = z.infer<typeof physicalAttributeSchema>;
+export type TestResult = z.infer<typeof testResultSchema>;
+export type Injury = z.infer<typeof injurySchema>;
+export type GameStats = z.infer<typeof gameStatsSchema>;
+export type Skills = z.infer<typeof skillsSchema>;
+export type Report = z.infer<typeof reportSchema>;
+export type Activity = z.infer<typeof activitySchema>;
+export type Benchmark = z.infer<typeof benchmarkSchema>;
+
+// Insert schemas
+export const insertPlayerSchema = playerSchema.omit({ id: true });
+export type InsertPlayer = z.infer<typeof insertPlayerSchema>;
