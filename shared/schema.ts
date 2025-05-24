@@ -75,6 +75,122 @@ export const activitySchema = z.object({
   details: z.string().optional(),
 });
 
+// Advanced metrics schema
+export const advancedMetricsSchema = z.object({
+  id: z.string(),
+  playerId: z.string(),
+  date: z.string(),
+  matchId: z.string().optional(),
+  metrics: z.object({
+    // Physical metrics
+    distanceCovered: z.number(),
+    topSpeed: z.number(),
+    sprintCount: z.number(),
+    averageHeartRate: z.number(),
+    maxHeartRate: z.number(),
+    caloriesBurned: z.number(),
+    // Rugby specific metrics
+    rucks: z.number(),
+    mauls: z.number(),
+    scrums: z.number(),
+    lineouts: z.number(),
+    possessionTime: z.number(),
+    territoryGained: z.number(),
+    // Performance ratings
+    workRate: z.number(),
+    discipline: z.number(),
+    communication: z.number(),
+    leadership: z.number(),
+  }),
+  heatMap: z.array(z.object({
+    x: z.number(),
+    y: z.number(),
+    intensity: z.number(),
+  })),
+  recordedBy: z.string(),
+  device: z.string().optional(),
+});
+
+// Training program schema
+export const trainingProgramSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  duration: z.number(), // weeks
+  phase: z.enum(['preseason', 'inseason', 'offseason', 'recovery']),
+  focusAreas: z.array(z.enum(['strength', 'endurance', 'speed', 'agility', 'skills', 'recovery'])),
+  sessions: z.array(z.object({
+    id: z.string(),
+    day: z.number(),
+    week: z.number(),
+    type: z.enum(['strength', 'conditioning', 'skills', 'tactical', 'recovery']),
+    duration: z.number(), // minutes
+    intensity: z.enum(['low', 'medium', 'high', 'max']),
+    exercises: z.array(z.object({
+      name: z.string(),
+      sets: z.number().optional(),
+      reps: z.number().optional(),
+      duration: z.number().optional(),
+      weight: z.number().optional(),
+      notes: z.string().optional(),
+    })),
+    notes: z.string().optional(),
+  })),
+  assignedPlayers: z.array(z.string()),
+  createdBy: z.string(),
+  createdAt: z.string(),
+});
+
+// Injury tracking schema
+export const injuryTrackingSchema = z.object({
+  id: z.string(),
+  playerId: z.string(),
+  type: z.enum(['acute', 'chronic', 'overuse']),
+  severity: z.enum(['minor', 'moderate', 'severe', 'critical']),
+  bodyPart: z.string(),
+  specificArea: z.string(),
+  mechanism: z.string(),
+  dateOccurred: z.string(),
+  dateReported: z.string(),
+  expectedReturn: z.string().optional(),
+  actualReturn: z.string().optional(),
+  status: z.enum(['active', 'recovering', 'resolved', 'chronic']),
+  treatmentPlan: z.array(z.object({
+    date: z.string(),
+    treatment: z.string(),
+    provider: z.string(),
+    notes: z.string(),
+    progress: z.enum(['excellent', 'good', 'fair', 'poor']),
+  })),
+  restrictions: z.array(z.string()),
+  riskFactors: z.array(z.string()),
+  preventionNotes: z.string().optional(),
+  medicalStaff: z.string(),
+  lastUpdated: z.string(),
+});
+
+// Team communication schema
+export const communicationSchema = z.object({
+  id: z.string(),
+  type: z.enum(['announcement', 'message', 'alert', 'reminder']),
+  title: z.string(),
+  content: z.string(),
+  priority: z.enum(['low', 'medium', 'high', 'urgent']),
+  recipients: z.array(z.string()), // player IDs or 'all'
+  sender: z.string(),
+  attachments: z.array(z.object({
+    name: z.string(),
+    url: z.string(),
+    type: z.string(),
+  })).optional(),
+  readBy: z.array(z.object({
+    playerId: z.string(),
+    readAt: z.string(),
+  })),
+  createdAt: z.string(),
+  scheduledFor: z.string().optional(),
+});
+
 // Video analysis schema
 export const videoAnalysisSchema = z.object({
   id: z.string(),
@@ -175,6 +291,10 @@ export type Report = z.infer<typeof reportSchema>;
 export type Activity = z.infer<typeof activitySchema>;
 export type VideoAnalysis = z.infer<typeof videoAnalysisSchema>;
 export type Benchmark = z.infer<typeof benchmarkSchema>;
+export type AdvancedMetrics = z.infer<typeof advancedMetricsSchema>;
+export type TrainingProgram = z.infer<typeof trainingProgramSchema>;
+export type InjuryTracking = z.infer<typeof injuryTrackingSchema>;
+export type Communication = z.infer<typeof communicationSchema>;
 
 // Database Tables
 export const users = pgTable("users", {
