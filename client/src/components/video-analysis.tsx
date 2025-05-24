@@ -26,7 +26,7 @@ export default function VideoAnalysisComponent({ playerId, player }: VideoAnalys
     );
   }
 
-  const videoAnalysis = player.videoAnalysis || [];
+  const videoAnalysis = (player.videoAnalysis || []) as VideoAnalysis[];
   const highlights = videoAnalysis.filter(video => video.isHighlight);
   const matchVideos = videoAnalysis.filter(video => video.analysisType === 'full_match');
   const trainingVideos = videoAnalysis.filter(video => video.analysisType === 'training');

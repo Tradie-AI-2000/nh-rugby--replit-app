@@ -41,8 +41,8 @@ export default function PlayerOverview({ playerId, player, isLoading }: PlayerOv
     );
   }
 
-  const currentPhysical = player.physicalAttributes[player.physicalAttributes.length - 1];
-  const currentStats = player.gameStats[player.gameStats.length - 1];
+  const currentPhysical = player.physicalAttributes?.[player.physicalAttributes.length - 1];
+  const currentStats = player.gameStats?.[player.gameStats.length - 1];
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 sticky top-6">
