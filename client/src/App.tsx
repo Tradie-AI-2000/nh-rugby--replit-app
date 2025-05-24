@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "./lib/queryClient";
 import PlayerDashboard from "@/pages/player-dashboard";
 import VideoDemo from "@/pages/video-demo";
+import FeaturesDemo from "@/pages/features-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -13,6 +14,7 @@ function Router() {
       <Route path="/" component={PlayerDashboard} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/video-demo" component={VideoDemo} />
+      <Route path="/features" component={FeaturesDemo} />
       <Route component={NotFound} />
     </Switch>
   );
