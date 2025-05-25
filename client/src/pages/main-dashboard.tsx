@@ -1,0 +1,250 @@
+import { useState } from "react";
+import { Link } from "wouter";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Users, 
+  User, 
+  Activity, 
+  Calendar, 
+  MessageSquare, 
+  BarChart3, 
+  Target, 
+  Zap,
+  Brain,
+  Shield,
+  Clock,
+  TrendingUp
+} from "lucide-react";
+
+export default function MainDashboard() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* North Harbour Rugby Header */}
+      <div className="bg-nh-red text-white p-6 shadow-lg">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img 
+                src="/attached_assets/menulogo_wo.png" 
+                alt="North Harbour Rugby" 
+                className="h-12 w-auto"
+              />
+              <div>
+                <h1 className="text-2xl font-bold">North Harbour Rugby</h1>
+                <p className="text-red-100">Performance Hub Dashboard</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-red-100">Season 2024</div>
+              <div className="font-semibold">Performance Analytics</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto p-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Choose Your Analytics Portal
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Access comprehensive player insights or manage team operations with our advanced analytics platform
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* Player Analysis Portal */}
+          <Card className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-nh-red cursor-pointer">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-nh-red group-hover:text-white transition-all duration-300">
+                <User size={40} />
+              </div>
+              <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-nh-red transition-colors duration-300">
+                Player Analysis Portal
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Individual player performance tracking and development insights
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Activity className="text-blue-600" size={20} />
+                  <span className="text-sm font-medium">Performance Metrics</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Target className="text-green-600" size={20} />
+                  <span className="text-sm font-medium">Skills Development</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Shield className="text-purple-600" size={20} />
+                  <span className="text-sm font-medium">Injury Tracking</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Brain className="text-orange-600" size={20} />
+                  <span className="text-sm font-medium">AI Insights</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-800">Key Features:</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Individual performance analytics and trends</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Training program management and progress tracking</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Video analysis and skill development tools</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Injury prediction and recovery monitoring</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link href="/player-dashboard">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
+                  Access Player Portal
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Team Management Portal */}
+          <Card className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-nh-red cursor-pointer">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-nh-red group-hover:text-white transition-all duration-300">
+                <Users size={40} />
+              </div>
+              <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-nh-red transition-colors duration-300">
+                Team Management Portal
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Squad management, scheduling, and team-wide analytics
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Calendar className="text-blue-600" size={20} />
+                  <span className="text-sm font-medium">Schedule Management</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Zap className="text-red-600" size={20} />
+                  <span className="text-sm font-medium">Live Match Analysis</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <MessageSquare className="text-green-600" size={20} />
+                  <span className="text-sm font-medium">Team Communication</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <BarChart3 className="text-purple-600" size={20} />
+                  <span className="text-sm font-medium">Squad Analytics</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-800">Key Features:</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Weekly training schedules and session planning</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Real-time match analytics and tactical insights</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Slack integration for coaching communications</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-nh-red rounded-full"></div>
+                    <span>Squad rotation and lineup optimization</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link href="/team-dashboard">
+                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
+                  Access Team Portal
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Stats Overview */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <Card className="text-center p-4">
+            <CardContent className="pt-2">
+              <div className="text-2xl font-bold text-nh-red">47</div>
+              <div className="text-sm text-gray-600">Active Players</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center p-4">
+            <CardContent className="pt-2">
+              <div className="text-2xl font-bold text-green-600">12</div>
+              <div className="text-sm text-gray-600">Matches Played</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center p-4">
+            <CardContent className="pt-2">
+              <div className="text-2xl font-bold text-blue-600">89%</div>
+              <div className="text-sm text-gray-600">Fitness Level</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center p-4">
+            <CardContent className="pt-2">
+              <div className="text-2xl font-bold text-purple-600">3</div>
+              <div className="text-sm text-gray-600">Injuries This Week</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Recent Activity */}
+        <Card className="mt-12 max-w-4xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Clock size={20} />
+              <span>Recent Activity</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="font-medium">Training Session Completed</span>
+                </div>
+                <div className="text-sm text-gray-500">2 hours ago</div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="font-medium">New Player Performance Report</span>
+                </div>
+                <div className="text-sm text-gray-500">4 hours ago</div>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <span className="font-medium">Match Analysis Updated</span>
+                </div>
+                <div className="text-sm text-gray-500">6 hours ago</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
