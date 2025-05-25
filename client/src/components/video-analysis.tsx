@@ -300,11 +300,31 @@ export default function VideoAnalysisComponent({ playerId, player }: VideoAnalys
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="highlights" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="highlights">Highlights ({highlights.length})</TabsTrigger>
-              <TabsTrigger value="matches">Matches ({matchVideos.length})</TabsTrigger>
-              <TabsTrigger value="training">Training ({trainingVideos.length})</TabsTrigger>
-              <TabsTrigger value="skills">Skills ({skillAnalysis.length})</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+              <TabsTrigger 
+                value="highlights"
+                className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+              >
+                Highlights ({highlights.length})
+              </TabsTrigger>
+              <TabsTrigger 
+                value="matches"
+                className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+              >
+                Matches ({matchVideos.length})
+              </TabsTrigger>
+              <TabsTrigger 
+                value="training"
+                className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+              >
+                Training ({trainingVideos.length})
+              </TabsTrigger>
+              <TabsTrigger 
+                value="skills"
+                className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+              >
+                Skills ({skillAnalysis.length})
+              </TabsTrigger>
             </TabsList>
             
             <TabsContent value="highlights" className="mt-4">

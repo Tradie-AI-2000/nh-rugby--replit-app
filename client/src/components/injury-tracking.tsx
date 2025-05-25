@@ -184,10 +184,25 @@ export default function InjuryTracking({ playerId, player }: InjuryTrackingProps
       </div>
 
       <Tabs defaultValue="current" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="current">Current Injuries ({currentInjuries.length})</TabsTrigger>
-          <TabsTrigger value="history">Injury History ({resolvedInjuries.length})</TabsTrigger>
-          <TabsTrigger value="prevention">Prevention Plan</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsTrigger 
+            value="current"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Current Injuries ({currentInjuries.length})
+          </TabsTrigger>
+          <TabsTrigger 
+            value="history"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Injury History ({resolvedInjuries.length})
+          </TabsTrigger>
+          <TabsTrigger 
+            value="prevention"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Prevention Plan
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="current" className="space-y-4">

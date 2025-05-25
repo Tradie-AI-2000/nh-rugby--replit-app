@@ -175,10 +175,25 @@ export default function TeamCommunication({ playerId, player }: TeamCommunicatio
       </div>
 
       <Tabs defaultValue="inbox" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="inbox">Inbox ({messages.length})</TabsTrigger>
-          <TabsTrigger value="compose">Compose</TabsTrigger>
-          <TabsTrigger value="announcements">Team Updates</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsTrigger 
+            value="inbox"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Inbox ({messages.length})
+          </TabsTrigger>
+          <TabsTrigger 
+            value="compose"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Compose
+          </TabsTrigger>
+          <TabsTrigger 
+            value="announcements"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Team Updates
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="inbox" className="space-y-4">
