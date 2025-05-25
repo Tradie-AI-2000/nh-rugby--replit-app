@@ -6,12 +6,14 @@ import { queryClient } from "./lib/queryClient";
 import PlayerDashboard from "@/pages/player-dashboard";
 import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
+import DataManagement from "@/pages/data-management";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/features" component={FeaturesDemo} />
+      <Route path="/data-management" component={DataManagement} />
       <Route path="/video-demo" component={VideoDemo} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/" component={FeaturesDemo} />

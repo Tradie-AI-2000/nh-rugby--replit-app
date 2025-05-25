@@ -90,13 +90,25 @@ export default function FeaturesDemo() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen bg-background">
+      {/* North Harbour Rugby Header */}
+      <div className="bg-nh-red text-white px-6 py-4 mb-8">
+        <div className="max-w-7xl mx-auto flex items-center gap-4">
+          <img 
+            src="/attached_assets/menulogo_wo.png" 
+            alt="North Harbour Rugby"
+            className="h-16 w-auto"
+          />
+          <div>
+            <h1 className="text-3xl font-bold">North Harbour Rugby Performance Hub</h1>
+            <p className="text-lg opacity-90">Advanced Player Analytics & Performance Management</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Content Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-nh-navy mb-4">
-            North Harbour Rugby Performance Hub
-          </h1>
           <p className="text-xl text-slate-600 mb-6">
             Complete Player Performance Analytics Platform
           </p>
