@@ -17,7 +17,7 @@ function Router() {
       <Route path="/features" component={FeaturesDemo} />
       <Route path="/data-management" component={DataManagement} />
       <Route path="/video-demo" component={VideoDemo} />
-      <Route path="/player-dashboard" component={PlayerDashboard} />
+      <Route path="/player-dashboard" component={FeaturesDemo} />
       <Route path="/team-dashboard" component={TeamDashboard} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/" component={MainDashboard} />
