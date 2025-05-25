@@ -158,11 +158,31 @@ export default function AdvancedMetrics({ playerId, player }: AdvancedMetricsPro
       </div>
 
       <Tabs defaultValue="trends" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="trends">Performance Trends</TabsTrigger>
-          <TabsTrigger value="rugby">Rugby Metrics</TabsTrigger>
-          <TabsTrigger value="radar">Skills Analysis</TabsTrigger>
-          <TabsTrigger value="heatmap">Position Heat Map</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsTrigger 
+            value="trends"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Performance Trends
+          </TabsTrigger>
+          <TabsTrigger 
+            value="rugby"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Rugby Metrics
+          </TabsTrigger>
+          <TabsTrigger 
+            value="radar"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Skills Analysis
+          </TabsTrigger>
+          <TabsTrigger 
+            value="heatmap"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Position Heat Map
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="trends" className="space-y-4">

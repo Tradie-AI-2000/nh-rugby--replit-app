@@ -32,24 +32,39 @@ export default function DataManagement() {
 
       <div className="max-w-7xl mx-auto px-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="players" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-5 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+            <TabsTrigger 
+              value="players" 
+              className="flex items-center gap-2 py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
               <Users className="h-4 w-4" />
               Players
             </TabsTrigger>
-            <TabsTrigger value="performance" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="performance" 
+              className="flex items-center gap-2 py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
               <Activity className="h-4 w-4" />
               Performance
             </TabsTrigger>
-            <TabsTrigger value="medical" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="medical" 
+              className="flex items-center gap-2 py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
               <FileText className="h-4 w-4" />
               Medical
             </TabsTrigger>
-            <TabsTrigger value="video" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="video" 
+              className="flex items-center gap-2 py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
               <Camera className="h-4 w-4" />
               Video
             </TabsTrigger>
-            <TabsTrigger value="bulk" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="bulk" 
+              className="flex items-center gap-2 py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
               <Upload className="h-4 w-4" />
               Bulk Import
             </TabsTrigger>

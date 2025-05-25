@@ -141,11 +141,31 @@ export default function PlayerComparison({ playerId, player }: PlayerComparisonP
       </div>
 
       <Tabs defaultValue="skills" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="skills">Skills Comparison</TabsTrigger>
-          <TabsTrigger value="physical">Physical Metrics</TabsTrigger>
-          <TabsTrigger value="benchmarks">Benchmarks</TabsTrigger>
-          <TabsTrigger value="trends">Performance Trends</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsTrigger 
+            value="skills"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Skills Comparison
+          </TabsTrigger>
+          <TabsTrigger 
+            value="physical"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Physical Metrics
+          </TabsTrigger>
+          <TabsTrigger 
+            value="benchmarks"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Benchmarks
+          </TabsTrigger>
+          <TabsTrigger 
+            value="trends"
+            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+          >
+            Performance Trends
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="skills" className="space-y-6">
