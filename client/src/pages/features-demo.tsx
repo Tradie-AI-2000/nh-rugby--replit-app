@@ -8,6 +8,7 @@ import TrainingPrograms from "@/components/training-programs";
 import PlayerComparison from "@/components/player-comparison";
 import TeamCommunication from "@/components/team-communication";
 import VideoAnalysisComponent from "@/components/video-analysis";
+import nhLogo from "@assets/menulogo_wo.png";
 
 // Sample comprehensive player data for demonstration
 const samplePlayer = {
@@ -95,7 +96,7 @@ export default function FeaturesDemo() {
       <div className="bg-nh-red text-white px-6 py-4 mb-8">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <img 
-            src="/attached_assets/menulogo_wo.png" 
+            src={nhLogo} 
             alt="North Harbour Rugby"
             className="h-16 w-auto"
           />

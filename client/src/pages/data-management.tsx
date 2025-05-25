@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Upload, Users, Activity, FileText, Camera } from "lucide-react";
+import nhLogo from "@assets/menulogo_wo.png";
 
 export default function DataManagement() {
   const [activeTab, setActiveTab] = useState("players");
@@ -18,7 +19,7 @@ export default function DataManagement() {
       <div className="bg-nh-red text-white px-6 py-4 mb-8">
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <img 
-            src="/attached_assets/menulogo_wo.png" 
+            src={nhLogo} 
             alt="North Harbour Rugby"
             className="h-16 w-auto"
           />
