@@ -9,6 +9,8 @@ import PlayerComparison from "@/components/player-comparison";
 import TeamCommunication from "@/components/team-communication";
 import VideoAnalysisComponent from "@/components/video-analysis";
 import nhLogo from "@assets/menulogo_wo.png";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 // Sample comprehensive player data for demonstration
 const samplePlayer = {
@@ -48,8 +50,21 @@ const samplePlayer = {
   }
 };
 
+// Sample team roster for player selection
+const teamRoster = [
+  { id: "james-mitchell", name: "James Mitchell", jersey: 2, position: "Hooker", status: "Available" },
+  { id: "david-carter", name: "David Carter", jersey: 10, position: "Fly Half", status: "Available" },
+  { id: "mike-thompson", name: "Mike Thompson", jersey: 7, position: "Openside Flanker", status: "Available" },
+  { id: "alex-brown", name: "Alex Brown", jersey: 1, position: "Loosehead Prop", status: "Injured" },
+  { id: "sam-wilson", name: "Sam Wilson", jersey: 15, position: "Fullback", status: "Available" },
+  { id: "tom-clarke", name: "Tom Clarke", jersey: 4, position: "Lock", status: "Available" },
+];
+
 export default function FeaturesDemo() {
   const [activeFeature, setActiveFeature] = useState("overview");
+  const [selectedPlayer, setSelectedPlayer] = useState("james-mitchell");
+  
+  const currentPlayer = teamRoster.find(p => p.id === selectedPlayer) || teamRoster[0];
 
   const features = [
     {
@@ -108,8 +123,52 @@ export default function FeaturesDemo() {
       </div>
       
       <div className="max-w-7xl mx-auto px-6">
-        {/* Content Header */}
+        {/* Player Context Header */}
         <div className="mb-8">
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 bg-nh-red rounded-full flex items-center justify-center text-white font-bold text-xl">
+                  {currentPlayer.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">{currentPlayer.name}</h2>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <span className="bg-nh-red text-white px-2 py-1 rounded">Jersey #{currentPlayer.jersey}</span>
+                    <span>{currentPlayer.position}</span>
+                    <span>•</span>
+                    <span>105kg, 185cm</span>
+                    <span>•</span>
+                    <span className={`font-medium ${currentPlayer.status === 'Available' ? 'text-green-600' : 'text-red-600'}`}>
+                      {currentPlayer.status}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="text-right space-y-2">
+                <div>
+                  <p className="text-sm text-gray-500 mb-2">Select Player:</p>
+                  <Select value={selectedPlayer} onValueChange={setSelectedPlayer}>
+                    <SelectTrigger className="w-64">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {teamRoster.map((player) => (
+                        <SelectItem key={player.id} value={player.id}>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">#{player.jersey}</span>
+                            <span>{player.name}</span>
+                            <span className="text-gray-500">({player.position})</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <p className="text-xs text-gray-400">Currently viewing data for: <span className="font-semibold text-nh-red">{currentPlayer.name}</span></p>
+              </div>
+            </div>
+          </div>
           <p className="text-xl text-slate-600 mb-6">
             Complete Player Performance Analytics Platform
           </p>
