@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import logoPath from "@assets/menulogo_wo.png";
+import RoleSelector from "@/components/role-selector";
+import ProtectedRoute, { RoleIndicator } from "@/components/protected-route";
+import { AuthUser } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +23,38 @@ import {
 } from "lucide-react";
 
 export default function MainDashboard() {
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+
+  // Show role selector if no user is selected
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen bg-background">
+        {/* North Harbour Rugby Header */}
+        <div className="bg-nh-red text-white p-6 shadow-lg">
+          <div className="container mx-auto">
+            <div className="flex items-center justify-center">
+              <div className="flex items-center space-x-4">
+                <img 
+                  src={logoPath} 
+                  alt="North Harbour Rugby" 
+                  className="h-12 w-auto"
+                />
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold">North Harbour Rugby</h1>
+                  <p className="text-red-100">Performance Hub - Role Selection</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto p-8">
+          <RoleSelector onRoleSelect={setCurrentUser} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* North Harbour Rugby Header */}
@@ -37,9 +72,19 @@ export default function MainDashboard() {
                 <p className="text-red-100">Performance Hub Dashboard</p>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-red-100">Season 2024</div>
-              <div className="font-semibold">Performance Analytics</div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-sm text-red-100">Welcome, {currentUser.firstName} {currentUser.lastName}</div>
+                <RoleIndicator currentRole={currentUser.role} />
+              </div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setCurrentUser(null)}
+                className="text-white hover:bg-red-700"
+              >
+                Switch Role
+              </Button>
             </div>
           </div>
         </div>
@@ -111,11 +156,13 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <Link href="/player-dashboard">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
-                  Access Player Portal
-                </Button>
-              </Link>
+              <ProtectedRoute requiredPermission="view_all_players">
+                <Link href="/player-dashboard">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
+                    Access Player Portal
+                  </Button>
+                </Link>
+              </ProtectedRoute>
             </CardContent>
           </Card>
 
@@ -174,11 +221,13 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <Link href="/team-dashboard">
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
-                  Access Team Portal
-                </Button>
-              </Link>
+              <ProtectedRoute requiredPermission="team_communications">
+                <Link href="/team-dashboard">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
+                    Access Team Portal
+                  </Button>
+                </Link>
+              </ProtectedRoute>
             </CardContent>
           </Card>
         </div>
