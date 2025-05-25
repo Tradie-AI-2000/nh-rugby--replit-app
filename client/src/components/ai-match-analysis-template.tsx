@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 import { 
   Brain, 
   Send, 
@@ -13,11 +12,11 @@ import {
   MessageSquare, 
   Phone,
   Target,
-  TrendingUp,
-  AlertCircle,
-  CheckCircle,
-  Star,
-  Zap
+  Shield,
+  Zap,
+  Activity,
+  FileText,
+  Clipboard
 } from "lucide-react";
 
 interface MatchAnalysisTemplateProps {
@@ -26,108 +25,107 @@ interface MatchAnalysisTemplateProps {
 }
 
 export default function AIMatchAnalysisTemplate({ playerId, playerName }: MatchAnalysisTemplateProps) {
-  const [selectedPosition, setSelectedPosition] = useState<string>("");
-  const [analysisData, setAnalysisData] = useState({
-    matchDate: "",
-    opponent: "",
-    matchResult: "",
-    playerPosition: "",
+  const [formData, setFormData] = useState({
+    // General Info
+    name: playerName,
+    position: "Hooker",
     minutesPlayed: "",
-    performanceRating: ""
+    lineoutAccuracy: "",
+    scrumSuccess: "",
+    
+    // GPS Tracking
+    totalDistance: "",
+    highSpeedEfforts: "",
+    topSpeed: "",
+    repeatedEffortBouts: "",
+    
+    // Core Role Performance
+    corePositives: "",
+    coreWorkOns: "",
+    
+    // Attack
+    attackPositives: "",
+    attackWorkOns: "",
+    
+    // Defence
+    defencePositives: "",
+    defenceWorkOns: "",
+    
+    // Strength & Conditioning
+    recoveryStatus: "",
+    fatigueIndicators: "",
+    injuryConcerns: "",
+    scFocus: ""
   });
   
-  const [generatedAnalysis, setGeneratedAnalysis] = useState<any>(null);
+  const [aiSummary, setAiSummary] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<string>("email");
+  const [showAISummary, setShowAISummary] = useState(false);
 
-  // Position-specific analysis templates
-  const positionTemplates = {
-    "Front Row": {
-      keyMetrics: ["Scrummaging", "Lineout throwing/hooking", "Rucking", "Ball handling", "Mobility"],
-      focusAreas: ["Set piece accuracy", "Contact efficiency", "Breakdown work", "Support play"]
-    },
-    "Second Row": {
-      keyMetrics: ["Lineout jumping", "Scrummaging", "Rucking", "Carrying", "Tackling"],
-      focusAreas: ["Lineout leadership", "Work rate", "Physical presence", "Ball skills"]
-    },
-    "Back Row": {
-      keyMetrics: ["Tackles made", "Carries", "Turnovers", "Lineout work", "Breakdown arrival"],
-      focusAreas: ["Breakdown efficiency", "Link play", "Defensive reads", "Attack lines"]
-    },
-    "Half Back": {
-      keyMetrics: ["Pass accuracy", "Box kicks", "Rucks cleared", "Territory gained", "Decision making"],
-      focusAreas: ["Game management", "Kicking accuracy", "Quick ball", "Communication"]
-    },
-    "Fly Half": {
-      keyMetrics: ["Pass accuracy", "Kicks from hand", "Goal kicking", "Tackles", "Line breaks"],
-      focusAreas: ["Game control", "Tactical kicking", "Attacking vision", "Defensive positioning"]
-    },
-    "Centre": {
-      keyMetrics: ["Tackles", "Carries", "Line breaks", "Offloads", "Turnovers"],
-      focusAreas: ["Defensive alignment", "Attack timing", "Ball distribution", "Support play"]
-    },
-    "Back Three": {
-      keyMetrics: ["Meters gained", "Clean catches", "Kicks returned", "Tackles", "Line breaks"],
-      focusAreas: ["Positional play", "Finishing", "Counter attack", "Aerial skills"]
-    }
+  const updateFormData = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const generateAIAnalysis = async () => {
+  const generatePlayerSummary = async () => {
     setIsGenerating(true);
     
-    // Simulate AI analysis generation - in real implementation, this would call an AI service
+    // Simulate AI analysis based on form inputs
     setTimeout(() => {
-      const template = positionTemplates[selectedPosition as keyof typeof positionTemplates];
+      const summary = `
+🏉 PLAYER PERFORMANCE SUMMARY - ${formData.name}
+
+📊 MATCH OVERVIEW
+Position: ${formData.position}
+Minutes Played: ${formData.minutesPlayed}/80
+Lineout Accuracy: ${formData.lineoutAccuracy}%
+Scrum Success: ${formData.scrumSuccess}%
+
+🚀 GPS PERFORMANCE INSIGHTS
+Total Distance: ${formData.totalDistance}km - ${parseFloat(formData.totalDistance) > 6 ? 'Excellent work rate' : 'Good mobility'}
+High-Speed Efforts: ${formData.highSpeedEfforts} - Shows strong explosive capacity
+Top Speed: ${formData.topSpeed}km/h - Good pace for position
+Repeated Efforts: ${formData.repeatedEffortBouts} - ${parseInt(formData.repeatedEffortBouts) > 15 ? 'Outstanding' : 'Good'} conditioning
+
+🎯 PERFORMANCE ANALYSIS
+
+**Core Role (${formData.position}):**
+✅ Strengths: ${formData.corePositives}
+🔧 Development Areas: ${formData.coreWorkOns}
+
+**Attack:**
+✅ Strengths: ${formData.attackPositives}
+🔧 Development Areas: ${formData.attackWorkOns}
+
+**Defence:** 
+✅ Strengths: ${formData.defencePositives}
+🔧 Development Areas: ${formData.defenceWorkOns}
+
+💪 RECOVERY & CONDITIONING
+Recovery Status: ${formData.recoveryStatus}
+Fatigue Indicators: ${formData.fatigueIndicators}
+${formData.injuryConcerns ? `⚠️ Injury Concerns: ${formData.injuryConcerns}` : '✅ No injury concerns'}
+
+📋 WEEKLY FOCUS PLAN
+${formData.scFocus}
+
+🏆 COACH RECOMMENDATION
+Based on this match performance, continue building on your strengths while focusing on the identified development areas. Your work rate and commitment were evident throughout the match. Keep up the excellent effort!
+
+---
+Generated by North Harbour Rugby Performance Hub
+      `;
       
-      const mockAnalysis = {
-        overallPerformance: {
-          rating: analysisData.performanceRating,
-          summary: `Strong performance in the ${analysisData.minutesPlayed} minutes against ${analysisData.opponent}. Showed excellent work rate and commitment throughout.`,
-          highlights: [
-            "Excellent breakdown work - won 3 turnovers",
-            "Strong carrying in tight spaces - 8 carries for 32m",
-            "Solid defensive effort - 12/13 tackles made"
-          ],
-          areasForImprovement: [
-            "Lineout timing - 2 missed jumps in first half",
-            "Ball handling under pressure - 1 knock-on",
-            "Support play positioning"
-          ]
-        },
-        positionSpecific: {
-          metrics: template?.keyMetrics.map(metric => ({
-            area: metric,
-            performance: Math.floor(Math.random() * 3) + 3, // 3-5 rating
-            feedback: `Good execution of ${metric.toLowerCase()} throughout the match.`
-          })) || [],
-          recommendations: template?.focusAreas.map(area => ({
-            focus: area,
-            priority: Math.random() > 0.5 ? "High" : "Medium",
-            actionSteps: [
-              `Extra training session focused on ${area.toLowerCase()}`,
-              `Video analysis review of key moments`,
-              `1-on-1 coaching session this week`
-            ]
-          })) || []
-        },
-        weeklyPlan: {
-          day1: "Skills focused - ball handling and passing accuracy",
-          day2: "Contact work - breakdown and tackling technique", 
-          day3: "Position specific - lineout practice and timing",
-          day4: "Game situation drills - decision making under pressure",
-          day5: "Recovery and video analysis session"
-        },
-        coachNotes: `${playerName} showed great commitment and physicality in this match. The main focus for this week should be on technical accuracy, particularly in set piece situations. Continue building confidence in attack and maintain the strong defensive mindset shown.`
-      };
-      
-      setGeneratedAnalysis(mockAnalysis);
+      setAiSummary(summary);
+      setShowAISummary(true);
       setIsGenerating(false);
     }, 2000);
   };
 
-  const sendAnalysis = () => {
-    // In real implementation, this would send via the selected channel
-    alert(`Analysis sent to ${playerName} via ${selectedChannel}!`);
+  const sendToPlayer = () => {
+    const channelText = selectedChannel === "email" ? "Email" : 
+                      selectedChannel === "slack" ? "Slack" : "WhatsApp";
+    alert(`Match analysis sent to ${formData.name} via ${channelText}!`);
   };
 
   return (
@@ -135,305 +133,352 @@ export default function AIMatchAnalysisTemplate({ playerId, playerName }: MatchA
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <Brain className="text-purple-600" size={24} />
-            <span>AI Match Analysis Generator</span>
+            <Clipboard className="text-nh-red" size={24} />
+            <span>Player Performance Analysis – Match Review</span>
           </CardTitle>
           <CardDescription>
-            Generate personalized match analysis and training recommendations for {playerName}
+            Fill out the match analysis form for personalized player feedback
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {!generatedAnalysis && (
+        <CardContent className="space-y-6">
+          {/* General Info Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-nh-red flex items-center">
+              📋 General Info
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">Match Date</label>
-                  <Input 
-                    type="date" 
-                    value={analysisData.matchDate}
-                    onChange={(e) => setAnalysisData({...analysisData, matchDate: e.target.value})}
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium">Opponent</label>
-                  <Input 
-                    placeholder="e.g., Auckland Blues"
-                    value={analysisData.opponent}
-                    onChange={(e) => setAnalysisData({...analysisData, opponent: e.target.value})}
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium">Match Result</label>
-                  <Input 
-                    placeholder="e.g., 28-21 Win"
-                    value={analysisData.matchResult}
-                    onChange={(e) => setAnalysisData({...analysisData, matchResult: e.target.value})}
-                  />
-                </div>
+              <div>
+                <Label htmlFor="name">Name:</Label>
+                <Input 
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => updateFormData('name', e.target.value)}
+                  className="mt-1"
+                />
               </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">Position Played</label>
-                  <Select value={selectedPosition} onValueChange={setSelectedPosition}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select position" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(positionTemplates).map(position => (
-                        <SelectItem key={position} value={position}>{position}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium">Minutes Played</label>
-                  <Input 
-                    placeholder="e.g., 80"
-                    value={analysisData.minutesPlayed}
-                    onChange={(e) => setAnalysisData({...analysisData, minutesPlayed: e.target.value})}
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium">Performance Rating (1-5)</label>
-                  <Select value={analysisData.performanceRating} onValueChange={(value) => setAnalysisData({...analysisData, performanceRating: value})}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select rating" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="5">5 - Outstanding</SelectItem>
-                      <SelectItem value="4">4 - Very Good</SelectItem>
-                      <SelectItem value="3">3 - Good</SelectItem>
-                      <SelectItem value="2">2 - Below Average</SelectItem>
-                      <SelectItem value="1">1 - Poor</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+              <div>
+                <Label htmlFor="position">Position:</Label>
+                <Select value={formData.position} onValueChange={(value) => updateFormData('position', value)}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Hooker">Hooker</SelectItem>
+                    <SelectItem value="Prop">Prop</SelectItem>
+                    <SelectItem value="Lock">Lock</SelectItem>
+                    <SelectItem value="Flanker">Flanker</SelectItem>
+                    <SelectItem value="Number 8">Number 8</SelectItem>
+                    <SelectItem value="Scrum Half">Scrum Half</SelectItem>
+                    <SelectItem value="Fly Half">Fly Half</SelectItem>
+                    <SelectItem value="Centre">Centre</SelectItem>
+                    <SelectItem value="Wing">Wing</SelectItem>
+                    <SelectItem value="Fullback">Fullback</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="minutes">Minutes Played: _____ / 80</Label>
+                <Input 
+                  id="minutes"
+                  value={formData.minutesPlayed}
+                  onChange={(e) => updateFormData('minutesPlayed', e.target.value)}
+                  placeholder="e.g., 75"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="lineout">Lineout Accuracy (%):</Label>
+                <Input 
+                  id="lineout"
+                  value={formData.lineoutAccuracy}
+                  onChange={(e) => updateFormData('lineoutAccuracy', e.target.value)}
+                  placeholder="e.g., 85"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="scrum">Scrum Success (%):</Label>
+                <Input 
+                  id="scrum"
+                  value={formData.scrumSuccess}
+                  onChange={(e) => updateFormData('scrumSuccess', e.target.value)}
+                  placeholder="e.g., 90"
+                  className="mt-1"
+                />
               </div>
             </div>
-          )}
-          
-          {!generatedAnalysis && (
+          </div>
+
+          {/* GPS Tracking Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-blue-600 flex items-center">
+              <Activity className="mr-2" size={20} />
+              GPS Tracking Summary:
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="distance">Total Distance Covered: _____ km</Label>
+                <Input 
+                  id="distance"
+                  value={formData.totalDistance}
+                  onChange={(e) => updateFormData('totalDistance', e.target.value)}
+                  placeholder="e.g., 6.2"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="hsr">High-Speed Efforts (HSR):</Label>
+                <Input 
+                  id="hsr"
+                  value={formData.highSpeedEfforts}
+                  onChange={(e) => updateFormData('highSpeedEfforts', e.target.value)}
+                  placeholder="e.g., 12"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="topspeed">Top Speed: _____ km/h</Label>
+                <Input 
+                  id="topspeed"
+                  value={formData.topSpeed}
+                  onChange={(e) => updateFormData('topSpeed', e.target.value)}
+                  placeholder="e.g., 28.5"
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="efforts">Repeated Effort Bouts:</Label>
+                <Input 
+                  id="efforts"
+                  value={formData.repeatedEffortBouts}
+                  onChange={(e) => updateFormData('repeatedEffortBouts', e.target.value)}
+                  placeholder="e.g., 18"
+                  className="mt-1"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Core Role Performance */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-nh-red flex items-center">
+              🎯 Core Role Performance – {formData.position}
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="corepos">🔹 Positives:</Label>
+                <Textarea 
+                  id="corepos"
+                  value={formData.corePositives}
+                  onChange={(e) => updateFormData('corePositives', e.target.value)}
+                  placeholder="e.g., Excellent lineout throwing accuracy, strong scrum engagement..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+              <div>
+                <Label htmlFor="corework">🔹 Work-ons:</Label>
+                <Textarea 
+                  id="corework"
+                  value={formData.coreWorkOns}
+                  onChange={(e) => updateFormData('coreWorkOns', e.target.value)}
+                  placeholder="e.g., Improve lineout timing, work on mobility around the field..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Attack Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-green-600 flex items-center">
+              🏉 Attack
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="attackpos">🔹 Positives:</Label>
+                <Textarea 
+                  id="attackpos"
+                  value={formData.attackPositives}
+                  onChange={(e) => updateFormData('attackPositives', e.target.value)}
+                  placeholder="e.g., Good ball handling under pressure, effective support play..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+              <div>
+                <Label htmlFor="attackwork">🔹 Work-ons:</Label>
+                <Textarea 
+                  id="attackwork"
+                  value={formData.attackWorkOns}
+                  onChange={(e) => updateFormData('attackWorkOns', e.target.value)}
+                  placeholder="e.g., Improve passing accuracy in contact, better decision making..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Defence Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-purple-600 flex items-center">
+              <Shield className="mr-2" size={20} />
+              Defence
+            </h3>
+            <div className="space-y-3">
+              <div>
+                <Label htmlFor="defencepos">🔹 Positives:</Label>
+                <Textarea 
+                  id="defencepos"
+                  value={formData.defencePositives}
+                  onChange={(e) => updateFormData('defencePositives', e.target.value)}
+                  placeholder="e.g., Strong tackle completion rate, good defensive positioning..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+              <div>
+                <Label htmlFor="defencework">🔹 Work-ons:</Label>
+                <Textarea 
+                  id="defencework"
+                  value={formData.defenceWorkOns}
+                  onChange={(e) => updateFormData('defenceWorkOns', e.target.value)}
+                  placeholder="e.g., Improve breakdown arrival speed, better communication..."
+                  className="mt-1 min-h-[80px]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Strength & Conditioning */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-orange-600 flex items-center">
+              💪 Strength & Conditioning Notes
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="recovery">Recovery Status:</Label>
+                <Input 
+                  id="recovery"
+                  value={formData.recoveryStatus}
+                  onChange={(e) => updateFormData('recoveryStatus', e.target.value)}
+                  placeholder="e.g., Good, needs extra recovery time..."
+                  className="mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="fatigue">Fatigue Indicators:</Label>
+                <Input 
+                  id="fatigue"
+                  value={formData.fatigueIndicators}
+                  onChange={(e) => updateFormData('fatigueIndicators', e.target.value)}
+                  placeholder="e.g., Slight decrease in speed in final quarter..."
+                  className="mt-1"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <Label htmlFor="injury">Injury Concerns (if any):</Label>
+                <Input 
+                  id="injury"
+                  value={formData.injuryConcerns}
+                  onChange={(e) => updateFormData('injuryConcerns', e.target.value)}
+                  placeholder="e.g., Minor shoulder stiffness, none..."
+                  className="mt-1"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <Label htmlFor="scfocus">S&C Focus for the Week Ahead:</Label>
+                <Textarea 
+                  id="scfocus"
+                  value={formData.scFocus}
+                  onChange={(e) => updateFormData('scFocus', e.target.value)}
+                  placeholder="e.g., Focus on lineout lifting technique, core stability work, recovery protocols..."
+                  className="mt-1 min-h-[100px]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Generate Summary Button */}
+          <div className="border-t pt-6">
             <Button 
-              onClick={generateAIAnalysis} 
-              disabled={!selectedPosition || isGenerating}
-              className="w-full bg-purple-600 hover:bg-purple-700"
+              onClick={generatePlayerSummary} 
+              disabled={isGenerating}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 text-lg font-semibold"
             >
               {isGenerating ? (
                 <>
-                  <Brain className="animate-spin mr-2" size={16} />
-                  Generating AI Analysis...
+                  <Brain className="animate-spin mr-2" size={20} />
+                  Generating Player Summary...
                 </>
               ) : (
                 <>
-                  <Brain className="mr-2" size={16} />
-                  Generate Match Analysis
+                  <Brain className="mr-2" size={20} />
+                  Generate Player Summary
                 </>
               )}
             </Button>
-          )}
+          </div>
         </CardContent>
       </Card>
 
-      {generatedAnalysis && (
+      {/* AI Generated Summary */}
+      {showAISummary && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>Match Analysis Report</span>
-              <Badge variant="secondary" className="bg-green-100 text-green-800">
-                AI Generated
-              </Badge>
+            <CardTitle className="flex items-center space-x-2">
+              <Brain className="text-purple-600" size={24} />
+              <span>AI Generated Player Summary</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="position">Position Focus</TabsTrigger>
-                <TabsTrigger value="plan">Weekly Plan</TabsTrigger>
-                <TabsTrigger value="send">Send Report</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="overview" className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <Card className="text-center p-4">
-                    <Star className="mx-auto mb-2 text-yellow-500" size={24} />
-                    <div className="text-2xl font-bold">{generatedAnalysis.overallPerformance.rating}/5</div>
-                    <div className="text-sm text-gray-600">Overall Rating</div>
-                  </Card>
-                  <Card className="text-center p-4">
-                    <CheckCircle className="mx-auto mb-2 text-green-500" size={24} />
-                    <div className="text-2xl font-bold">{generatedAnalysis.overallPerformance.highlights.length}</div>
-                    <div className="text-sm text-gray-600">Key Highlights</div>
-                  </Card>
-                  <Card className="text-center p-4">
-                    <Target className="mx-auto mb-2 text-blue-500" size={24} />
-                    <div className="text-2xl font-bold">{generatedAnalysis.overallPerformance.areasForImprovement.length}</div>
-                    <div className="text-sm text-gray-600">Focus Areas</div>
-                  </Card>
-                </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-green-700 mb-2">Match Highlights</h4>
-                    <ul className="space-y-1">
-                      {generatedAnalysis.overallPerformance.highlights.map((highlight: string, index: number) => (
-                        <li key={index} className="flex items-center space-x-2">
-                          <CheckCircle className="text-green-500" size={16} />
-                          <span className="text-sm">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-semibold text-orange-700 mb-2">Areas for Improvement</h4>
-                    <ul className="space-y-1">
-                      {generatedAnalysis.overallPerformance.areasForImprovement.map((area: string, index: number) => (
-                        <li key={index} className="flex items-center space-x-2">
-                          <AlertCircle className="text-orange-500" size={16} />
-                          <span className="text-sm">{area}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="position" className="space-y-4">
-                <h4 className="font-semibold text-blue-700 mb-4">{selectedPosition} Specific Analysis</h4>
-                
-                <div className="space-y-4">
-                  {generatedAnalysis.positionSpecific.metrics.map((metric: any, index: number) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium">{metric.area}</span>
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={16} 
-                              className={i < metric.performance ? "text-yellow-500 fill-current" : "text-gray-300"} 
-                            />
-                          ))}
-                        </div>
+            <div className="bg-gray-50 p-4 rounded-lg mb-6">
+              <pre className="whitespace-pre-wrap text-sm font-mono">{aiSummary}</pre>
+            </div>
+
+            {/* Communication Channel Selection */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-gray-800">Send to Player:</h4>
+              <div className="flex items-center space-x-4">
+                <Label htmlFor="channel">Communication Channel:</Label>
+                <Select value={selectedChannel} onValueChange={setSelectedChannel}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="email">
+                      <div className="flex items-center space-x-2">
+                        <Mail size={16} />
+                        <span>Email</span>
                       </div>
-                      <p className="text-sm text-gray-600">{metric.feedback}</p>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="mt-6">
-                  <h5 className="font-semibold text-purple-700 mb-3">Training Recommendations</h5>
-                  <div className="space-y-3">
-                    {generatedAnalysis.positionSpecific.recommendations.map((rec: any, index: number) => (
-                      <Card key={index} className="p-3">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium">{rec.focus}</span>
-                          <Badge variant={rec.priority === "High" ? "destructive" : "secondary"}>
-                            {rec.priority} Priority
-                          </Badge>
-                        </div>
-                        <ul className="text-sm text-gray-600 space-y-1">
-                          {rec.actionSteps.map((step: string, stepIndex: number) => (
-                            <li key={stepIndex} className="flex items-center space-x-2">
-                              <Zap className="text-blue-500" size={12} />
-                              <span>{step}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="plan" className="space-y-4">
-                <h4 className="font-semibold text-blue-700 mb-4">Recommended Weekly Training Plan</h4>
-                
-                <div className="space-y-3">
-                  {Object.entries(generatedAnalysis.weeklyPlan).map(([day, activity]) => (
-                    <Card key={day} className="p-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-nh-red text-white rounded-full flex items-center justify-center font-bold">
-                          {day.replace('day', 'D')}
-                        </div>
-                        <div>
-                          <div className="font-medium capitalize">{day.replace('day', 'Day ')}</div>
-                          <div className="text-sm text-gray-600">{activity}</div>
-                        </div>
+                    </SelectItem>
+                    <SelectItem value="slack">
+                      <div className="flex items-center space-x-2">
+                        <MessageSquare size={16} />
+                        <span>Slack</span>
                       </div>
-                    </Card>
-                  ))}
-                </div>
-                
-                <Card className="p-4 bg-blue-50 border-blue-200">
-                  <h5 className="font-semibold text-blue-800 mb-2">Coach Notes</h5>
-                  <p className="text-sm text-blue-700">{generatedAnalysis.coachNotes}</p>
-                </Card>
-              </TabsContent>
-              
-              <TabsContent value="send" className="space-y-4">
-                <h4 className="font-semibold text-blue-700 mb-4">Send Analysis Report</h4>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Select Communication Channel</label>
-                    <Select value={selectedChannel} onValueChange={setSelectedChannel}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="email">
-                          <div className="flex items-center space-x-2">
-                            <Mail size={16} />
-                            <span>Email</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="slack">
-                          <div className="flex items-center space-x-2">
-                            <MessageSquare size={16} />
-                            <span>Slack Message</span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="whatsapp">
-                          <div className="flex items-center space-x-2">
-                            <Phone size={16} />
-                            <span>WhatsApp</span>
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Additional Message (Optional)</label>
-                    <Textarea 
-                      placeholder="Add any personal notes or encouragement..."
-                      className="min-h-[100px]"
-                    />
-                  </div>
-                  
-                  <div className="flex space-x-3">
-                    <Button onClick={sendAnalysis} className="flex-1 bg-green-600 hover:bg-green-700">
-                      <Send className="mr-2" size={16} />
-                      Send Analysis Report
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setGeneratedAnalysis(null)}
-                      className="flex-1"
-                    >
-                      Generate New Analysis
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                    </SelectItem>
+                    <SelectItem value="whatsapp">
+                      <div className="flex items-center space-x-2">
+                        <Phone size={16} />
+                        <span>WhatsApp</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex space-x-3">
+                <Button onClick={sendToPlayer} className="flex-1 bg-green-600 hover:bg-green-700">
+                  <Send className="mr-2" size={16} />
+                  Send to {formData.name}
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowAISummary(false)}
+                  className="flex-1"
+                >
+                  Edit Analysis
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}
