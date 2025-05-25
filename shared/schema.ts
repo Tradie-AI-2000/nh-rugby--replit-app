@@ -302,8 +302,15 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   hashedPassword: text("hashed_password").notNull(),
-  role: text("role").notNull().default("coach"),
+  role: text("role", { enum: ["head_coach", "assistant_coach", "strength_coach", "medical_staff", "physiotherapist", "team_manager", "analyst", "admin", "player"] }).notNull().default("assistant_coach"),
+  department: text("department"),
+  permissions: text("permissions").array().default([]),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  isActive: boolean("is_active").default(true),
+  lastLogin: timestamp("last_login"),
   createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const players = pgTable("players", {
