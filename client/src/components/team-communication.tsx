@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageSquare, Bell, Send, Users, AlertCircle, Calendar, FileText, Plus } from "lucide-react";
+import { MessageSquare, Bell, Send, Users, AlertCircle, Calendar, FileText, Plus, Brain, Target } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
+import AIMatchAnalysisTemplate from "./ai-match-analysis-template";
 import type { Player } from "@shared/schema";
 
 interface TeamCommunicationProps {
@@ -175,7 +176,7 @@ export default function TeamCommunication({ playerId, player }: TeamCommunicatio
       </div>
 
       <Tabs defaultValue="inbox" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+        <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
           <TabsTrigger 
             value="inbox"
             className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
@@ -187,6 +188,12 @@ export default function TeamCommunication({ playerId, player }: TeamCommunicatio
             className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
           >
             Compose
+          </TabsTrigger>
+          <TabsTrigger 
+            value="ai-analysis"
+            className="py-3 px-2 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0 text-sm"
+          >
+            🧠 AI Analysis
           </TabsTrigger>
           <TabsTrigger 
             value="announcements"
@@ -472,6 +479,13 @@ export default function TeamCommunication({ playerId, player }: TeamCommunicatio
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        <TabsContent value="ai-analysis" className="space-y-4">
+          <AIMatchAnalysisTemplate 
+            playerId={playerId} 
+            playerName={player?.personalDetails?.firstName + " " + player?.personalDetails?.lastName || "Player"} 
+          />
         </TabsContent>
       </Tabs>
     </div>
