@@ -4,6 +4,7 @@ import logoPath from "@assets/menulogo_wo.png";
 import RoleSelector from "@/components/role-selector";
 import ProtectedRoute, { RoleIndicator } from "@/components/protected-route";
 import { AuthUser } from "@/hooks/useAuth";
+import { hasPermission } from "@shared/permissions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -156,13 +157,11 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <ProtectedRoute requiredPermission="view_all_players">
-                <Link href="/player-dashboard">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
-                    Access Player Portal
-                  </Button>
-                </Link>
-              </ProtectedRoute>
+              <Link href="/player-dashboard">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
+                  Access Player Portal
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -221,13 +220,11 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <ProtectedRoute requiredPermission="team_communications">
-                <Link href="/team-dashboard">
-                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
-                    Access Team Portal
-                  </Button>
-                </Link>
-              </ProtectedRoute>
+              <Link href="/team-dashboard">
+                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
+                  Access Team Portal
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>

@@ -1,8 +1,7 @@
 import { ReactNode } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UserRole, Permission } from "@shared/permissions";
-import { useAuth } from "@/hooks/useAuth";
+import { UserRole, Permission, hasPermission } from "@shared/permissions";
 import { Shield, Lock, AlertTriangle } from "lucide-react";
 
 interface ProtectedRouteProps {
