@@ -8,6 +8,8 @@ import TrainingPrograms from "@/components/training-programs";
 import PlayerComparison from "@/components/player-comparison";
 import TeamCommunication from "@/components/team-communication";
 import VideoAnalysisComponent from "@/components/video-analysis";
+import RealTimeMatchAnalytics from "@/components/real-time-match-analytics";
+import AIInjuryPrediction from "@/components/ai-injury-prediction";
 import nhLogo from "@assets/menulogo_wo.png";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -102,6 +104,18 @@ export default function FeaturesDemo() {
       title: "Video Analysis & Highlight Reels",
       description: "Professional video analysis tools with highlight compilation and performance insights",
       highlights: ["Match highlights", "Skill analysis", "Key moments", "Coach feedback"]
+    },
+    {
+      id: "realtime",
+      title: "🔥 Real-Time Match Analytics",
+      description: "Live match monitoring with AI-powered tactical analysis and fatigue tracking",
+      highlights: ["GPS fatigue monitoring", "AI tactical analysis", "Live heat maps", "Opposition insights"]
+    },
+    {
+      id: "ai-prediction",
+      title: "🧠 AI Injury Prediction",
+      description: "Machine learning injury risk assessment with load management optimization",
+      highlights: ["Risk forecasting", "Load optimization", "Biometric analysis", "Prevention protocols"]
     }
   ];
 
@@ -196,7 +210,7 @@ export default function FeaturesDemo() {
         </div>
 
         <Tabs value={activeFeature} onValueChange={setActiveFeature} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsList className="grid w-full grid-cols-9 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
             <TabsTrigger 
               value="overview"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
@@ -238,6 +252,18 @@ export default function FeaturesDemo() {
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
               Video
+            </TabsTrigger>
+            <TabsTrigger 
+              value="realtime"
+              className="py-3 px-2 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0 text-sm"
+            >
+              🔥 Live Match
+            </TabsTrigger>
+            <TabsTrigger 
+              value="ai-prediction"
+              className="py-3 px-2 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0 text-sm"
+            >
+              🧠 AI Predict
             </TabsTrigger>
           </TabsList>
 
@@ -325,6 +351,14 @@ export default function FeaturesDemo() {
 
           <TabsContent value="video">
             <VideoAnalysisComponent playerId="james-mitchell" player={samplePlayer as any} />
+          </TabsContent>
+
+          <TabsContent value="realtime">
+            <RealTimeMatchAnalytics matchId="nh-vs-blues-2024" isLive={true} />
+          </TabsContent>
+
+          <TabsContent value="ai-prediction">
+            <AIInjuryPrediction playerId={currentPlayer.id} playerName={currentPlayer.name} />
           </TabsContent>
         </Tabs>
       </div>
