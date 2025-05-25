@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import logoPath from "@assets/menulogo_wo.png";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -60,7 +61,7 @@ export default function TeamDashboard() {
                 </Button>
               </Link>
               <img 
-                src="/attached_assets/menulogo_wo.png" 
+                src={logoPath} 
                 alt="North Harbour Rugby" 
                 className="h-12 w-auto"
               />
