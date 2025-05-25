@@ -196,14 +196,49 @@ export default function FeaturesDemo() {
         </div>
 
         <Tabs value={activeFeature} onValueChange={setActiveFeature} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 mb-8">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="metrics">Metrics</TabsTrigger>
-            <TabsTrigger value="injury">Medical</TabsTrigger>
-            <TabsTrigger value="training">Training</TabsTrigger>
-            <TabsTrigger value="comparison">Compare</TabsTrigger>
-            <TabsTrigger value="communication">Messages</TabsTrigger>
-            <TabsTrigger value="video">Video</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-7 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+            <TabsTrigger 
+              value="overview"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger 
+              value="metrics"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Metrics
+            </TabsTrigger>
+            <TabsTrigger 
+              value="injury"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Medical
+            </TabsTrigger>
+            <TabsTrigger 
+              value="training"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Training
+            </TabsTrigger>
+            <TabsTrigger 
+              value="comparison"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Compare
+            </TabsTrigger>
+            <TabsTrigger 
+              value="communication"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Messages
+            </TabsTrigger>
+            <TabsTrigger 
+              value="video"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Video
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
