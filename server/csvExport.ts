@@ -1,16 +1,10 @@
 // CSV Export service for North Harbour Rugby Performance Hub
 // Creates downloadable CSV templates and exports player data
 
-interface CSVExportOptions {
-  includeHeaders: boolean;
-  includeSampleData: boolean;
-  format: 'players' | 'matches' | 'training' | 'injuries' | 'all';
-}
-
 export class CSVExportService {
   
   // Player data CSV structure with all fields from the dashboard
-  static generatePlayersCSV(options: CSVExportOptions = { includeHeaders: true, includeSampleData: true, format: 'players' }): string {
+  static generatePlayersCSV(): string {
     const headers = [
       // Personal Details
       'firstName', 'lastName', 'dateOfBirth', 'height', 'weight', 'primaryPosition', 
@@ -95,17 +89,11 @@ export class CSVExportService {
       ]
     ];
 
-    let csv = '';
+    let csv = headers.join(',') + '\n';
     
-    if (options.includeHeaders) {
-      csv += headers.join(',') + '\n';
-    }
-    
-    if (options.includeSampleData) {
-      sampleData.forEach(row => {
-        csv += row.map(field => `"${field}"`).join(',') + '\n';
-      });
-    }
+    sampleData.forEach(row => {
+      csv += row.map(field => `"${field}"`).join(',') + '\n';
+    });
     
     return csv;
   }
