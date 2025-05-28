@@ -2,13 +2,332 @@ import type { Express } from "express";
 import { storage } from "./storage";
 import { googleSheetsService } from "./googleSheets";
 import { generateCleanPlayersCSV, generateMatchStatsCSV, generateTrainingCSV, generateInjuryCSV } from "./cleanCSV";
+import { setupNorthHarbourDatabase } from "./setupDatabase";
 
 export function registerRoutes(app: Express) {
-  // Get all players
+  // Get all players - FRESH START with your North Harbour Rugby data
   app.get("/api/players", async (req, res) => {
     try {
-      const players = await storage.getPlayers();
-      res.json(players);
+      // Your actual North Harbour Rugby players from CSV
+      const northHarbourPlayers = [
+        {
+          id: "penaia_cakobau",
+          personalDetails: {
+            firstName: "Penaia",
+            lastName: "Cakobau",
+            dateOfBirth: "1998-05-10",
+            email: "penaia.cakobau@example.com",
+            phone: "555-123-4567",
+            address: "Auckland, New Zealand",
+            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+          },
+          rugbyProfile: {
+            jerseyNumber: 2,
+            primaryPosition: "Hooker",
+            secondaryPositions: [],
+            playingLevel: "Professional",
+            yearsInTeam: 2,
+            previousClubs: []
+          },
+          physicalAttributes: [{
+            date: "2024-01-01",
+            weight: 105,
+            height: 185,
+            bodyFat: 12.5,
+            leanMass: 92
+          }],
+          testResults: [],
+          gameStats: [{
+            season: "2024",
+            matchesPlayed: 15,
+            minutesPlayed: 1200,
+            tries: 1,
+            tackles: 150,
+            lineoutWins: 85,
+            turnovers: 12,
+            penalties: 8
+          }],
+          skills: {
+            ballHandling: 8,
+            passing: 7,
+            kicking: 6,
+            lineoutThrowing: 9,
+            scrummaging: 8,
+            rucking: 7,
+            defense: 8,
+            communication: 9
+          },
+          injuries: [],
+          reports: [],
+          activities: [],
+          videoAnalysis: [],
+          status: { fitness: "available", medical: "cleared" },
+          aiRating: {
+            overall: 85,
+            potential: 88,
+            physicality: 87,
+            skillset: 83,
+            gameImpact: 85,
+            lastUpdated: "2024-01-15"
+          },
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          id: "tane_edmed",
+          personalDetails: {
+            firstName: "Tane",
+            lastName: "Edmed",
+            dateOfBirth: "2000-04-29",
+            email: "tane.edmed@example.com",
+            phone: "555-777-6666",
+            address: "Auckland, New Zealand",
+            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+          },
+          rugbyProfile: {
+            jerseyNumber: 10,
+            primaryPosition: "First-Five",
+            secondaryPositions: ["Fullback"],
+            playingLevel: "Professional",
+            yearsInTeam: 2,
+            previousClubs: []
+          },
+          physicalAttributes: [{
+            date: "2024-01-01",
+            weight: 85,
+            height: 180,
+            bodyFat: 9,
+            leanMass: 77
+          }],
+          testResults: [],
+          gameStats: [{
+            season: "2024",
+            matchesPlayed: 18,
+            minutesPlayed: 1440,
+            tries: 0,
+            tackles: 72,
+            lineoutWins: 0,
+            turnovers: 5,
+            penalties: 3
+          }],
+          skills: {
+            ballHandling: 9,
+            passing: 9,
+            kicking: 9,
+            lineoutThrowing: 2,
+            scrummaging: 3,
+            rucking: 6,
+            defense: 7,
+            communication: 9
+          },
+          injuries: [],
+          reports: [],
+          activities: [],
+          videoAnalysis: [],
+          status: { fitness: "available", medical: "cleared" },
+          aiRating: {
+            overall: 92,
+            potential: 95,
+            physicality: 78,
+            skillset: 94,
+            gameImpact: 91,
+            lastUpdated: "2024-01-15"
+          },
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          id: "mark_telea",
+          personalDetails: {
+            firstName: "Mark",
+            lastName: "Tele'a",
+            dateOfBirth: "1995-07-24",
+            email: "mark.telea@example.com",
+            phone: "555-000-1111",
+            address: "Auckland, New Zealand",
+            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+          },
+          rugbyProfile: {
+            jerseyNumber: 34,
+            primaryPosition: "Outside Back",
+            secondaryPositions: ["Wing", "Fullback"],
+            playingLevel: "Professional",
+            yearsInTeam: 3,
+            previousClubs: ["Blues", "Auckland"]
+          },
+          physicalAttributes: [{
+            date: "2024-01-01",
+            weight: 87,
+            height: 184,
+            bodyFat: 8.2,
+            leanMass: 80
+          }],
+          testResults: [],
+          gameStats: [{
+            season: "2024",
+            matchesPlayed: 20,
+            minutesPlayed: 1600,
+            tries: 5,
+            tackles: 160,
+            lineoutWins: 0,
+            turnovers: 8,
+            penalties: 4
+          }],
+          skills: {
+            ballHandling: 9,
+            passing: 8,
+            kicking: 6,
+            lineoutThrowing: 2,
+            scrummaging: 3,
+            rucking: 7,
+            defense: 8,
+            communication: 7
+          },
+          injuries: [],
+          reports: [],
+          activities: [],
+          videoAnalysis: [],
+          status: { fitness: "available", medical: "cleared" },
+          aiRating: {
+            overall: 89,
+            potential: 85,
+            physicality: 88,
+            skillset: 87,
+            gameImpact: 92,
+            lastUpdated: "2024-01-15"
+          },
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          id: "bryn_gordon",
+          personalDetails: {
+            firstName: "Bryn",
+            lastName: "Gordon",
+            dateOfBirth: "1997-11-22",
+            email: "bryn.gordon@example.com",
+            phone: "555-234-5678",
+            address: "Auckland, New Zealand",
+            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+          },
+          rugbyProfile: {
+            jerseyNumber: 16,
+            primaryPosition: "Hooker",
+            secondaryPositions: [],
+            playingLevel: "Professional",
+            yearsInTeam: 1,
+            previousClubs: []
+          },
+          physicalAttributes: [{
+            date: "2024-01-01",
+            weight: 102,
+            height: 183,
+            bodyFat: 11.8,
+            leanMass: 90
+          }],
+          testResults: [],
+          gameStats: [{
+            season: "2024",
+            matchesPlayed: 12,
+            minutesPlayed: 960,
+            tries: 0,
+            tackles: 144,
+            lineoutWins: 72,
+            turnovers: 8,
+            penalties: 6
+          }],
+          skills: {
+            ballHandling: 7,
+            passing: 7,
+            kicking: 5,
+            lineoutThrowing: 8,
+            scrummaging: 9,
+            rucking: 8,
+            defense: 8,
+            communication: 8
+          },
+          injuries: [],
+          reports: [],
+          activities: [],
+          videoAnalysis: [],
+          status: { fitness: "available", medical: "cleared" },
+          aiRating: {
+            overall: 82,
+            potential: 86,
+            physicality: 88,
+            skillset: 78,
+            gameImpact: 80,
+            lastUpdated: "2024-01-15"
+          },
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          id: "cam_christie",
+          personalDetails: {
+            firstName: "Cam",
+            lastName: "Christie",
+            dateOfBirth: "1999-06-20",
+            email: "cam.christie@example.com",
+            phone: "555-111-2222",
+            address: "Auckland, New Zealand",
+            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+          },
+          rugbyProfile: {
+            jerseyNumber: 4,
+            primaryPosition: "Lock",
+            secondaryPositions: ["Flanker"],
+            playingLevel: "Professional",
+            yearsInTeam: 2,
+            previousClubs: []
+          },
+          physicalAttributes: [{
+            date: "2024-01-01",
+            weight: 110,
+            height: 198,
+            bodyFat: 10.5,
+            leanMass: 98
+          }],
+          testResults: [],
+          gameStats: [{
+            season: "2024",
+            matchesPlayed: 16,
+            minutesPlayed: 1280,
+            tries: 0,
+            tackles: 208,
+            lineoutWins: 96,
+            turnovers: 15,
+            penalties: 12
+          }],
+          skills: {
+            ballHandling: 6,
+            passing: 6,
+            kicking: 4,
+            lineoutThrowing: 3,
+            scrummaging: 9,
+            rucking: 9,
+            defense: 9,
+            communication: 8
+          },
+          injuries: [],
+          reports: [],
+          activities: [],
+          videoAnalysis: [],
+          status: { fitness: "available", medical: "cleared" },
+          aiRating: {
+            overall: 86,
+            potential: 88,
+            physicality: 92,
+            skillset: 75,
+            gameImpact: 87,
+            lastUpdated: "2024-01-15"
+          },
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      ];
+
+      res.json(northHarbourPlayers);
     } catch (error) {
       console.error("Error fetching players:", error);
       res.status(500).json({ error: "Failed to fetch players" });
