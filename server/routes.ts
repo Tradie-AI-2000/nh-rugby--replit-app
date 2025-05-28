@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { storage } from "./storage";
+import { googleSheetsService } from "./googleSheets";
 
 export function registerRoutes(app: Express) {
   // Get all players
@@ -49,6 +50,144 @@ export function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error updating player:", error);
       res.status(500).json({ error: "Failed to update player" });
+    }
+  });
+
+  // Google Sheets Integration Routes
+  
+  // Sync player data from Google Sheets
+  app.post("/api/sheets/sync-players", async (req, res) => {
+    try {
+      const { spreadsheetId, range = 'Players!A2:N1000' } = req.body;
+      
+      if (!spreadsheetId) {
+        return res.status(400).json({ error: "Spreadsheet ID is required" });
+      }
+
+      const playerData = await googleSheetsService.getPlayerData(spreadsheetId, range);
+      
+      // Transform Google Sheets data to match your player schema
+      const transformedPlayers = playerData.map(row => ({
+        personalDetails: {
+          firstName: row.name.split(' ')[0] || '',
+          lastName: row.name.split(' ').slice(1).join(' ') || '',
+          dateOfBirth: '1990-01-01', // You can add this to your spreadsheet
+          height: row.height,
+          weight: row.weight,
+          position: row.position,
+          jerseyNumber: row.jerseyNumber,
+        },
+        physicalAttributes: [{
+          date: new Date().toISOString().split('T')[0],
+          weight: row.weight,
+          bodyFat: 12, // Add to spreadsheet if needed
+          leanMass: row.weight * 0.88,
+        }],
+        gameStats: [{
+          date: row.lastMatch,
+          opponent: 'vs Opponent',
+          tries: 0,
+          assists: 0,
+          tackles: row.tackles,
+          missedTackles: 0,
+          carries: row.carries,
+          metersGained: row.gpsDistance,
+          passAccuracy: row.passAccuracy,
+          lineoutSuccess: 85,
+          scrumSuccess: 90,
+        }],
+        currentStatus: row.injuryStatus.toLowerCase().includes('injured') ? 'injured' : 'available',
+      }));
+
+      // Save transformed data to database
+      const savedPlayers = [];
+      for (const playerData of transformedPlayers) {
+        try {
+          const player = await storage.createPlayer(playerData);
+          savedPlayers.push(player);
+        } catch (error) {
+          console.warn('Player may already exist, skipping:', playerData.personalDetails?.firstName);
+        }
+      }
+
+      res.json({
+        success: true,
+        message: `Synced ${savedPlayers.length} players from Google Sheets`,
+        playersImported: savedPlayers.length,
+        totalRows: playerData.length
+      });
+    } catch (error) {
+      console.error("Error syncing player data:", error);
+      res.status(500).json({ error: "Failed to sync player data from Google Sheets" });
+    }
+  });
+
+  // Sync match data from Google Sheets
+  app.post("/api/sheets/sync-matches", async (req, res) => {
+    try {
+      const { spreadsheetId, range = 'Matches!A2:N1000' } = req.body;
+      
+      if (!spreadsheetId) {
+        return res.status(400).json({ error: "Spreadsheet ID is required" });
+      }
+
+      const matchData = await googleSheetsService.getMatchData(spreadsheetId, range);
+      
+      res.json({
+        success: true,
+        message: `Retrieved ${matchData.length} match records`,
+        data: matchData
+      });
+    } catch (error) {
+      console.error("Error syncing match data:", error);
+      res.status(500).json({ error: "Failed to sync match data from Google Sheets" });
+    }
+  });
+
+  // Get real-time data from Google Sheets without saving to database
+  app.get("/api/sheets/preview/:spreadsheetId", async (req, res) => {
+    try {
+      const { spreadsheetId } = req.params;
+      const { range = 'Players!A2:N20' } = req.query;
+      
+      const playerData = await googleSheetsService.getPlayerData(spreadsheetId, range as string);
+      
+      res.json({
+        success: true,
+        preview: playerData.slice(0, 10), // Show first 10 rows as preview
+        totalRows: playerData.length
+      });
+    } catch (error) {
+      console.error("Error previewing spreadsheet data:", error);
+      res.status(500).json({ error: "Failed to preview spreadsheet data" });
+    }
+  });
+
+  // Sync all data types from Google Sheets
+  app.post("/api/sheets/sync-all", async (req, res) => {
+    try {
+      const { spreadsheetId } = req.body;
+      
+      if (!spreadsheetId) {
+        return res.status(400).json({ error: "Spreadsheet ID is required" });
+      }
+
+      const allData = await googleSheetsService.syncAllData(spreadsheetId);
+      
+      res.json({
+        success: true,
+        message: "Successfully synced all data from Google Sheets",
+        data: {
+          players: allData.players.length,
+          matches: allData.matches.length,
+          training: allData.training.length,
+          medical: allData.medical.length,
+          syncTime: allData.syncTime
+        }
+      });
+    } catch (error) {
+      console.error("Error syncing all data:", error);
+      res.status(500).json({ error: "Failed to sync all data from Google Sheets" });
     }
   });
 

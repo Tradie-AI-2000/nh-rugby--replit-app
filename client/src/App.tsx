@@ -7,6 +7,7 @@ import PlayerDashboard from "@/pages/player-dashboard";
 import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
 import DataManagement from "@/pages/data-management";
+import DataIntegration from "@/pages/data-integration";
 import MainDashboard from "@/pages/main-dashboard";
 import TeamDashboard from "@/pages/team-dashboard";
 import NotFound from "@/pages/not-found";
@@ -16,6 +17,7 @@ function Router() {
     <Switch>
       <Route path="/features" component={FeaturesDemo} />
       <Route path="/data-management" component={DataManagement} />
+      <Route path="/data-integration" component={DataIntegration} />
       <Route path="/video-demo" component={VideoDemo} />
       <Route path="/player-dashboard" component={FeaturesDemo} />
       <Route path="/team-dashboard" component={TeamDashboard} />
