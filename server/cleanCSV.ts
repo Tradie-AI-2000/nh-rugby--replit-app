@@ -42,3 +42,44 @@ export function generateMatchStatsCSV(): string {
 
   return csv;
 }
+
+export function generateTrainingCSV(): string {
+  const headers = [
+    'playerName', 'sessionDate', 'sessionType', 'duration', 'intensity', 
+    'loadScore', 'rpe', 'completionRate', 'notes'
+  ];
+
+  const sampleTraining = [
+    ['Jake Thompson', '2025-01-22', 'Strength Training', '90', '8', '450', '7', '100', 'Excellent session'],
+    ['Mike Wilson', '2025-01-22', 'Strength Training', '90', '9', '520', '8', '95', 'Focused on scrum technique'],
+    ['Sam Roberts', '2025-01-21', 'Skills Training', '75', '6', '320', '5', '100', 'Lineout practice']
+  ];
+
+  let csv = headers.join(',') + '\n';
+  
+  sampleTraining.forEach(session => {
+    csv += session.map(field => `"${field}"`).join(',') + '\n';
+  });
+
+  return csv;
+}
+
+export function generateInjuryCSV(): string {
+  const headers = [
+    'playerName', 'injuryType', 'injuryDate', 'injuryLocation', 'severity', 
+    'expectedReturn', 'currentStatus', 'treatmentNotes'
+  ];
+
+  const sampleInjuries = [
+    ['Sam Roberts', 'Muscle Strain', '2025-01-10', 'Hamstring', 'Minor', '2025-01-25', 'Recovering', 'Physiotherapy 3x per week'],
+    ['Jake Thompson', 'Minor Knock', '2024-12-15', 'Shoulder', 'Very Minor', '2024-12-20', 'Cleared', 'Rest and ice treatment']
+  ];
+
+  let csv = headers.join(',') + '\n';
+  
+  sampleInjuries.forEach(injury => {
+    csv += injury.map(field => `"${field}"`).join(',') + '\n';
+  });
+
+  return csv;
+}
