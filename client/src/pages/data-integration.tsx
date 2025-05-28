@@ -157,6 +157,43 @@ export default function DataIntegration() {
             </p>
           </div>
 
+          {/* CSV Download Section */}
+          <div className="bg-blue-50 p-4 rounded-lg space-y-3">
+            <h4 className="font-medium text-blue-900">📥 Download CSV Templates</h4>
+            <p className="text-sm text-blue-700">Download ready-to-use CSV files with sample North Harbour Rugby data that you can import directly into Google Sheets</p>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <a 
+                href="/api/export/players-template" 
+                download="nh_rugby_players.csv"
+                className="inline-flex items-center justify-center px-3 py-2 text-xs font-medium text-blue-700 bg-white border border-blue-200 rounded-md hover:bg-blue-50 hover:border-blue-300 transition-colors"
+              >
+                📊 Players
+              </a>
+              <a 
+                href="/api/export/matches-template" 
+                download="nh_rugby_matches.csv"
+                className="inline-flex items-center justify-center px-3 py-2 text-xs font-medium text-green-700 bg-white border border-green-200 rounded-md hover:bg-green-50 hover:border-green-300 transition-colors"
+              >
+                🏉 Matches
+              </a>
+              <a 
+                href="/api/export/training-template" 
+                download="nh_rugby_training.csv"
+                className="inline-flex items-center justify-center px-3 py-2 text-xs font-medium text-orange-700 bg-white border border-orange-200 rounded-md hover:bg-orange-50 hover:border-orange-300 transition-colors"
+              >
+                💪 Training
+              </a>
+              <a 
+                href="/api/export/injuries-template" 
+                download="nh_rugby_injuries.csv"
+                className="inline-flex items-center justify-center px-3 py-2 text-xs font-medium text-red-700 bg-white border border-red-200 rounded-md hover:bg-red-50 hover:border-red-300 transition-colors"
+              >
+                🏥 Injuries
+              </a>
+            </div>
+          </div>
+
           {/* Actions */}
           <div className="flex space-x-3">
             <Button 

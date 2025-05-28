@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { storage } from "./storage";
 import { googleSheetsService } from "./googleSheets";
+import { CSVExportService } from "./csvExport";
 
 export function registerRoutes(app: Express) {
   // Get all players
@@ -188,6 +189,81 @@ export function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error syncing all data:", error);
       res.status(500).json({ error: "Failed to sync all data from Google Sheets" });
+    }
+  });
+
+  // CSV Export Routes for Google Sheets Integration
+  
+  // Download player data template as CSV
+  app.get("/api/export/players-template", (req, res) => {
+    try {
+      const csv = CSVExportService.generatePlayersCSV();
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="north_harbour_rugby_players_template.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error("Error generating players CSV:", error);
+      res.status(500).json({ error: "Failed to generate CSV template" });
+    }
+  });
+
+  // Download match statistics template as CSV
+  app.get("/api/export/matches-template", (req, res) => {
+    try {
+      const csv = CSVExportService.generateMatchStatsCSV();
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="north_harbour_rugby_matches_template.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error("Error generating matches CSV:", error);
+      res.status(500).json({ error: "Failed to generate CSV template" });
+    }
+  });
+
+  // Download training data template as CSV
+  app.get("/api/export/training-template", (req, res) => {
+    try {
+      const csv = CSVExportService.generateTrainingCSV();
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="north_harbour_rugby_training_template.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error("Error generating training CSV:", error);
+      res.status(500).json({ error: "Failed to generate CSV template" });
+    }
+  });
+
+  // Download injury tracking template as CSV
+  app.get("/api/export/injuries-template", (req, res) => {
+    try {
+      const csv = CSVExportService.generateInjuryTrackingCSV();
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="north_harbour_rugby_injuries_template.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error("Error generating injuries CSV:", error);
+      res.status(500).json({ error: "Failed to generate CSV template" });
+    }
+  });
+
+  // Download complete package (all templates)
+  app.get("/api/export/complete-templates", (req, res) => {
+    try {
+      const templates = CSVExportService.generateCompletePackage();
+      
+      // For now, return the players template as the main one
+      const csv = templates['players.csv'];
+      
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="north_harbour_rugby_complete_template.csv"');
+      res.send(csv);
+    } catch (error) {
+      console.error("Error generating complete templates:", error);
+      res.status(500).json({ error: "Failed to generate complete templates" });
     }
   });
 
