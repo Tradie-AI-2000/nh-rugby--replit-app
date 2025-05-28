@@ -26,10 +26,22 @@ class GoogleSheetsService {
   private auth: GoogleAuth;
 
   constructor() {
+    // Handle different private key formats and ensure proper formatting
+    let privateKey = process.env.GOOGLE_PRIVATE_KEY;
+    if (privateKey) {
+      // Replace escaped newlines with actual newlines
+      privateKey = privateKey.replace(/\\n/g, '\n');
+      
+      // Ensure proper BEGIN/END headers if missing
+      if (!privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+        privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKey}\n-----END PRIVATE KEY-----`;
+      }
+    }
+
     this.auth = new GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        private_key: privateKey,
       },
       scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
     });
