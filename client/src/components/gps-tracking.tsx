@@ -128,7 +128,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Max Speed</p>
-                      <p className="text-2xl font-bold">{latestSession?.maxSpeed || 0} km/h</p>
+                      <p className="text-2xl font-bold">{latestSession?.maxSpeed?.toFixed(1) || '0.0'} km/h</p>
                     </div>
                   </div>
                 </CardContent>
@@ -297,7 +297,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Load per Minute</span>
-                      <span className="text-lg font-semibold">{latestSession.playerLoadPerMinute.toFixed(2)}</span>
+                      <span className="text-lg font-semibold">{latestSession.playerLoadPerMinute?.toFixed(2) || '0.00'}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Session Duration</span>
