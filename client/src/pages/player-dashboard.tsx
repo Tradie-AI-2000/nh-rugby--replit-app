@@ -107,49 +107,49 @@ export default function PlayerDashboard() {
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
               <Tabs defaultValue="physical" className="w-full">
                 <div className="border-b border-slate-200">
-                  <TabsList className="bg-transparent h-auto p-0 w-full justify-start">
-                    <div className="flex space-x-8 px-6">
+                  <TabsList className="bg-transparent h-auto p-0 w-full justify-start overflow-x-auto">
+                    <div className="flex space-x-6 px-6 min-w-max">
                       <TabsTrigger 
                         value="physical" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
-                        Physical Performance
+                        Physical
                       </TabsTrigger>
                       <TabsTrigger 
                         value="skills" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
-                        Skills & Development
+                        Skills
                       </TabsTrigger>
                       <TabsTrigger 
                         value="health" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
-                        Health & Wellbeing
+                        Health
                       </TabsTrigger>
                       <TabsTrigger 
                         value="game" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
-                        Game Statistics
+                        Game Stats
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="gps" 
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
+                      >
+                        GPS Tracking
                       </TabsTrigger>
                       <TabsTrigger 
                         value="reports" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
                         Reports
                       </TabsTrigger>
                       <TabsTrigger 
                         value="video" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
                       >
-                        Video Analysis
-                      </TabsTrigger>
-                      <TabsTrigger 
-                        value="gps" 
-                        className="py-4 px-1 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent"
-                      >
-                        GPS Tracking
+                        Video
                       </TabsTrigger>
                     </div>
                   </TabsList>
