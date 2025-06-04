@@ -11,6 +11,7 @@ import DataIntegration from "@/pages/data-integration";
 import CSVUpload from "@/pages/csv-upload";
 import MainDashboard from "@/pages/main-dashboard";
 import TeamDashboard from "@/pages/team-dashboard";
+import GPSManagement from "@/pages/gps-management";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/video-demo" component={VideoDemo} />
       <Route path="/player-dashboard" component={FeaturesDemo} />
       <Route path="/team-dashboard" component={TeamDashboard} />
+      <Route path="/gps-management" component={GPSManagement} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/" component={MainDashboard} />
       <Route component={NotFound} />
