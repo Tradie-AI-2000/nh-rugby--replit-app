@@ -1135,4 +1135,63 @@ export function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to seed database" });
     }
   });
+
+  // AI Analysis Routes
+  app.get("/api/players/:playerId/ai-analysis", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const player = await storage.getPlayer(playerId);
+      
+      if (!player) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      // Get recent GPS data for the player
+      const playerGPSData = sampleGPSData.filter(session => session.playerId === playerId);
+      
+      const { generatePlayerAnalysis } = await import("./aiAnalysis");
+      const analysis = await generatePlayerAnalysis(player, playerGPSData);
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error("AI analysis error:", error);
+      res.status(500).json({ error: "Failed to generate AI analysis" });
+    }
+  });
+
+  app.get("/api/players/:playerId/injury-prediction", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const player = await storage.getPlayer(playerId);
+      
+      if (!player) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      const playerGPSData = sampleGPSData.filter(session => session.playerId === playerId);
+      
+      const { generateInjuryPrediction } = await import("./aiAnalysis");
+      const prediction = await generateInjuryPrediction(player, playerGPSData);
+      
+      res.json(prediction);
+    } catch (error) {
+      console.error("Injury prediction error:", error);
+      res.status(500).json({ error: "Failed to generate injury prediction" });
+    }
+  });
+
+  app.post("/api/match-analysis", async (req, res) => {
+    try {
+      const matchData = req.body;
+      const players = await storage.getPlayers();
+      
+      const { generateMatchAnalysis } = await import("./aiAnalysis");
+      const analysis = await generateMatchAnalysis(players, matchData);
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error("Match analysis error:", error);
+      res.status(500).json({ error: "Failed to generate match analysis" });
+    }
+  });
 }
