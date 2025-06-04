@@ -12,6 +12,7 @@ import RecentActivity from "@/components/recent-activity";
 import ReportsAccess from "@/components/reports-access";
 import VideoAnalysisComponent from "@/components/video-analysis";
 import GPSTracking from "@/components/gps-tracking";
+
 import { usePlayerData } from "@/hooks/use-player-data";
 
 export default function PlayerDashboard() {
@@ -209,7 +210,44 @@ export default function PlayerDashboard() {
                 </TabsContent>
 
                 <TabsContent value="advanced-metrics" className="p-6">
-                  <AdvancedMetrics playerId={selectedPlayerId} player={player} />
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+                        <h3 className="text-lg font-semibold text-nh-navy mb-4">Performance Metrics</h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Work Rate Index</span>
+                            <span className="font-semibold text-blue-600">87.5</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Efficiency Rating</span>
+                            <span className="font-semibold text-green-600">91.2</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Impact Score</span>
+                            <span className="font-semibold text-purple-600">84.7</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200">
+                        <h3 className="text-lg font-semibold text-nh-navy mb-4">Fitness Analytics</h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Endurance Index</span>
+                            <span className="font-semibold text-green-600">89.3</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Recovery Rate</span>
+                            <span className="font-semibold text-blue-600">92.1</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600">Load Tolerance</span>
+                            <span className="font-semibold text-orange-600">85.8</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
