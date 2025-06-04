@@ -202,7 +202,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
           <TabsContent value="movement" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Accelerations */}
-              {latestSession && (
+              {latestSession && latestSession.accelerations && (
                 <Card>
                   <CardHeader>
                     <CardTitle>Accelerations</CardTitle>
@@ -211,15 +211,15 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
                         <span>High (4+ m/s²)</span>
-                        <Badge variant="destructive">{latestSession.accelerations.high}</Badge>
+                        <Badge variant="destructive">{latestSession.accelerations.high || 0}</Badge>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Medium (3-4 m/s²)</span>
-                        <Badge variant="secondary">{latestSession.accelerations.medium}</Badge>
+                        <Badge variant="secondary">{latestSession.accelerations.medium || 0}</Badge>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Low (2-3 m/s²)</span>
-                        <Badge variant="outline">{latestSession.accelerations.low}</Badge>
+                        <Badge variant="outline">{latestSession.accelerations.low || 0}</Badge>
                       </div>
                     </div>
                   </CardContent>
@@ -227,7 +227,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
               )}
 
               {/* Decelerations */}
-              {latestSession && (
+              {latestSession && latestSession.decelerations && (
                 <Card>
                   <CardHeader>
                     <CardTitle>Decelerations</CardTitle>
@@ -236,15 +236,15 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
                         <span>High (-4+ m/s²)</span>
-                        <Badge variant="destructive">{latestSession.decelerations.high}</Badge>
+                        <Badge variant="destructive">{latestSession.decelerations.high || 0}</Badge>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Medium (-3 to -4 m/s²)</span>
-                        <Badge variant="secondary">{latestSession.decelerations.medium}</Badge>
+                        <Badge variant="secondary">{latestSession.decelerations.medium || 0}</Badge>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Low (-2 to -3 m/s²)</span>
-                        <Badge variant="outline">{latestSession.decelerations.low}</Badge>
+                        <Badge variant="outline">{latestSession.decelerations.low || 0}</Badge>
                       </div>
                     </div>
                   </CardContent>
