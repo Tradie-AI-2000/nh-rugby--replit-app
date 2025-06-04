@@ -100,9 +100,6 @@ export default function PlayerDashboard() {
 
           {/* Main Content Area */}
           <div className="lg:col-span-3 space-y-6">
-            {/* AI Summary */}
-            <AISummary playerId={selectedPlayerId} player={player} />
-
             {/* Tabbed Content */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
               <Tabs defaultValue="physical" className="w-full">
@@ -151,6 +148,18 @@ export default function PlayerDashboard() {
                       >
                         Video
                       </TabsTrigger>
+                      <TabsTrigger 
+                        value="ai-analysis" 
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
+                      >
+                        AI Analysis
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="advanced-metrics" 
+                        className="py-4 px-2 border-b-2 border-transparent data-[state=active]:border-nh-blue data-[state=active]:text-nh-blue bg-transparent whitespace-nowrap"
+                      >
+                        Advanced Metrics
+                      </TabsTrigger>
                     </div>
                   </TabsList>
                 </div>
@@ -191,6 +200,16 @@ export default function PlayerDashboard() {
                       : 'Player'
                     } 
                   />
+                </TabsContent>
+
+                <TabsContent value="ai-analysis" className="p-6">
+                  <div className="space-y-6">
+                    <AISummary playerId={selectedPlayerId} player={player} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="advanced-metrics" className="p-6">
+                  <AdvancedMetrics playerId={selectedPlayerId} player={player} />
                 </TabsContent>
               </Tabs>
             </div>
