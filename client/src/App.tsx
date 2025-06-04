@@ -22,7 +22,7 @@ function Router() {
       <Route path="/data-integration" component={DataIntegration} />
       <Route path="/csv-upload" component={CSVUpload} />
       <Route path="/video-demo" component={VideoDemo} />
-      <Route path="/player-dashboard" component={PlayerDashboard} />
+      <Route path="/player-dashboard" component={FeaturesDemo} />
       <Route path="/team-dashboard" component={TeamDashboard} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
