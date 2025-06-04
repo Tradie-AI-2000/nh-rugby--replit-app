@@ -332,6 +332,77 @@ export function createStatSportsService(apiKey: string, teamId: string): StatSpo
 export const sampleGPSData: GPSData[] = [
   {
     id: "gps_session_001",
+    playerId: "james-mitchell",
+    sessionId: "training_20240615_001",
+    sessionType: "training",
+    date: "2024-06-15",
+    startTime: "09:00:00",
+    endTime: "11:30:00",
+    duration: 150, // 2.5 hours
+    
+    totalDistance: 8420, // meters
+    totalDistanceZones: {
+      walking: 2100,    // 25%
+      jogging: 3200,    // 38%
+      running: 2020,    // 24%
+      highSpeed: 800,   // 9.5%
+      sprinting: 300    // 3.5%
+    },
+    
+    maxSpeed: 28.5, // km/h
+    averageSpeed: 3.37, // km/h
+    sprintCount: 12,
+    sprintDistance: 300,
+    
+    accelerations: {
+      low: 45,
+      medium: 22,
+      high: 8
+    },
+    decelerations: {
+      low: 38,
+      medium: 18,
+      high: 6
+    },
+    
+    playerLoad: 850,
+    playerLoadPerMinute: 5.67,
+    
+    heartRate: {
+      average: 145,
+      maximum: 185,
+      zones: {
+        zone1: 25, // minutes
+        zone2: 35,
+        zone3: 45,
+        zone4: 30,
+        zone5: 15
+      }
+    },
+    
+    impacts: {
+      total: 450,
+      light: 320,
+      moderate: 95,
+      heavy: 35
+    },
+    
+    recovery: {
+      restTime: 18,
+      workToRestRatio: 7.33
+    },
+    
+    qualityScores: {
+      dataQuality: 96,
+      signalStrength: 92,
+      satelliteCount: 14
+    },
+    
+    createdAt: "2024-06-15T11:30:00Z",
+    updatedAt: "2024-06-15T11:30:00Z"
+  },
+  {
+    id: "gps_session_002",
     playerId: "penaia_cakobau",
     sessionId: "training_20240615_001",
     sessionType: "training",
