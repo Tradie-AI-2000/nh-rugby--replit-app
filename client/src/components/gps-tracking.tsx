@@ -39,7 +39,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
   }
 
   const sessions = (gpsData as GPSData[]) || [];
-  const latestSession = sessions[0];
+  const latestSession = sessions?.[0] || null;
 
   const formatDistance = (meters: number) => {
     return (meters / 1000).toFixed(2) + ' km';
@@ -164,7 +164,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
             </div>
 
             {/* Distance Zones */}
-            {latestSession && (
+            {latestSession && latestSession.totalDistanceZones && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -175,7 +175,7 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
                 <CardContent>
                   <div className="space-y-4">
                     {Object.entries(latestSession.totalDistanceZones).map(([zone, distance]) => {
-                      const percentage = (distance / latestSession.totalDistance) * 100;
+                      const percentage = latestSession.totalDistance > 0 ? (distance / latestSession.totalDistance) * 100 : 0;
                       return (
                         <div key={zone} className="space-y-2">
                           <div className="flex justify-between items-center">

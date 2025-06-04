@@ -344,8 +344,7 @@ export function registerRoutes(app: Express) {
       const { playerId } = req.params;
       const { startDate, endDate } = req.query;
       
-      // For now, return sample GPS data for demonstration
-      // When you provide StatSports API credentials, this will fetch real data
+      // Return sample GPS data matching the player ID
       const playerGPSData = sampleGPSData.filter(session => 
         session.playerId === playerId &&
         (!startDate || session.date >= startDate) &&
