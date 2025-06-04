@@ -40,6 +40,12 @@ export default function GPSTracking({ playerId, playerName }: GPSTrackingProps) 
 
   const sessions = (gpsData as GPSData[]) || [];
   const latestSession = sessions?.[0] || null;
+  
+  // Debug logging
+  console.log('GPS Data:', gpsData);
+  console.log('Latest Session:', latestSession);
+  console.log('Accelerations:', latestSession?.accelerations);
+  console.log('Heart Rate:', latestSession?.heartRate);
 
   const formatDistance = (meters: number) => {
     return (meters / 1000).toFixed(2) + ' km';
