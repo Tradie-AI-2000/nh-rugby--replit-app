@@ -13,12 +13,24 @@ import ReportsAccess from "@/components/reports-access";
 import VideoAnalysisComponent from "@/components/video-analysis";
 import GPSTracking from "@/components/gps-tracking";
 
-import { usePlayerData } from "@/hooks/use-player-data";
+import { useQuery } from "@tanstack/react-query";
+import type { Player } from "@shared/schema";
 
 export default function PlayerDashboard() {
   const { playerId: routePlayerId } = useParams();
-  const [selectedPlayerId, setSelectedPlayerId] = useState(routePlayerId || "james-mitchell");
-  const { data: player, isLoading, error, refetch } = usePlayerData(selectedPlayerId);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(routePlayerId || "penaia_cakobau");
+  
+  const { data: players } = useQuery<Player[]>({
+    queryKey: ["/api/players"],
+  });
+  
+  const player = players?.find(p => p.id === selectedPlayerId);
+  const isLoading = !players;
+  const error = null;
+  
+  const refetch = () => {
+    // Refetch players list
+  };
 
   const handlePlayerChange = (playerId: string) => {
     setSelectedPlayerId(playerId);
