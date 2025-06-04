@@ -191,6 +191,97 @@ export const communicationSchema = z.object({
   scheduledFor: z.string().optional(),
 });
 
+// StatSports GPS data schema
+export const gpsDataSchema = z.object({
+  id: z.string(),
+  playerId: z.string(),
+  sessionId: z.string(),
+  sessionType: z.enum(['training', 'match', 'conditioning', 'recovery']),
+  date: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
+  duration: z.number(), // minutes
+  
+  // Movement metrics
+  totalDistance: z.number(), // meters
+  totalDistanceZones: z.object({
+    walking: z.number(), // 0-6 km/h
+    jogging: z.number(), // 6-12 km/h
+    running: z.number(), // 12-18 km/h
+    highSpeed: z.number(), // 18-24 km/h
+    sprinting: z.number() // 24+ km/h
+  }),
+  
+  // Speed metrics
+  maxSpeed: z.number(), // km/h
+  averageSpeed: z.number(), // km/h
+  sprintCount: z.number(),
+  sprintDistance: z.number(),
+  
+  // Acceleration/Deceleration
+  accelerations: z.object({
+    low: z.number(), // 2-3 m/s²
+    medium: z.number(), // 3-4 m/s²
+    high: z.number() // 4+ m/s²
+  }),
+  decelerations: z.object({
+    low: z.number(), // -2 to -3 m/s²
+    medium: z.number(), // -3 to -4 m/s²
+    high: z.number() // -4+ m/s²
+  }),
+  
+  // Load metrics
+  playerLoad: z.number(),
+  playerLoadPerMinute: z.number(),
+  
+  // Heart rate data (if available)
+  heartRate: z.object({
+    average: z.number().optional(),
+    maximum: z.number().optional(),
+    zones: z.object({
+      zone1: z.number().optional(), // 50-60% max HR
+      zone2: z.number().optional(), // 60-70% max HR  
+      zone3: z.number().optional(), // 70-80% max HR
+      zone4: z.number().optional(), // 80-90% max HR
+      zone5: z.number().optional()  // 90-100% max HR
+    }).optional()
+  }).optional(),
+  
+  // Impact/Contact metrics
+  impacts: z.object({
+    total: z.number(),
+    light: z.number(), // 5-8G
+    moderate: z.number(), // 8-10G
+    heavy: z.number() // 10+ G
+  }).optional(),
+  
+  // Recovery metrics
+  recovery: z.object({
+    restTime: z.number(), // minutes in low activity
+    workToRestRatio: z.number()
+  }).optional(),
+  
+  // Match-specific metrics (if session is a match)
+  matchMetrics: z.object({
+    ballInPlayTime: z.number().optional(),
+    setPhaseDistance: z.number().optional(),
+    openPlayDistance: z.number().optional(),
+    scrumsAttended: z.number().optional(),
+    lineoutsAttended: z.number().optional(),
+    rucksAttended: z.number().optional()
+  }).optional(),
+  
+  // Quality scores
+  qualityScores: z.object({
+    dataQuality: z.number(), // 0-100%
+    signalStrength: z.number(), // 0-100%
+    satelliteCount: z.number().optional()
+  }).optional(),
+  
+  createdAt: z.string(),
+  updatedAt: z.string()
+});
+
 // Video analysis schema
 export const videoAnalysisSchema = z.object({
   id: z.string(),
@@ -295,6 +386,7 @@ export type AdvancedMetrics = z.infer<typeof advancedMetricsSchema>;
 export type TrainingProgram = z.infer<typeof trainingProgramSchema>;
 export type InjuryTracking = z.infer<typeof injuryTrackingSchema>;
 export type Communication = z.infer<typeof communicationSchema>;
+export type GPSData = z.infer<typeof gpsDataSchema>;
 
 // Database Tables
 export const users = pgTable("users", {

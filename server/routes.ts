@@ -3,6 +3,8 @@ import { storage } from "./storage";
 import { googleSheetsService } from "./googleSheets";
 import { generateCleanPlayersCSV, generateMatchStatsCSV, generateTrainingCSV, generateInjuryCSV } from "./cleanCSV";
 import { setupNorthHarbourDatabase } from "./setupDatabase";
+import { createStatSportsService, sampleGPSData } from "./statSportsGPS";
+import { GPSData } from "@shared/schema";
 
 export function registerRoutes(app: Express) {
   // Get all players - FRESH START with your North Harbour Rugby data
@@ -331,6 +333,123 @@ export function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error fetching players:", error);
       res.status(500).json({ error: "Failed to fetch players" });
+    }
+  });
+
+  // StatSports GPS Data Routes
+  
+  // Get GPS sessions for a player
+  app.get("/api/players/:playerId/gps", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const { startDate, endDate } = req.query;
+      
+      // For now, return sample GPS data for demonstration
+      // When you provide StatSports API credentials, this will fetch real data
+      const playerGPSData = sampleGPSData.filter(session => 
+        session.playerId === playerId &&
+        (!startDate || session.date >= startDate) &&
+        (!endDate || session.date <= endDate)
+      );
+      
+      res.json(playerGPSData);
+    } catch (error) {
+      console.error("Error fetching GPS data:", error);
+      res.status(500).json({ error: "Failed to fetch GPS data" });
+    }
+  });
+
+  // Get GPS data for a specific session
+  app.get("/api/gps/sessions/:sessionId", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      
+      const sessionData = sampleGPSData.find(session => 
+        session.sessionId === sessionId
+      );
+      
+      if (!sessionData) {
+        return res.status(404).json({ error: "GPS session not found" });
+      }
+      
+      res.json(sessionData);
+    } catch (error) {
+      console.error("Error fetching GPS session:", error);
+      res.status(500).json({ error: "Failed to fetch GPS session" });
+    }
+  });
+
+  // Sync GPS data from StatSports (requires API credentials)
+  app.post("/api/gps/sync", async (req, res) => {
+    try {
+      const { startDate, endDate, apiKey, teamId } = req.body;
+      
+      if (!apiKey || !teamId) {
+        return res.status(400).json({ 
+          error: "StatSports API key and team ID are required for data synchronization" 
+        });
+      }
+      
+      const statSportsService = createStatSportsService(apiKey, teamId);
+      const gpsData = await statSportsService.syncTeamGPSData(startDate, endDate);
+      
+      res.json({ 
+        message: "GPS data synchronized successfully", 
+        sessionCount: gpsData.length,
+        data: gpsData 
+      });
+    } catch (error) {
+      console.error("Error syncing GPS data:", error);
+      res.status(500).json({ error: "Failed to sync GPS data from StatSports" });
+    }
+  });
+
+  // Get live GPS data during active sessions
+  app.get("/api/gps/live/:sessionId", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      
+      // This would connect to StatSports live API when credentials are provided
+      res.json({ 
+        message: "Live GPS tracking requires StatSports API credentials",
+        sessionId 
+      });
+    } catch (error) {
+      console.error("Error fetching live GPS data:", error);
+      res.status(500).json({ error: "Failed to fetch live GPS data" });
+    }
+  });
+
+  // Get team GPS summary
+  app.get("/api/gps/team/summary", async (req, res) => {
+    try {
+      const { date } = req.query;
+      
+      // Generate team summary from available GPS data
+      const teamSummary = sampleGPSData.reduce((summary, session) => {
+        if (!date || session.date === date) {
+          summary.totalSessions++;
+          summary.totalDistance += session.totalDistance;
+          summary.averagePlayerLoad += session.playerLoad;
+          summary.totalSprintCount += session.sprintCount;
+        }
+        return summary;
+      }, {
+        totalSessions: 0,
+        totalDistance: 0,
+        averagePlayerLoad: 0,
+        totalSprintCount: 0,
+        date: date || new Date().toISOString().split('T')[0]
+      });
+      
+      if (teamSummary.totalSessions > 0) {
+        teamSummary.averagePlayerLoad = teamSummary.averagePlayerLoad / teamSummary.totalSessions;
+      }
+      
+      res.json(teamSummary);
+    } catch (error) {
+      console.error("Error fetching team GPS summary:", error);
+      res.status(500).json({ error: "Failed to fetch team GPS summary" });
     }
   });
 
