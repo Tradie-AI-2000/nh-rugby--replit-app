@@ -570,6 +570,170 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  // Team Cohesion Analytics - TWI Progression
+  app.get("/api/team/cohesion/twi-progression/:season", async (req, res) => {
+    try {
+      const { season } = req.params;
+      
+      const twiProgression = [
+        { year: "2021", twiScore: 19.2, inSeasonCohesion: 261, competitionAverage: 22.5 },
+        { year: "2022", twiScore: 21.19, inSeasonCohesion: 503, competitionAverage: 25.4 },
+        { year: "2023", twiScore: 22.8, inSeasonCohesion: 478, competitionAverage: 26.1 },
+        { year: "2024", twiScore: 24.1, inSeasonCohesion: 512, competitionAverage: 27.3 }
+      ];
+      
+      res.json(twiProgression);
+    } catch (error) {
+      console.error("Error fetching TWI progression:", error);
+      res.status(500).json({ error: "Failed to fetch TWI progression" });
+    }
+  });
+
+  // Team Cohesion Analytics - Gaps Analysis
+  app.get("/api/team/cohesion/gaps-analysis/:season", async (req, res) => {
+    try {
+      const gapsData = {
+        zeroGaps: 17,
+        attackSpineZeroGaps: 8,
+        defensiveGaps0to5: 85,
+        competitionPoints: 42,
+        pointsFor: 385,
+        pointsAgainst: 298
+      };
+      
+      res.json(gapsData);
+    } catch (error) {
+      console.error("Error fetching gaps analysis:", error);
+      res.status(500).json({ error: "Failed to fetch gaps analysis" });
+    }
+  });
+
+  // Team Cohesion Analytics - Squad Profile
+  app.get("/api/team/cohesion/squad-profile/:season", async (req, res) => {
+    try {
+      const squadProfile = {
+        ageDifferential: 1.0,
+        averageSquadAge: 24.2,
+        averageSigningAge: 23.2,
+        experienceDifferential: -87,
+        internalExperience: 45,
+        externalExperience: 132
+      };
+      
+      res.json(squadProfile);
+    } catch (error) {
+      console.error("Error fetching squad profile:", error);
+      res.status(500).json({ error: "Failed to fetch squad profile" });
+    }
+  });
+
+  // Team Cohesion Analytics - Age Signing Profile
+  app.get("/api/team/cohesion/age-signing-profile/:season", async (req, res) => {
+    try {
+      const ageProfile = [
+        { ageRange: "18-20", playerCount: 2 },
+        { ageRange: "21-23", playerCount: 8 },
+        { ageRange: "24-26", playerCount: 12 },
+        { ageRange: "27-29", playerCount: 15 },
+        { ageRange: "30+", playerCount: 8 }
+      ];
+      
+      res.json(ageProfile);
+    } catch (error) {
+      console.error("Error fetching age signing profile:", error);
+      res.status(500).json({ error: "Failed to fetch age signing profile" });
+    }
+  });
+
+  // Team Cohesion Analytics - Tenure Breakdown
+  app.get("/api/team/cohesion/tenure-breakdown/:season", async (req, res) => {
+    try {
+      const tenureData = [
+        { tenureYears: "0-1", playerCount: 8 },
+        { tenureYears: "2-3", playerCount: 12 },
+        { tenureYears: "4-5", playerCount: 10 },
+        { tenureYears: "6-7", playerCount: 7 },
+        { tenureYears: "8+", playerCount: 5 }
+      ];
+      
+      res.json(tenureData);
+    } catch (error) {
+      console.error("Error fetching tenure breakdown:", error);
+      res.status(500).json({ error: "Failed to fetch tenure breakdown" });
+    }
+  });
+
+  // Team Cohesion Analytics - Performance Correlation
+  app.get("/api/team/cohesion/performance-correlation/:season", async (req, res) => {
+    try {
+      const correlationData = [
+        { cohesionScore: 503, performanceMetric: 28, matchDate: "2024-06-15", opponent: "Blues", result: "win" },
+        { cohesionScore: 461, performanceMetric: 14, matchDate: "2024-06-08", opponent: "Crusaders", result: "loss" },
+        { cohesionScore: 478, performanceMetric: 21, matchDate: "2024-06-01", opponent: "Chiefs", result: "win" },
+        { cohesionScore: 445, performanceMetric: 17, matchDate: "2024-05-25", opponent: "Hurricanes", result: "draw" },
+        { cohesionScore: 389, performanceMetric: 7, matchDate: "2024-05-18", opponent: "Highlanders", result: "loss" }
+      ];
+      
+      res.json(correlationData);
+    } catch (error) {
+      console.error("Error fetching performance correlation:", error);
+      res.status(500).json({ error: "Failed to fetch performance correlation" });
+    }
+  });
+
+  // Team Cohesion Analytics - Squad Stability
+  app.get("/api/team/cohesion/squad-stability/:season", async (req, res) => {
+    try {
+      const stabilityData = {
+        changeScore: 2.3,
+        averageChanges: 2.3,
+        optimalRange: { min: 0.5, max: 1.5 },
+        impact: "High change score indicates disrupted cohesion development"
+      };
+      
+      res.json(stabilityData);
+    } catch (error) {
+      console.error("Error fetching squad stability:", error);
+      res.status(500).json({ error: "Failed to fetch squad stability" });
+    }
+  });
+
+  // Team Cohesion Analytics - Benchmark Data
+  app.get("/api/team/cohesion/benchmark/:team", async (req, res) => {
+    try {
+      const { team } = req.params;
+      
+      const benchmarkData = {
+        crusaders: {
+          twiScore: 45.2,
+          inSeasonCohesion: 650,
+          zeroGaps: 3,
+          ageDifferential: 3.8,
+          changeScore: 0.8
+        },
+        chiefs: {
+          twiScore: 38.7,
+          inSeasonCohesion: 580,
+          zeroGaps: 6,
+          ageDifferential: 2.9,
+          changeScore: 1.2
+        },
+        blues: {
+          twiScore: 32.1,
+          inSeasonCohesion: 520,
+          zeroGaps: 9,
+          ageDifferential: 2.1,
+          changeScore: 1.8
+        }
+      };
+      
+      res.json(benchmarkData[team] || benchmarkData.crusaders);
+    } catch (error) {
+      console.error("Error fetching benchmark data:", error);
+      res.status(500).json({ error: "Failed to fetch benchmark data" });
+    }
+  });
+
   // Get player by ID
   app.get("/api/players/:id", async (req, res) => {
     try {

@@ -1,0 +1,41 @@
+Instructions for Building NorthHarbourPerformance SaaS
+The NorthHarbourPerformance dashboard will be a React.js application hosted on Replit, designed to visualize and analyze cohesion metrics for North Harbour Rugby. It will cater to various stakeholders including coaches, players, medical staff, and administrators.
+
+I. Technical Stack
+Frontend: React.js
+Styling: Tailwind CSS (for modern, responsive UI)
+Charting: Recharts (for dynamic data visualization)
+Data Persistence & Authentication: Google Firestore (real-time, scalable NoSQL database)
+II. Core Dashboard Features (with technical notes)
+The dashboard will consist of several key sections, each visualizing different aspects of team cohesion:
+
+Overall Cohesion Overview:
+
+Display current Team Work Index (TWI) and In-Season Cohesion scores prominently.
+Technical: Fetch these values from Firestore and display as large, clear numbers or gauges.
+Historical Cohesion Trends:
+
+Line charts showing the progression of TWI and In-Season Cohesion over multiple seasons/years (similar to the RUNY TWI Progression chart).
+Technical: Use Recharts.LineChart components. Data for these charts will be arrays of objects containing date and value fields stored in Firestore.
+Cohesion Markers Breakdown:
+
+Gaps Analysis:
+Visualize "0" Gaps, Attack Spine "0" Gaps, and 0-5 Defensive Gaps.
+Technical: Display these as numerical values with color-coded indicators (e.g., green for good, red for high gaps) or simple bar charts comparing current values to benchmarks/averages. The document shows network diagrams for "Gaps," but for a simplified initial build, we will represent these as quantifiable metrics rather than attempting complex, dynamic graph visualizations.
+Squad Profile (Age & Experience):
+Display Age Differential, Average Age of Squad, and Average Age of Signing.
+Display Experience Differential (Internal vs. External Experience).
+Histograms for Age of Signing Profile and Internal Tenure Breakdown (showing number of players at different signing ages/tenures).
+Technical: Use Recharts.BarChart for histograms. Display other metrics as numerical values.
+Performance Correlation Insights:
+
+Scatter plots illustrating the relationship between Cohesion Markers (e.g., "0" Gaps, In-Season Cohesion) and key performance metrics (e.g., Competition Points, Points For, Points Against).
+Technical: Use Recharts.ScatterChart. These will require both cohesion data and corresponding match performance data.
+Squad Stability:
+
+Display the Change Score (average lineup changes per game).
+Technical: Numerical display, possibly with a historical line chart.
+Benchmark Comparison:
+
+Ability to compare North Harbour's current and historical cohesion metrics against a predefined benchmark team (e.g., Crusaders, as highlighted in the documents).
+Technical: Fetch benchmark data from Firestore and overlay it on charts or display side-by-side with North Harbour's data.
