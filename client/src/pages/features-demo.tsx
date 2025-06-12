@@ -11,6 +11,7 @@ import VideoAnalysisComponent from "@/components/video-analysis";
 import RealTimeMatchAnalytics from "@/components/real-time-match-analytics";
 import AIInjuryPrediction from "@/components/ai-injury-prediction";
 import GPSTracking from "@/components/gps-tracking";
+import CohesionAnalytics from "@/components/cohesion-analytics";
 import nhLogo from "@assets/menulogo_wo.png";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -211,7 +212,7 @@ export default function FeaturesDemo() {
         </div>
 
         <Tabs value={activeFeature} onValueChange={setActiveFeature} className="w-full">
-          <TabsList className="grid w-full grid-cols-10 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsList className="grid w-full grid-cols-11 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
             <TabsTrigger 
               value="overview"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
@@ -271,6 +272,12 @@ export default function FeaturesDemo() {
               className="py-3 px-2 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0 text-sm"
             >
               📍 GPS
+            </TabsTrigger>
+            <TabsTrigger 
+              value="cohesion"
+              className="py-3 px-2 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0 text-sm"
+            >
+              🤝 Cohesion
             </TabsTrigger>
           </TabsList>
 
@@ -370,6 +377,10 @@ export default function FeaturesDemo() {
 
           <TabsContent value="gps">
             <GPSTracking playerId={currentPlayer.id} playerName={currentPlayer.name} />
+          </TabsContent>
+
+          <TabsContent value="cohesion">
+            <CohesionAnalytics playerId={currentPlayer.id} playerName={currentPlayer.name} />
           </TabsContent>
         </Tabs>
       </div>

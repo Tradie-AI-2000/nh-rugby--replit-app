@@ -452,6 +452,124 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  // Cohesion Analytics - Team Work Index (TWI)
+  app.get("/api/cohesion/twi/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      
+      // North Harbour Rugby TWI data based on GAIN LINE Analytics framework
+      const twiData = {
+        twiScore: 21.19,
+        ageDifferential: 1.0,
+        experienceDifferential: -87,
+        ageOfSigning: 23.2,
+        averageSquadAge: 24.2,
+        internalExperience: 45,
+        externalExperience: 132,
+        trend: "increasing"
+      };
+      
+      res.json(twiData);
+    } catch (error) {
+      console.error("Error fetching TWI data:", error);
+      res.status(500).json({ error: "Failed to fetch TWI data" });
+    }
+  });
+
+  // Cohesion Analytics - In-Season Markers
+  app.get("/api/cohesion/markers/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      
+      const markers = [
+        {
+          total: 503,
+          tight5: 35,
+          attackSpine: 54,
+          gaps0to5: 85,
+          gaps0to10: 88,
+          zeroGaps: 17,
+          matchDate: "2024-06-15",
+          opponent: "Blues",
+          result: "win"
+        },
+        {
+          total: 461,
+          tight5: 28,
+          attackSpine: 47,
+          gaps0to5: 92,
+          gaps0to10: 94,
+          zeroGaps: 19,
+          matchDate: "2024-06-08",
+          opponent: "Crusaders",
+          result: "loss"
+        },
+        {
+          total: 478,
+          tight5: 31,
+          attackSpine: 51,
+          gaps0to5: 88,
+          gaps0to10: 91,
+          zeroGaps: 18,
+          matchDate: "2024-06-01",
+          opponent: "Chiefs",
+          result: "win"
+        }
+      ];
+      
+      res.json(markers);
+    } catch (error) {
+      console.error("Error fetching cohesion markers:", error);
+      res.status(500).json({ error: "Failed to fetch cohesion markers" });
+    }
+  });
+
+  // Cohesion Analytics - Position Groups
+  app.get("/api/cohesion/position-groups/:playerId", async (req, res) => {
+    try {
+      const positionGroups = [
+        {
+          name: "Tight 5",
+          positions: [1, 2, 3, 4, 5],
+          cohesionStrength: 35,
+          workingGaps: 12,
+          players: ["Penaia Cakobau", "Bryn Gordon", "Mark Tele'a"]
+        },
+        {
+          name: "Attack Spine",
+          positions: [9, 10, 12],
+          cohesionStrength: 54,
+          workingGaps: 8,
+          players: ["Tane Edmed", "Cam Christie"]
+        }
+      ];
+      
+      res.json(positionGroups);
+    } catch (error) {
+      console.error("Error fetching position groups:", error);
+      res.status(500).json({ error: "Failed to fetch position groups" });
+    }
+  });
+
+  // Cohesion Analytics - Competition Average
+  app.get("/api/cohesion/competition-average", async (req, res) => {
+    try {
+      const competitionData = {
+        averageTWI: 25.4,
+        topTWI: 45.2,
+        averageCohesion: 331,
+        topCohesion: 650,
+        averageGaps: 94,
+        lowestGaps: 45
+      };
+      
+      res.json(competitionData);
+    } catch (error) {
+      console.error("Error fetching competition data:", error);
+      res.status(500).json({ error: "Failed to fetch competition data" });
+    }
+  });
+
   // Get player by ID
   app.get("/api/players/:id", async (req, res) => {
     try {
