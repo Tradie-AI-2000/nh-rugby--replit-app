@@ -70,6 +70,8 @@ const squadMedicalStatus = [
       { date: "2023-04-22", injury: "Concussion", severity: "Moderate", daysMissed: 14 }
     ],
     currentLoad: { acute: 385, chronic: 412, ratio: 0.93 },
+    acwrRatio: 0.93,
+    injuryRisk: "moderate",
     screeningResults: {
       fms: 16,
       shoulderFlexibility: "Normal",
@@ -93,6 +95,8 @@ const squadMedicalStatus = [
       { date: "2023-11-30", injury: "Ankle Sprain Grade 1", severity: "Minor", daysMissed: 10 }
     ],
     currentLoad: { acute: 342, chronic: 358, ratio: 0.95 },
+    acwrRatio: 0.95,
+    injuryRisk: "low",
     screeningResults: {
       fms: 18,
       shoulderFlexibility: "Excellent",
@@ -117,6 +121,8 @@ const squadMedicalStatus = [
       { date: "2023-03-07", injury: "Shoulder Subluxation", severity: "Moderate", daysMissed: 21 }
     ],
     currentLoad: { acute: 287, chronic: 398, ratio: 0.72 },
+    acwrRatio: 0.72,
+    injuryRisk: "high",
     screeningResults: {
       fms: 15,
       shoulderFlexibility: "Good", 
@@ -140,6 +146,8 @@ const squadMedicalStatus = [
       { date: "2023-07-14", injury: "Wrist Sprain", severity: "Minor", daysMissed: 8 }
     ],
     currentLoad: { acute: 445, chronic: 421, ratio: 1.06 },
+    acwrRatio: 1.06,
+    injuryRisk: "moderate",
     screeningResults: {
       fms: 14,
       shoulderFlexibility: "Normal",
@@ -164,6 +172,8 @@ const squadMedicalStatus = [
       { date: "2023-05-18", injury: "Knee MCL Strain Grade 1", severity: "Minor", daysMissed: 14 }
     ],
     currentLoad: { acute: 156, chronic: 389, ratio: 0.40 },
+    acwrRatio: 0.40,
+    injuryRisk: "high",
     screeningResults: {
       fms: 13,
       shoulderFlexibility: "Limited (L)",
@@ -911,10 +921,10 @@ export default function MedicalHub() {
                                 <div className="flex justify-between">
                                   <span className="text-gray-500">ACWR:</span>
                                   <span className={`font-medium ${
-                                    player.acwrRatio <= 1.3 && player.acwrRatio >= 0.8 ? "text-green-600" :
-                                    player.acwrRatio > 1.3 ? "text-red-600" : "text-amber-600"
+                                    player.acwrRatio && player.acwrRatio <= 1.3 && player.acwrRatio >= 0.8 ? "text-green-600" :
+                                    player.acwrRatio && player.acwrRatio > 1.3 ? "text-red-600" : "text-amber-600"
                                   }`}>
-                                    {player.acwrRatio.toFixed(2)}
+                                    {player.acwrRatio ? player.acwrRatio.toFixed(2) : "N/A"}
                                   </span>
                                 </div>
                                 <div className="flex justify-between">
