@@ -77,17 +77,45 @@ const roles = [
 export default function RoleSelection() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-red-50">
+      {/* Navigation Header */}
+      <div className="bg-nh-red text-white p-4 shadow-lg">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href="/">
+                <Button variant="ghost" className="text-white hover:bg-nh-red-600">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Home
+                </Button>
+              </Link>
+              <img src={logoPath} alt="North Harbour Rugby" className="h-10 w-10" />
+              <div>
+                <h1 className="text-2xl font-bold">Role Selection</h1>
+                <div className="flex items-center gap-2 text-sm text-nh-red-200">
+                  <Link href="/" className="hover:text-white">Home</Link>
+                  <span>›</span>
+                  <span className="text-white">Role Selection</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/">
+                <Button variant="outline" className="text-nh-red bg-white hover:bg-gray-100">
+                  <Home className="w-4 h-4 mr-2" />
+                  Home
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="bg-white shadow-md">
         <div className="container mx-auto p-6">
           <div className="flex items-center justify-center space-x-4">
-            <img 
-              src={logoPath} 
-              alt="North Harbour Rugby" 
-              className="h-16 w-auto"
-            />
             <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-900">North Harbour Rugby</h1>
+              <h2 className="text-3xl font-bold text-gray-900">North Harbour Rugby</h2>
               <p className="text-gray-600">Performance Management System</p>
             </div>
           </div>
