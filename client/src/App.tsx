@@ -8,6 +8,8 @@ import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
 import TeamCohesionDashboard from "@/pages/team-cohesion-dashboard";
 import AnalyticsOverview from "@/pages/analytics-overview";
+import PerformanceAnalytics from "@/pages/performance-analytics";
+import FitnessAnalytics from "@/pages/fitness-analytics";
 import DataManagement from "@/pages/data-management";
 import DataIntegration from "@/pages/data-integration";
 import CSVUpload from "@/pages/csv-upload";
@@ -28,6 +30,8 @@ function Router() {
       <Route path="/team-dashboard" component={TeamDashboard} />
       <Route path="/team-cohesion" component={TeamCohesionDashboard} />
       <Route path="/analytics" component={AnalyticsOverview} />
+      <Route path="/performance-analytics" component={PerformanceAnalytics} />
+      <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/" component={MainDashboard} />
