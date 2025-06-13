@@ -101,10 +101,10 @@ export default function TeamDashboard() {
               Overview
             </TabsTrigger>
             <TabsTrigger 
-              value="schedule"
+              value="analytics"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
-              Schedule
+              Analytics
             </TabsTrigger>
             <TabsTrigger 
               value="live-match"
@@ -113,10 +113,10 @@ export default function TeamDashboard() {
               🔥 Live Match
             </TabsTrigger>
             <TabsTrigger 
-              value="communications"
+              value="schedule"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
-              Communications
+              Schedule
             </TabsTrigger>
             <TabsTrigger 
               value="squad"
@@ -125,10 +125,10 @@ export default function TeamDashboard() {
               Squad
             </TabsTrigger>
             <TabsTrigger 
-              value="analytics"
+              value="communications"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
-              Analytics
+              Communications
             </TabsTrigger>
           </TabsList>
 
