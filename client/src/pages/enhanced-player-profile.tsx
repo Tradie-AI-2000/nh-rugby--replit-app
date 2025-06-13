@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PlayerValueScorecard from "@/components/player-value-scorecard";
+import AdvancedMetrics from "@/components/advanced-metrics";
 import { 
   moneyBallPlayersData, 
   convertToPlayerValueMetrics,
@@ -217,7 +218,7 @@ export default function EnhancedPlayerProfile() {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-lg">
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
             <TabsTrigger 
               value="profile" 
               className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
@@ -229,6 +230,12 @@ export default function EnhancedPlayerProfile() {
               className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
             >
               Player Value Analysis
+            </TabsTrigger>
+            <TabsTrigger 
+              value="advanced-metrics" 
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+            >
+              Advanced Metrics
             </TabsTrigger>
           </TabsList>
 
@@ -404,6 +411,11 @@ export default function EnhancedPlayerProfile() {
                 <PlayerValueScorecard metrics={playerValueMetrics} />
               </div>
             )}
+          </TabsContent>
+
+          {/* Advanced Metrics Tab */}
+          <TabsContent value="advanced-metrics" className="space-y-6">
+            <AdvancedMetrics playerId={playerId} player={player} />
           </TabsContent>
         </Tabs>
       </div>
