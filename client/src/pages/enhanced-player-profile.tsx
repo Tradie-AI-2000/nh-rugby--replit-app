@@ -221,19 +221,19 @@ export default function EnhancedPlayerProfile() {
           <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
             <TabsTrigger 
               value="profile" 
-              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-4 rounded-md transition-all duration-200"
             >
               Player Profile
             </TabsTrigger>
             <TabsTrigger 
               value="value-analysis" 
-              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-4 rounded-md transition-all duration-200"
             >
               Player Value Analysis
             </TabsTrigger>
             <TabsTrigger 
               value="advanced-metrics" 
-              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-gray-700 data-[state=inactive]:hover:text-nh-red data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:border-nh-red-600 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-4 rounded-md transition-all duration-200"
             >
               Advanced Metrics
             </TabsTrigger>
