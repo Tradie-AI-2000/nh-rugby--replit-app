@@ -43,6 +43,33 @@ export default function RealTimeMatchAnalytics({ matchId, isLive = true }: RealT
     }
   }, [isPlaying, isLive]);
 
+  // Live player positioning data for heat map
+  const livePlayerPositions = [
+    { id: 1, name: "Prop", x: 25, y: 45, intensity: 85, jersey: 1, recent_actions: ["Scrum", "Ruck"] },
+    { id: 2, name: "Hooker", x: 30, y: 45, intensity: 92, jersey: 2, recent_actions: ["Lineout", "Ruck", "Tackle"] },
+    { id: 3, name: "Prop", x: 35, y: 45, intensity: 78, jersey: 3, recent_actions: ["Scrum", "Maul"] },
+    { id: 4, name: "Lock", x: 28, y: 35, intensity: 65, jersey: 4, recent_actions: ["Lineout", "Ruck"] },
+    { id: 5, name: "Lock", x: 32, y: 35, intensity: 71, jersey: 5, recent_actions: ["Lineout", "Tackle"] },
+    { id: 6, name: "Blindside", x: 40, y: 40, intensity: 88, jersey: 6, recent_actions: ["Tackle", "Ruck", "Carry"] },
+    { id: 7, name: "Openside", x: 45, y: 50, intensity: 95, jersey: 7, recent_actions: ["Tackle", "Turnover", "Ruck"] },
+    { id: 8, name: "8th Man", x: 35, y: 55, intensity: 82, jersey: 8, recent_actions: ["Carry", "Ruck", "Tackle"] },
+    { id: 9, name: "Scrum Half", x: 50, y: 45, intensity: 76, jersey: 9, recent_actions: ["Pass", "Kick", "Ruck"] },
+    { id: 10, name: "Fly Half", x: 55, y: 45, intensity: 69, jersey: 10, recent_actions: ["Pass", "Kick", "Tackle"] },
+    { id: 11, name: "Left Wing", x: 65, y: 20, intensity: 58, jersey: 11, recent_actions: ["Run", "Tackle"] },
+    { id: 12, name: "Inside Centre", x: 60, y: 40, intensity: 74, jersey: 12, recent_actions: ["Pass", "Tackle", "Carry"] },
+    { id: 13, name: "Outside Centre", x: 65, y: 50, intensity: 73, jersey: 13, recent_actions: ["Pass", "Tackle", "Run"] },
+    { id: 14, name: "Right Wing", x: 70, y: 70, intensity: 61, jersey: 14, recent_actions: ["Run", "Catch"] },
+    { id: 15, name: "Full Back", x: 75, y: 45, intensity: 55, jersey: 15, recent_actions: ["Catch", "Kick", "Run"] }
+  ];
+
+  // Heat zones based on player activity
+  const heatZones = [
+    { x: 30, y: 45, radius: 15, intensity: 90, label: "Ruck Area" },
+    { x: 50, y: 45, radius: 12, intensity: 75, label: "Breakdown" },
+    { x: 25, y: 30, radius: 8, intensity: 85, label: "Lineout" },
+    { x: 60, y: 45, radius: 10, intensity: 65, label: "Midfield" }
+  ];
+
   // Enhanced AI-powered heat map data for coaching roles
   const heatMapData = {
     lineoutAnalysis: {
@@ -529,6 +556,132 @@ export default function RealTimeMatchAnalytics({ matchId, isLive = true }: RealT
 
         {/* AI Defence Analysis */}
         <TabsContent value="defence" className="space-y-6">
+          {/* Defensive Coach Role Focus */}
+          <Card className="border-2 border-purple-500 bg-purple-50">
+            <CardContent className="p-4 text-center">
+              <Target className="mx-auto mb-2 text-purple-600" size={24} />
+              <div className="font-bold text-sm">Defence Coach Analytics</div>
+              <div className="text-xs text-gray-600">Line Speed & Structure Analysis</div>
+            </CardContent>
+          </Card>
+
+          {/* Live Defensive Metrics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Shield className="h-5 w-5 mr-2 text-red-600" />
+                  Live Defensive Line Speed
+                </CardTitle>
+                <div className="text-sm text-gray-600">Real-time tracking with AI alerts</div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={heatMapData.defensivePatterns.lineSpeed}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="minute" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="speed" stroke="#DC2626" strokeWidth={2} />
+                      <Line type="monotone" dataKey="accuracy" stroke="#059669" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                
+                <div className="mt-4 space-y-2">
+                  {heatMapData.defensivePatterns.aiAlerts.map((alert, index) => (
+                    <div key={index} className="p-2 bg-amber-50 rounded border-l-4 border-amber-400">
+                      <div className="text-sm text-amber-800">⚠️ {alert}</div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Defence Coach Insights */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Brain className="h-5 w-5 mr-2 text-purple-600" />
+                  AI Defence Insights
+                </CardTitle>
+                <div className="text-sm text-gray-600">Real-time tactical recommendations</div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-red-50 rounded">
+                      <div className="text-2xl font-bold text-red-600">{tacticalliveData.defensiveCoach.tackleSuccess}%</div>
+                      <div className="text-xs text-gray-600">Tackle Success</div>
+                    </div>
+                    <div className="text-center p-3 bg-purple-50 rounded">
+                      <div className="text-2xl font-bold text-purple-600">{tacticalliveData.defensiveCoach.turnoversBon}</div>
+                      <div className="text-xs text-gray-600">Turnovers Won</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {tacticalliveData.defensiveCoach.alerts.map((alert, index) => (
+                      <div key={index} className="text-sm p-2 bg-purple-50 rounded border-l-4 border-purple-400">
+                        {alert}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Opposition Attack Phase Analysis */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Activity className="h-5 w-5 mr-2 text-purple-600" />
+                Opposition Attack Phase Patterns
+              </CardTitle>
+              <div className="text-sm text-gray-600">AI Analysis: Phase Play Effectiveness</div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium mb-3">Phase Play Success Rates</h4>
+                  <div className="space-y-3">
+                    {heatMapData.attackPatterns.oppositionPhases.map((phase, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="font-medium">Phases {phase.phase}</div>
+                          <div className="text-xs text-gray-600">{phase.frequency} attempts</div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <div className="font-bold">{phase.successRate}%</div>
+                            <div className="text-xs text-gray-500">Success</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold">{phase.gainLine}%</div>
+                            <div className="text-xs text-gray-500">Gain Line</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium mb-3">Defensive Opportunities</h4>
+                  <div className="space-y-2">
+                    {heatMapData.attackPatterns.weaknesses.map((weakness, index) => (
+                      <div key={index} className="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                        <div className="text-sm text-red-800">{weakness}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Set Piece Defence Analysis */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
@@ -670,171 +823,171 @@ export default function RealTimeMatchAnalytics({ matchId, isLive = true }: RealT
           </div>
         </TabsContent>
 
-        {/* AI-Powered Heat Maps & Analytics */}
+        {/* Live Heat Map */}
         <TabsContent value="heatmap" className="space-y-6">
-          {/* Coaching Role Selector */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <Card className="border-2 border-red-500 bg-red-50">
-              <CardContent className="p-4 text-center">
-                <Users className="mx-auto mb-2 text-red-600" size={24} />
-                <div className="font-bold text-sm">Head Coach</div>
-                <div className="text-xs text-gray-600">Overall Strategy</div>
-              </CardContent>
-            </Card>
-            <Card className="border-2 border-blue-500 bg-blue-50">
-              <CardContent className="p-4 text-center">
-                <Shield className="mx-auto mb-2 text-blue-600" size={24} />
-                <div className="font-bold text-sm">Forwards Coach</div>
-                <div className="text-xs text-gray-600">Set Piece Focus</div>
-              </CardContent>
-            </Card>
-            <Card className="border-2 border-green-500 bg-green-50">
-              <CardContent className="p-4 text-center">
-                <Swords className="mx-auto mb-2 text-green-600" size={24} />
-                <div className="font-bold text-sm">Backs Coach</div>
-                <div className="text-xs text-gray-600">Attack Patterns</div>
-              </CardContent>
-            </Card>
-            <Card className="border-2 border-purple-500 bg-purple-50">
-              <CardContent className="p-4 text-center">
-                <Target className="mx-auto mb-2 text-purple-600" size={24} />
-                <div className="font-bold text-sm">Defence Coach</div>
-                <div className="text-xs text-gray-600">Line Speed & Structure</div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Opposition Lineout Heat Map */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-blue-600" />
-                  Opposition Lineout Heat Map
-                </CardTitle>
-                <div className="text-sm text-gray-600">AI Analysis: Throw Success Patterns</div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {heatMapData.lineoutAnalysis.oppositionThrows.map((throw_, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded-full ${
-                          throw_.success >= 90 ? 'bg-red-500' :
-                          throw_.success >= 80 ? 'bg-yellow-500' : 'bg-green-500'
-                        }`}></div>
-                        <div>
-                          <div className="font-medium">{throw_.position} Line</div>
-                          <div className="text-xs text-gray-600">{throw_.pattern}</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold">{throw_.success}%</div>
-                        <div className="text-xs text-gray-500">{throw_.attempts} throws</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-blue-800 mb-2">🧠 AI Insights</h4>
-                  <ul className="space-y-1">
-                    {heatMapData.lineoutAnalysis.aiInsights.map((insight, index) => (
-                      <li key={index} className="text-sm text-blue-700">• {insight}</li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Opposition Kicking Patterns */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Target className="h-5 w-5 mr-2 text-green-600" />
-                  Opposition Kicking Zones
-                </CardTitle>
-                <div className="text-sm text-gray-600">AI Analysis: Territorial Patterns</div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {heatMapData.kickingPatterns.oppositionKicking.map((kick, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-4 h-4 rounded-full ${
-                          kick.frequency >= 40 ? 'bg-red-500' :
-                          kick.frequency >= 25 ? 'bg-yellow-500' : 'bg-green-500'
-                        }`}></div>
-                        <div>
-                          <div className="font-medium">{kick.zone}</div>
-                          <div className="text-xs text-gray-600">{kick.avgDistance}m avg distance</div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold">{kick.success}%</div>
-                        <div className="text-xs text-gray-500">{kick.frequency} kicks</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="mt-4 p-3 bg-green-50 rounded-lg">
-                  <h4 className="font-medium text-green-800 mb-2">🎯 AI Recommendations</h4>
-                  <ul className="space-y-1">
-                    {heatMapData.kickingPatterns.aiRecommendations.map((rec, index) => (
-                      <li key={index} className="text-sm text-green-700">• {rec}</li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Attack Phase Analysis */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <Activity className="h-5 w-5 mr-2 text-purple-600" />
-                Opposition Attack Phase Patterns
+                <MapPin className="h-5 w-5 mr-2 text-nh-red" />
+                Live Player Positioning Heat Map
               </CardTitle>
-              <div className="text-sm text-gray-600">AI Analysis: Phase Play Effectiveness</div>
+              <div className="text-sm text-gray-600">Real-time player tracking with activity intensity</div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-medium mb-3">Phase Play Success Rates</h4>
-                  <div className="space-y-3">
-                    {heatMapData.attackPatterns.oppositionPhases.map((phase, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className="font-medium">Phases {phase.phase}</div>
-                          <div className="text-xs text-gray-600">{phase.frequency} attempts</div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <div className="text-right">
-                            <div className="font-bold">{phase.successRate}%</div>
-                            <div className="text-xs text-gray-500">Success</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="font-bold">{phase.gainLine}%</div>
-                            <div className="text-xs text-gray-500">Gain Line</div>
-                          </div>
+              <div className="relative bg-green-200 rounded-lg p-8 min-h-[500px]">
+                <div className="absolute inset-4 border-4 border-white rounded bg-green-100">
+                  {/* Rugby field representation */}
+                  <div className="w-full h-full relative overflow-hidden">
+                    {/* Field markings */}
+                    <div className="absolute top-1/2 left-0 right-0 h-1 bg-white"></div>
+                    <div className="absolute top-1/4 left-0 right-0 h-px bg-white opacity-70"></div>
+                    <div className="absolute top-3/4 left-0 right-0 h-px bg-white opacity-70"></div>
+                    <div className="absolute left-1/4 top-0 bottom-0 w-px bg-white opacity-50"></div>
+                    <div className="absolute left-3/4 top-0 bottom-0 w-px bg-white opacity-50"></div>
+                    
+                    {/* Heat zones (background) */}
+                    {heatZones.map((zone, index) => (
+                      <div
+                        key={index}
+                        className="absolute rounded-full opacity-30"
+                        style={{
+                          left: `${zone.x}%`,
+                          top: `${zone.y}%`,
+                          width: `${zone.radius * 2}px`,
+                          height: `${zone.radius * 2}px`,
+                          backgroundColor: zone.intensity >= 85 ? '#ef4444' : zone.intensity >= 70 ? '#f59e0b' : '#10b981',
+                          transform: 'translate(-50%, -50%)'
+                        }}
+                      >
+                        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-700 whitespace-nowrap">
+                          {zone.label}
                         </div>
                       </div>
                     ))}
+                    
+                    {/* Player positions with intensity */}
+                    {livePlayerPositions.map((player) => (
+                      <div
+                        key={player.id}
+                        className="absolute group cursor-pointer"
+                        style={{
+                          left: `${player.x}%`,
+                          top: `${player.y}%`,
+                          transform: 'translate(-50%, -50%)'
+                        }}
+                      >
+                        <div 
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-lg ${
+                            player.intensity >= 85 ? 'bg-red-500' :
+                            player.intensity >= 70 ? 'bg-yellow-500' : 
+                            player.intensity >= 55 ? 'bg-orange-500' : 'bg-green-500'
+                          }`}
+                        >
+                          {player.jersey}
+                        </div>
+                        
+                        {/* Player tooltip */}
+                        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-90 text-white p-2 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                          <div className="font-bold">{player.name} ({player.jersey})</div>
+                          <div>Intensity: {player.intensity}%</div>
+                          <div>Recent: {player.recent_actions.slice(0, 2).join(', ')}</div>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {/* Field labels */}
+                    <div className="absolute top-2 left-2 text-xs font-bold text-gray-700">North Harbour Try Line</div>
+                    <div className="absolute bottom-2 right-2 text-xs font-bold text-gray-700">Opposition Try Line</div>
+                    <div className="absolute top-1/2 left-2 transform -translate-y-1/2 text-xs font-bold text-gray-700 rotate-90">Halfway</div>
                   </div>
                 </div>
                 
-                <div>
-                  <h4 className="font-medium mb-3">Defensive Opportunities</h4>
-                  <div className="space-y-2">
-                    {heatMapData.attackPatterns.weaknesses.map((weakness, index) => (
-                      <div key={index} className="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
-                        <div className="text-sm text-red-800">{weakness}</div>
-                      </div>
-                    ))}
+                <div className="mt-6 flex flex-wrap items-center gap-6 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                    <span>High Activity (85%+)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                    <span>Medium Activity (70-84%)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
+                    <span>Moderate Activity (55-69%)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                    <span>Low Activity (Below 55%)</span>
                   </div>
                 </div>
+              </div>
+              
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Most Active Players</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {livePlayerPositions
+                        .sort((a, b) => b.intensity - a.intensity)
+                        .slice(0, 5)
+                        .map((player, index) => (
+                        <div key={player.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="flex items-center gap-3">
+                            <div className="w-6 h-6 bg-nh-red text-white rounded-full flex items-center justify-center text-xs font-bold">
+                              {player.jersey}
+                            </div>
+                            <div>
+                              <div className="font-medium">{player.name}</div>
+                              <div className="text-xs text-gray-600">{player.recent_actions[0]}</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold">{player.intensity}%</div>
+                            <div className="text-xs text-gray-500">Activity</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Heat Zone Analysis</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {heatZones.map((zone, index) => (
+                        <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-4 h-4 rounded-full ${
+                              zone.intensity >= 85 ? 'bg-red-500' : 
+                              zone.intensity >= 70 ? 'bg-yellow-500' : 'bg-green-500'
+                            }`}></div>
+                            <div>
+                              <div className="font-medium">{zone.label}</div>
+                              <div className="text-xs text-gray-600">High contact area</div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold">{zone.intensity}%</div>
+                            <div className="text-xs text-gray-500">Intensity</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
               </div>
             </CardContent>
           </Card>
