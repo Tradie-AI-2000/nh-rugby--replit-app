@@ -356,13 +356,13 @@ export default function ExperimentalPlayerProfile() {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            {/* MoneyBall Player Value Analysis */}
+            {/* Player Value Analysis */}
             {(() => {
-              // Convert existing player data to MoneyBall metrics format
+              // Convert existing player data to Player Value metrics format
               const latestGameStats = player.gameStats?.[player.gameStats.length - 1];
               const latestPhysical = player.physicalAttributes?.[player.physicalAttributes.length - 1];
               
-              const moneyBallMetrics: PlayerValueMetrics = {
+              const playerValueMetrics: PlayerValueMetrics = {
                 position: player.rugbyProfile?.primaryPosition || 'Back Row',
                 secondaryPosition: player.rugbyProfile?.secondaryPositions?.[0],
                 weight: latestPhysical?.weight || 100,
@@ -394,7 +394,7 @@ export default function ExperimentalPlayerProfile() {
                 personalityScore: 9.2
               };
 
-              return <PlayerValueScorecard metrics={moneyBallMetrics} />;
+              return <PlayerValueScorecard metrics={playerValueMetrics} />;
             })()}
           </TabsContent>
 

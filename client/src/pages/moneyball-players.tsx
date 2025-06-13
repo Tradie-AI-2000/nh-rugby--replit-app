@@ -138,7 +138,7 @@ export default function MoneyBallPlayers() {
             </Link>
           </div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            MoneyBall Player Analysis
+            Player Value Analysis
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Comprehensive player value assessment using advanced analytics and cohesion metrics

@@ -270,7 +270,7 @@ export default function PlayerValueScorecard({ metrics, className = "" }: Player
       {/* Header with Cohesion Score */}
       <div className="bg-gray-800 p-6 rounded-xl shadow-lg flex flex-col lg:flex-row items-center gap-6">
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-white mb-2">MoneyBall Player Value Analysis</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">Player Value Analysis</h2>
           <p className="text-gray-400">
             Comprehensive assessment combining performance metrics, cohesion impact, and market value
           </p>

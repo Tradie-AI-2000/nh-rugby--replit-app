@@ -229,14 +229,14 @@ export default function MainDashboard() {
           </Card>
         </div>
 
-        {/* MoneyBall Player Analysis */}
+        {/* Player Value Analysis */}
         <div className="mt-12 max-w-4xl mx-auto">
           <Card className="border-2 border-dashed border-green-300 bg-green-50">
             <CardHeader className="text-center">
               <div className="flex items-center justify-center space-x-2 mb-2">
                 <Badge className="bg-green-100 text-green-800 px-3 py-1">NEW</Badge>
               </div>
-              <CardTitle className="text-xl text-green-900">MoneyBall Player Value Analysis</CardTitle>
+              <CardTitle className="text-xl text-green-900">Player Value Analysis</CardTitle>
               <CardDescription className="text-green-700">
                 Comprehensive player value assessment using advanced analytics and cohesion metrics
               </CardDescription>
@@ -261,7 +261,7 @@ export default function MainDashboard() {
               </p>
               <Link href="/moneyball">
                 <Button className="bg-green-600 hover:bg-green-700 text-white">
-                  View MoneyBall Analysis
+                  View Player Value Analysis
                 </Button>
               </Link>
             </CardContent>
