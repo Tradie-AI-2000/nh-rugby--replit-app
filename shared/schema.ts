@@ -515,8 +515,8 @@ export const matchSummarySchema = z.object({
   updatedAt: z.date().default(() => new Date()),
 });
 
-export type MatchPerformance = z.infer<typeof matchPerformanceSchema>;
-export type MatchSummary = z.infer<typeof matchSummarySchema>;
+export type MatchPerformanceZod = z.infer<typeof matchPerformanceSchema>;
+export type MatchSummaryZod = z.infer<typeof matchSummarySchema>;
 
 // Database Tables
 export const users = pgTable("users", {

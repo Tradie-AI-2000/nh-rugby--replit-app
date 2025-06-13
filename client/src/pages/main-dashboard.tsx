@@ -229,6 +229,90 @@ export default function MainDashboard() {
           </Card>
         </div>
 
+        {/* Match Performance Analytics - New Featured Section */}
+        <div className="mt-12 max-w-6xl mx-auto">
+          <Card className="border-2 border-dashed border-red-300 bg-red-50">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center space-x-2 mb-2">
+                <Badge className="bg-red-100 text-red-800 px-3 py-1">NEW FEATURE</Badge>
+              </div>
+              <CardTitle className="text-2xl text-red-900 flex items-center justify-center gap-2">
+                <BarChart3 className="h-6 w-6" />
+                Match Performance Analytics
+              </CardTitle>
+              <CardDescription className="text-red-700 text-lg">
+                Comprehensive match analysis with AI-powered insights and detailed performance breakdowns
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <div className="text-2xl font-bold text-red-800">6</div>
+                  <div className="text-sm text-red-600">Analysis Sections</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <div className="text-2xl font-bold text-red-800">86%</div>
+                  <div className="text-sm text-red-600">Team Tackle Success</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <div className="text-2xl font-bold text-red-800">98%</div>
+                  <div className="text-sm text-red-600">Carry Efficiency</div>
+                </div>
+                <div className="text-center p-3 bg-white rounded-lg">
+                  <div className="text-2xl font-bold text-red-800">32-24</div>
+                  <div className="text-sm text-red-600">Latest Result</div>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="font-semibold text-red-900 mb-3">Match Analysis Features:</h4>
+                  <ul className="space-y-2 text-sm text-red-700">
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Possession & Territory Control Analysis</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Attack Efficiency & Gainline Success</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Defensive Structure & Tackle Analysis</span>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-red-900 mb-3">AI-Powered Insights:</h4>
+                  <ul className="space-y-2 text-sm text-red-700">
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Breakdown Speed & Ruck Retention</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Set Piece Performance Analysis</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-600 rounded-full"></div>
+                      <span>Individual Player Contributions</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <Link href="/match-performance">
+                  <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 text-lg font-semibold">
+                    <TrendingUp className="h-5 w-5 mr-2" />
+                    View Match Analytics
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Player Value Analysis */}
         <div className="mt-12 max-w-4xl mx-auto">
           <Card className="border-2 border-dashed border-green-300 bg-green-50">

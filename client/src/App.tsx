@@ -20,6 +20,7 @@ import CSVUpload from "@/pages/csv-upload";
 import MainDashboard from "@/pages/main-dashboard";
 import TeamDashboard from "@/pages/team-dashboard";
 import GPSManagement from "@/pages/gps-management";
+import MatchPerformance from "@/pages/match-performance";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/performance-analytics" component={PerformanceAnalytics} />
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />
+      <Route path="/match-performance" component={MatchPerformance} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
       <Route path="/moneyball" component={MoneyBallPlayers} />
       <Route path="/dashboard" component={MainDashboard} />
