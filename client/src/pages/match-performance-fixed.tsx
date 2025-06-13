@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
-import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload } from "lucide-react";
+import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload, ArrowLeft, Home } from "lucide-react";
 import { sampleMatchPerformance, matchAnalyticsSections } from "@/data/sampleMatchData";
+import logoPath from "@assets/menulogo_wo.png";
 
 interface AIAnalysisProps {
   sectionId: string;
@@ -640,10 +642,46 @@ export default function MatchPerformance() {
   const match = sampleMatchPerformance.matchInfo;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Match Header */}
-      <Card className="bg-gradient-to-r from-red-800 to-red-900 text-white">
-        <CardContent className="p-6">
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation Header */}
+      <div className="bg-nh-red text-white p-4 shadow-lg">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href="/team">
+                <Button variant="ghost" className="text-white hover:bg-nh-red-600">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Team Dashboard
+                </Button>
+              </Link>
+              <img src={logoPath} alt="North Harbour Rugby" className="h-10 w-10" />
+              <div>
+                <h1 className="text-2xl font-bold">Match Performance Analytics</h1>
+                <div className="flex items-center gap-2 text-sm text-nh-red-200">
+                  <Link href="/team" className="hover:text-white">Coaching Portal</Link>
+                  <span>›</span>
+                  <Link href="/team" className="hover:text-white">Analytics</Link>
+                  <span>›</span>
+                  <span className="text-white">Match Performance</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/team">
+                <Button variant="outline" className="text-nh-red bg-white hover:bg-gray-100">
+                  <Home className="w-4 h-4 mr-2" />
+                  Dashboard Home
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto p-6 space-y-6">
+        {/* Match Header */}
+        <Card className="bg-gradient-to-r from-red-800 to-red-900 text-white">
+          <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold mb-2">Match Performance Analytics</h1>
@@ -722,6 +760,7 @@ export default function MatchPerformance() {
           <IndividualPerformanceSection />
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

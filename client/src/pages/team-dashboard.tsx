@@ -27,7 +27,8 @@ import {
   Trophy,
   Heart,
   AlertTriangle,
-  DollarSign
+  DollarSign,
+  Home
 } from "lucide-react";
 
 
