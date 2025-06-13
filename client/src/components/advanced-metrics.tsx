@@ -158,28 +158,28 @@ export default function AdvancedMetrics({ playerId, player }: AdvancedMetricsPro
       </div>
 
       <Tabs defaultValue="trends" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+        <TabsList className="grid w-full grid-cols-4 bg-gray-100 p-1 rounded-lg">
           <TabsTrigger 
             value="trends"
-            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-3 rounded-md transition-all duration-200"
           >
             Performance Trends
           </TabsTrigger>
           <TabsTrigger 
             value="rugby"
-            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-3 rounded-md transition-all duration-200"
           >
             Rugby Metrics
           </TabsTrigger>
           <TabsTrigger 
             value="radar"
-            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-3 rounded-md transition-all duration-200"
           >
             Skills Analysis
           </TabsTrigger>
           <TabsTrigger 
             value="heatmap"
-            className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-3 rounded-md transition-all duration-200"
           >
             Position Heat Map
           </TabsTrigger>
