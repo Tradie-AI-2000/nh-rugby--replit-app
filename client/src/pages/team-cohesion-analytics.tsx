@@ -32,7 +32,10 @@ import {
   AlertTriangle,
   CheckCircle,
   Building2,
-  UserPlus
+  UserPlus,
+  Info,
+  ChevronDown,
+  ChevronUp
 } from "lucide-react";
 
 // Sample TWI and cohesion data based on the instructions
@@ -124,7 +127,33 @@ interface TWIGaugeProps {
   competitionAverage: number;
 }
 
+const MetricInfoPanel = ({ title, children, isExpanded, onToggle }: {
+  title: string;
+  children: React.ReactNode;
+  isExpanded: boolean;
+  onToggle: () => void;
+}) => (
+  <div className="border-t border-gray-200 mt-4">
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-between w-full py-3 text-left text-sm font-medium text-gray-700 hover:text-gray-900"
+    >
+      <div className="flex items-center gap-2">
+        <Info className="h-4 w-4" />
+        <span>About {title}</span>
+      </div>
+      {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+    </button>
+    {isExpanded && (
+      <div className="pb-4 text-sm text-gray-600 space-y-3">
+        {children}
+      </div>
+    )}
+  </div>
+);
+
 const TWIGauge = ({ value, competitionAverage }: TWIGaugeProps) => {
+  const [showInfo, setShowInfo] = useState(false);
   const getColor = (val: number) => {
     if (val < 20) return "#EF4444"; // Red
     if (val < 30) return "#F59E0B"; // Amber
@@ -212,6 +241,38 @@ const TWIGauge = ({ value, competitionAverage }: TWIGaugeProps) => {
             {value < 20 ? "Needs Development" : value < 30 ? "Developing" : "Strong Foundation"}
           </Badge>
         </div>
+        
+        <MetricInfoPanel
+          title="Team Work Index (TWI)"
+          isExpanded={showInfo}
+          onToggle={() => setShowInfo(!showInfo)}
+        >
+          <div className="space-y-3">
+            <p>
+              <strong>What is TWI?</strong><br />
+              The Team Work Index measures the percentage of your squad developed internally versus externally recruited. 
+              It's calculated based on player tenure, signing ages, and development pathways.
+            </p>
+            <p>
+              <strong>Why it matters:</strong><br />
+              • Higher TWI indicates stronger team cohesion and system understanding<br />
+              • Predicts long-term sustainable success better than short-term results<br />
+              • Reflects the club's "build vs buy" philosophy in action
+            </p>
+            <p>
+              <strong>Benchmarks:</strong><br />
+              • <span className="text-green-600">30%+:</span> Strong foundation, sustainable development model<br />
+              • <span className="text-yellow-600">20-30%:</span> Developing cohesion, balanced approach<br />
+              • <span className="text-red-600">Below 20%:</span> Heavy reliance on external talent, integration challenges
+            </p>
+            <p>
+              <strong>Current Status:</strong><br />
+              At {value}%, North Harbour is below the optimal range, indicating significant reliance on externally 
+              developed players. This presents both challenges (integration, system learning) and opportunities 
+              (immediate skill injection, diverse experience).
+            </p>
+          </div>
+        </MetricInfoPanel>
       </CardContent>
     </Card>
   );
@@ -222,6 +283,7 @@ interface BuildVsBuyVisualizerProps {
 }
 
 const BuildVsBuyVisualizer = ({ experienceDifferential }: BuildVsBuyVisualizerProps) => {
+  const [showInfo, setShowInfo] = useState(false);
   const maxValue = 200;
   const position = ((experienceDifferential + maxValue) / (2 * maxValue)) * 100;
   const isBuyFocused = experienceDifferential < 0;
@@ -257,6 +319,41 @@ const BuildVsBuyVisualizer = ({ experienceDifferential }: BuildVsBuyVisualizerPr
             Experience Differential: {experienceDifferential > 0 ? "+" : ""}{experienceDifferential}
           </p>
         </div>
+        
+        <MetricInfoPanel
+          title="Build vs Buy Strategy"
+          isExpanded={showInfo}
+          onToggle={() => setShowInfo(!showInfo)}
+        >
+          <div className="space-y-3">
+            <p>
+              <strong>What is Build vs Buy?</strong><br />
+              This strategic framework determines whether your club develops talent internally ("Build") 
+              or recruits established players from external sources ("Buy"). The Experience Differential 
+              measures the balance between these approaches.
+            </p>
+            <p>
+              <strong>Experience Differential Calculation:</strong><br />
+              • Positive values (+): More internally developed players ("Build" strategy)<br />
+              • Negative values (-): More externally recruited players ("Buy" strategy)<br />
+              • Based on signing ages, tenure, and development pathways
+            </p>
+            <p>
+              <strong>Strategic Implications:</strong><br />
+              <span className="text-blue-600 font-medium">Buy Strategy ({experienceDifferential}):</span><br />
+              • <strong>Advantages:</strong> Immediate skill injection, proven performance, competitive edge<br />
+              • <strong>Challenges:</strong> Higher costs, integration time, system learning curve<br />
+              • <strong>Risk:</strong> External habits may conflict with club culture and systems
+            </p>
+            <p>
+              <strong>Recommended Actions:</strong><br />
+              • Establish clear integration protocols for new signings<br />
+              • Invest in academy and development pathways for future balance<br />
+              • Monitor cultural fit and system adoption rates<br />
+              • Plan 3-5 year transition toward more balanced approach
+            </p>
+          </div>
+        </MetricInfoPanel>
       </CardContent>
     </Card>
   );
@@ -267,6 +364,8 @@ interface CohesionScatterPlotProps {
 }
 
 const CohesionScatterPlot = ({ data }: CohesionScatterPlotProps) => {
+  const [showInfo, setShowInfo] = useState(false);
+  
   const getResultColor = (result: string) => {
     switch (result) {
       case "Win": return "#10B981";
@@ -338,6 +437,39 @@ const CohesionScatterPlot = ({ data }: CohesionScatterPlotProps) => {
             <strong>Inconsistent</strong><br />High Strength / High Weakness
           </div>
         </div>
+        
+        <MetricInfoPanel
+          title="In-Season Cohesion Performance"
+          isExpanded={showInfo}
+          onToggle={() => setShowInfo(!showInfo)}
+        >
+          <div className="space-y-3">
+            <p>
+              <strong>What does this show?</strong><br />
+              This scatter plot maps each match against two key dimensions: Cohesion Strength (team combinations working well together) 
+              and Cohesion Weakness (number of gaps or new combinations that create risk).
+            </p>
+            <p>
+              <strong>How to read the quadrants:</strong><br />
+              • <span className="text-green-600">Top-Right (Optimal Zone):</span> High strength, low weakness - ideal performance state<br />
+              • <span className="text-orange-600">Top-Left (Inconsistent):</span> High strength but also high weakness - unpredictable results<br />
+              • <span className="text-yellow-600">Bottom-Right (Solid but Limited):</span> Low weakness but also low strength - steady but not dynamic<br />
+              • <span className="text-red-600">Bottom-Left (Poor Performance):</span> Low strength, high weakness - avoid this combination
+            </p>
+            <p>
+              <strong>Strategic insights:</strong><br />
+              • Green dots (wins) in the optimal zone indicate your best team combinations<br />
+              • Red dots (losses) show which combinations to avoid or develop further<br />
+              • Track movement toward the optimal zone over time to measure cohesion development
+            </p>
+            <p>
+              <strong>Coaching applications:</strong><br />
+              • Use for team selection - favor combinations that historically perform in optimal zone<br />
+              • Identify which new combinations (high weakness) still deliver results<br />
+              • Plan training focus on moving combinations from inconsistent to optimal quadrant
+            </p>
+          </div>
+        </MetricInfoPanel>
       </CardContent>
     </Card>
   );
@@ -608,6 +740,9 @@ const AIRecommendationPanel = ({ cohesionData }: AIRecommendationProps) => {
 
 export default function TeamCohesionAnalytics() {
   const [selectedUnit, setSelectedUnit] = useState("tight_5");
+  const [showAgeDiffInfo, setShowAgeDiffInfo] = useState(false);
+  const [showSigningAgeInfo, setShowSigningAgeInfo] = useState(false);
+  const [showTenureInfo, setShowTenureInfo] = useState(false);
 
   const tenureData = Object.entries(cohesionData.internalTenure).map(([years, count]) => ({
     years: years.replace('_', ' ').replace('years', 'yrs'),
