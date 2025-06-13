@@ -796,6 +796,33 @@ export default function TeamCohesionAnalytics() {
                   </div>
                   <Clock className="h-8 w-8 text-blue-500" />
                 </div>
+                
+                <MetricInfoPanel
+                  title="Age Differential"
+                  isExpanded={showAgeDiffInfo}
+                  onToggle={() => setShowAgeDiffInfo(!showAgeDiffInfo)}
+                >
+                  <div className="space-y-2">
+                    <p>
+                      <strong>Definition:</strong> The average number of years your current squad has been together, 
+                      measuring the collective experience and relationship development within the team.
+                    </p>
+                    <p>
+                      <strong>Calculation:</strong> Based on shared playing time, contract overlaps, and squad tenure. 
+                      Higher values indicate more established relationships and deeper system understanding.
+                    </p>
+                    <p>
+                      <strong>Strategic Value:</strong><br />
+                      • Predicts team chemistry and on-field coordination<br />
+                      • Indicates readiness for complex tactical systems<br />
+                      • Shows stability vs. renewal balance in squad management
+                    </p>
+                    <p>
+                      <strong>Current Status ({cohesionData.ageDifferential}):</strong> This suggests relatively new combinations 
+                      within the squad, requiring focused relationship-building and system integration work.
+                    </p>
+                  </div>
+                </MetricInfoPanel>
               </CardContent>
             </Card>
 
@@ -809,6 +836,33 @@ export default function TeamCohesionAnalytics() {
                   </div>
                   <UserPlus className="h-8 w-8 text-green-500" />
                 </div>
+                
+                <MetricInfoPanel
+                  title="Average Signing Age"
+                  isExpanded={showSigningAgeInfo}
+                  onToggle={() => setShowSigningAgeInfo(!showSigningAgeInfo)}
+                >
+                  <div className="space-y-2">
+                    <p>
+                      <strong>Definition:</strong> The average age at which current squad members were recruited to North Harbour Rugby, 
+                      indicating the club's recruitment strategy and development approach.
+                    </p>
+                    <p>
+                      <strong>Strategic Implications:</strong><br />
+                      • <span className="text-green-600">18-22 years:</span> Youth development focus, long-term investment<br />
+                      • <span className="text-yellow-600">23-25 years:</span> Balanced approach, developing talent with some experience<br />
+                      • <span className="text-red-600">26+ years:</span> Immediate impact focus, established players
+                    </p>
+                    <p>
+                      <strong>Current Status ({cohesionData.avgSigningAge} years):</strong> Indicates a "buy" strategy focusing on 
+                      established, experienced players. This can deliver immediate results but may limit long-term cohesion development.
+                    </p>
+                    <p>
+                      <strong>Optimization Strategy:</strong> Consider balancing with younger signings (22-24 age range) to improve 
+                      TWI while maintaining competitive standards.
+                    </p>
+                  </div>
+                </MetricInfoPanel>
               </CardContent>
             </Card>
 
@@ -824,6 +878,39 @@ export default function TeamCohesionAnalytics() {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+                
+                <MetricInfoPanel
+                  title="Internal Tenure"
+                  isExpanded={showTenureInfo}
+                  onToggle={() => setShowTenureInfo(!showTenureInfo)}
+                >
+                  <div className="space-y-2">
+                    <p>
+                      <strong>Definition:</strong> Distribution of players by their length of service with North Harbour Rugby, 
+                      showing squad stability and experience retention patterns.
+                    </p>
+                    <p>
+                      <strong>Reading the Chart:</strong><br />
+                      • <strong>0 years:</strong> New signings and recent arrivals<br />
+                      • <strong>1 year:</strong> Second-season players, beginning integration<br />
+                      • <strong>2 years:</strong> Established players, strong system knowledge<br />
+                      • <strong>3+ years:</strong> Core leaders, deep institutional knowledge
+                    </p>
+                    <p>
+                      <strong>Current Distribution Analysis:</strong><br />
+                      With {cohesionData.internalTenure["0_years"]} new players and {cohesionData.internalTenure["1_year"]} second-year players, 
+                      the squad shows significant recent recruitment activity. Only {cohesionData.internalTenure["3_years"]} long-term players 
+                      provides limited leadership core.
+                    </p>
+                    <p>
+                      <strong>Strategic Recommendations:</strong><br />
+                      • Focus on retention of 2+ year players to build leadership depth<br />
+                      • Implement mentorship programs pairing new signings with established players<br />
+                      • Plan succession pathways for when core players retire<br />
+                      • Target 3-5 year contract extensions for key cultural leaders
+                    </p>
+                  </div>
+                </MetricInfoPanel>
               </CardContent>
             </Card>
           </div>
