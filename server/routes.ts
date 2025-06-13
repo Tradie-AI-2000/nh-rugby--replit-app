@@ -6,6 +6,7 @@ import { setupNorthHarbourDatabase } from "./setupDatabase";
 import { createStatSportsService, sampleGPSData } from "./statSportsGPS";
 import { GPSData } from "@shared/schema";
 import { importMoneyBallPlayers } from "./moneyBallDataImport";
+import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
 
 export function registerRoutes(app: Express) {
   // Get all players - FRESH START with your North Harbour Rugby data
