@@ -492,7 +492,7 @@ export default function TeamDashboard() {
                   },
                   {
                     id: "moneyball",
-                    title: "MoneyBall Player Value",
+                    title: "Player Value Analysis",
                     description: "Comprehensive player value assessment using WEI, cohesion metrics, and performance analytics",
                     primaryMetric: { value: "$290k", label: "Total Contract Value", trend: "up", trendValue: "+15%" },
                     secondaryMetrics: [
