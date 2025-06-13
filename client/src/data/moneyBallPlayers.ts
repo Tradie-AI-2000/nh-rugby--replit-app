@@ -118,7 +118,7 @@ export const moneyBallPlayersData: MoneyBallPlayer[] = [
   {
     id: "4",
     name: "Tane Edmed",
-    photoUrl: "https://placehold.co/150x150/003366/FFFFFF?text=TE",
+    photoUrl: "https://eu-cdn.rugbypass.com/webp-images/images/players/head/5575.png.webp?maxw=300",
     position: "First Five-Eighth",
     secondaryPosition: "Fullback",
     height: 180,
