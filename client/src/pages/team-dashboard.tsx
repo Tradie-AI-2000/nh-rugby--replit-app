@@ -170,6 +170,110 @@ export default function TeamDashboard() {
               </Card>
             </div>
 
+            {/* Recent Match Analytics for Coaching Staff */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="h-5 w-5 text-nh-red" />
+                  Latest Match Analytics
+                </CardTitle>
+                <CardDescription>Quick access to recent match performance data for coaching analysis</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <Link href="/match-performance">
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-green-500">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h4 className="font-semibold text-sm">vs Auckland</h4>
+                            <p className="text-xs text-gray-600">June 1, 2024 • NPC</p>
+                          </div>
+                          <Badge className="bg-green-100 text-green-800 text-xs">Win</Badge>
+                        </div>
+                        <div className="text-lg font-bold text-green-600 mb-2">32-24</div>
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div>
+                            <div className="font-medium">43%</div>
+                            <div className="text-gray-600">Possession</div>
+                          </div>
+                          <div>
+                            <div className="font-medium">49%</div>
+                            <div className="text-gray-600">Territory</div>
+                          </div>
+                          <div>
+                            <div className="font-medium">86%</div>
+                            <div className="text-gray-600">Tackles</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+
+                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-red-500">
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="font-semibold text-sm">vs Canterbury</h4>
+                          <p className="text-xs text-gray-600">May 25, 2024 • NPC</p>
+                        </div>
+                        <Badge className="bg-red-100 text-red-800 text-xs">Loss</Badge>
+                      </div>
+                      <div className="text-lg font-bold text-red-600 mb-2">18-31</div>
+                      <div className="grid grid-cols-3 gap-2 text-xs">
+                        <div>
+                          <div className="font-medium">38%</div>
+                          <div className="text-gray-600">Possession</div>
+                        </div>
+                        <div>
+                          <div className="font-medium">42%</div>
+                          <div className="text-gray-600">Territory</div>
+                        </div>
+                        <div>
+                          <div className="font-medium">82%</div>
+                          <div className="text-gray-600">Tackles</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-green-500">
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h4 className="font-semibold text-sm">vs Otago</h4>
+                          <p className="text-xs text-gray-600">May 18, 2024 • NPC</p>
+                        </div>
+                        <Badge className="bg-green-100 text-green-800 text-xs">Win</Badge>
+                      </div>
+                      <div className="text-lg font-bold text-green-600 mb-2">28-21</div>
+                      <div className="grid grid-cols-3 gap-2 text-xs">
+                        <div>
+                          <div className="font-medium">51%</div>
+                          <div className="text-gray-600">Possession</div>
+                        </div>
+                        <div>
+                          <div className="font-medium">55%</div>
+                          <div className="text-gray-600">Territory</div>
+                        </div>
+                        <div>
+                          <div className="font-medium">88%</div>
+                          <div className="text-gray-600">Tackles</div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <Link href="/match-performance">
+                  <Button className="w-full bg-nh-red hover:bg-nh-red-600 text-white">
+                    <Trophy className="h-4 w-4 mr-2" />
+                    View Comprehensive Match Analytics
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
@@ -555,7 +659,7 @@ export default function TeamDashboard() {
                     ],
                     status: "good",
                     icon: <Trophy className="w-6 h-6" />,
-                    route: "/performance-analytics"
+                    route: "/match-performance"
                   },
                   {
                     id: "fitness",
