@@ -5,6 +5,7 @@ import { generateCleanPlayersCSV, generateMatchStatsCSV, generateTrainingCSV, ge
 import { setupNorthHarbourDatabase } from "./setupDatabase";
 import { createStatSportsService, sampleGPSData } from "./statSportsGPS";
 import { GPSData } from "@shared/schema";
+import { importMoneyBallPlayers } from "./moneyBallDataImport";
 
 export function registerRoutes(app: Express) {
   // Get all players - FRESH START with your North Harbour Rugby data
@@ -1247,6 +1248,17 @@ export function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error generating injuries CSV:", error);
       res.status(500).json({ error: "Failed to generate CSV template" });
+    }
+  });
+
+  // Import MoneyBall player data from CSV
+  app.post("/api/import/moneyball", async (req, res) => {
+    try {
+      await importMoneyBallPlayers();
+      res.json({ message: "MoneyBall player data imported successfully" });
+    } catch (error) {
+      console.error("Error importing MoneyBall data:", error);
+      res.status(500).json({ error: "Failed to import MoneyBall data" });
     }
   });
 
