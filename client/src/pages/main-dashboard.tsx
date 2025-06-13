@@ -157,7 +157,7 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <Link href="/player-dashboard">
+              <Link href="/players">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
                   Access Player Portal
                 </Button>
@@ -220,7 +220,7 @@ export default function MainDashboard() {
                 </ul>
               </div>
 
-              <Link href="/team-dashboard">
+              <Link href="/team">
                 <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
                   Access Team Portal
                 </Button>
