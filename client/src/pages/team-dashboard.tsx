@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import logoPath from "@assets/menulogo_wo.png";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,6 +15,7 @@ import {
   Activity, 
   Clock,
   TrendingUp,
+  TrendingDown,
   Shield,
   Target,
   Zap,
@@ -21,8 +23,13 @@ import {
   Settings,
   Bell,
   FileText,
-  UserCheck
+  UserCheck,
+  Trophy,
+  Heart,
+  AlertTriangle
 } from "lucide-react";
+
+
 
 export default function TeamDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -408,60 +415,187 @@ export default function TeamDashboard() {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <BarChart3 size={20} />
-                    <span>Team Performance Metrics</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium">Average Fitness Score</span>
-                      <span className="text-2xl font-bold text-green-600">89%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium">Training Attendance</span>
-                      <span className="text-2xl font-bold text-blue-600">94%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium">Injury Rate</span>
-                      <span className="text-2xl font-bold text-orange-600">6.4%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium">Match Win Rate</span>
-                      <span className="text-2xl font-bold text-purple-600">67%</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="space-y-6">
+              {/* Analytics Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    id: "cohesion",
+                    title: "Team Cohesion Analytics",
+                    description: "GAIN LINE Analytics framework tracking team understanding and working relationships",
+                    primaryMetric: { value: "24.1%", label: "Team Work Index", trend: "up", trendValue: "+2.9%" },
+                    secondaryMetrics: [
+                      { label: "In-Season Cohesion", value: 512, color: "text-blue-600" },
+                      { label: "Zero Gaps", value: 17, color: "text-red-600" },
+                      { label: "Squad Stability", value: "2.3", color: "text-orange-600" }
+                    ],
+                    status: "warning",
+                    icon: <Users className="w-6 h-6" />,
+                    route: "/team-cohesion"
+                  },
+                  {
+                    id: "performance",
+                    title: "Match Performance Analytics",
+                    description: "Comprehensive match statistics, win rates, and performance trends analysis",
+                    primaryMetric: { value: "67%", label: "Win Rate", trend: "up", trendValue: "+12%" },
+                    secondaryMetrics: [
+                      { label: "Points For", value: 385, color: "text-green-600" },
+                      { label: "Points Against", value: 298, color: "text-red-600" },
+                      { label: "Point Differential", value: "+87", color: "text-green-600" }
+                    ],
+                    status: "good",
+                    icon: <Trophy className="w-6 h-6" />,
+                    route: "/performance-analytics"
+                  },
+                  {
+                    id: "fitness",
+                    title: "Fitness & Conditioning",
+                    description: "Player fitness levels, training loads, and physical conditioning metrics",
+                    primaryMetric: { value: "89%", label: "Average Fitness Score", trend: "up", trendValue: "+5%" },
+                    secondaryMetrics: [
+                      { label: "Training Attendance", value: "94%", color: "text-blue-600" },
+                      { label: "Load Management", value: "Optimal", color: "text-green-600" },
+                      { label: "Recovery Rate", value: "92%", color: "text-green-600" }
+                    ],
+                    status: "good",
+                    icon: <Activity className="w-6 h-6" />,
+                    route: "/fitness-analytics"
+                  },
+                  {
+                    id: "injury",
+                    title: "Injury Prevention & Medical",
+                    description: "Injury tracking, risk assessment, and medical monitoring dashboard",
+                    primaryMetric: { value: "6.4%", label: "Injury Rate", trend: "down", trendValue: "-1.2%" },
+                    secondaryMetrics: [
+                      { label: "Players Available", value: "42/45", color: "text-green-600" },
+                      { label: "High Risk", value: 3, color: "text-orange-600" },
+                      { label: "Recovery Time", value: "12 days", color: "text-blue-600" }
+                    ],
+                    status: "warning",
+                    icon: <Heart className="w-6 h-6" />,
+                    route: "/medical-analytics"
+                  },
+                  {
+                    id: "gps",
+                    title: "GPS & Movement Analytics",
+                    description: "StatSports GPS data analysis including distance, speed, and workload metrics",
+                    primaryMetric: { value: "8.2km", label: "Avg Distance/Session", trend: "stable", trendValue: "±0.3km" },
+                    secondaryMetrics: [
+                      { label: "Max Speed", value: "32.4 km/h", color: "text-purple-600" },
+                      { label: "Player Load", value: "485", color: "text-blue-600" },
+                      { label: "Sprint Count", value: "23", color: "text-green-600" }
+                    ],
+                    status: "good",
+                    icon: <Zap className="w-6 h-6" />,
+                    route: "/gps-analytics"
+                  },
+                  {
+                    id: "tactical",
+                    title: "Tactical Analysis",
+                    description: "Game strategy analysis, formation effectiveness, and tactical insights",
+                    primaryMetric: { value: "78%", label: "Set Piece Success", trend: "up", trendValue: "+8%" },
+                    secondaryMetrics: [
+                      { label: "Lineout Success", value: "85%", color: "text-green-600" },
+                      { label: "Scrum Success", value: "92%", color: "text-green-600" },
+                      { label: "Turnover Rate", value: "14%", color: "text-orange-600" }
+                    ],
+                    status: "good",
+                    icon: <Target className="w-6 h-6" />,
+                    route: "/tactical-analytics"
+                  }
+                ].map((card) => (
+                  <Link key={card.id} href={card.route}>
+                    <Card className={`cursor-pointer transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 ${
+                      card.status === "good" ? "border-green-200 bg-green-50" :
+                      card.status === "warning" ? "border-orange-200 bg-orange-50" :
+                      card.status === "critical" ? "border-red-200 bg-red-50" : "border-gray-200 bg-white"
+                    }`}>
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            {card.icon}
+                            <CardTitle className="text-sm font-semibold">{card.title}</CardTitle>
+                          </div>
+                          <Badge className={
+                            card.status === "good" ? "bg-green-100 text-green-800" :
+                            card.status === "warning" ? "bg-orange-100 text-orange-800" :
+                            card.status === "critical" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800"
+                          }>
+                            {card.status === "good" ? "Healthy" :
+                             card.status === "warning" ? "Monitor" :
+                             card.status === "critical" ? "Attention" : "Neutral"}
+                          </Badge>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <p className="text-xs text-gray-600 leading-relaxed">{card.description}</p>
+                        
+                        {/* Primary Metric */}
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-2xl font-bold">{card.primaryMetric.value}</span>
+                            <div className="flex items-center gap-1">
+                              {card.primaryMetric.trend === "up" ? <TrendingUp className="w-4 h-4 text-green-600" /> :
+                               card.primaryMetric.trend === "down" ? <TrendingDown className="w-4 h-4 text-red-600" /> :
+                               <BarChart3 className="w-4 h-4 text-gray-600" />}
+                              <span className="text-xs font-medium">{card.primaryMetric.trendValue}</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600">{card.primaryMetric.label}</p>
+                        </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <TrendingUp size={20} />
-                    <span>Performance Trends</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="p-3 bg-green-50 rounded-lg border-l-4 border-l-green-500">
-                      <div className="font-medium text-green-800">Fitness Improving</div>
-                      <div className="text-sm text-green-700">+5% from last month</div>
-                    </div>
-                    <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-l-blue-500">
-                      <div className="font-medium text-blue-800">Attendance Stable</div>
-                      <div className="text-sm text-blue-700">Consistent 94% rate</div>
-                    </div>
-                    <div className="p-3 bg-orange-50 rounded-lg border-l-4 border-l-orange-500">
-                      <div className="font-medium text-orange-800">Monitor Injuries</div>
-                      <div className="text-sm text-orange-700">Slight increase this week</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                        {/* Secondary Metrics */}
+                        <div className="space-y-2 pt-2 border-t border-gray-200">
+                          {card.secondaryMetrics.map((metric, index) => (
+                            <div key={index} className="flex justify-between text-xs">
+                              <span className="text-gray-600">{metric.label}</span>
+                              <span className={`font-medium ${metric.color || 'text-gray-900'}`}>
+                                {metric.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Action Button */}
+                        <Button 
+                          className="w-full mt-4 bg-nh-red hover:bg-nh-red-600 text-white"
+                          size="sm"
+                        >
+                          View Details
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+
+              {/* Quick Stats Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Card className="bg-blue-50 border-blue-200">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-blue-600">6</div>
+                    <p className="text-sm text-blue-800">Active Analytics Modules</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-green-50 border-green-200">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-green-600">5</div>
+                    <p className="text-sm text-green-800">Metrics Improving</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-orange-50 border-orange-200">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-orange-600">1</div>
+                    <p className="text-sm text-orange-800">Areas to Monitor</p>
+                  </CardContent>
+                </Card>
+                <Card className="bg-purple-50 border-purple-200">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-2xl font-bold text-purple-600">45</div>
+                    <p className="text-sm text-purple-800">Players Tracked</p>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
