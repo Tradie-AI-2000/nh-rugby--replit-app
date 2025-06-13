@@ -703,7 +703,7 @@ export function registerRoutes(app: Express) {
     try {
       const { team } = req.params;
       
-      const benchmarkData = {
+      const benchmarkData: { [key: string]: any } = {
         crusaders: {
           twiScore: 45.2,
           inSeasonCohesion: 650,
@@ -731,6 +731,88 @@ export function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error fetching benchmark data:", error);
       res.status(500).json({ error: "Failed to fetch benchmark data" });
+    }
+  });
+
+  // Analytics Overview - General Team Metrics
+  app.get("/api/analytics/overview", async (req, res) => {
+    try {
+      const overviewData = {
+        lastUpdated: new Date().toISOString(),
+        totalModules: 8,
+        improvingMetrics: 6,
+        monitoringAreas: 2,
+        playersTracked: 45
+      };
+      
+      res.json(overviewData);
+    } catch (error) {
+      console.error("Error fetching analytics overview:", error);
+      res.status(500).json({ error: "Failed to fetch analytics overview" });
+    }
+  });
+
+  // Team Performance Overview
+  app.get("/api/team/performance/overview", async (req, res) => {
+    try {
+      const performanceData = {
+        winRate: 67,
+        matchesPlayed: 12,
+        matchesWon: 8,
+        matchesLost: 3,
+        matchesDrawn: 1,
+        pointsFor: 385,
+        pointsAgainst: 298,
+        pointDifferential: 87,
+        avgPointsPerMatch: 32.1,
+        trend: "improving"
+      };
+      
+      res.json(performanceData);
+    } catch (error) {
+      console.error("Error fetching performance overview:", error);
+      res.status(500).json({ error: "Failed to fetch performance overview" });
+    }
+  });
+
+  // Team Medical Overview
+  app.get("/api/team/medical/overview", async (req, res) => {
+    try {
+      const medicalData = {
+        injuryRate: 6.4,
+        playersAvailable: 42,
+        totalPlayers: 45,
+        highRiskPlayers: 3,
+        averageRecoveryTime: 12,
+        injuriesPrevented: 8,
+        medicalInterventions: 23,
+        trend: "improving"
+      };
+      
+      res.json(medicalData);
+    } catch (error) {
+      console.error("Error fetching medical overview:", error);
+      res.status(500).json({ error: "Failed to fetch medical overview" });
+    }
+  });
+
+  // Team Fitness Overview
+  app.get("/api/team/fitness/overview", async (req, res) => {
+    try {
+      const fitnessData = {
+        averageFitnessScore: 89,
+        trainingAttendance: 94,
+        loadManagement: "optimal",
+        recoveryRate: 92,
+        fitnessImprovement: 5,
+        conditioningScore: 87,
+        trend: "improving"
+      };
+      
+      res.json(fitnessData);
+    } catch (error) {
+      console.error("Error fetching fitness overview:", error);
+      res.status(500).json({ error: "Failed to fetch fitness overview" });
     }
   });
 

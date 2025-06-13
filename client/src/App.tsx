@@ -7,6 +7,7 @@ import PlayerDashboard from "@/pages/player-dashboard";
 import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
 import TeamCohesionDashboard from "@/pages/team-cohesion-dashboard";
+import AnalyticsOverview from "@/pages/analytics-overview";
 import DataManagement from "@/pages/data-management";
 import DataIntegration from "@/pages/data-integration";
 import CSVUpload from "@/pages/csv-upload";
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/player-dashboard" component={FeaturesDemo} />
       <Route path="/team-dashboard" component={TeamDashboard} />
       <Route path="/team-cohesion" component={TeamCohesionDashboard} />
+      <Route path="/analytics" component={AnalyticsOverview} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
       <Route path="/" component={MainDashboard} />
