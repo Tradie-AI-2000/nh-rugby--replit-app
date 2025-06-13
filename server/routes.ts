@@ -1603,4 +1603,48 @@ export function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to generate match analysis" });
     }
   });
+
+  // Gemini AI Analysis Routes
+  app.post("/api/gemini/analyze-section", async (req, res) => {
+    try {
+      const { sectionId, matchData, teamStats, playerPerformances } = req.body;
+      
+      const analysisRequest: MatchAnalysisRequest = {
+        sectionId,
+        matchData,
+        teamStats,
+        playerPerformances
+      };
+      
+      const analysis = await geminiAnalyst.analyzeMatchSection(analysisRequest);
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error generating Gemini analysis:", error);
+      res.status(500).json({ error: "Failed to generate AI analysis" });
+    }
+  });
+
+  app.post("/api/gemini/analyze-player", async (req, res) => {
+    try {
+      const { playerId, matchData, playerStats } = req.body;
+      
+      const analysis = await geminiAnalyst.analyzePlayerPerformance(playerId, matchData, playerStats);
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error generating player analysis:", error);
+      res.status(500).json({ error: "Failed to generate player analysis" });
+    }
+  });
+
+  app.post("/api/gemini/generate-match-report", async (req, res) => {
+    try {
+      const { matchData, teamStats, playerPerformances } = req.body;
+      
+      const report = await geminiAnalyst.generateMatchReport(matchData, teamStats, playerPerformances);
+      res.json({ report });
+    } catch (error) {
+      console.error("Error generating match report:", error);
+      res.status(500).json({ error: "Failed to generate match report" });
+    }
+  });
 }
