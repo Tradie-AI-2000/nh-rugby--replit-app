@@ -237,7 +237,10 @@ export default function EnhancedPlayerProfile() {
                   {/* Profile Picture */}
                   <div className="text-center">
                     <Avatar className="w-32 h-32 mx-auto mb-4">
-                      <AvatarImage src={`/api/players/${player.id}/avatar`} alt={`${player.personalDetails.firstName} ${player.personalDetails.lastName}`} />
+                      <AvatarImage 
+                        src={player.personalDetails?.profileImageUrl || `/api/players/${player.id}/avatar`} 
+                        alt={`${player.personalDetails.firstName} ${player.personalDetails.lastName}`} 
+                      />
                       <AvatarFallback className="bg-nh-red text-white text-2xl font-bold">
                         {player.personalDetails.firstName[0]}{player.personalDetails.lastName[0]}
                       </AvatarFallback>

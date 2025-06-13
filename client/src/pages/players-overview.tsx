@@ -204,7 +204,10 @@ export default function PlayersOverview() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                           <Avatar className="w-12 h-12">
-                            <AvatarImage src={`/api/players/${player.id}/avatar`} alt={`${player.personalDetails.firstName} ${player.personalDetails.lastName}`} />
+                            <AvatarImage 
+                              src={player.personalDetails?.profileImageUrl || `/api/players/${player.id}/avatar`} 
+                              alt={`${player.personalDetails.firstName} ${player.personalDetails.lastName}`} 
+                            />
                             <AvatarFallback className="bg-nh-red text-white font-semibold">
                               {player.personalDetails.firstName[0]}{player.personalDetails.lastName[0]}
                             </AvatarFallback>

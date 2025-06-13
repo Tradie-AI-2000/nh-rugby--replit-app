@@ -856,6 +856,38 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  // Get player avatar/profile image
+  app.get("/api/players/:id/avatar", async (req, res) => {
+    try {
+      const player = await storage.getPlayer(req.params.id);
+      if (!player) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      // Check if player has a profile image URL
+      const profileImageUrl = player.personalDetails?.profileImageUrl;
+      
+      if (profileImageUrl) {
+        // Redirect to the actual image URL
+        return res.redirect(profileImageUrl);
+      }
+
+      // Generate fallback avatar with player initials
+      const firstName = player.personalDetails?.firstName || '';
+      const lastName = player.personalDetails?.lastName || '';
+      const initials = `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
+      
+      // Redirect to a placeholder service with initials
+      const fallbackUrl = `https://placehold.co/150x150/003366/FFFFFF?text=${initials}`;
+      res.redirect(fallbackUrl);
+      
+    } catch (error) {
+      console.error("Error fetching player avatar:", error);
+      // Fallback to generic avatar
+      res.redirect("https://placehold.co/150x150/003366/FFFFFF?text=?");
+    }
+  });
+
   // Google Sheets Integration Routes
   
   // Sync player data from Google Sheets
