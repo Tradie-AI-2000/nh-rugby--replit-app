@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 import type { Player } from "@shared/schema";
+import PlayerComparison from "@/components/player-comparison";
 
 interface AdvancedMetricsProps {
   playerId: string;
@@ -50,15 +51,6 @@ export default function AdvancedMetrics({ playerId, player }: AdvancedMetricsPro
     { subject: 'Agility', A: 90, fullMark: 100 },
     { subject: 'Skills', A: 87, fullMark: 100 },
     { subject: 'Leadership', A: 94, fullMark: 100 },
-  ];
-
-  const heatMapData = [
-    { x: 20, y: 15, intensity: 0.8 },
-    { x: 25, y: 30, intensity: 0.9 },
-    { x: 35, y: 25, intensity: 0.7 },
-    { x: 45, y: 20, intensity: 0.95 },
-    { x: 50, y: 35, intensity: 0.6 },
-    { x: 60, y: 28, intensity: 0.85 },
   ];
 
   return (
@@ -178,10 +170,10 @@ export default function AdvancedMetrics({ playerId, player }: AdvancedMetricsPro
             Skills Analysis
           </TabsTrigger>
           <TabsTrigger 
-            value="heatmap"
+            value="comparison"
             className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:border-transparent data-[state=inactive]:text-nh-red data-[state=inactive]:hover:text-white data-[state=inactive]:border-2 data-[state=inactive]:border-nh-red data-[state=inactive]:hover:bg-nh-red data-[state=inactive]:hover:border-nh-red font-semibold py-3 px-3 rounded-md transition-all duration-200"
           >
-            Position Heat Map
+            Compare
           </TabsTrigger>
         </TabsList>
 
@@ -304,51 +296,8 @@ export default function AdvancedMetrics({ playerId, player }: AdvancedMetricsPro
           </Card>
         </TabsContent>
 
-        <TabsContent value="heatmap" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-nh-blue" />
-                Field Position Heat Map
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="relative bg-green-50 rounded-lg p-4" style={{ aspectRatio: '3/2' }}>
-                <div className="absolute inset-0 bg-gradient-to-b from-green-100 to-green-200 rounded-lg opacity-50"></div>
-                <div className="relative h-full">
-                  {/* Rugby field markings */}
-                  <div className="absolute inset-0 border-2 border-white rounded-lg"></div>
-                  <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white transform -translate-x-0.5"></div>
-                  <div className="absolute left-0 right-0 top-1/4 h-0.5 bg-white"></div>
-                  <div className="absolute left-0 right-0 top-3/4 h-0.5 bg-white"></div>
-                  
-                  {/* Heat map points */}
-                  {heatMapData.map((point, index) => (
-                    <div
-                      key={index}
-                      className="absolute w-6 h-6 rounded-full transform -translate-x-1/2 -translate-y-1/2"
-                      style={{
-                        left: `${point.x}%`,
-                        top: `${point.y}%`,
-                        backgroundColor: `rgba(59, 130, 246, ${point.intensity})`,
-                        boxShadow: `0 0 ${point.intensity * 20}px rgba(59, 130, 246, ${point.intensity * 0.5})`,
-                      }}
-                    ></div>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center justify-center space-x-4 text-xs text-slate-600">
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-blue-200 mr-1"></div>
-                    <span>Low Activity</span>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-blue-500 mr-1"></div>
-                    <span>High Activity</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="comparison" className="space-y-4">
+          <PlayerComparison playerId={playerId} player={player} />
         </TabsContent>
       </Tabs>
     </div>
