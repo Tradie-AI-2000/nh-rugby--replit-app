@@ -229,14 +229,53 @@ export default function MainDashboard() {
           </Card>
         </div>
 
-        {/* Experimental Features */}
+        {/* MoneyBall Player Analysis */}
         <div className="mt-12 max-w-4xl mx-auto">
+          <Card className="border-2 border-dashed border-green-300 bg-green-50">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center space-x-2 mb-2">
+                <Badge className="bg-green-100 text-green-800 px-3 py-1">NEW</Badge>
+              </div>
+              <CardTitle className="text-xl text-green-900">MoneyBall Player Value Analysis</CardTitle>
+              <CardDescription className="text-green-700">
+                Comprehensive player value assessment using advanced analytics and cohesion metrics
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
+                <div className="text-center">
+                  <div className="font-bold text-green-800">3</div>
+                  <div className="text-green-600">Players Analyzed</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-green-800">$290k</div>
+                  <div className="text-green-600">Total Contract Value</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-green-800">85.4%</div>
+                  <div className="text-green-600">Avg Work Efficiency</div>
+                </div>
+              </div>
+              <p className="text-sm text-green-700 mb-4">
+                Analyze James Parsons, Bryn Gatland, and Lotu Inisi with comprehensive value calculations including WEI, cohesion impact, and position-specific assessments.
+              </p>
+              <Link href="/moneyball">
+                <Button className="bg-green-600 hover:bg-green-700 text-white">
+                  View MoneyBall Analysis
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Experimental Features */}
+        <div className="mt-8 max-w-4xl mx-auto">
           <Card className="border-2 border-dashed border-purple-300 bg-purple-50">
             <CardHeader className="text-center">
               <div className="flex items-center justify-center space-x-2 mb-2">
                 <Badge className="bg-purple-100 text-purple-800 px-3 py-1">EXPERIMENTAL</Badge>
               </div>
-              <CardTitle className="text-xl text-purple-900">New Player Profile Experience</CardTitle>
+              <CardTitle className="text-xl text-purple-900">Enhanced Player Profile</CardTitle>
               <CardDescription className="text-purple-700">
                 Test the enhanced player profile with improved analytics and modern design
               </CardDescription>
