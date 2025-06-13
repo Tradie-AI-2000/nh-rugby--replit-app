@@ -1,0 +1,137 @@
+Part 1: Rich UX/UI Instructions for a Cohesion-Centric Dashboard
+The goal is to translate the core concepts from your documents—the "Team Work Index" (TWI), the "buy vs. build" strategy, and in-season cohesion markers—into intuitive, actionable visuals for a coach. This requires moving beyond a single player view to squad-level and unit-level analysis.
+
+1. The New "Squad Cohesion" Main Dashboard
+This will become the new landing page, giving coaches a high-level overview of the team's long-term and short-term cohesion status.
+
+UI Components:
+
+A. Team Work Index (TWI) Gauge:
+
+Visual: A large, prominent speedometer-style gauge, center-top of the page.
+
+Data: Displays the overall TWI percentage (e.g., 21.19% from the RUNY example).
+
+Interaction: The needle on the gauge points to the current TWI. It should be color-coded: Red (Low), Amber (Developing), Green (High). A secondary, smaller needle or ghosted line should show the competition's average TWI for immediate comparison.
+
+Tooltip: Hovering over the gauge reveals a breakdown: "An indicator of our club's long-term philosophy and the best predictor of sustainable success. Reflects our 'buy' vs. 'build' strategy."
+
+B. "Build vs. Buy" Strategy Visualizer:
+
+Visual: A dynamic bar chart or scale directly below the TWI gauge. One end is labeled "Build (Internal Experience)" and the other "Buy (External Experience)."
+
+Data: The visualization is driven by the Experience Differential. A positive differential shifts the balance towards "Build," while a negative one shifts it towards "Buy."
+
+Example: For RUNY's -87 differential, the scale would be heavily weighted towards "Buy." The Crusaders' +125 differential would be strongly weighted to "Build."
+
+Text: A simple summary statement below: Currently reliant on externally developed players. High levels of external habits to manage. or Strong foundation of internal experience, promoting deep system understanding.
+
+C. Key TWI Driver Cards:
+
+Visual: A row of three key metric cards, similar to the individual player stat cards.
+.
+
+Card 1: Age Differential: Displays the number (e.g., 1.00). A tooltip explains: "The average time the squad has been together. Higher numbers mean more time to develop understanding."
+
+Card 2: Average Age of Signing: Displays the age (e.g., 26.44). A small sparkline chart could show the trend over the last 3 seasons.
+
+Card 3: Internal Tenure: A bar chart showing the number of players by years of tenure (0, 1, 2, 3+ years). This instantly visualizes squad stability and identifies potential experience gaps.
+
+D. In-Season Cohesion Markers:
+
+Visual: A scatter plot, inspired by the Tottenham and RUNY examples.
+
+X-Axis: "Cohesion Weakness" (Number of "0" Gaps or Catastrophic Gaps).
+
+Y-Axis: "Cohesion Strength" (Total Team In-Season Cohesion score).
+
+Data Points: Each dot represents a game played this season. Dots should be color-coded by result (Win/Loss/Draw). Hovering on a dot shows the opponent and score.
+
+Quadrants: The chart should be divided into four quadrants:
+
+Top-Left: High Strength / High Weakness (Inconsistent)
+
+Top-Right: High Strength / Low Weakness (Optimal Performance Zone)
+
+Bottom-Left: Low Strength / High Weakness (Poor Performance Zone)
+
+Bottom-Right: Low Strength / Low Weakness (Solid but Limited)
+
+2. The "Positional Units" Cohesion View
+This new tab allows coaches to analyze the cohesion within specific tactical groups, as shown in the linkage diagrams from your documents.
+
+UI Components:
+
+A. Unit Selector: A dropdown or button group to select: Tight 5, Attack Spine (8-9-10-12-15), Mid-Field Defence (12-13), Back 3, etc.
+
+B. Cohesion Linkage Diagram:
+
+Visual: A dynamic, interactive version of the diagrams from the RUNY PDF. Player numbers are shown in circles.
+
+Data: The lines connecting players are color-coded based on their shared on-field time or a calculated relationship score.
+
+Black/Red: Weak/Catastrophic "0" Gap (New combination, high risk).
+
+Yellow: Moderate relationship.
+
+Green: Strong relationship (Proven combination).
+
+Interaction: Clicking a player's number highlights all their connections and brings up a mini-profile card with their name and photo. This allows a coach to visually identify the "weakest link" in a unit.
+
+C. Unit Performance Metrics:
+
+Alongside the diagram, display key stats for that specific unit when selected (e.g., For Tight 5, show Scrum Win %, Maul Metres. For Attack Spine, show Line Breaks, Try Assists).
+
+Part 2: Clear Instructions to Leverage AI for Recommendations
+With this rich, integrated data, you can now use a Large Language Model (LLM) like Gemini to act as a virtual coaching assistant. The key is providing the AI with clear context and specific prompts.
+
+Step-by-Step AI Analysis Process
+Context Priming (The "System Prompt"): Before asking a question, you feed the AI the essential background information. This sets the stage and ensures its recommendations are relevant to North Harbour's philosophy.
+
+Instruction: Create a "Get AI Recommendation" button on the dashboard. When clicked, it programmatically sends the following context to the LLM behind the scenes:
+
+"You are an expert rugby union coach and performance analyst for North Harbour Rugby. Your analysis is grounded in the principle that team cohesion is a primary driver of success. You will be given a set of data including long-term cohesion metrics (Team Work Index), in-season performance data, and individual player stats. Your task is to provide clear, actionable recommendations based on this data to help the coaching staff make informed decisions about strategy, selection, and recruitment. Focus on identifying strengths, weaknesses, and opportunities related to team cohesion."
+
+Data Payload: Next, you provide the AI with the specific data you want it to analyze. This data should be sent in a structured format like JSON.
+
+Instruction: The application should gather the data from the relevant dashboard view and format it.
+
+Example JSON Payload for a Recruitment Question:
+
+{
+  "team_twi": "21.19%",
+  "experience_differential": -87,
+  "strategy_focus": "Buy (Externally reliant)",
+  "avg_signing_age": 26.44,
+  "internal_tenure": { "0_years": 14, "1_year": 13, "2_years": 2, "3_years": 5 },
+  "in_season_gaps": { "average_catastrophic_gaps": 8.5 },
+  "target_player_profile": {
+    "name": "John Doe",
+    "position": "Lock",
+    "age": 28,
+    "previous_club_caps": 80,
+    "work_efficiency_index": "91%",
+    "sprint_momentum": 610,
+    "contract_value": 120000
+  }
+}
+
+Action-Oriented Prompts (The "User Question"): Finally, you ask the specific question. The prompts should be designed to elicit strategic advice.
+
+Instruction: The UI should offer coaches a selection of pre-defined questions or a text box to ask their own.
+
+Example Prompts for the AI:
+
+For Recruitment:
+
+"Based on our current TWI and 'buy-focused' strategy, analyze the provided target_player_profile. Does signing this player align with a long-term strategy to improve cohesion, or does it deepen our reliance on external experience? What are the potential risks and rewards regarding team integration?"
+
+For Team Selection:
+
+"Our next opponent has a strong defensive record. Looking at our 'Attack Spine' cohesion linkages and in-season performance, which player combination gives us the highest probability of success? Highlight the combination with the strongest existing relationships and explain why it is preferable, despite any individual player form."
+
+For Strategic Planning:
+
+"Given our negative Experience Differential and high average signing age, provide a 3-point strategic plan for the next two seasons to shift our club towards a 'Build' model. What specific actions should we take in recruitment and our academy pathway to increase our TWI?"
+
+By implementing these UX/UI and AI instructions, you will transform the dashboard from a data repository into a dynamic strategic weapon for North Harbour Rugby.

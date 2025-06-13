@@ -1647,4 +1647,53 @@ export function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to generate match report" });
     }
   });
+
+  app.post("/api/gemini/cohesion-analysis", async (req, res) => {
+    try {
+      const { cohesionData, prompt, analysisType } = req.body;
+      
+      const cohesionPrompt = `You are an expert rugby union coach and performance analyst for North Harbour Rugby. Your analysis is grounded in the principle that team cohesion is a primary driver of success.
+
+Current Team Cohesion Data:
+- Team Work Index (TWI): ${cohesionData.teamWorkIndex}%
+- Experience Differential: ${cohesionData.experienceDifferential}
+- Average Signing Age: ${cohesionData.avgSigningAge} years
+- Strategy Focus: ${cohesionData.strategy}
+- Internal Tenure Distribution: ${JSON.stringify(cohesionData.internalTenure)}
+
+Analysis Request: ${prompt}
+
+Provide a detailed, actionable analysis with specific recommendations for North Harbour Rugby's coaching staff. Focus on practical steps that can be implemented immediately and strategic considerations for long-term success.`;
+
+      const analysisRequest = {
+        sectionId: analysisType,
+        matchData: { analysis_type: "cohesion" },
+        teamStats: cohesionData,
+        playerPerformances: []
+      };
+
+      // Use existing Gemini service but with cohesion-specific prompt
+      const result = await geminiAnalyst.analyzeMatchSection({
+        ...analysisRequest,
+        sectionId: `cohesion_${analysisType}`
+      });
+
+      // Override the analysis with our cohesion prompt
+      const cohesionResult = await geminiAnalyst.model.generateContent(cohesionPrompt);
+      const response = await cohesionResult.response;
+      const analysisText = response.text();
+
+      res.json({
+        section: `cohesion_${analysisType}`,
+        analysis: analysisText,
+        keyInsights: [`TWI: ${cohesionData.teamWorkIndex}%`, `Strategy: ${cohesionData.strategy}`],
+        recommendations: ["Strategic cohesion analysis provided"],
+        performanceRating: Math.round(cohesionData.teamWorkIndex / 10),
+        confidence: 0.95
+      });
+    } catch (error) {
+      console.error("Error generating cohesion analysis:", error);
+      res.status(500).json({ error: "Failed to generate cohesion analysis" });
+    }
+  });
 }

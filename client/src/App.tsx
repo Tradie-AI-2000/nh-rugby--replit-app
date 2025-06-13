@@ -11,6 +11,7 @@ import MoneyBallPlayers from "@/pages/moneyball-players";
 import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
 import TeamCohesionDashboard from "@/pages/team-cohesion-dashboard";
+import TeamCohesionAnalytics from "@/pages/team-cohesion-analytics";
 import AnalyticsOverview from "@/pages/analytics-overview";
 import PerformanceAnalytics from "@/pages/performance-analytics";
 import FitnessAnalytics from "@/pages/fitness-analytics";
@@ -36,7 +37,8 @@ function Router() {
       <Route path="/legacy/player/:playerId" component={PlayerDashboard} />
       <Route path="/team-dashboard" component={TeamDashboard} />
       <Route path="/team" component={TeamDashboard} />
-      <Route path="/team-cohesion" component={TeamCohesionDashboard} />
+      <Route path="/team-cohesion" component={TeamCohesionAnalytics} />
+      <Route path="/team-cohesion-legacy" component={TeamCohesionDashboard} />
       <Route path="/analytics" component={AnalyticsOverview} />
       <Route path="/performance-analytics" component={PerformanceAnalytics} />
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
