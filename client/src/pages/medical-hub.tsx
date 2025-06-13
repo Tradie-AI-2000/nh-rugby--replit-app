@@ -808,85 +808,766 @@ export default function MedicalHub() {
 
           {/* Tab 2: Player Medical Record */}
           <TabsContent value="player-record" className="space-y-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="text-center text-gray-500">
-                  {selectedPlayer ? (
-                    <div>
-                      <UserCheck size={48} className="mx-auto mb-4 text-blue-600" />
-                      <h3 className="text-lg font-semibold mb-2">Player Medical Record</h3>
-                      <p>Detailed medical record for {squadMedicalStatus.find(p => p.id === selectedPlayer)?.name} will be displayed here.</p>
-                      <p className="text-sm mt-2">This will include injury history, screening results, wellness data, and training loads.</p>
+            {selectedPlayer === "tane_edmed" ? (
+              <div className="space-y-6">
+                {/* Player Header */}
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                          <UserCheck className="h-8 w-8 text-blue-600" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-2xl">{taneEdmedMedicalData.personalInfo.name}</CardTitle>
+                          <div className="text-gray-600">
+                            {taneEdmedMedicalData.personalInfo.position} • #{taneEdmedMedicalData.personalInfo.age} years old
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <Badge className="bg-green-100 text-green-800">
+                          {taneEdmedMedicalData.currentStatus.fitness}
+                        </Badge>
+                        <div className="text-sm text-gray-500 mt-1">
+                          Last Assessment: {new Date(taneEdmedMedicalData.currentStatus.lastAssessment).toLocaleDateString()}
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <div>
-                      <UserCheck size={48} className="mx-auto mb-4 text-gray-400" />
-                      <h3 className="text-lg font-semibold mb-2">Select a Player</h3>
-                      <p>Click on a player from the Dashboard to view their detailed medical record.</p>
-                    </div>
-                  )}
+                  </CardHeader>
+                </Card>
+
+                {/* Current Status Overview */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <Card>
+                    <CardContent className="p-4 text-center">
+                      <Heart className="mx-auto mb-2 text-green-600" size={24} />
+                      <div className="text-xl font-bold text-green-600">
+                        {taneEdmedMedicalData.wellnessTracking.currentScore.toFixed(1)}
+                      </div>
+                      <div className="text-xs text-gray-600">Wellness Score</div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4 text-center">
+                      <TrendingUp className="mx-auto mb-2 text-blue-600" size={24} />
+                      <div className="text-xl font-bold text-blue-600">
+                        {taneEdmedMedicalData.trainingLoad.ratio.toFixed(2)}
+                      </div>
+                      <div className="text-xs text-gray-600">ACWR Ratio</div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4 text-center">
+                      <Brain className="mx-auto mb-2 text-purple-600" size={24} />
+                      <div className="text-xl font-bold text-purple-600">
+                        {taneEdmedMedicalData.screeningResults.fms}
+                      </div>
+                      <div className="text-xs text-gray-600">FMS Score</div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardContent className="p-4 text-center">
+                      <Timer className="mx-auto mb-2 text-amber-600" size={24} />
+                      <div className="text-xl font-bold text-amber-600">
+                        {taneEdmedMedicalData.injuryHistory.length}
+                      </div>
+                      <div className="text-xs text-gray-600">Past Injuries</div>
+                    </CardContent>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
+
+                {/* Detailed Sections */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Wellness Tracking */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Heart className="mr-2 h-5 w-5 text-green-600" />
+                        Wellness Tracking
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {taneEdmedMedicalData.wellnessTracking.trends.slice(0, 3).map((trend, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                            <div className="text-sm font-medium">
+                              {new Date(trend.date).toLocaleDateString()}
+                            </div>
+                            <div className="flex space-x-4 text-xs">
+                              <span>Sleep: {trend.sleep}/10</span>
+                              <span>Fatigue: {trend.fatigue}/10</span>
+                              <span>Mood: {trend.mood}/10</span>
+                              <span className="font-bold">Overall: {trend.score}/10</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Training Load */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <TrendingUp className="mr-2 h-5 w-5 text-blue-600" />
+                        Training Load
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Acute Load (7-day)</span>
+                          <span className="font-medium">{taneEdmedMedicalData.trainingLoad.acute}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">Chronic Load (28-day)</span>
+                          <span className="font-medium">{taneEdmedMedicalData.trainingLoad.chronic}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-gray-600">ACWR Ratio</span>
+                          <span className={`font-medium ${
+                            taneEdmedMedicalData.trainingLoad.ratio <= 1.3 && taneEdmedMedicalData.trainingLoad.ratio >= 0.8 
+                              ? "text-green-600" : "text-amber-600"
+                          }`}>
+                            {taneEdmedMedicalData.trainingLoad.ratio.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Injury History */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <ClipboardList className="mr-2 h-5 w-5 text-red-600" />
+                        Injury History
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {taneEdmedMedicalData.injuryHistory.map((injury, index) => (
+                          <div key={index} className="border-l-4 border-red-400 pl-3">
+                            <div className="font-medium text-sm">{injury.injury}</div>
+                            <div className="text-xs text-gray-600">
+                              {new Date(injury.date).toLocaleDateString()} • {injury.daysMissed} days missed
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">{injury.mechanism}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Rehab Program */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Dumbbell className="mr-2 h-5 w-5 text-purple-600" />
+                        Current Rehab Program
+                      </CardTitle>
+                      <CardDescription>
+                        Phase: {taneEdmedMedicalData.rehabProgram.currentPhase}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {taneEdmedMedicalData.rehabProgram.exercises.map((category, index) => (
+                          <div key={index}>
+                            <h4 className="font-medium text-sm mb-2">{category.category}</h4>
+                            <div className="space-y-2">
+                              {category.exercises.slice(0, 2).map((exercise, exerciseIndex) => (
+                                <div key={exerciseIndex} className="text-xs bg-purple-50 p-2 rounded">
+                                  <div className="font-medium">{exercise.name}</div>
+                                  <div className="text-gray-600">
+                                    {exercise.sets && `${exercise.sets} sets`}
+                                    {exercise.reps && ` × ${exercise.reps} reps`}
+                                    {exercise.duration && exercise.duration}
+                                    {exercise.distance && exercise.distance}
+                                    • {exercise.frequency}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            ) : selectedPlayer ? (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="text-center text-gray-500">
+                    <UserCheck size={48} className="mx-auto mb-4 text-blue-600" />
+                    <h3 className="text-lg font-semibold mb-2">Player Medical Record</h3>
+                    <p>Detailed medical record for {squadMedicalStatus.find(p => p.id === selectedPlayer)?.name} will be displayed here.</p>
+                    <p className="text-sm mt-2">This will include injury history, screening results, wellness data, and training loads.</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="text-center text-gray-500">
+                    <UserCheck size={48} className="mx-auto mb-4 text-gray-400" />
+                    <h3 className="text-lg font-semibold mb-2">Select a Player</h3>
+                    <p>Click on a player from the Dashboard to view their detailed medical record.</p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           {/* Tab 3: Injury & Treatment Log */}
           <TabsContent value="injury-log" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Log New Treatment */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Plus className="mr-2 h-5 w-5" />
-                    Log New Injury
+                    Log New Treatment
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center text-gray-500 py-8">
-                    <ClipboardList size={48} className="mx-auto mb-4 text-blue-600" />
-                    <p>Multi-step injury logging form will be implemented here.</p>
-                    <p className="text-sm mt-2">Includes player selection, mechanism, body part, diagnosis, and ETR.</p>
-                  </div>
+                  <Dialog open={showTreatmentDialog} onOpenChange={setShowTreatmentDialog}>
+                    <DialogTrigger asChild>
+                      <Button className="w-full">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Log Treatment Session
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>Log Treatment Session</DialogTitle>
+                        <DialogDescription>
+                          Record a treatment session using SOAP format (Subjective, Objective, Assessment, Plan)
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Player</label>
+                            <Select value={treatmentForm.playerId} onValueChange={(value) => 
+                              setTreatmentForm({...treatmentForm, playerId: value})
+                            }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select player" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {squadMedicalStatus.map((player) => (
+                                  <SelectItem key={player.id} value={player.id}>
+                                    {player.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Treatment Type</label>
+                            <Select value={treatmentForm.type} onValueChange={(value) => 
+                              setTreatmentForm({...treatmentForm, type: value})
+                            }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="preventive">Preventive Treatment</SelectItem>
+                                <SelectItem value="acute">Acute Treatment</SelectItem>
+                                <SelectItem value="rehabilitation">Rehabilitation</SelectItem>
+                                <SelectItem value="maintenance">Maintenance</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium">Subjective</label>
+                          <Textarea 
+                            placeholder="Player's reported symptoms, pain levels, functional limitations..."
+                            value={treatmentForm.subjective}
+                            onChange={(e) => setTreatmentForm({...treatmentForm, subjective: e.target.value})}
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium">Objective</label>
+                          <Textarea 
+                            placeholder="Clinical findings, range of motion, strength tests, palpation..."
+                            value={treatmentForm.objective}
+                            onChange={(e) => setTreatmentForm({...treatmentForm, objective: e.target.value})}
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium">Assessment</label>
+                          <Textarea 
+                            placeholder="Clinical reasoning, diagnosis, progress evaluation..."
+                            value={treatmentForm.assessment}
+                            onChange={(e) => setTreatmentForm({...treatmentForm, assessment: e.target.value})}
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium">Plan</label>
+                          <Textarea 
+                            placeholder="Treatment interventions, exercise prescription, follow-up..."
+                            value={treatmentForm.plan}
+                            onChange={(e) => setTreatmentForm({...treatmentForm, plan: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowTreatmentDialog(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => {
+                          // Here you would normally save to database
+                          console.log("Saving treatment:", treatmentForm);
+                          setShowTreatmentDialog(false);
+                          setTreatmentForm({playerId: "", type: "", subjective: "", objective: "", assessment: "", plan: ""});
+                        }}>
+                          Save Treatment Note
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
 
+              {/* Recent Treatment Entries */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <FileText className="mr-2 h-5 w-5" />
-                    Log Treatment Note
+                    Recent Treatment Notes
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center text-gray-500 py-8">
-                    <FileText size={48} className="mx-auto mb-4 text-green-600" />
-                    <p>S.O.A.P. format treatment logging form will be implemented here.</p>
-                    <p className="text-sm mt-2">Subjective, Objective, Assessment, Plan format for treatment notes.</p>
+                  <div className="space-y-4">
+                    {treatmentEntries.map((entry) => (
+                      <div key={entry.id} className="border rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="font-medium text-sm">
+                            {squadMedicalStatus.find(p => p.id === entry.playerId)?.name}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {new Date(entry.date).toLocaleDateString()} • {entry.therapist}
+                          </div>
+                        </div>
+                        <Badge className="mb-2">{entry.type}</Badge>
+                        <div className="space-y-2 text-xs">
+                          <div>
+                            <span className="font-medium">S:</span> {entry.notes.subjective}
+                          </div>
+                          <div>
+                            <span className="font-medium">O:</span> {entry.notes.objective}
+                          </div>
+                          <div>
+                            <span className="font-medium">A:</span> {entry.notes.assessment}
+                          </div>
+                          <div>
+                            <span className="font-medium">P:</span> {entry.notes.plan}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
             </div>
+
+            {/* Appointment Calendar */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <CalendarPlus className="mr-2 h-5 w-5" />
+                  Appointment Calendar
+                </CardTitle>
+                <CardDescription>
+                  Manage medical appointments and track attendance
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-medium">Upcoming Appointments</h3>
+                  <Dialog open={showAppointmentDialog} onOpenChange={setShowAppointmentDialog}>
+                    <DialogTrigger asChild>
+                      <Button size="sm">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Book Appointment
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Book New Appointment</DialogTitle>
+                        <DialogDescription>
+                          Schedule a medical appointment for a player
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="text-sm font-medium">Player</label>
+                          <Select value={appointmentForm.playerId} onValueChange={(value) => 
+                            setAppointmentForm({...appointmentForm, playerId: value})
+                          }>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select player" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {squadMedicalStatus.map((player) => (
+                                <SelectItem key={player.id} value={player.id}>
+                                  {player.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Date</label>
+                            <Input 
+                              type="date"
+                              value={appointmentForm.date}
+                              onChange={(e) => setAppointmentForm({...appointmentForm, date: e.target.value})}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Time</label>
+                            <Input 
+                              type="time"
+                              value={appointmentForm.time}
+                              onChange={(e) => setAppointmentForm({...appointmentForm, time: e.target.value})}
+                            />
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium">Appointment Type</label>
+                            <Select value={appointmentForm.type} onValueChange={(value) => 
+                              setAppointmentForm({...appointmentForm, type: value})
+                            }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="routine">Routine Check-up</SelectItem>
+                                <SelectItem value="treatment">Treatment Session</SelectItem>
+                                <SelectItem value="specialist">Specialist Review</SelectItem>
+                                <SelectItem value="assessment">Load Assessment</SelectItem>
+                                <SelectItem value="screening">Movement Screening</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium">Staff Member</label>
+                            <Select value={appointmentForm.staff} onValueChange={(value) => 
+                              setAppointmentForm({...appointmentForm, staff: value})
+                            }>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select staff" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Dr. Smith">Dr. Smith</SelectItem>
+                                <SelectItem value="Physio Wilson">Physio Wilson</SelectItem>
+                                <SelectItem value="Dr. Rodriguez">Dr. Rodriguez</SelectItem>
+                                <SelectItem value="Exercise Physiologist">Exercise Physiologist</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium">Notes</label>
+                          <Textarea 
+                            placeholder="Appointment details or special instructions..."
+                            value={appointmentForm.notes}
+                            onChange={(e) => setAppointmentForm({...appointmentForm, notes: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowAppointmentDialog(false)}>
+                          Cancel
+                        </Button>
+                        <Button onClick={() => {
+                          console.log("Booking appointment:", appointmentForm);
+                          setShowAppointmentDialog(false);
+                          setAppointmentForm({playerId: "", date: "", time: "", type: "", staff: "", notes: ""});
+                        }}>
+                          Book Appointment
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
+                <div className="space-y-3">
+                  {appointments.map((appointment) => (
+                    <div key={appointment.id} className={`border rounded-lg p-3 ${
+                      appointment.status === "completed" ? "bg-gray-50" : "bg-white"
+                    }`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-sm">{appointment.playerName}</div>
+                        <div className="flex items-center space-x-2">
+                          {appointment.attendanceStatus === "attended" && (
+                            <Badge className="bg-green-100 text-green-800">Attended</Badge>
+                          )}
+                          {appointment.attendanceStatus === "missed" && (
+                            <Badge className="bg-red-100 text-red-800">Missed</Badge>
+                          )}
+                          <Badge variant={appointment.status === "completed" ? "secondary" : "default"}>
+                            {appointment.status}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-600 space-y-1">
+                        <div>{new Date(appointment.date).toLocaleDateString()} at {appointment.time}</div>
+                        <div>{appointment.type} with {appointment.staff}</div>
+                        <div>{appointment.notes}</div>
+                        {appointment.attendanceStatus === "missed" && (
+                          <div className="text-red-600 font-medium">
+                            ⚠️ No-show affects player value score
+                          </div>
+                        )}
+                      </div>
+                      {appointment.status === "scheduled" && (
+                        <div className="flex space-x-2 mt-2">
+                          <Button size="sm" variant="outline" onClick={() => {
+                            console.log("Mark attended:", appointment.id);
+                          }}>
+                            Mark Attended
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => {
+                            console.log("Mark missed:", appointment.id);
+                          }}>
+                            Mark Missed
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Tab 4: RTP Planner */}
           <TabsContent value="rtp-planner" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Target className="mr-2 h-5 w-5" />
-                  Return-to-Play Planner
-                </CardTitle>
-                <CardDescription>
-                  Manage rehabilitation phases and load progression for injured players
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center text-gray-500 py-8">
-                  <Target size={48} className="mx-auto mb-4 text-blue-600" />
-                  <p>Phased RTP timeline, load management charts, and criteria checklists will be implemented here.</p>
-                  <p className="text-sm mt-2">Includes 5-phase progression with objective criteria for advancement.</p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Active RTP Programs */}
+              <div className="lg:col-span-2 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Target className="mr-2 h-5 w-5" />
+                      Active RTP Programs
+                    </CardTitle>
+                    <CardDescription>
+                      Current rehabilitation programs and exercise prescriptions
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      {/* Mark Tele'a RTP Program */}
+                      <div className="border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="font-medium">Mark Tele'a - Right Hamstring Strain</h3>
+                            <div className="text-sm text-gray-600">Phase 3: Running Progression</div>
+                          </div>
+                          <Badge className="bg-amber-100 text-amber-800">Phase 3/5</Badge>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-medium text-sm mb-2">Current Exercises</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className="bg-blue-50 p-3 rounded">
+                                <div className="font-medium text-sm">Progressive Running</div>
+                                <div className="text-xs text-gray-600">60% intensity • 10min sessions • Daily</div>
+                              </div>
+                              <div className="bg-blue-50 p-3 rounded">
+                                <div className="font-medium text-sm">Eccentric Strengthening</div>
+                                <div className="text-xs text-gray-600">Nordic curls • 3x8 reps • Every other day</div>
+                              </div>
+                              <div className="bg-blue-50 p-3 rounded">
+                                <div className="font-medium text-sm">Dynamic Stretching</div>
+                                <div className="text-xs text-gray-600">Leg swings • 2x15 each direction • Pre-training</div>
+                              </div>
+                              <div className="bg-blue-50 p-3 rounded">
+                                <div className="font-medium text-sm">Agility Drills</div>
+                                <div className="text-xs text-gray-600">Ladder work • 3x30s • 3x/week</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-medium text-sm mb-2">Phase 3 Criteria</h4>
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <CheckCircle className="h-4 w-4 text-green-600" />
+                                <span className="text-sm">Pain-free jogging at 70% intensity</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <CheckCircle className="h-4 w-4 text-green-600" />
+                                <span className="text-sm">Full passive range of motion</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Clock className="h-4 w-4 text-amber-600" />
+                                <span className="text-sm">Sprint mechanics assessment pending</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex space-x-2">
+                            <Button size="sm">Progress to Phase 4</Button>
+                            <Button size="sm" variant="outline">Modify Program</Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Cam Christie RTP Program */}
+                      <div className="border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="font-medium">Cam Christie - Left Shoulder AC Joint Sprain</h3>
+                            <div className="text-sm text-gray-600">Phase 1: Pain Control & Range of Motion</div>
+                          </div>
+                          <Badge className="bg-red-100 text-red-800">Phase 1/5</Badge>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-medium text-sm mb-2">Current Exercises</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className="bg-purple-50 p-3 rounded">
+                                <div className="font-medium text-sm">Pendulum Swings</div>
+                                <div className="text-xs text-gray-600">Gentle mobilization • 2x10 each direction • 3x daily</div>
+                              </div>
+                              <div className="bg-purple-50 p-3 rounded">
+                                <div className="font-medium text-sm">Passive ROM</div>
+                                <div className="text-xs text-gray-600">Assisted flexion/abduction • To tolerance • 2x daily</div>
+                              </div>
+                              <div className="bg-purple-50 p-3 rounded">
+                                <div className="font-medium text-sm">Isometric Holds</div>
+                                <div className="text-xs text-gray-600">Sub-maximal contractions • 5s holds • Pain-free range</div>
+                              </div>
+                              <div className="bg-purple-50 p-3 rounded">
+                                <div className="font-medium text-sm">Scapular Retraction</div>
+                                <div className="text-xs text-gray-600">Band pulls • 2x15 reps • Daily</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-medium text-sm mb-2">Phase 1 Criteria</h4>
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-2">
+                                <Clock className="h-4 w-4 text-amber-600" />
+                                <span className="text-sm">Pain reduction to 2/10 at rest</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Clock className="h-4 w-4 text-amber-600" />
+                                <span className="text-sm">Passive ROM 80% of normal</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <XCircle className="h-4 w-4 text-red-600" />
+                                <span className="text-sm">Minimal swelling and inflammation</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex space-x-2">
+                            <Button size="sm" disabled>Progress to Phase 2</Button>
+                            <Button size="sm" variant="outline">Modify Program</Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tane Edmed Maintenance Program */}
+                      <div className="border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-4">
+                          <div>
+                            <h3 className="font-medium">Tane Edmed - Maintenance Program</h3>
+                            <div className="text-sm text-gray-600">Preventive care and performance optimization</div>
+                          </div>
+                          <Badge className="bg-green-100 text-green-800">Maintenance</Badge>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <h4 className="font-medium text-sm mb-2">Maintenance Exercises</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              <div className="bg-green-50 p-3 rounded">
+                                <div className="font-medium text-sm">Hip Flexor Mobility</div>
+                                <div className="text-xs text-gray-600">90/90 stretches • 3x30s each • Daily</div>
+                              </div>
+                              <div className="bg-green-50 p-3 rounded">
+                                <div className="font-medium text-sm">Single Leg Strength</div>
+                                <div className="text-xs text-gray-600">Hip thrusts • 3x12 each leg • 3x/week</div>
+                              </div>
+                              <div className="bg-green-50 p-3 rounded">
+                                <div className="font-medium text-sm">Core Stability</div>
+                                <div className="text-xs text-gray-600">Copenhagen planks • 2x20s each • 3x/week</div>
+                              </div>
+                              <div className="bg-green-50 p-3 rounded">
+                                <div className="font-medium text-sm">Plyometric Training</div>
+                                <div className="text-xs text-gray-600">Step-ups & bounds • 3x8 reps • 2x/week</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex space-x-2">
+                            <Button size="sm" variant="outline">View Full Program</Button>
+                            <Button size="sm" variant="outline">Update Exercises</Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* RTP Phase Guidelines */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-sm">RTP Phase Guidelines</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4 text-xs">
+                    <div className="border-l-4 border-red-400 pl-3">
+                      <div className="font-medium">Phase 1: Pain Control</div>
+                      <div className="text-gray-600">Rest, ice, gentle mobilization</div>
+                    </div>
+                    <div className="border-l-4 border-amber-400 pl-3">
+                      <div className="font-medium">Phase 2: Restoration</div>
+                      <div className="text-gray-600">ROM, basic strengthening</div>
+                    </div>
+                    <div className="border-l-4 border-blue-400 pl-3">
+                      <div className="font-medium">Phase 3: Running</div>
+                      <div className="text-gray-600">Progressive running program</div>
+                    </div>
+                    <div className="border-l-4 border-purple-400 pl-3">
+                      <div className="font-medium">Phase 4: Skills</div>
+                      <div className="text-gray-600">Sport-specific movements</div>
+                    </div>
+                    <div className="border-l-4 border-green-400 pl-3">
+                      <div className="font-medium">Phase 5: Return</div>
+                      <div className="text-gray-600">Full training clearance</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Tab 5: Communication Hub */}
@@ -898,12 +1579,73 @@ export default function MedicalHub() {
                     <MessageSquare className="mr-2 h-5 w-5" />
                     Create Coach Update
                   </CardTitle>
+                  <CardDescription>
+                    Send player availability updates to coaching staff via multiple channels
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center text-gray-500 py-8">
-                    <MessageSquare size={48} className="mx-auto mb-4 text-blue-600" />
-                    <p>Simple form to send player availability updates to coaching staff.</p>
-                    <p className="text-sm mt-2">Clear status categories and concise coach notes.</p>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Player</label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select player" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {squadMedicalStatus.map((player) => (
+                            <SelectItem key={player.id} value={player.id}>
+                              {player.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div>
+                      <label className="text-sm font-medium">Update Type</label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select update type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="available">Available for Selection</SelectItem>
+                          <SelectItem value="modified">Modified Training</SelectItem>
+                          <SelectItem value="unavailable">Unavailable</SelectItem>
+                          <SelectItem value="return">Return to Play</SelectItem>
+                          <SelectItem value="monitoring">Injury Monitoring</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div>
+                      <label className="text-sm font-medium">Message</label>
+                      <Textarea 
+                        placeholder="Brief update for coaching staff..."
+                        rows={3}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="text-sm font-medium">Delivery Method</label>
+                      <div className="flex space-x-2 mt-2">
+                        <Button size="sm" className="flex items-center space-x-2">
+                          <Mail className="h-4 w-4" />
+                          <span>Email</span>
+                        </Button>
+                        <Button size="sm" variant="outline" className="flex items-center space-x-2">
+                          <MessageCircle className="h-4 w-4" />
+                          <span>Text</span>
+                        </Button>
+                        <Button size="sm" variant="outline" className="flex items-center space-x-2">
+                          <Phone className="h-4 w-4" />
+                          <span>Call</span>
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <Button className="w-full">
+                      Send Update
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -912,14 +1654,52 @@ export default function MedicalHub() {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Clock className="mr-2 h-5 w-5" />
-                    Update Feed
+                    Communication Feed
                   </CardTitle>
+                  <CardDescription>
+                    Recent updates sent to coaching staff
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-center text-gray-500 py-8">
-                    <Clock size={48} className="mx-auto mb-4 text-green-600" />
-                    <p>Chronological log of all communications sent to coaching staff.</p>
-                    <p className="text-sm mt-2">Provides audit trail of medical communications.</p>
+                  <div className="space-y-3">
+                    <div className="border rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-sm">Mark Tele'a - Modified Training</div>
+                        <div className="flex items-center space-x-2">
+                          <Mail className="h-3 w-3 text-blue-600" />
+                          <span className="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        Hamstring strain - modified running drills only. Progress review in 3 days.
+                      </div>
+                    </div>
+                    
+                    <div className="border rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-sm">Cam Christie - Unavailable</div>
+                        <div className="flex items-center space-x-2">
+                          <Phone className="h-3 w-3 text-green-600" />
+                          <span className="text-xs text-gray-500">Yesterday</span>
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        Shoulder AC joint sprain - 3-4 weeks recovery timeline. Specialist review scheduled.
+                      </div>
+                    </div>
+                    
+                    <div className="border rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="font-medium text-sm">Tane Edmed - Available</div>
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="h-3 w-3 text-purple-600" />
+                          <span className="text-xs text-gray-500">2 days ago</span>
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        Full training clearance - excellent wellness scores and load management.
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
