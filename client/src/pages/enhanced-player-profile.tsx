@@ -217,9 +217,19 @@ export default function EnhancedPlayerProfile() {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="profile">Player Profile</TabsTrigger>
-            <TabsTrigger value="value-analysis">Player Value Analysis</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-lg">
+            <TabsTrigger 
+              value="profile" 
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+            >
+              Player Profile
+            </TabsTrigger>
+            <TabsTrigger 
+              value="value-analysis" 
+              className="data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900 font-semibold py-3 px-6 rounded-md transition-all duration-200"
+            >
+              Player Value Analysis
+            </TabsTrigger>
           </TabsList>
 
           {/* Player Profile Tab */}
