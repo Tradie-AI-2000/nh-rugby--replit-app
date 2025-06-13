@@ -1,0 +1,93 @@
+{
+  // Basic Metrics/Info
+  "name": "Marty Veale",
+  "photo_url": "https://placehold.co/400x400/cccccc/ffffff?text=Marty+Veale", // Placeholder, replace with actual image URL
+  "height_cm": 198, // Example: 6'6"
+  "weight_kg": 115, // Example: 115kg
+  "position": "Lock",
+  "secondary_position": "Flanker",
+  "club": "North Harbour", // Player's local club (e.g., Takapuna, Northcote)
+  "date_of_birth": "1997-03-20", // Example format YYYY-MM-DD
+  "age": 27, // Calculated from DOB
+  "jersey_number": 4, // Example
+
+  // Team History (Array of objects for past seasons/teams)
+  "team_history": [
+    {
+      "season": "2024",
+      "team_name": "North Harbour",
+      "competition": "Bunnings Warehouse NPC",
+      "games_played": 7,
+      "minutes_played": 542,
+      "tries_scored": 1,
+      "points_scored": 5
+    },
+    {
+      "season": "2023",
+      "team_name": "North Harbour",
+      "competition": "Bunnings Warehouse NPC",
+      "games_played": 9,
+      "minutes_played": 680,
+      "tries_scored": 2,
+      "points_scored": 10
+    }
+  ],
+
+  // Contract Information
+  "date_signed": "2024-02-01",
+  "off_contract_date": "2025-12-31",
+  "contract_value_usd": 85000, // Example contract value in USD
+
+  // Cohesion & Moneyball Metrics (Derived/Calculated)
+  "cohesion_score": 75, // From Cohesion Analytics, hypothetical player-level score
+  "cohesion_markers_snapshot": { // Detailed player cohesion data if available
+    "working_gaps_0_5_defensive": 3,
+    "working_gaps_attack_spine": 1
+  },
+  "s_and_c_score": { // Strength & Conditioning assessment
+    "power_rating": 8.5, // 1-10 scale
+    "endurance_rating": 7.8,
+    "injury_risk_index": "Low" // Low, Medium, High
+  },
+  "medical_score": { // Medical staff input
+    "days_injured_this_season": 10,
+    "injury_prone": false,
+    "availability_percentage": 95 // % of training/games available
+  },
+  "personality_assessment_score": { // Input from coaches/psychologists
+    "leadership_rating": 8, // 1-10
+    "team_fit_rating": 9,
+    "communication_rating": 7
+  },
+  "attendance_records_score": { // From admin
+    "training_attendance_percent": 98,
+    "meeting_attendance_percent": 100
+  },
+
+  // Contributions Metrics (from CSV)
+  "contributions_data": {
+    "total_contributions": 389,
+    "avg_contributions": 57.37,
+    "positive_contributions": 337,
+    "positive_percent": 86.63,
+    "negative_contributions": 52,
+    "work_efficiency_index": 285,
+    "wei_percent": 73.26,
+    "player_work_rate": 71.77,
+    "x_factor_contributions": 21,
+    "x_factor_percent": 5.40,
+    "penalty_percent": 11.54,
+    // Include other key KPIs from the CSV here that contribute to the above
+    // Example: Carries, Tackles, Breakdown success, Try contributions etc.
+    "total_carries": 76,
+    "dominant_carry_percent": 7.89,
+    "tackle_completion_percent": 89.00,
+    "breakdown_success_percent": 93.06,
+    "tries_scored_kpi": 1, // Renamed to avoid clash with "tries_scored" in team_history
+    "try_assists_kpi": 0,
+    "turnovers_won_kpi": 1 // Example, from Tackle/Breakdown section
+  },
+
+  // Overall Player Value Index (The "Moneyball" score)
+  "overall_player_value_index": 0 // This will be a calculated field in the frontend
+}

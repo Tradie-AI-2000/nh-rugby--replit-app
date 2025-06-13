@@ -26,6 +26,8 @@ import {
   CheckCircle
 } from "lucide-react";
 import type { Player } from "@shared/schema";
+import { type PlayerValueMetrics, calculatePlayerValue } from "@/lib/playerValueCalculation";
+import PlayerValueScorecard from "@/components/player-value-scorecard";
 
 export default function ExperimentalPlayerProfile() {
   const { playerId } = useParams<{ playerId: string }>();
@@ -354,24 +356,46 @@ export default function ExperimentalPlayerProfile() {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Advanced Analytics</CardTitle>
-                <CardDescription>
-                  AI-powered insights and predictive analytics for player development
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12">
-                  <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Advanced Analytics Coming Soon</h3>
-                  <p className="text-gray-600 max-w-md mx-auto">
-                    This experimental section will include AI-powered performance predictions, 
-                    advanced statistical analysis, and personalized development recommendations.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            {/* MoneyBall Player Value Analysis */}
+            {(() => {
+              // Convert existing player data to MoneyBall metrics format
+              const latestGameStats = player.gameStats?.[player.gameStats.length - 1];
+              const latestPhysical = player.physicalAttributes?.[player.physicalAttributes.length - 1];
+              
+              const moneyBallMetrics: PlayerValueMetrics = {
+                position: player.rugbyProfile?.primaryPosition || 'Back Row',
+                secondaryPosition: player.rugbyProfile?.secondaryPositions?.[0],
+                weight: latestPhysical?.weight || 100,
+                contractValue: 85000, // Sample contract value
+                
+                // Performance Metrics (using existing data + sample MoneyBall data)
+                minutesPlayed: latestGameStats?.minutesPlayed || 542,
+                gamesPlayed: latestGameStats?.matchesPlayed || 7,
+                totalContributions: 389, // Sample from CSV
+                positiveContributions: 337,
+                negativeContributions: 52,
+                xFactorContributions: 21,
+                penaltyCount: latestGameStats?.penalties || 8,
+                
+                // Physical Metrics
+                sprintTime10m: 1.81, // Sample sprint time
+                totalCarries: 76,
+                dominantCarryPercent: 7.89,
+                tackleCompletionPercent: 89.0,
+                breakdownSuccessPercent: 93.06,
+                triesScored: latestGameStats?.tries || 1,
+                tryAssists: 0,
+                turnoversWon: latestGameStats?.turnovers || 1,
+                
+                // Cohesion Factors (sample data - would come from coaching staff)
+                attendanceScore: 9.5,
+                scScore: 8.8,
+                medicalScore: 9.8,
+                personalityScore: 9.2
+              };
+
+              return <PlayerValueScorecard metrics={moneyBallMetrics} />;
+            })()}
           </TabsContent>
 
           <TabsContent value="physical" className="space-y-6">

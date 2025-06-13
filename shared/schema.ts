@@ -461,6 +461,88 @@ export const players = pgTable("players", {
     turnovers: number;
     penalties: number;
   }>>(),
+  // MoneyBall Contributions Data (from CSV analysis)
+  contributionsData: jsonb("contributions_data").$type<{
+    totalContributions: number;
+    avgContributions: number;
+    positiveContributions: number;
+    positivePercent: number;
+    negativeContributions: number;
+    workEfficiencyIndex: number;
+    weiPercent: number;
+    playerWorkRate: number;
+    xFactorContributions: number;
+    xFactorPercent: number;
+    penaltyPercent: number;
+    // Detailed performance breakdowns
+    totalCarries: number;
+    dominantCarryPercent: number;
+    tackleCompletionPercent: number;
+    breakdownSuccessPercent: number;
+    completedPasses: number;
+    passAccuracy: number;
+    lineoutThrowingSuccess?: number;
+    tryAssists: number;
+    turnoversWon: number;
+    metersGained?: number;
+    linebreaks?: number;
+    offloads?: number;
+  }>(),
+  // Cohesion & Team Impact Metrics
+  cohesionMetrics: jsonb("cohesion_metrics").$type<{
+    cohesionScore: number; // Calculated team cohesion impact
+    attendanceScore: number; // 0-10 scale
+    scScore: number; // Strength & Conditioning commitment (0-10)
+    medicalScore: number; // Robustness/availability (0-10)
+    personalityScore: number; // Leadership, team-fit, communication (0-10)
+    availabilityPercentage: number; // % of training/games available
+    leadershipRating: number; // 1-10 scale
+    teamFitRating: number; // 1-10 scale
+    communicationRating: number; // 1-10 scale
+  }>(),
+  // Contract & Financial Information
+  contractInfo: jsonb("contract_info").$type<{
+    dateSigned: string;
+    offContractDate: string;
+    contractValue: number; // USD
+    club: string; // Local club affiliation
+    teamHistory: Array<{
+      season: string;
+      teamName: string;
+      competition: string;
+      gamesPlayed: number;
+      minutesPlayed: number;
+      triesScored: number;
+      pointsScored: number;
+    }>;
+  }>(),
+  // Character & Intangibles
+  characterProfile: jsonb("character_profile").$type<{
+    gritNote: string; // Stories of overcoming adversity
+    communityNote: string; // Community involvement and "why"
+    familyBackground: string; // Background context
+    mentalToughness: number; // 1-10 scale
+    workEthic: number; // 1-10 scale
+    coachability: number; // 1-10 scale
+  }>(),
+  // Physical Performance Metrics
+  physicalPerformance: jsonb("physical_performance").$type<{
+    sprintTime10m?: number; // seconds
+    sprintTime40m?: number; // seconds
+    benchPress?: number; // kg
+    squat?: number; // kg
+    deadlift?: number; // kg
+    verticalJump?: number; // cm
+    beepTest?: number; // level
+    injuryHistory: Array<{
+      date: string;
+      injury: string;
+      daysOut: number;
+      recurring: boolean;
+    }>;
+    injuryRiskIndex: 'Low' | 'Medium' | 'High';
+    daysInjuredThisSeason: number;
+  }>(),
   injuries: jsonb("injuries").notNull().$type<Array<{
     id: string;
     date: string;

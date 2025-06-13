@@ -1,0 +1,109 @@
+As an expert rugby administrator and coach, I understand the need for a comprehensive player profile that goes beyond traditional metrics and incorporates "moneyball" concepts. The goal is to identify and quantify a player's true value, including their impact on team cohesion, which is crucial for sustained success.
+
+Based on the PLAYER kpiS - Sheet1.csv analysis, and integrating it with the cohesion concepts from the previous documents, here are the instructions for building a comprehensive player profile within your Replit-based SaaS, "NorthHarbourPerformance."
+
+Analysis of PLAYER kpiS - Sheet1.csv
+The CSV file provides a rich set of granular performance metrics. The most relevant columns for our "moneyball" concept and the 'Contributions' section are:
+
+Game Play:
+
+Minutes Played
+Games Played
+Carries:
+
+Total Carries
+Average Carries Per Game
+Dominant Carry
+Effective Carry
+Ineffective Carry
+Dominant Carry %
+Counter Attack Linebreak
+Linebreak
+Try Scored
+Break Assist
+Try Assist
+Try and Break Assist
+Passes:
+
+Completed Passes
+Forward Pass
+Interceptions
+Failed Pass
+Incomplete Passes
+Off Target
+Pass Error
+Breakdown:
+
+1st Arrival
+2nd Arrival
+3rd Arrival
+4th Arrival
+5th Arrival
+Secure
+Attended Breakdown
+Clearouts
+Failed Clearouts
+Breakdown %
+Cleaned Out
+Not Clearing
+Nuisance
+Penalty Conceded
+Penalty Won
+Turnover Won
+Tackles:
+
+Tackle Attempts
+Completion %
+Average Tackles Per Game
+Missed
+Dominant Tackles
+Neutral Tackles
+Negative Tackles
+Dominant %
+Offload Allowed
+Penalty Conceded
+Try Conceded
+Try Saver
+Turnover Won
+Lineouts:
+
+Clean Catch
+Clean Tapback
+Scrappy Catch
+Scrappy Tapback
+Lineout Delivery %
+Goal Kicking:
+
+Goal Kick Made
+Goal Kick Missed
+Goal Kick %
+Penalties:
+
+Freekicks Conceded
+FK Lineout
+FK Scrum
+Penalties Conceded (General)
+Scrum Penalty
+Foul Play
+Lineout (Penalty context)
+Maul (Penalty context)
+Offside (Penalty context)
+Ruck (Penalty context)
+Tackle (Penalty context)
+Other (Penalty context)
+Red (Cards)
+Yellow (Cards)
+Crucially, the 'Contributions' section is the most direct link to player value:
+
+Total Contributions
+Avg Contributions
+Positive Contributions
+Positive %
+Negative Contributions
+Work Efficiency Index
+WEI%
+Player Work Rate
+X-Factor Contributions
+X-Factor %
+Penalty %
+These "Contributions" metrics appear to be derived or aggregated from the granular performance data. The goal is to show these prominently and link them to the "moneyball" concept.
