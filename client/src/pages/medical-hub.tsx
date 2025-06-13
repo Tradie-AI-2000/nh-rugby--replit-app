@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import logoPath from "@assets/menulogo_wo.png";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { 
@@ -30,8 +29,28 @@ import {
   AlertCircle,
   Eye,
   Plus,
-  BarChart3
+  BarChart3,
+  Phone,
+  Mail,
+  MessageCircle,
+  Dumbbell,
+  Timer,
+  CalendarPlus,
+  Brain
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 // Comprehensive medical data for all squad players
 const squadMedicalStatus = [
@@ -178,6 +197,219 @@ const atRiskPlayers = [
   }
 ];
 
+// Comprehensive medical data for Tane Edmed
+const taneEdmedMedicalData = {
+  personalInfo: {
+    id: "tane_edmed",
+    name: "Tane Edmed",
+    position: "First-Five",
+    dateOfBirth: "2000-04-29",
+    age: 24,
+    height: "180cm",
+    weight: "85kg",
+    emergencyContact: {
+      name: "Sarah Edmed",
+      relationship: "Mother",
+      phone: "555-777-8888"
+    }
+  },
+  currentStatus: {
+    fitness: "Available",
+    medical: "Cleared",
+    lastAssessment: "2024-06-12",
+    nextReview: "2024-06-26"
+  },
+  wellnessTracking: {
+    currentScore: 9.1,
+    trends: [
+      { date: "2024-06-13", score: 9.1, sleep: 8.5, fatigue: 2, mood: 9, stress: 2 },
+      { date: "2024-06-12", score: 8.8, sleep: 8.2, fatigue: 3, mood: 8, stress: 3 },
+      { date: "2024-06-11", score: 9.2, sleep: 9.0, fatigue: 1, mood: 9, stress: 2 },
+      { date: "2024-06-10", score: 8.9, sleep: 8.0, fatigue: 2, mood: 9, stress: 2 },
+      { date: "2024-06-09", score: 9.0, sleep: 8.5, fatigue: 2, mood: 8, stress: 3 }
+    ]
+  },
+  trainingLoad: {
+    acute: 342,
+    chronic: 358,
+    ratio: 0.95,
+    weeklyLoads: [
+      { week: "Week 1", load: 385, rpe: 6.2 },
+      { week: "Week 2", load: 420, rpe: 6.8 },
+      { week: "Week 3", load: 398, rpe: 6.5 },
+      { week: "Week 4", load: 342, rpe: 5.9 }
+    ]
+  },
+  injuryHistory: [
+    {
+      id: "injury_001",
+      date: "2024-02-18",
+      injury: "Right Hip Flexor Strain Grade 1",
+      mechanism: "Sharp change of direction during training",
+      bodyPart: "Hip/Groin",
+      severity: "Minor",
+      daysMissed: 5,
+      returnDate: "2024-02-23",
+      treatments: [
+        { date: "2024-02-18", type: "Initial Assessment", therapist: "Dr. Smith", notes: "Acute onset, grade 1 strain" },
+        { date: "2024-02-20", type: "Manual Therapy", therapist: "Physio Jones", notes: "Soft tissue work, ROM exercises" },
+        { date: "2024-02-22", type: "Exercise Therapy", therapist: "Physio Jones", notes: "Progressive loading protocol" }
+      ]
+    },
+    {
+      id: "injury_002", 
+      date: "2023-11-30",
+      injury: "Left Ankle Sprain Grade 1",
+      mechanism: "Landed awkwardly in tackle",
+      bodyPart: "Ankle",
+      severity: "Minor",
+      daysMissed: 10,
+      returnDate: "2023-12-10",
+      treatments: [
+        { date: "2023-11-30", type: "Initial Assessment", therapist: "Dr. Smith", notes: "ATFL involvement, minimal swelling" },
+        { date: "2023-12-02", type: "Manual Therapy", therapist: "Physio Wilson", notes: "Joint mobilization, proprioception work" },
+        { date: "2023-12-05", type: "Exercise Therapy", therapist: "Physio Wilson", notes: "Balance and strength progression" }
+      ]
+    }
+  ],
+  screeningResults: {
+    fms: 18,
+    lastScreening: "2024-01-15",
+    results: {
+      deepSquat: 3,
+      hurdleStep: 3,
+      inlineLunge: 3,
+      shoulderMobility: 3,
+      activeStraightLeg: 2,
+      trunkStability: 3,
+      rotaryStability: 2
+    },
+    recommendations: [
+      "Continue hamstring flexibility work",
+      "Maintain excellent movement patterns",
+      "Monitor rotary stability during high load periods"
+    ]
+  },
+  medicalHistory: {
+    allergies: ["None known"],
+    medications: ["None"],
+    pastSurgeries: ["None"],
+    familyHistory: ["No significant rugby-related injuries in family"],
+    bloodType: "O+"
+  },
+  rehabProgram: {
+    currentPhase: "Maintenance",
+    exercises: [
+      {
+        category: "Mobility",
+        exercises: [
+          { name: "Hip Flexor Stretch", sets: 3, duration: "30s each", frequency: "Daily" },
+          { name: "Thoracic Spine Rotation", sets: 2, reps: 10, frequency: "Daily" },
+          { name: "Ankle Circles", sets: 2, reps: 15, frequency: "Pre-training" }
+        ]
+      },
+      {
+        category: "Strength",
+        exercises: [
+          { name: "Single Leg Hip Thrust", sets: 3, reps: 12, frequency: "3x/week" },
+          { name: "Copenhagen Plank", sets: 2, duration: "20s each", frequency: "3x/week" },
+          { name: "Calf Raises", sets: 3, reps: 15, frequency: "Daily" }
+        ]
+      },
+      {
+        category: "Performance",
+        exercises: [
+          { name: "Plyometric Step-ups", sets: 3, reps: 8, frequency: "2x/week" },
+          { name: "Lateral Bounds", sets: 3, reps: 6, frequency: "2x/week" },
+          { name: "Sprint Mechanics", sets: 4, distance: "20m", frequency: "2x/week" }
+        ]
+      }
+    ]
+  }
+};
+
+// Treatment log entries
+const treatmentEntries = [
+  {
+    id: "treatment_001",
+    playerId: "tane_edmed",
+    date: "2024-06-12",
+    type: "Preventive Treatment",
+    therapist: "Sarah Wilson",
+    duration: 30,
+    notes: {
+      subjective: "Player reports excellent recovery, no pain or stiffness",
+      objective: "Full ROM hip flexors, no palpable tension. Excellent movement quality",
+      assessment: "Maintenance phase progressing well",
+      plan: "Continue current exercise program, monitor load progression"
+    }
+  },
+  {
+    id: "treatment_002", 
+    playerId: "mark_telea",
+    date: "2024-06-13",
+    type: "Acute Treatment",
+    therapist: "Mike Johnson",
+    duration: 45,
+    notes: {
+      subjective: "Mild hamstring tightness following yesterday's training",
+      objective: "Grade 1 strain right biceps femoris, minimal swelling",
+      assessment: "Early intervention preventing progression",
+      plan: "Manual therapy, modified training load for 3-5 days"
+    }
+  }
+];
+
+// Appointment calendar data
+const appointments = [
+  {
+    id: "appt_001",
+    playerId: "tane_edmed",
+    playerName: "Tane Edmed",
+    date: "2024-06-15",
+    time: "09:00",
+    type: "Routine Check-up",
+    staff: "Dr. Smith",
+    status: "scheduled",
+    notes: "Hip flexor follow-up assessment"
+  },
+  {
+    id: "appt_002",
+    playerId: "cam_christie", 
+    playerName: "Cam Christie",
+    date: "2024-06-17",
+    time: "14:30",
+    type: "Specialist Review",
+    staff: "Dr. Rodriguez",
+    status: "scheduled",
+    notes: "Orthopaedic review for shoulder AC joint"
+  },
+  {
+    id: "appt_003",
+    playerId: "mark_telea",
+    playerName: "Mark Tele'a", 
+    date: "2024-06-14",
+    time: "11:00",
+    type: "Treatment Session",
+    staff: "Physio Wilson",
+    status: "completed",
+    attendanceStatus: "attended",
+    notes: "Hamstring progression session"
+  },
+  {
+    id: "appt_004",
+    playerId: "bryn_gordon",
+    playerName: "Bryn Gordon",
+    date: "2024-06-13", 
+    time: "16:00",
+    type: "Load Assessment",
+    staff: "Exercise Physiologist",
+    status: "completed",
+    attendanceStatus: "missed",
+    notes: "No-show for ACWR review - affects player value score"
+  }
+];
+
 const upcomingMilestones = [
   {
     date: "2024-06-15",
@@ -226,6 +458,24 @@ const upcomingMilestones = [
 export default function MedicalHub() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
+  const [showTreatmentDialog, setShowTreatmentDialog] = useState(false);
+  const [showAppointmentDialog, setShowAppointmentDialog] = useState(false);
+  const [treatmentForm, setTreatmentForm] = useState({
+    playerId: "",
+    type: "",
+    subjective: "",
+    objective: "",
+    assessment: "",
+    plan: ""
+  });
+  const [appointmentForm, setAppointmentForm] = useState({
+    playerId: "",
+    date: "",
+    time: "",
+    type: "",
+    staff: "",
+    notes: ""
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
