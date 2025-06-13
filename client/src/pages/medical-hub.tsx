@@ -545,13 +545,20 @@ export default function MedicalHub() {
 
       <div className="container mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsList className="grid w-full grid-cols-6 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
             <TabsTrigger 
               value="dashboard"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-blue-700 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
               <Activity className="mr-2 h-4 w-4" />
               Dashboard
+            </TabsTrigger>
+            <TabsTrigger 
+              value="players"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-blue-700 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              <Users className="mr-2 h-4 w-4" />
+              Players
             </TabsTrigger>
             <TabsTrigger 
               value="player-record"
@@ -806,7 +813,138 @@ export default function MedicalHub() {
             </div>
           </TabsContent>
 
-          {/* Tab 2: Player Medical Record */}
+          {/* Tab 2: Players */}
+          <TabsContent value="players" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              {/* Player Search and Filters */}
+              <div className="lg:col-span-1">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Medical Filters</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Medical Status</label>
+                      <select className="w-full mt-1 p-2 border rounded-md">
+                        <option>All Players</option>
+                        <option>Available</option>
+                        <option>Injured</option>
+                        <option>Modified Training</option>
+                        <option>Return to Play</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Risk Level</label>
+                      <select className="w-full mt-1 p-2 border rounded-md">
+                        <option>All Risk Levels</option>
+                        <option>Low Risk</option>
+                        <option>Moderate Risk</option>
+                        <option>High Risk</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Position</label>
+                      <select className="w-full mt-1 p-2 border rounded-md">
+                        <option>All Positions</option>
+                        <option>Front Row</option>
+                        <option>Second Row</option>
+                        <option>Back Row</option>
+                        <option>Backs</option>
+                      </select>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Player Roster with Medical Info */}
+              <div className="lg:col-span-3">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Users className="mr-2 h-5 w-5" />
+                      Squad Medical Overview
+                    </CardTitle>
+                    <CardDescription>
+                      Click on any player to view their detailed medical profile
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {squadMedicalStatus.map((player) => (
+                        <Link key={player.id} href={`/player/${player.id}`}>
+                          <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-blue-300">
+                            <CardContent className="p-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center space-x-3">
+                                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <Stethoscope className="h-5 w-5 text-blue-600" />
+                                  </div>
+                                  <div>
+                                    <div className="font-medium text-sm">{player.name}</div>
+                                    <div className="text-xs text-gray-600">{player.position}</div>
+                                  </div>
+                                </div>
+                                <Badge 
+                                  className={
+                                    player.status === 'available' ? 'bg-green-100 text-green-800' :
+                                    player.status === 'modified' ? 'bg-amber-100 text-amber-800' :
+                                    'bg-red-100 text-red-800'
+                                  }
+                                >
+                                  {player.status === 'available' && 'Available'}
+                                  {player.status === 'modified' && 'Modified'}
+                                  {player.status === 'unavailable' && 'Injured'}
+                                </Badge>
+                              </div>
+                              
+                              {/* Medical Metrics */}
+                              <div className="space-y-2 text-xs">
+                                <div className="flex justify-between">
+                                  <span className="text-gray-500">Wellness:</span>
+                                  <span className={`font-medium ${
+                                    player.wellnessScore >= 8 ? "text-green-600" :
+                                    player.wellnessScore >= 6 ? "text-amber-600" : "text-red-600"
+                                  }`}>
+                                    {player.wellnessScore.toFixed(1)}/10
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-gray-500">ACWR:</span>
+                                  <span className={`font-medium ${
+                                    player.acwrRatio <= 1.3 && player.acwrRatio >= 0.8 ? "text-green-600" :
+                                    player.acwrRatio > 1.3 ? "text-red-600" : "text-amber-600"
+                                  }`}>
+                                    {player.acwrRatio.toFixed(2)}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between">
+                                  <span className="text-gray-500">Last Assessment:</span>
+                                  <span className="text-gray-700">{player.lastAssessment}</span>
+                                </div>
+                                {player.injuryRisk && (
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-500">Risk Level:</span>
+                                    <span className={`font-medium ${
+                                      player.injuryRisk === 'low' ? "text-green-600" :
+                                      player.injuryRisk === 'moderate' ? "text-amber-600" : "text-red-600"
+                                    }`}>
+                                      {player.injuryRisk.charAt(0).toUpperCase() + player.injuryRisk.slice(1)}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+
+          {/* Tab 3: Player Medical Record */}
           <TabsContent value="player-record" className="space-y-6">
             {selectedPlayer === "tane_edmed" ? (
               <div className="space-y-6">

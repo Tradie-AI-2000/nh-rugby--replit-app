@@ -93,7 +93,7 @@ export default function TeamDashboard() {
 
       <div className="container mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
+          <TabsList className="grid w-full grid-cols-7 mb-8 bg-gray-100 p-2 rounded-lg border border-gray-200 gap-1">
             <TabsTrigger 
               value="overview"
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
@@ -105,6 +105,12 @@ export default function TeamDashboard() {
               className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
             >
               Analytics
+            </TabsTrigger>
+            <TabsTrigger 
+              value="players"
+              className="py-3 px-4 rounded-md font-medium text-gray-700 transition-all duration-200 hover:bg-white hover:shadow-md data-[state=active]:bg-nh-red data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 border-0"
+            >
+              Players
             </TabsTrigger>
             <TabsTrigger 
               value="live-match"
@@ -274,6 +280,109 @@ export default function TeamDashboard() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Players Tab */}
+          <TabsContent value="players" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              {/* Player Search and Filters */}
+              <div className="lg:col-span-1">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Player Filters</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Position</label>
+                      <select className="w-full mt-1 p-2 border rounded-md">
+                        <option>All Positions</option>
+                        <option>Front Row</option>
+                        <option>Second Row</option>
+                        <option>Back Row</option>
+                        <option>Half Back</option>
+                        <option>Centre</option>
+                        <option>Back Three</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Status</label>
+                      <select className="w-full mt-1 p-2 border rounded-md">
+                        <option>All Players</option>
+                        <option>Available</option>
+                        <option>Injured</option>
+                        <option>Modified Training</option>
+                      </select>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Player Roster */}
+              <div className="lg:col-span-3">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Users className="mr-2 h-5 w-5" />
+                      Squad Roster
+                    </CardTitle>
+                    <CardDescription>
+                      Click on any player to view their detailed profile
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[
+                        { id: "tane_edmed", name: "Tane Edmed", position: "First-Five", number: 10, status: "available", value: 8.7 },
+                        { id: "jimmy_maher", name: "Jimmy Maher", position: "Lock", number: 4, status: "available", value: 8.5 },
+                        { id: "mark_telea", name: "Mark Tele'a", position: "Wing", number: 11, status: "modified", value: 8.3 },
+                        { id: "cam_christie", name: "Cam Christie", position: "Lock", number: 5, status: "injured", value: 7.9 },
+                        { id: "bryn_gordon", name: "Bryn Gordon", position: "Hooker", number: 2, status: "available", value: 8.1 },
+                        { id: "aidan_ross", name: "Aidan Ross", position: "Prop", number: 3, status: "available", value: 7.8 },
+                        { id: "ethan_roots", name: "Ethan Roots", position: "No.8", number: 8, status: "available", value: 8.4 },
+                        { id: "tom_robinson", name: "Tom Robinson", position: "Flanker", number: 7, status: "available", value: 8.0 },
+                        { id: "sam_darry", name: "Sam Darry", position: "Second Row", number: 19, status: "available", value: 7.7 },
+                        { id: "riley_hohepa", name: "Riley Hohepa", position: "Scrum-Half", number: 9, status: "available", value: 8.2 },
+                        { id: "david_havili", name: "David Havili", position: "Centre", number: 12, status: "available", value: 8.6 },
+                        { id: "connor_garden_bachop", name: "Connor Garden-Bachop", position: "Fullback", number: 15, status: "available", value: 8.1 }
+                      ].map((player) => (
+                        <Link key={player.id} href={`/player/${player.id}`}>
+                          <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 hover:border-blue-300">
+                            <CardContent className="p-4">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center space-x-3">
+                                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span className="font-bold text-blue-600">#{player.number}</span>
+                                  </div>
+                                  <div>
+                                    <div className="font-medium text-sm">{player.name}</div>
+                                    <div className="text-xs text-gray-600">{player.position}</div>
+                                  </div>
+                                </div>
+                                <Badge 
+                                  className={
+                                    player.status === 'available' ? 'bg-green-100 text-green-800' :
+                                    player.status === 'modified' ? 'bg-amber-100 text-amber-800' :
+                                    'bg-red-100 text-red-800'
+                                  }
+                                >
+                                  {player.status === 'available' && 'Available'}
+                                  {player.status === 'modified' && 'Modified'}
+                                  {player.status === 'injured' && 'Injured'}
+                                </Badge>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="text-gray-500">Player Value:</span>
+                                <span className="font-bold text-blue-600">{player.value}/10</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </Link>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="live-match" className="space-y-6">
