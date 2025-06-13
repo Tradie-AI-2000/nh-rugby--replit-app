@@ -8,6 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PlayerValueScorecard from "@/components/player-value-scorecard";
 import AdvancedMetrics from "@/components/advanced-metrics";
+import AIPlayerAnalysis from "@/components/ai-player-analysis";
 import { 
   moneyBallPlayersData, 
   convertToPlayerValueMetrics,
@@ -409,6 +410,14 @@ export default function EnhancedPlayerProfile() {
                   </p>
                 </div>
                 <PlayerValueScorecard metrics={playerValueMetrics} />
+                
+                {/* AI Analysis Section */}
+                <div className="mt-8">
+                  <AIPlayerAnalysis 
+                    metrics={playerValueMetrics} 
+                    playerName={player?.personalDetails?.firstName + ' ' + player?.personalDetails?.lastName || 'Player'} 
+                  />
+                </div>
               </div>
             )}
           </TabsContent>
