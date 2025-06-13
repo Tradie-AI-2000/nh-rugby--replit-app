@@ -114,6 +114,34 @@ export const moneyBallPlayersData: MoneyBallPlayer[] = [
     penaltyCount: 7,
     xFactorContributions: 18,
     sprintTime10m: 1.78
+  },
+  {
+    id: "4",
+    name: "Tane Edmed",
+    photoUrl: "https://placehold.co/150x150/003366/FFFFFF?text=TE",
+    position: "First Five-Eighth",
+    secondaryPosition: "Fullback",
+    height: 180,
+    weight: 85,
+    club: "North Harbour Rugby",
+    teamHistory: "Auckland,Blues Development,North Harbour",
+    dateSigned: "2021-03-01",
+    offContractDate: "2025-02-28",
+    contractValue: 125000,
+    attendanceScore: 9.2,
+    scScore: 9.1,
+    medicalScore: 9.7,
+    personalityScore: 9.0,
+    gritNote: "Exceptional mental toughness and leadership under pressure. Natural game manager with excellent decision-making in critical moments.",
+    communityNote: "Active mentor for junior players. Regular participant in school rugby clinics and community events. Strong role model.",
+    familyBackground: "Sporting family background with strong support network. Father played provincial rugby, instilled discipline and work ethic.",
+    minutesPlayed: 1440,
+    totalContributions: 385,
+    positiveContributions: 362,
+    negativeContributions: 23,
+    penaltyCount: 4,
+    xFactorContributions: 28,
+    sprintTime10m: 1.92
   }
 ];
 
