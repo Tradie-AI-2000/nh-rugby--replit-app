@@ -229,6 +229,31 @@ export default function MainDashboard() {
           </Card>
         </div>
 
+        {/* Experimental Features */}
+        <div className="mt-12 max-w-4xl mx-auto">
+          <Card className="border-2 border-dashed border-purple-300 bg-purple-50">
+            <CardHeader className="text-center">
+              <div className="flex items-center justify-center space-x-2 mb-2">
+                <Badge className="bg-purple-100 text-purple-800 px-3 py-1">EXPERIMENTAL</Badge>
+              </div>
+              <CardTitle className="text-xl text-purple-900">New Player Profile Experience</CardTitle>
+              <CardDescription className="text-purple-700">
+                Test the enhanced player profile with improved analytics and modern design
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-sm text-purple-700 mb-4">
+                Try the experimental player profile for Penaia Cakobau to see new features without affecting your existing dashboard.
+              </p>
+              <Link href="/experimental/player/penaia_cakobau">
+                <Button className="bg-purple-600 hover:bg-purple-700 text-white">
+                  Try Experimental Profile
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Quick Stats Overview */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           <Card className="text-center p-4">

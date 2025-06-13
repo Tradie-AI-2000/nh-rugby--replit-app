@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { queryClient } from "./lib/queryClient";
 import PlayerDashboard from "@/pages/player-dashboard";
+import ExperimentalPlayerProfile from "@/pages/experimental-player-profile";
 import VideoDemo from "@/pages/video-demo";
 import FeaturesDemo from "@/pages/features-demo";
 import TeamCohesionDashboard from "@/pages/team-cohesion-dashboard";
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/player/:playerId" component={PlayerDashboard} />
+      <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
       <Route path="/" component={MainDashboard} />
       <Route component={NotFound} />
     </Switch>
