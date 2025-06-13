@@ -27,7 +27,7 @@ export class GeminiRugbyAnalyst {
   
   constructor() {
     // Use Gemini Pro for advanced rugby analysis
-    this.model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    this.model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   }
 
   async analyzeMatchSection(request: MatchAnalysisRequest): Promise<GeminiAnalysisResult> {
