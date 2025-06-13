@@ -51,7 +51,7 @@ function Router() {
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
       <Route path="/moneyball" component={MoneyBallPlayers} />
       <Route path="/dashboard" component={MainDashboard} />
-      <Route path="/" component={MainDashboard} />
+      <Route path="/" component={RoleSelection} />
       <Route component={NotFound} />
     </Switch>
   );
