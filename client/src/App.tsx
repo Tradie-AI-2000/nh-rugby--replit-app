@@ -46,6 +46,7 @@ function Router() {
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/match-performance" component={MatchPerformance} />
+      <Route path="/medical" component={MedicalHub} />
       <Route path="/medical-hub" component={MedicalHub} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
