@@ -20,7 +20,7 @@ import CSVUpload from "@/pages/csv-upload";
 import MainDashboard from "@/pages/main-dashboard";
 import TeamDashboard from "@/pages/team-dashboard";
 import GPSManagement from "@/pages/gps-management";
-import MatchPerformance from "@/pages/match-performance";
+import MatchPerformance from "@/pages/match-performance-fixed";
 import NotFound from "@/pages/not-found";
 
 function Router() {
