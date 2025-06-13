@@ -481,6 +481,10 @@ interface PositionalUnitViewProps {
 }
 
 const PositionalUnitView = ({ selectedUnit, units }: PositionalUnitViewProps) => {
+  const [showUnitInfo, setShowUnitInfo] = useState(false);
+  const [showConnectionInfo, setShowConnectionInfo] = useState(false);
+  const [showMetricsInfo, setShowMetricsInfo] = useState(false);
+  
   const unit = units[selectedUnit as keyof typeof units];
   
   if (!unit) return null;
@@ -504,13 +508,29 @@ const PositionalUnitView = ({ selectedUnit, units }: PositionalUnitViewProps) =>
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>{unit.name} Cohesion Analysis</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            {unit.name} Cohesion Analysis
+            <Badge variant="outline" className="text-xs">
+              {unit.players.length} Players
+            </Badge>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Connection Diagram */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Player Connections</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold">Player Connections</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowConnectionInfo(!showConnectionInfo)}
+                  className="text-xs"
+                >
+                  <Info className="h-3 w-3 mr-1" />
+                  Connection Guide
+                </Button>
+              </div>
               <div className="relative h-64 bg-green-50 rounded-lg p-4">
                 <svg viewBox="0 0 300 200" className="w-full h-full">
                   {/* Draw connections first */}
@@ -574,6 +594,29 @@ const PositionalUnitView = ({ selectedUnit, units }: PositionalUnitViewProps) =>
                 </svg>
               </div>
               
+              {showConnectionInfo && (
+                <div className="bg-blue-50 p-3 rounded-lg text-sm space-y-2">
+                  <h4 className="font-medium text-blue-800">Connection Strength Guide</h4>
+                  <div className="space-y-1 text-blue-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-0.5 bg-red-500"></div>
+                      <span><strong>Red Lines:</strong> New/weak combinations - require development focus</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-0.5 bg-yellow-500"></div>
+                      <span><strong>Yellow Lines:</strong> Moderate relationships - building chemistry</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-0.5 bg-green-500"></div>
+                      <span><strong>Green Lines:</strong> Strong/proven combinations - tactical assets</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-blue-600 italic">
+                    Click on any player circle to highlight their connections and view detailed relationship data.
+                  </p>
+                </div>
+              )}
+              
               <div className="space-y-2">
                 {unit.players.map((player) => (
                   <div key={player.number} className="flex items-center gap-2 text-sm">
@@ -589,7 +632,31 @@ const PositionalUnitView = ({ selectedUnit, units }: PositionalUnitViewProps) =>
             
             {/* Unit Performance Metrics */}
             <div className="space-y-4">
-              <h3 className="font-semibold">Unit Performance</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold">Unit Performance</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowMetricsInfo(!showMetricsInfo)}
+                  className="text-xs"
+                >
+                  <Info className="h-3 w-3 mr-1" />
+                  Metrics Guide
+                </Button>
+              </div>
+              
+              {showMetricsInfo && (
+                <div className="bg-green-50 p-3 rounded-lg text-sm space-y-2">
+                  <h4 className="font-medium text-green-800">Understanding Unit Metrics</h4>
+                  <div className="text-green-700 space-y-1">
+                    <p><strong>Performance Indicators:</strong> These metrics measure the specific tactical effectiveness of this positional unit during matches.</p>
+                    <p><strong>Benchmarking:</strong> Compare against competition averages and your own historical performance to identify improvement areas.</p>
+                    <p><strong>Cohesion Impact:</strong> Strong connection strength typically correlates with better unit performance metrics.</p>
+                    <p><strong>Selection Insights:</strong> Use these metrics combined with connection analysis to optimize team selection for specific opponents.</p>
+                  </div>
+                </div>
+              )}
+              
               <div className="space-y-3">
                 {Object.entries(unit.metrics).map(([key, value]) => (
                   <div key={key} className="space-y-1">
@@ -624,6 +691,122 @@ const PositionalUnitView = ({ selectedUnit, units }: PositionalUnitViewProps) =>
             </div>
           </div>
         </CardContent>
+        
+        <MetricInfoPanel
+          title={`${unit.name} Strategic Analysis`}
+          isExpanded={showUnitInfo}
+          onToggle={() => setShowUnitInfo(!showUnitInfo)}
+        >
+          <div className="space-y-3">
+            {selectedUnit === "tight_5" && (
+              <>
+                <p>
+                  <strong>Tactical Role:</strong> The Tight 5 forms the foundation of set piece dominance and forward platform creation. 
+                  This unit's cohesion directly impacts scrum stability, lineout accuracy, and forward momentum in contact situations.
+                </p>
+                <p>
+                  <strong>Key Relationships:</strong><br />
+                  • <strong>Front Row (1-2-3):</strong> Scrummaging sync, hooking timing, prop support<br />
+                  • <strong>Second Row (4-5):</strong> Lineout calling, jumping coordination, scrum power transmission<br />
+                  • <strong>Critical Combinations:</strong> Hooker-locks for lineout timing, props-hooker for scrum binding
+                </p>
+                <p>
+                  <strong>Performance Indicators:</strong><br />
+                  • <span className="text-green-600">Scrum Win % (78%):</span> Above average - maintain through consistent selection<br />
+                  • <span className="text-blue-600">Lineout Success (85%):</span> Good foundation - focus on pressure situations<br />
+                  • <span className="text-yellow-600">Maul Metres (142m):</span> Opportunity for improvement through timing work
+                </p>
+                <p>
+                  <strong>Coaching Focus:</strong><br />
+                  • Red connections require extra lineout throwing practice and scrum binding drills<br />
+                  • Strong green connections can be utilized for complex set piece moves<br />
+                  • Target 90%+ lineout success by developing weak relationship combinations
+                </p>
+              </>
+            )}
+            
+            {selectedUnit === "attack_spine" && (
+              <>
+                <p>
+                  <strong>Tactical Role:</strong> The Attack Spine (8-9-10-12-15) controls game tempo, phase play orchestration, and attacking structure. 
+                  This unit's cohesion determines creative play execution and tactical adaptability during matches.
+                </p>
+                <p>
+                  <strong>Key Relationships:</strong><br />
+                  • <strong>8-9 Axis:</strong> Ruck speed, distribution timing, pick-and-go coordination<br />
+                  • <strong>9-10-12 Triangle:</strong> Passing accuracy, attacking lines, defensive communication<br />
+                  • <strong>10-12-15 Back Line:</strong> Depth control, switch plays, counter-attack initiation
+                </p>
+                <p>
+                  <strong>Performance Indicators:</strong><br />
+                  • <span className="text-green-600">Line Breaks (18):</span> Excellent creativity - maintain through consistent combinations<br />
+                  • <span className="text-blue-600">Try Assists (12):</span> Good support play - develop through pattern practice<br />
+                  • <span className="text-yellow-600">Metres Gained (1847m):</span> Strong foundation for territory control
+                </p>
+                <p>
+                  <strong>Coaching Focus:</strong><br />
+                  • Weak connections need extra passing drills and timing work under pressure<br />
+                  • Strong connections enable complex set plays and broken field opportunities<br />
+                  • Focus on decision-making speed between 9-10-12 for better phase play execution
+                </p>
+              </>
+            )}
+            
+            {selectedUnit === "midfield_defence" && (
+              <>
+                <p>
+                  <strong>Tactical Role:</strong> The Mid-Field Defence (12-13) forms the defensive backbone, controlling inside-outside defensive lines 
+                  and transition between forward and back defense. Their cohesion impacts turnover opportunities and defensive line speed.
+                </p>
+                <p>
+                  <strong>Key Relationships:</strong><br />
+                  • <strong>12-13 Communication:</strong> Defensive calling, drift vs. rush decisions, turnover contests<br />
+                  • <strong>Contact Point Coordination:</strong> Double-tackle execution, ruck support arrival timing<br />
+                  • <strong>Transition Speed:</strong> Attack-to-defense positioning, counter-ruck organization
+                </p>
+                <p>
+                  <strong>Performance Indicators:</strong><br />
+                  • <span className="text-green-600">Tackle Success (92%):</span> Excellent defensive foundation<br />
+                  • <span className="text-blue-600">Missed Tackles (8):</span> Low miss rate shows strong partnership<br />
+                  • <span className="text-yellow-600">Turnovers Won (15):</span> Good pressure creation at contact point
+                </p>
+                <p>
+                  <strong>Coaching Focus:</strong><br />
+                  • Strong connection enables aggressive defensive strategies and blitz defense<br />
+                  • Focus on communication under fatigue and pressure situations<br />
+                  • Develop counter-attack options from turnover ball for added attacking threat
+                </p>
+              </>
+            )}
+            
+            {selectedUnit === "back_3" && (
+              <>
+                <p>
+                  <strong>Tactical Role:</strong> The Back 3 (11-14-15) provides last line of defense, counter-attack initiation, and aerial ball security. 
+                  Their cohesion determines high ball success, broken field running, and defensive cover effectiveness.
+                </p>
+                <p>
+                  <strong>Key Relationships:</strong><br />
+                  • <strong>Wing-Fullback Coverage:</strong> Defensive positioning, kick coverage, aerial contests<br />
+                  • <strong>Counter-Attack Coordination:</strong> Running lines, support timing, offload opportunities<br />
+                  • <strong>Territorial Control:</strong> Kick return positioning, exit strategy execution
+                </p>
+                <p>
+                  <strong>Performance Indicators:</strong><br />
+                  • <span className="text-green-600">Metres Gained (892m):</span> Strong attacking threat from deep<br />
+                  • <span className="text-blue-600">Line Breaks (8):</span> Good pace and footwork creating opportunities<br />
+                  • <span className="text-yellow-600">Tries Scored (7):</span> Converting opportunities into points effectively
+                </p>
+                <p>
+                  <strong>Coaching Focus:</strong><br />
+                  • Weak connections require extra kick coverage and communication drills<br />
+                  • Strong combinations enable complex counter-attack moves and switch plays<br />
+                  • Develop aerial skills and positioning for high ball contests under pressure
+                </p>
+              </>
+            )}
+          </div>
+        </MetricInfoPanel>
       </Card>
     </div>
   );
