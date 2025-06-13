@@ -20,7 +20,8 @@ import {
   Brain,
   Shield,
   Clock,
-  TrendingUp
+  TrendingUp,
+  Stethoscope
 } from "lucide-react";
 
 export default function MainDashboard() {
@@ -223,6 +224,69 @@ export default function MainDashboard() {
               <Link href="/team">
                 <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg font-semibold">
                   Access Team Portal
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Medical Intelligence Hub */}
+          <Card className="group hover:shadow-2xl transition-all duration-300 border-2 hover:border-blue-600 cursor-pointer">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                <Stethoscope size={40} />
+              </div>
+              <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                Medical Intelligence Hub
+              </CardTitle>
+              <CardDescription className="text-lg">
+                Player health management, injury tracking, and return-to-play protocols
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Shield className="text-blue-600" size={20} />
+                  <span className="text-sm font-medium">Injury Management</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Target className="text-green-600" size={20} />
+                  <span className="text-sm font-medium">RTP Planning</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <Activity className="text-purple-600" size={20} />
+                  <span className="text-sm font-medium">Wellness Tracking</span>
+                </div>
+                <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg">
+                  <MessageSquare className="text-orange-600" size={20} />
+                  <span className="text-sm font-medium">Coach Updates</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-800">Key Features:</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Comprehensive injury logging and treatment tracking</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Evidence-based return-to-play protocols</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Player availability status management</span>
+                  </li>
+                  <li className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span>Automated risk assessment and prevention</span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link href="/medical-hub">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold">
+                  Access Medical Hub
                 </Button>
               </Link>
             </CardContent>

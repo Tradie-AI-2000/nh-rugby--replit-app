@@ -1,0 +1,153 @@
+Objective: Build the North Harbour Rugby Medical Intelligence Hub
+The purpose of this hub is to create a secure, centralized platform for the medical team to manage all aspects of player health. It will serve as the single source of truth for player availability, injury history, treatment progress, and rehabilitation planning, ensuring a data-driven approach to player welfare and performance.
+
+Part 1: Core Architecture & UX/UI Principles
+This hub should be a distinct section within the main dashboard, accessible only to authorized medical staff and select performance personnel.
+
+Technology Stack: This can be built as a new set of components within the existing React application. You will likely need a charting library (recharts is a good choice) and an icon library (lucide-react is excellent for clarity).
+
+Data Model: The foundation will be a player-centric database model. Each player will have a main profile, to which you'll link multiple data collections: InjuryLog, TreatmentNotes, WellnessData, ScreeningResults, and RTPLoadData.
+
+UI/UX Principles:
+
+Clarity over clutter: Medical data is complex. The UI must be clean and intuitive. Use whitespace, clear typography, and a consistent color scheme.
+
+Visual First: Use icons, charts, and color-coding (Red/Amber/Green) extensively to allow for rapid assessment of player and squad status.
+
+Efficiency: Workflows for logging injuries or treatments must be fast and simple, minimizing clicks and typing.
+
+Security: Although a simulation, treat the data as confidential. The hub should be behind an authentication layer.
+
+Part 2: Tab-Based Interface Design
+The Medical Hub will be organized into five distinct tabs, each serving a specific purpose in the medical team's workflow.
+
+Tab 1: Medical Dashboard (The Overview)
+This is the command center, providing an immediate snapshot of the entire squad's health.
+
+UI Components:
+
+A. Squad Availability Board:
+
+Visual: A responsive grid of player cards. Each card contains the player's photo, name, and position.
+
+Data & Interaction: The border of each card is color-coded based on their current status:
+
+Green: Full Training / Available.
+
+Amber: Modified Training / Return-to-Play Protocol. Hovering reveals their current RTP phase (e.g., "Phase 3: Intro to Running").
+
+Red: Unavailable / Injured. Hovering reveals the primary injury and estimated time to return (ETR).
+
+Clicking a card navigates directly to that player's detailed record in the "Player Medical Record" tab.
+
+B. "At Risk" Players Watchlist:
+
+Visual: A prominent list section highlighting players who are not injured but flagged as being at high risk.
+
+Data: This list is auto-populated based on an algorithm considering factors like:
+
+Sudden spike in training load (High Acute:Chronic Workload Ratio).
+
+Poor recent wellness scores (low sleep, high fatigue).
+
+History of a similar injury mechanism.
+
+Upcoming "short turnaround" between games.
+
+Text: Each entry shows the player's name and the primary reason for the flag (e.g., John Doe - ACWR > 1.5).
+
+C. Upcoming Milestones & Key Dates:
+
+Visual: A timeline or calendar view for the next 2-4 weeks.
+
+Data: Displays critical upcoming events, such as a player's scheduled return to contact training, a specialist appointment, or their projected game availability date.
+
+Tab 2: Player Medical Record (The Deep Dive)
+This is where the complete medical history of a single, selected player is housed.
+
+UI Components:
+
+A. Player Header: Displays the selected player's photo, name, position, age, height, and weight. It also shows their current, top-line availability status (e.g., "Full Training").
+
+B. Sub-Tabs for Detailed Information:
+
+Injury History: A chronological, filterable table of every logged injury. Each row shows the injury, date, and days missed. Clicking a row expands to show full details, including mechanism, diagnosis, and links to all associated treatment notes.
+
+Screening: Displays results from pre-season and in-season physical screenings (e.g., FMS scores, range of motion tests, SCAT5 concussion baselines). This data should be visualized with charts to easily spot asymmetries or deviations from baseline.
+
+Wellness Tracker: A chart visualizing daily wellness questionnaire data (fatigue, sleep quality, stress, muscle soreness). This helps correlate subjective feelings with objective training data and potential injury risk.
+
+Training Loads: An integrated view of GPS data. A key chart here is the Acute:Chronic Workload Ratio (ACWR), displayed as a rolling average. Values between 0.8-1.3 are the "sweet spot." Values >1.5 are the "danger zone" and should be flagged in red.
+
+Tab 3: Injury & Treatment Log (Data Entry)
+This tab contains the forms for logging new information, optimized for speed and accuracy.
+
+UI Components:
+
+A. Log New Injury Form:
+
+A clean, multi-step form.
+
+Fields: Player (dropdown), Date/Time, Game/Training, Mechanism (Contact/Non-Contact), Body Part (interactive anatomical chart for selection), Initial Diagnosis, Severity Grade, ETR (days/weeks), and detailed notes.
+
+B. Log Treatment Note Form:
+
+First, select the player and their active injury.
+
+Fields: Uses the S.O.A.P. format standard in medical charting:
+
+S (Subjective): What the player reports (e.g., "Pain is 3/10, feeling less stiff today").
+
+O (Objective): Physio's findings (e.g., "Knee flexion improved to 120 degrees," "Reduced swelling").
+
+A (Assessment): Professional assessment of progress (e.g., "Progressing well, meeting Phase 2 criteria").
+
+P (Plan): Next steps (e.g., "Continue current protocol, introduce light jogging tomorrow").
+
+Tab 4: Return-to-Play (RTP) Planner
+A dedicated module for managing player rehabilitation to minimize re-injury risk.
+
+UI Components:
+
+A. Player RTP Dashboard: Select an "Amber" status player to view their plan.
+
+B. Phased RTP Timeline:
+
+Visual: A visual timeline or Kanban board showing the distinct phases of rehab (e.g., Phase 1: Pain & Swelling Control -> Phase 2: Strength & Neuromuscular Control -> Phase 3: Running & Agility -> Phase 4: Modified Team Training -> Phase 5: Full Contact).
+
+Interaction: The player's current phase is highlighted. Each phase has an associated checklist of objective criteria that must be met to advance.
+
+C. Load Management Chart:
+
+Visual: A dual-axis line chart comparing the player's current training load (from GPS) against their pre-injury baseline and the planned progression.
+
+Data: This is critical. It must clearly show if the player's load is increasing too quickly or if they are falling behind schedule. It should visualize the ACWR in the context of their rehab.
+
+D. RTP Criteria Checklist: An interactive checklist for each phase. A physio must check off milestones like "Achieves 95% strength vs. non-injured limb" or "Completes 2x non-contact sessions pain-free" before the system allows progression to the next phase.
+
+Tab 5: Communication Hub (Coach's Update)
+The crucial link between the medical team's detail and the coach's need for summary information.
+
+UI Components:
+
+A. Create Update Form: A very simple interface.
+
+Select Player: Dropdown list of all players.
+
+Set Availability Status: A dropdown with clear, coach-friendly terms:
+
+Available (No Restrictions)
+
+Available (Monitor Loads)
+
+Modified Training (Non-Contact)
+
+Skills Only
+
+Unavailable (Rehabbing)
+
+Write Coach's Note: A simple text box for a concise summary (e.g., "Shaun is cleared for full contact. Keep an eye on his total distance this week." or "James felt tightness in his hamstring, holding him from team drills today. Will re-assess tomorrow.").
+
+B. Update Feed: A chronological log of all updates sent to the coaching dashboard, providing a record of communication. This update, once sent, will populate a "Medical Status" column on the coach's main team view, giving them the at-a-glance information they need without being overwhelmed by medical detail.
+
+By following these instructions, you can build a world-class Medical Intelligence Hub on Replit that is tailored to the specific needs of a high-performance rugby environment.
