@@ -128,31 +128,42 @@ export const moneyBallPlayersData: MoneyBallPlayer[] = [
     dateSigned: "2021-03-01",
     offContractDate: "2025-02-28",
     contractValue: 125000,
-    attendanceScore: 9.2,
-    scScore: 9.1,
-    medicalScore: 9.7,
-    personalityScore: 9.0,
-    gritNote: "Exceptional mental toughness and leadership under pressure. Natural game manager with excellent decision-making in critical moments.",
-    communityNote: "Active mentor for junior players. Regular participant in school rugby clinics and community events. Strong role model.",
-    familyBackground: "Sporting family background with strong support network. Father played provincial rugby, instilled discipline and work ethic.",
-    minutesPlayed: 1440,
-    totalContributions: 385,
-    positiveContributions: 362,
-    negativeContributions: 23,
-    penaltyCount: 4,
-    xFactorContributions: 28,
-    sprintTime10m: 1.92
+    attendanceScore: 4.2,
+    scScore: 3.8,
+    medicalScore: 2.1,
+    personalityScore: 3.5,
+    gritNote: "Concerning lack of commitment to rehabilitation protocols. Has missed 12 physiotherapy sessions this season and shows resistance to strength & conditioning requirements.",
+    communityNote: "Limited community engagement since injury setbacks. Previously active but now increasingly withdrawn from team events and junior coaching commitments.",
+    familyBackground: "Family support network remains strong but player appears to be struggling with pressure and expectations. Recent social media activity suggests frustration with contract situation.",
+    minutesPlayed: 400,
+    totalContributions: 145,
+    positiveContributions: 98,
+    negativeContributions: 47,
+    penaltyCount: 18,
+    xFactorContributions: 3,
+    sprintTime10m: 2.15
   }
 ];
 
 // Convert MoneyBall data to PlayerValueMetrics format
 export function convertToPlayerValueMetrics(player: MoneyBallPlayer): PlayerValueMetrics {
+  // Special handling for underperforming players like Tane Edmed
+  const isUnderperforming = player.medicalScore < 5.0 || player.attendanceScore < 5.0;
+  
   // Calculate derived metrics
   const totalCarries = Math.floor(player.totalContributions * 0.25);
-  const dominantCarryPercent = player.position === 'Back Row' ? 15.0 : 
-                               player.position === 'Hooker' ? 8.0 : 12.0;
-  const tackleCompletionPercent = 85.0 + (player.medicalScore * 1.5);
-  const breakdownSuccessPercent = 88.0 + (player.scScore * 1.2);
+  const dominantCarryPercent = isUnderperforming ? 
+    (player.position === 'First Five-Eighth' ? 4.2 : 8.0) :
+    (player.position === 'Back Row' ? 15.0 : 
+     player.position === 'Hooker' ? 8.0 : 12.0);
+  
+  const tackleCompletionPercent = isUnderperforming ? 
+    Math.max(65.0, 70.0 + (player.medicalScore * 2.0)) :
+    85.0 + (player.medicalScore * 1.5);
+    
+  const breakdownSuccessPercent = isUnderperforming ?
+    Math.max(60.0, 65.0 + (player.scScore * 1.8)) :
+    88.0 + (player.scScore * 1.2);
   
   return {
     position: player.position,
@@ -162,7 +173,8 @@ export function convertToPlayerValueMetrics(player: MoneyBallPlayer): PlayerValu
     
     // Performance Metrics
     minutesPlayed: player.minutesPlayed,
-    gamesPlayed: player.minutesPlayed > 600 ? 8 : 6,
+    gamesPlayed: isUnderperforming ? Math.max(3, Math.floor(player.minutesPlayed / 120)) : 
+                 (player.minutesPlayed > 600 ? 8 : 6),
     totalContributions: player.totalContributions,
     positiveContributions: player.positiveContributions,
     negativeContributions: player.negativeContributions,
@@ -175,9 +187,13 @@ export function convertToPlayerValueMetrics(player: MoneyBallPlayer): PlayerValu
     dominantCarryPercent,
     tackleCompletionPercent,
     breakdownSuccessPercent,
-    triesScored: player.position === 'First Five-Eighth' ? 3 : 
-                 player.position === 'Hooker' ? 1 : 2,
-    tryAssists: player.position === 'First Five-Eighth' ? 8 : 2,
+    triesScored: isUnderperforming ? 
+      (player.position === 'First Five-Eighth' ? 0 : 1) :
+      (player.position === 'First Five-Eighth' ? 3 : 
+       player.position === 'Hooker' ? 1 : 2),
+    tryAssists: isUnderperforming ?
+      (player.position === 'First Five-Eighth' ? 1 : 0) :
+      (player.position === 'First Five-Eighth' ? 8 : 2),
     turnoversWon: Math.floor(player.totalContributions * 0.08),
     
     // Cohesion Factors
