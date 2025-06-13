@@ -33,99 +33,193 @@ import {
   BarChart3
 } from "lucide-react";
 
-// Sample medical data - in production this would come from the database
+// Comprehensive medical data for all squad players
 const squadMedicalStatus = [
   {
     id: "penaia_cakobau",
     name: "Penaia Cakobau",
-    position: "Prop",
+    position: "Hooker",
     status: "available",
     photoUrl: "/api/players/penaia_cakobau/avatar",
     rtpPhase: null,
     primaryInjury: null,
-    etr: null
+    etr: null,
+    lastAssessment: "2024-06-10",
+    wellnessScore: 8.2,
+    injuryHistory: [
+      { date: "2023-08-15", injury: "Thumb Ligament Strain", severity: "Minor", daysMissed: 7 },
+      { date: "2023-04-22", injury: "Concussion", severity: "Moderate", daysMissed: 14 }
+    ],
+    currentLoad: { acute: 385, chronic: 412, ratio: 0.93 },
+    screeningResults: {
+      fms: 16,
+      shoulderFlexibility: "Normal",
+      ankleStability: "Good",
+      lastScreening: "2024-01-15"
+    }
   },
   {
-    id: "mark_telea",
-    name: "Mark Telea",
-    position: "Wing",
-    status: "modified",
-    photoUrl: "/api/players/mark_telea/avatar",
-    rtpPhase: "Phase 3: Running Progression",
-    primaryInjury: "Hamstring Strain Grade 1",
-    etr: "5-7 days"
-  },
-  {
-    id: "cam_christie",
-    name: "Cam Christie",
-    position: "Centre",
-    status: "unavailable",
-    photoUrl: "/api/players/cam_christie/avatar",
-    rtpPhase: "Phase 1: Pain Control",
-    primaryInjury: "Shoulder AC Joint Sprain",
-    etr: "3-4 weeks"
-  },
-  {
-    id: "tane_edmed",
+    id: "tane_edmed", 
     name: "Tane Edmed",
-    position: "Fly Half",
+    position: "First-Five",
     status: "available",
     photoUrl: "/api/players/tane_edmed/avatar",
     rtpPhase: null,
     primaryInjury: null,
-    etr: null
+    etr: null,
+    lastAssessment: "2024-06-12",
+    wellnessScore: 9.1,
+    injuryHistory: [
+      { date: "2024-02-18", injury: "Hip Flexor Strain", severity: "Minor", daysMissed: 5 },
+      { date: "2023-11-30", injury: "Ankle Sprain Grade 1", severity: "Minor", daysMissed: 10 }
+    ],
+    currentLoad: { acute: 342, chronic: 358, ratio: 0.95 },
+    screeningResults: {
+      fms: 18,
+      shoulderFlexibility: "Excellent",
+      ankleStability: "Excellent",
+      lastScreening: "2024-01-15"
+    }
+  },
+  {
+    id: "mark_telea",
+    name: "Mark Tele'a",
+    position: "Wing",
+    status: "modified",
+    photoUrl: "/api/players/mark_telea/avatar",
+    rtpPhase: "Phase 3: Running Progression",
+    primaryInjury: "Right Hamstring Strain Grade 1",
+    etr: "5-7 days",
+    lastAssessment: "2024-06-13",
+    wellnessScore: 6.8,
+    injuryHistory: [
+      { date: "2024-06-08", injury: "Right Hamstring Strain Grade 1", severity: "Minor", daysMissed: 7 },
+      { date: "2023-09-12", injury: "Left Calf Strain", severity: "Minor", daysMissed: 12 },
+      { date: "2023-03-07", injury: "Shoulder Subluxation", severity: "Moderate", daysMissed: 21 }
+    ],
+    currentLoad: { acute: 287, chronic: 398, ratio: 0.72 },
+    screeningResults: {
+      fms: 15,
+      shoulderFlexibility: "Good", 
+      ankleStability: "Normal",
+      lastScreening: "2024-01-15"
+    }
   },
   {
     id: "bryn_gordon",
-    name: "Bryn Gordon",
+    name: "Bryn Gordon", 
     position: "Hooker",
     status: "available",
     photoUrl: "/api/players/bryn_gordon/avatar",
     rtpPhase: null,
     primaryInjury: null,
-    etr: null
+    etr: null,
+    lastAssessment: "2024-06-11",
+    wellnessScore: 7.9,
+    injuryHistory: [
+      { date: "2024-01-25", injury: "Rib Contusion", severity: "Minor", daysMissed: 3 },
+      { date: "2023-07-14", injury: "Wrist Sprain", severity: "Minor", daysMissed: 8 }
+    ],
+    currentLoad: { acute: 445, chronic: 421, ratio: 1.06 },
+    screeningResults: {
+      fms: 14,
+      shoulderFlexibility: "Normal",
+      ankleStability: "Good",
+      lastScreening: "2024-01-15"
+    }
+  },
+  {
+    id: "cam_christie",
+    name: "Cam Christie",
+    position: "Lock", 
+    status: "unavailable",
+    photoUrl: "/api/players/cam_christie/avatar",
+    rtpPhase: "Phase 1: Pain Control & Range of Motion",
+    primaryInjury: "Left Shoulder AC Joint Sprain Grade 2",
+    etr: "3-4 weeks",
+    lastAssessment: "2024-06-13",
+    wellnessScore: 5.2,
+    injuryHistory: [
+      { date: "2024-06-05", injury: "Left Shoulder AC Joint Sprain Grade 2", severity: "Moderate", daysMissed: 21 },
+      { date: "2023-10-03", injury: "Lower Back Strain", severity: "Minor", daysMissed: 9 },
+      { date: "2023-05-18", injury: "Knee MCL Strain Grade 1", severity: "Minor", daysMissed: 14 }
+    ],
+    currentLoad: { acute: 156, chronic: 389, ratio: 0.40 },
+    screeningResults: {
+      fms: 13,
+      shoulderFlexibility: "Limited (L)",
+      ankleStability: "Good",
+      lastScreening: "2024-01-15"
+    }
   }
 ];
 
 const atRiskPlayers = [
   {
-    name: "John Smith",
-    position: "Lock",
-    riskFactor: "ACWR > 1.5",
-    riskLevel: "high"
+    name: "Bryn Gordon",
+    position: "Hooker",
+    riskFactor: "ACWR 1.06 - Elevated workload",
+    riskLevel: "moderate",
+    details: "Recent increase in training load above optimal range"
   },
   {
-    name: "Mike Johnson",
-    position: "Flanker",
-    riskFactor: "Poor wellness scores",
-    riskLevel: "moderate"
+    name: "Mark Tele'a", 
+    position: "Wing",
+    riskFactor: "Recent hamstring injury",
+    riskLevel: "high",
+    details: "History of posterior chain injuries, monitor load progression"
   },
   {
-    name: "David Wilson",
-    position: "Scrum Half",
-    riskFactor: "Short turnaround",
-    riskLevel: "moderate"
+    name: "Cam Christie",
+    position: "Lock", 
+    riskFactor: "Poor wellness scores (5.2/10)",
+    riskLevel: "high",
+    details: "Current injury affecting sleep and recovery metrics"
   }
 ];
 
 const upcomingMilestones = [
   {
     date: "2024-06-15",
-    player: "Mark Telea",
+    player: "Mark Tele'a",
     milestone: "Return to contact training",
-    type: "rtp"
+    type: "rtp",
+    priority: "high"
   },
   {
     date: "2024-06-17",
-    player: "Cam Christie",
-    milestone: "Specialist appointment",
-    type: "appointment"
+    player: "Cam Christie", 
+    milestone: "Orthopaedic specialist review",
+    type: "appointment",
+    priority: "high"
+  },
+  {
+    date: "2024-06-18",
+    player: "Bryn Gordon",
+    milestone: "Load monitoring assessment",
+    type: "assessment",
+    priority: "moderate"
   },
   {
     date: "2024-06-20",
-    player: "Mark Telea",
+    player: "Mark Tele'a",
     milestone: "Projected game availability",
-    type: "availability"
+    type: "availability",
+    priority: "high"
+  },
+  {
+    date: "2024-06-22",
+    player: "Tane Edmed",
+    milestone: "Hip flexor follow-up",
+    type: "assessment",
+    priority: "low"
+  },
+  {
+    date: "2024-06-28",
+    player: "Cam Christie",
+    milestone: "Phase 2 RTP criteria review",
+    type: "rtp",
+    priority: "high"
   }
 ];
 
@@ -258,18 +352,18 @@ export default function MedicalHub() {
                     {squadMedicalStatus.map((player) => (
                       <div
                         key={player.id}
-                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${getStatusColor(player.status)}`}
+                        className={`p-3 rounded-lg border-2 cursor-pointer transition-all hover:shadow-lg ${getStatusColor(player.status)}`}
                         onClick={() => {
                           setSelectedPlayer(player.id);
                           setActiveTab("player-record");
                         }}
                       >
                         <div className="text-center space-y-2">
-                          <div className="w-12 h-12 mx-auto bg-gray-300 rounded-full flex items-center justify-center">
-                            <Users className="h-6 w-6 text-gray-600" />
+                          <div className="w-10 h-10 mx-auto bg-gray-300 rounded-full flex items-center justify-center">
+                            <Users className="h-5 w-5 text-gray-600" />
                           </div>
                           <div>
-                            <div className="font-medium text-sm">{player.name}</div>
+                            <div className="font-medium text-xs">{player.name}</div>
                             <div className="text-xs text-gray-600">{player.position}</div>
                           </div>
                           <div className="flex items-center justify-center space-x-1">
@@ -280,14 +374,45 @@ export default function MedicalHub() {
                               {player.status === "unavailable" && "Unavailable"}
                             </span>
                           </div>
+                          
+                          {/* Medical Details */}
+                          <div className="space-y-1 text-xs">
+                            <div className="flex justify-between">
+                              <span className="text-gray-500">Wellness:</span>
+                              <span className={`font-medium ${
+                                player.wellnessScore >= 8 ? "text-green-600" :
+                                player.wellnessScore >= 6 ? "text-amber-600" : "text-red-600"
+                              }`}>
+                                {player.wellnessScore.toFixed(1)}/10
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-500">ACWR:</span>
+                              <span className={`font-medium ${
+                                player.currentLoad.ratio <= 1.3 && player.currentLoad.ratio >= 0.8 ? "text-green-600" :
+                                player.currentLoad.ratio > 1.3 ? "text-red-600" : "text-amber-600"
+                              }`}>
+                                {player.currentLoad.ratio.toFixed(2)}
+                              </span>
+                            </div>
+                            <div className="text-gray-500 text-xs">
+                              Last: {new Date(player.lastAssessment).toLocaleDateString()}
+                            </div>
+                          </div>
+
                           {player.rtpPhase && (
-                            <div className="text-xs text-gray-600 mt-1">
+                            <div className="text-xs text-amber-700 bg-amber-100 px-2 py-1 rounded">
                               {player.rtpPhase}
                             </div>
                           )}
                           {player.etr && (
-                            <div className="text-xs font-medium text-red-600">
+                            <div className="text-xs font-medium text-red-600 bg-red-100 px-2 py-1 rounded">
                               ETR: {player.etr}
+                            </div>
+                          )}
+                          {player.primaryInjury && (
+                            <div className="text-xs text-red-700 bg-red-50 px-2 py-1 rounded">
+                              {player.primaryInjury}
                             </div>
                           )}
                         </div>
@@ -310,7 +435,9 @@ export default function MedicalHub() {
                   <CardContent>
                     <div className="space-y-3">
                       {atRiskPlayers.map((player, index) => (
-                        <div key={index} className="p-3 rounded-lg bg-amber-50 border border-amber-200">
+                        <div key={index} className={`p-3 rounded-lg border transition-all hover:shadow-md ${
+                          player.riskLevel === "high" ? "bg-red-50 border-red-200" : "bg-amber-50 border-amber-200"
+                        }`}>
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-medium text-sm">{player.name}</div>
@@ -320,8 +447,13 @@ export default function MedicalHub() {
                               {player.riskLevel}
                             </Badge>
                           </div>
-                          <div className="text-xs text-amber-700 mt-1">
+                          <div className={`text-xs mt-1 font-medium ${
+                            player.riskLevel === "high" ? "text-red-700" : "text-amber-700"
+                          }`}>
                             {player.riskFactor}
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">
+                            {player.details}
                           </div>
                         </div>
                       ))}
@@ -340,14 +472,38 @@ export default function MedicalHub() {
                   <CardContent>
                     <div className="space-y-3">
                       {upcomingMilestones.map((milestone, index) => (
-                        <div key={index} className="p-3 rounded-lg bg-blue-50 border border-blue-200">
+                        <div key={index} className={`p-3 rounded-lg border transition-all hover:shadow-md ${
+                          milestone.priority === "high" ? "bg-red-50 border-red-200" :
+                          milestone.priority === "moderate" ? "bg-amber-50 border-amber-200" :
+                          "bg-blue-50 border-blue-200"
+                        }`}>
                           <div className="flex items-center justify-between">
-                            <div>
-                              <div className="font-medium text-sm">{milestone.player}</div>
-                              <div className="text-xs text-blue-600">{milestone.milestone}</div>
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2">
+                                <div className="font-medium text-sm">{milestone.player}</div>
+                                <Badge className={`text-xs ${
+                                  milestone.priority === "high" ? "bg-red-100 text-red-800" :
+                                  milestone.priority === "moderate" ? "bg-amber-100 text-amber-800" :
+                                  "bg-blue-100 text-blue-800"
+                                }`}>
+                                  {milestone.priority}
+                                </Badge>
+                              </div>
+                              <div className={`text-xs mt-1 ${
+                                milestone.priority === "high" ? "text-red-700" :
+                                milestone.priority === "moderate" ? "text-amber-700" :
+                                "text-blue-600"
+                              }`}>
+                                {milestone.milestone}
+                              </div>
                             </div>
-                            <div className="text-xs text-gray-600">
-                              {new Date(milestone.date).toLocaleDateString()}
+                            <div className="text-right">
+                              <div className="text-xs text-gray-600">
+                                {new Date(milestone.date).toLocaleDateString()}
+                              </div>
+                              <div className="text-xs text-gray-500 capitalize">
+                                {milestone.type}
+                              </div>
                             </div>
                           </div>
                         </div>
