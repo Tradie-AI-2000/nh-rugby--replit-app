@@ -26,7 +26,8 @@ import {
   UserCheck,
   Trophy,
   Heart,
-  AlertTriangle
+  AlertTriangle,
+  DollarSign
 } from "lucide-react";
 
 
@@ -490,6 +491,20 @@ export default function TeamDashboard() {
                     route: "/gps-analytics"
                   },
                   {
+                    id: "moneyball",
+                    title: "MoneyBall Player Value",
+                    description: "Comprehensive player value assessment using WEI, cohesion metrics, and performance analytics",
+                    primaryMetric: { value: "$290k", label: "Total Contract Value", trend: "up", trendValue: "+15%" },
+                    secondaryMetrics: [
+                      { label: "Avg Work Efficiency", value: "85.4%", color: "text-green-600" },
+                      { label: "Players Analyzed", value: 3, color: "text-blue-600" },
+                      { label: "Cohesion Score", value: "9.2/10", color: "text-purple-600" }
+                    ],
+                    status: "good",
+                    icon: <DollarSign className="w-6 h-6" />,
+                    route: "/moneyball"
+                  },
+                  {
                     id: "tactical",
                     title: "Tactical Analysis",
                     description: "Game strategy analysis, formation effectiveness, and tactical insights",
@@ -573,7 +588,7 @@ export default function TeamDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Card className="bg-blue-50 border-blue-200">
                   <CardContent className="p-4 text-center">
-                    <div className="text-2xl font-bold text-blue-600">6</div>
+                    <div className="text-2xl font-bold text-blue-600">7</div>
                     <p className="text-sm text-blue-800">Active Analytics Modules</p>
                   </CardContent>
                 </Card>
