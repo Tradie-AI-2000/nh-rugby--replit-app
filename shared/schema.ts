@@ -388,6 +388,136 @@ export type InjuryTracking = z.infer<typeof injuryTrackingSchema>;
 export type Communication = z.infer<typeof communicationSchema>;
 export type GPSData = z.infer<typeof gpsDataSchema>;
 
+// Match Performance Schemas
+export const matchPerformanceSchema = z.object({
+  id: z.string(),
+  matchId: z.string(),
+  playerId: z.string(),
+  date: z.string(),
+  opponent: z.string(),
+  venue: z.string(),
+  result: z.string(),
+  
+  // Attack Metrics
+  carries: z.number().default(0),
+  metresCarried: z.number().default(0),
+  metresGained: z.number().default(0),
+  linebreaks: z.number().default(0),
+  gainlineMadePercent: z.number().default(0),
+  kicksMetres: z.number().default(0),
+  turnoversGiven: z.number().default(0),
+  
+  // Defence Metrics
+  tacklesMade: z.number().default(0),
+  tacklesMissed: z.number().default(0),
+  madeTacklePercent: z.number().default(0),
+  
+  // Infringements
+  penaltiesConceded: z.number().default(0),
+  freeKicksConceded: z.number().default(0),
+  
+  // Breakdown
+  rucks: z.number().default(0),
+  quickBallPercent: z.number().default(0),
+  breakdownSteals: z.number().default(0),
+  
+  // Set Piece
+  scrumWonPercent: z.number().default(0),
+  lineoutWonPercent: z.number().default(0),
+  lineoutSteals: z.number().default(0),
+  
+  // Possession & Territory
+  possessionPercent: z.number().default(0),
+  territoryPercent: z.number().default(0),
+  attackingMinutes: z.number().default(0),
+  ballInPlayMinutes: z.number().default(0),
+  
+  // Carry Analysis
+  carriesOverGainlinePercent: z.number().default(0),
+  carriesOnGainlinePercent: z.number().default(0),
+  carriesBehindGainlinePercent: z.number().default(0),
+  carryEfficiencyPercent: z.number().default(0),
+  
+  // Opposition Carry Analysis
+  oppCarriesOverGainlinePercent: z.number().default(0),
+  oppCarriesOnGainlinePercent: z.number().default(0),
+  oppCarriesBehindGainlinePercent: z.number().default(0),
+  
+  // Ruck Analysis
+  ruckRetentionPercent: z.number().default(0),
+  ruckSpeed0to3SecsPercent: z.number().default(0),
+  ruckSpeed3to6SecsPercent: z.number().default(0),
+  ruckSpeedOver6SecsPercent: z.number().default(0),
+  oppRuckSpeed0to3SecsPercent: z.number().default(0),
+  oppRuckSpeed3to6SecsPercent: z.number().default(0),
+  oppRuckSpeedOver6SecsPercent: z.number().default(0),
+  
+  // Scoring
+  triesScored: z.number().default(0),
+  pointsScored: z.number().default(0),
+  ballCarryMetres: z.number().default(0),
+  linebreaks1stPhase: z.number().default(0),
+  defendersBeaten: z.number().default(0),
+  offloads: z.number().default(0),
+  
+  // Kicking
+  kicksInPlay: z.number().default(0),
+  kickingMetres: z.number().default(0),
+  goalKicking: z.string().default("0/0"),
+  carrying22mExitPercent: z.number().default(0),
+  kicking22mExitPercent: z.number().default(0),
+  exit22mFailedPercent: z.number().default(0),
+  
+  // Scrum Detail
+  ownScrumWonPercent: z.number().default(0),
+  ownScrumCompletionPercent: z.number().default(0),
+  totalScrums: z.number().default(0),
+  scrumCompletionPercent: z.number().default(0),
+  
+  // Individual Contributions
+  ruckArrivals: z.number().default(0),
+  ruckFirst3: z.number().default(0),
+  cleanouts: z.number().default(0),
+  tacklesAttempted: z.number().default(0),
+  assistTackles: z.number().default(0),
+  dominantTackles: z.number().default(0),
+  lineBreaksConceded: z.number().default(0),
+  offloadsConceded: z.number().default(0),
+  carryMetresConceded: z.number().default(0),
+  tackleBreaksConceded: z.number().default(0),
+  
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export const matchSummarySchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  opponent: z.string(),
+  venue: z.string(),
+  result: z.string(),
+  finalScore: z.string(),
+  competition: z.string(),
+  
+  // Team Totals
+  teamPossessionPercent: z.number().default(0),
+  teamTerritoryPercent: z.number().default(0),
+  teamAttackingMinutes: z.number().default(0),
+  teamBallInPlayMinutes: z.number().default(0),
+  teamCarryEfficiencyPercent: z.number().default(0),
+  teamRuckRetentionPercent: z.number().default(0),
+  teamTackleSuccessPercent: z.number().default(0),
+  teamLinebreaks: z.number().default(0),
+  teamTries: z.number().default(0),
+  teamPoints: z.number().default(0),
+  
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+});
+
+export type MatchPerformance = z.infer<typeof matchPerformanceSchema>;
+export type MatchSummary = z.infer<typeof matchSummarySchema>;
+
 // Database Tables
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -614,13 +744,148 @@ export const players = pgTable("players", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const matchPerformances = pgTable("match_performances", {
+  id: text("id").primaryKey(),
+  matchId: text("match_id").notNull(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  date: text("date").notNull(),
+  opponent: text("opponent").notNull(),
+  venue: text("venue").notNull(),
+  result: text("result").notNull(),
+  
+  // Attack Metrics
+  carries: integer("carries").default(0),
+  metresCarried: integer("metres_carried").default(0),
+  metresGained: integer("metres_gained").default(0),
+  linebreaks: integer("linebreaks").default(0),
+  gainlineMadePercent: real("gainline_made_percent").default(0),
+  kicksMetres: integer("kicks_metres").default(0),
+  turnoversGiven: integer("turnovers_given").default(0),
+  
+  // Defence Metrics
+  tacklesMade: integer("tackles_made").default(0),
+  tacklesMissed: integer("tackles_missed").default(0),
+  madeTacklePercent: real("made_tackle_percent").default(0),
+  
+  // Infringements
+  penaltiesConceded: integer("penalties_conceded").default(0),
+  freeKicksConceded: integer("free_kicks_conceded").default(0),
+  
+  // Breakdown
+  rucks: integer("rucks").default(0),
+  quickBallPercent: real("quick_ball_percent").default(0),
+  breakdownSteals: integer("breakdown_steals").default(0),
+  
+  // Set Piece
+  scrumWonPercent: real("scrum_won_percent").default(0),
+  lineoutWonPercent: real("lineout_won_percent").default(0),
+  lineoutSteals: integer("lineout_steals").default(0),
+  
+  // Possession & Territory
+  possessionPercent: real("possession_percent").default(0),
+  territoryPercent: real("territory_percent").default(0),
+  attackingMinutes: real("attacking_minutes").default(0),
+  ballInPlayMinutes: real("ball_in_play_minutes").default(0),
+  
+  // Carry Analysis
+  carriesOverGainlinePercent: real("carries_over_gainline_percent").default(0),
+  carriesOnGainlinePercent: real("carries_on_gainline_percent").default(0),
+  carriesBehindGainlinePercent: real("carries_behind_gainline_percent").default(0),
+  carryEfficiencyPercent: real("carry_efficiency_percent").default(0),
+  
+  // Opposition Carry Analysis
+  oppCarriesOverGainlinePercent: real("opp_carries_over_gainline_percent").default(0),
+  oppCarriesOnGainlinePercent: real("opp_carries_on_gainline_percent").default(0),
+  oppCarriesBehindGainlinePercent: real("opp_carries_behind_gainline_percent").default(0),
+  
+  // Ruck Analysis
+  ruckRetentionPercent: real("ruck_retention_percent").default(0),
+  ruckSpeed0to3SecsPercent: real("ruck_speed_0_to_3_secs_percent").default(0),
+  ruckSpeed3to6SecsPercent: real("ruck_speed_3_to_6_secs_percent").default(0),
+  ruckSpeedOver6SecsPercent: real("ruck_speed_over_6_secs_percent").default(0),
+  oppRuckSpeed0to3SecsPercent: real("opp_ruck_speed_0_to_3_secs_percent").default(0),
+  oppRuckSpeed3to6SecsPercent: real("opp_ruck_speed_3_to_6_secs_percent").default(0),
+  oppRuckSpeedOver6SecsPercent: real("opp_ruck_speed_over_6_secs_percent").default(0),
+  
+  // Scoring
+  triesScored: integer("tries_scored").default(0),
+  pointsScored: integer("points_scored").default(0),
+  ballCarryMetres: integer("ball_carry_metres").default(0),
+  linebreaks1stPhase: integer("linebreaks_1st_phase").default(0),
+  defendersBeaten: integer("defenders_beaten").default(0),
+  offloads: integer("offloads").default(0),
+  
+  // Kicking
+  kicksInPlay: integer("kicks_in_play").default(0),
+  kickingMetres: integer("kicking_metres").default(0),
+  goalKicking: text("goal_kicking").default("0/0"),
+  carrying22mExitPercent: real("carrying_22m_exit_percent").default(0),
+  kicking22mExitPercent: real("kicking_22m_exit_percent").default(0),
+  exit22mFailedPercent: real("exit_22m_failed_percent").default(0),
+  
+  // Scrum Detail
+  ownScrumWonPercent: real("own_scrum_won_percent").default(0),
+  ownScrumCompletionPercent: real("own_scrum_completion_percent").default(0),
+  totalScrums: integer("total_scrums").default(0),
+  scrumCompletionPercent: real("scrum_completion_percent").default(0),
+  
+  // Individual Contributions
+  ruckArrivals: integer("ruck_arrivals").default(0),
+  ruckFirst3: integer("ruck_first_3").default(0),
+  cleanouts: integer("cleanouts").default(0),
+  tacklesAttempted: integer("tackles_attempted").default(0),
+  assistTackles: integer("assist_tackles").default(0),
+  dominantTackles: integer("dominant_tackles").default(0),
+  lineBreaksConceded: integer("line_breaks_conceded").default(0),
+  offloadsConceded: integer("offloads_conceded").default(0),
+  carryMetresConceded: integer("carry_metres_conceded").default(0),
+  tackleBreaksConceded: integer("tackle_breaks_conceded").default(0),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const matchSummaries = pgTable("match_summaries", {
+  id: text("id").primaryKey(),
+  date: text("date").notNull(),
+  opponent: text("opponent").notNull(),
+  venue: text("venue").notNull(),
+  result: text("result").notNull(),
+  finalScore: text("final_score").notNull(),
+  competition: text("competition").notNull(),
+  
+  // Team Totals
+  teamPossessionPercent: real("team_possession_percent").default(0),
+  teamTerritoryPercent: real("team_territory_percent").default(0),
+  teamAttackingMinutes: real("team_attacking_minutes").default(0),
+  teamBallInPlayMinutes: real("team_ball_in_play_minutes").default(0),
+  teamCarryEfficiencyPercent: real("team_carry_efficiency_percent").default(0),
+  teamRuckRetentionPercent: real("team_ruck_retention_percent").default(0),
+  teamTackleSuccessPercent: real("team_tackle_success_percent").default(0),
+  teamLinebreaks: integer("team_linebreaks").default(0),
+  teamTries: integer("team_tries").default(0),
+  teamPoints: integer("team_points").default(0),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   // Future: user-player assignments, reports, etc.
 }));
 
-export const playersRelations = relations(players, ({ one }) => ({
-  // Future: relationships with other tables
+export const playersRelations = relations(players, ({ many }) => ({
+  matchPerformances: many(matchPerformances),
+}));
+
+export const matchPerformancesRelations = relations(matchPerformances, ({ one }) => ({
+  player: one(players, { fields: [matchPerformances.playerId], references: [players.id] }),
+  matchSummary: one(matchSummaries, { fields: [matchPerformances.matchId], references: [matchSummaries.id] }),
+}));
+
+export const matchSummariesRelations = relations(matchSummaries, ({ many }) => ({
+  performances: many(matchPerformances),
 }));
 
 // Database types
@@ -628,15 +893,17 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Player = typeof players.$inferSelect;
 export type InsertPlayer = typeof players.$inferInsert;
+export type MatchPerformance = typeof matchPerformances.$inferSelect;
+export type InsertMatchPerformance = typeof matchPerformances.$inferInsert;
+export type MatchSummary = typeof matchSummaries.$inferSelect;
+export type InsertMatchSummary = typeof matchSummaries.$inferInsert;
 
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users);
 export const insertPlayerSchema = createInsertSchema(players);
+export const insertMatchPerformanceSchema = createInsertSchema(matchPerformances);
+export const insertMatchSummarySchema = createInsertSchema(matchSummaries);
 
 // Legacy Zod schemas for backwards compatibility  
 export type PlayerZod = z.infer<typeof playerSchema>;
 export type InsertPlayerZod = z.infer<typeof insertPlayerSchema>;
-
-// Re-export for components that expect the original Player type
-export type { Player as PlayerDB } from "./schema";
-export { PlayerZodType as Player };
