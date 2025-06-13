@@ -43,6 +43,120 @@ export default function RealTimeMatchAnalytics({ matchId, isLive = true }: RealT
     }
   }, [isPlaying, isLive]);
 
+  // Enhanced AI-powered heat map data for coaching roles
+  const heatMapData = {
+    lineoutAnalysis: {
+      oppositionThrows: [
+        { position: "5m", success: 85, attempts: 12, pattern: "Quick throw to front" },
+        { position: "15m", success: 92, attempts: 8, pattern: "Middle pod targeting" },
+        { position: "22m", success: 67, attempts: 9, pattern: "Back pod variation" },
+        { position: "Halfway", success: 78, attempts: 5, pattern: "Long throw specialist" }
+      ],
+      aiInsights: [
+        "Opposition favors 15m lineouts (92% success) - prepare counter-maul defense",
+        "Weak at 22m throws (67%) - apply pressure on their lineout caller",
+        "Quick throws at 5m line increasing - position defenders wider"
+      ]
+    },
+    kickingPatterns: {
+      oppositionKicking: [
+        { zone: "Left Wing", frequency: 23, success: 78, avgDistance: 35 },
+        { zone: "Center Field", frequency: 45, success: 84, avgDistance: 42 },
+        { zone: "Right Wing", frequency: 32, success: 71, avgDistance: 38 },
+        { zone: "In-Goal", frequency: 12, success: 89, avgDistance: 28 }
+      ],
+      aiRecommendations: [
+        "Center field kicks most frequent (45) - position fullback centrally",
+        "Right wing kicks weakest (71%) - pressure kicker from that side",
+        "In-goal kicks very successful (89%) - improve chase lines"
+      ]
+    },
+    attackPatterns: {
+      oppositionPhases: [
+        { phase: "1-2", frequency: 34, successRate: 67, gainLine: 72 },
+        { phase: "3-5", frequency: 28, successRate: 82, gainLine: 85 },
+        { phase: "6-8", frequency: 19, successRate: 71, gainLine: 69 },
+        { phase: "9+", frequency: 12, successRate: 58, gainLine: 45 }
+      ],
+      weaknesses: [
+        "Struggle in phases 9+ (58% success) - force extended phases",
+        "Lower gain line success in phase 1-2 (72%) - aggressive line speed",
+        "Peak efficiency in phases 3-5 - disrupt early ball presentation"
+      ]
+    },
+    defensivePatterns: {
+      lineSpeed: [
+        { minute: 0, speed: 8.2, accuracy: 89 },
+        { minute: 10, speed: 7.8, accuracy: 87 },
+        { minute: 20, speed: 7.5, accuracy: 84 },
+        { minute: 30, speed: 7.9, accuracy: 86 },
+        { minute: 40, speed: 7.3, accuracy: 82 }
+      ],
+      aiAlerts: [
+        "Line speed dropping after 20min mark - consider fresh legs",
+        "Accuracy declining in middle third - reinforce system calls",
+        "Right edge defense showing gaps - shift defensive pattern"
+      ]
+    }
+  };
+
+  const setPlayAnalysis = {
+    scrumStats: {
+      own: { won: 8, lost: 1, penalties: 2, pushover: 1 },
+      opposition: { won: 6, lost: 3, penalties: 4, pushover: 0 },
+      aiInsights: [
+        "Dominant scrum platform (89% success) - use for attacking launchpad",
+        "Opposition struggling with penalties (4) - target hooker accuracy",
+        "Pushover threat established - maintain front row intensity"
+      ]
+    },
+    lineoutStats: {
+      own: { won: 12, lost: 2, stolen: 1, quickThrow: 3 },
+      opposition: { won: 9, lost: 4, stolen: 2, quickThrow: 1 },
+      aiInsights: [
+        "Strong lineout platform (86% success) - vary throwing patterns",
+        "Successfully disrupting opposition (31% success rate) - maintain pressure",
+        "Quick throw opportunities increasing - alert wingers to position"
+      ]
+    }
+  };
+
+  const tacticalliveData = {
+    forwardsCoach: {
+      scrumDominance: 78,
+      lineoutSuccess: 86,
+      maulEffectiveness: 72,
+      packCohesion: 84,
+      alerts: [
+        "Scrum dominance declining - check front row fatigue",
+        "Lineout timing perfect - maintain current caller rhythm",
+        "Maul defense vulnerable on opposition - target their lineout"
+      ]
+    },
+    backsCoach: {
+      passingAccuracy: 89,
+      kickingSuccess: 76,
+      linebreaks: 7,
+      offloadSuccess: 64,
+      alerts: [
+        "Passing accuracy excellent - continue wide attack pattern",
+        "Kicking game needs work - 76% success below target",
+        "Offload game creating opportunities - encourage support play"
+      ]
+    },
+    defensiveCoach: {
+      lineSpeed: 7.6,
+      tackleSuccess: 87,
+      turnoversBon: 4,
+      missedTackles: 8,
+      alerts: [
+        "Line speed optimal for pressure - maintain current system",
+        "Tackle success strong - continue aggressive approach",
+        "Turnover rate good - reward breakdown efforts"
+      ]
+    }
+  };
+
   // Sample real-time player data with fatigue monitoring
   const realTimePlayerData = [
     {
@@ -556,59 +670,396 @@ export default function RealTimeMatchAnalytics({ matchId, isLive = true }: RealT
           </div>
         </TabsContent>
 
-        {/* Live Heat Map */}
+        {/* AI-Powered Heat Maps & Analytics */}
         <TabsContent value="heatmap" className="space-y-6">
+          {/* Coaching Role Selector */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <Card className="border-2 border-red-500 bg-red-50">
+              <CardContent className="p-4 text-center">
+                <Users className="mx-auto mb-2 text-red-600" size={24} />
+                <div className="font-bold text-sm">Head Coach</div>
+                <div className="text-xs text-gray-600">Overall Strategy</div>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-blue-500 bg-blue-50">
+              <CardContent className="p-4 text-center">
+                <Shield className="mx-auto mb-2 text-blue-600" size={24} />
+                <div className="font-bold text-sm">Forwards Coach</div>
+                <div className="text-xs text-gray-600">Set Piece Focus</div>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-green-500 bg-green-50">
+              <CardContent className="p-4 text-center">
+                <Swords className="mx-auto mb-2 text-green-600" size={24} />
+                <div className="font-bold text-sm">Backs Coach</div>
+                <div className="text-xs text-gray-600">Attack Patterns</div>
+              </CardContent>
+            </Card>
+            <Card className="border-2 border-purple-500 bg-purple-50">
+              <CardContent className="p-4 text-center">
+                <Target className="mx-auto mb-2 text-purple-600" size={24} />
+                <div className="font-bold text-sm">Defence Coach</div>
+                <div className="text-xs text-gray-600">Line Speed & Structure</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Opposition Lineout Heat Map */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MapPin className="h-5 w-5 mr-2 text-blue-600" />
+                  Opposition Lineout Heat Map
+                </CardTitle>
+                <div className="text-sm text-gray-600">AI Analysis: Throw Success Patterns</div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {heatMapData.lineoutAnalysis.oppositionThrows.map((throw_, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-full ${
+                          throw_.success >= 90 ? 'bg-red-500' :
+                          throw_.success >= 80 ? 'bg-yellow-500' : 'bg-green-500'
+                        }`}></div>
+                        <div>
+                          <div className="font-medium">{throw_.position} Line</div>
+                          <div className="text-xs text-gray-600">{throw_.pattern}</div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold">{throw_.success}%</div>
+                        <div className="text-xs text-gray-500">{throw_.attempts} throws</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                  <h4 className="font-medium text-blue-800 mb-2">🧠 AI Insights</h4>
+                  <ul className="space-y-1">
+                    {heatMapData.lineoutAnalysis.aiInsights.map((insight, index) => (
+                      <li key={index} className="text-sm text-blue-700">• {insight}</li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Opposition Kicking Patterns */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Target className="h-5 w-5 mr-2 text-green-600" />
+                  Opposition Kicking Zones
+                </CardTitle>
+                <div className="text-sm text-gray-600">AI Analysis: Territorial Patterns</div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {heatMapData.kickingPatterns.oppositionKicking.map((kick, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-full ${
+                          kick.frequency >= 40 ? 'bg-red-500' :
+                          kick.frequency >= 25 ? 'bg-yellow-500' : 'bg-green-500'
+                        }`}></div>
+                        <div>
+                          <div className="font-medium">{kick.zone}</div>
+                          <div className="text-xs text-gray-600">{kick.avgDistance}m avg distance</div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold">{kick.success}%</div>
+                        <div className="text-xs text-gray-500">{kick.frequency} kicks</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                  <h4 className="font-medium text-green-800 mb-2">🎯 AI Recommendations</h4>
+                  <ul className="space-y-1">
+                    {heatMapData.kickingPatterns.aiRecommendations.map((rec, index) => (
+                      <li key={index} className="text-sm text-green-700">• {rec}</li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Attack Phase Analysis */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2 text-nh-red" />
-                Live Player Positioning Heat Map
+                <Activity className="h-5 w-5 mr-2 text-purple-600" />
+                Opposition Attack Phase Patterns
               </CardTitle>
+              <div className="text-sm text-gray-600">AI Analysis: Phase Play Effectiveness</div>
             </CardHeader>
             <CardContent>
-              <div className="relative bg-green-100 rounded-lg p-8 min-h-96">
-                <div className="absolute inset-4 border-2 border-white rounded">
-                  {/* Rugby field representation */}
-                  <div className="w-full h-full relative">
-                    {/* Field markings */}
-                    <div className="absolute top-1/2 left-0 right-0 h-px bg-white"></div>
-                    <div className="absolute top-1/4 left-0 right-0 h-px bg-white opacity-50"></div>
-                    <div className="absolute top-3/4 left-0 right-0 h-px bg-white opacity-50"></div>
-                    
-                    {/* Player positions with heat intensity */}
-                    <div className="absolute top-1/2 left-1/4 w-4 h-4 bg-red-500 rounded-full opacity-80 transform -translate-x-1/2 -translate-y-1/2">
-                      <span className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-white">2</span>
-                    </div>
-                    <div className="absolute top-1/3 left-1/2 w-4 h-4 bg-yellow-500 rounded-full opacity-80 transform -translate-x-1/2 -translate-y-1/2">
-                      <span className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-white">10</span>
-                    </div>
-                    <div className="absolute top-2/3 left-1/3 w-4 h-4 bg-orange-500 rounded-full opacity-80 transform -translate-x-1/2 -translate-y-1/2">
-                      <span className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-white">7</span>
-                    </div>
-                    
-                    {/* Heat zones */}
-                    <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-red-300 rounded-full opacity-30"></div>
-                    <div className="absolute top-1/2 left-2/3 w-20 h-20 bg-yellow-300 rounded-full opacity-30"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium mb-3">Phase Play Success Rates</h4>
+                  <div className="space-y-3">
+                    {heatMapData.attackPatterns.oppositionPhases.map((phase, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="font-medium">Phases {phase.phase}</div>
+                          <div className="text-xs text-gray-600">{phase.frequency} attempts</div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <div className="font-bold">{phase.successRate}%</div>
+                            <div className="text-xs text-gray-500">Success</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold">{phase.gainLine}%</div>
+                            <div className="text-xs text-gray-500">Gain Line</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 
-                <div className="mt-4 flex items-center gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-red-500 rounded-full"></div>
-                    <span>High Activity</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                    <span>Medium Activity</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-green-500 rounded-full"></div>
-                    <span>Low Activity</span>
+                <div>
+                  <h4 className="font-medium mb-3">Defensive Opportunities</h4>
+                  <div className="space-y-2">
+                    {heatMapData.attackPatterns.weaknesses.map((weakness, index) => (
+                      <div key={index} className="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                        <div className="text-sm text-red-800">{weakness}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Live Defensive Metrics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Shield className="h-5 w-5 mr-2 text-red-600" />
+                  Live Defensive Line Speed
+                </CardTitle>
+                <div className="text-sm text-gray-600">Real-time tracking with AI alerts</div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={heatMapData.defensivePatterns.lineSpeed}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="minute" />
+                      <YAxis />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="speed" stroke="#DC2626" strokeWidth={2} />
+                      <Line type="monotone" dataKey="accuracy" stroke="#059669" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                
+                <div className="mt-4 space-y-2">
+                  {heatMapData.defensivePatterns.aiAlerts.map((alert, index) => (
+                    <div key={index} className="p-2 bg-amber-50 rounded border-l-4 border-amber-400">
+                      <div className="text-sm text-amber-800">⚠️ {alert}</div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Role-Specific Coaching Metrics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Brain className="h-5 w-5 mr-2 text-indigo-600" />
+                  AI Coaching Insights
+                </CardTitle>
+                <div className="text-sm text-gray-600">Role-specific tactical recommendations</div>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="forwards" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="forwards">Forwards</TabsTrigger>
+                    <TabsTrigger value="backs">Backs</TabsTrigger>
+                    <TabsTrigger value="defence">Defence</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="forwards" className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-3 bg-blue-50 rounded">
+                        <div className="text-2xl font-bold text-blue-600">{tacticalliveData.forwardsCoach.scrumDominance}%</div>
+                        <div className="text-xs text-gray-600">Scrum Dominance</div>
+                      </div>
+                      <div className="text-center p-3 bg-green-50 rounded">
+                        <div className="text-2xl font-bold text-green-600">{tacticalliveData.forwardsCoach.lineoutSuccess}%</div>
+                        <div className="text-xs text-gray-600">Lineout Success</div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {tacticalliveData.forwardsCoach.alerts.map((alert, index) => (
+                        <div key={index} className="text-sm p-2 bg-blue-50 rounded border-l-4 border-blue-400">
+                          {alert}
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="backs" className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-3 bg-green-50 rounded">
+                        <div className="text-2xl font-bold text-green-600">{tacticalliveData.backsCoach.passingAccuracy}%</div>
+                        <div className="text-xs text-gray-600">Passing Accuracy</div>
+                      </div>
+                      <div className="text-center p-3 bg-yellow-50 rounded">
+                        <div className="text-2xl font-bold text-yellow-600">{tacticalliveData.backsCoach.linebreaks}</div>
+                        <div className="text-xs text-gray-600">Line Breaks</div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {tacticalliveData.backsCoach.alerts.map((alert, index) => (
+                        <div key={index} className="text-sm p-2 bg-green-50 rounded border-l-4 border-green-400">
+                          {alert}
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="defence" className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-3 bg-red-50 rounded">
+                        <div className="text-2xl font-bold text-red-600">{tacticalliveData.defensiveCoach.tackleSuccess}%</div>
+                        <div className="text-xs text-gray-600">Tackle Success</div>
+                      </div>
+                      <div className="text-center p-3 bg-purple-50 rounded">
+                        <div className="text-2xl font-bold text-purple-600">{tacticalliveData.defensiveCoach.turnoversBon}</div>
+                        <div className="text-xs text-gray-600">Turnovers Won</div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {tacticalliveData.defensiveCoach.alerts.map((alert, index) => (
+                        <div key={index} className="text-sm p-2 bg-purple-50 rounded border-l-4 border-purple-400">
+                          {alert}
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Set Piece Analysis Dashboard */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Users className="h-5 w-5 mr-2 text-blue-600" />
+                  Set Piece Performance
+                </CardTitle>
+                <div className="text-sm text-gray-600">Live scrum and lineout analysis</div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium mb-2">Scrum Analysis</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-green-50 p-3 rounded">
+                        <div className="text-sm text-gray-600">North Harbour</div>
+                        <div className="text-lg font-bold text-green-600">
+                          {setPlayAnalysis.scrumStats.own.won}/{setPlayAnalysis.scrumStats.own.won + setPlayAnalysis.scrumStats.own.lost}
+                        </div>
+                        <div className="text-xs text-gray-500">Won/Total</div>
+                      </div>
+                      <div className="bg-red-50 p-3 rounded">
+                        <div className="text-sm text-gray-600">Opposition</div>
+                        <div className="text-lg font-bold text-red-600">
+                          {setPlayAnalysis.scrumStats.opposition.won}/{setPlayAnalysis.scrumStats.opposition.won + setPlayAnalysis.scrumStats.opposition.lost}
+                        </div>
+                        <div className="text-xs text-gray-500">Won/Total</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium mb-2">Lineout Analysis</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-blue-50 p-3 rounded">
+                        <div className="text-sm text-gray-600">North Harbour</div>
+                        <div className="text-lg font-bold text-blue-600">
+                          {setPlayAnalysis.lineoutStats.own.won}/{setPlayAnalysis.lineoutStats.own.won + setPlayAnalysis.lineoutStats.own.lost}
+                        </div>
+                        <div className="text-xs text-gray-500">Won/Total</div>
+                      </div>
+                      <div className="bg-orange-50 p-3 rounded">
+                        <div className="text-sm text-gray-600">Opposition</div>
+                        <div className="text-lg font-bold text-orange-600">
+                          {setPlayAnalysis.lineoutStats.opposition.won}/{setPlayAnalysis.lineoutStats.opposition.won + setPlayAnalysis.lineoutStats.opposition.lost}
+                        </div>
+                        <div className="text-xs text-gray-500">Won/Total</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h4 className="font-medium">🧠 AI Insights</h4>
+                    {setPlayAnalysis.scrumStats.aiInsights.map((insight, index) => (
+                      <div key={index} className="text-sm p-2 bg-blue-50 rounded border-l-4 border-blue-400">
+                        {insight}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Live Opposition Trends */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Eye className="h-5 w-5 mr-2 text-orange-600" />
+                  Opposition Trend Analysis
+                </CardTitle>
+                <div className="text-sm text-gray-600">AI pattern recognition</div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium mb-2 text-red-800">🚨 Critical Patterns</h4>
+                    <div className="space-y-2">
+                      <div className="p-3 bg-red-50 rounded border-l-4 border-red-400">
+                        <div className="font-medium text-sm">Lineout Vulnerability</div>
+                        <div className="text-xs text-gray-600">22m throws success rate dropped to 67% - increase pressure</div>
+                      </div>
+                      <div className="p-3 bg-amber-50 rounded border-l-4 border-amber-400">
+                        <div className="font-medium text-sm">Kicking Predictability</div>
+                        <div className="text-xs text-gray-600">89% of kicks targeting center field - adjust back 3 positioning</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium mb-2 text-green-800">✅ Tactical Opportunities</h4>
+                    <div className="space-y-2">
+                      <div className="p-3 bg-green-50 rounded border-l-4 border-green-400">
+                        <div className="font-medium text-sm">Scrum Dominance</div>
+                        <div className="text-xs text-gray-600">Use scrum platform for attacking opportunities</div>
+                      </div>
+                      <div className="p-3 bg-blue-50 rounded border-l-4 border-blue-400">
+                        <div className="font-medium text-sm">Phase Play Weakness</div>
+                        <div className="text-xs text-gray-600">Force extended phases - opposition struggles after phase 8</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
