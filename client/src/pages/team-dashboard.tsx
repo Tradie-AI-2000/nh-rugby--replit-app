@@ -76,7 +76,12 @@ export default function TeamDashboard() {
               />
               <div>
                 <h1 className="text-2xl font-bold">Team Management Portal</h1>
-                <p className="text-red-100">Squad Analytics & Operations</p>
+                <div className="flex items-center gap-2 text-sm text-nh-red-200">
+                  <Link href="/" className="hover:text-white">Home</Link>
+                  <span>›</span>
+                  <span className="text-white">Coaching Portal</span>
+                </div>
+                <p className="text-red-100 text-sm mt-1">Squad Analytics & Operations</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">

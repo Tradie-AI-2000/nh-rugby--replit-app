@@ -10,7 +10,9 @@ import {
   UserCheck,
   Activity,
   Target,
-  ArrowRight
+  ArrowRight,
+  ArrowLeft,
+  Home
 } from "lucide-react";
 
 const roles = [

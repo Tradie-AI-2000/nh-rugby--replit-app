@@ -36,7 +36,8 @@ import {
   Dumbbell,
   Timer,
   CalendarPlus,
-  Brain
+  Brain,
+  Home
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -521,10 +522,10 @@ export default function MedicalHub() {
         <div className="container mx-auto">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Link href="/role-selection">
+              <Link href="/">
                 <Button variant="ghost" size="sm" className="text-white hover:bg-blue-800">
                   <ArrowLeft size={16} className="mr-2" />
-                  Back to Roles
+                  Back to Home
                 </Button>
               </Link>
               <img 
@@ -537,7 +538,12 @@ export default function MedicalHub() {
                   <Stethoscope className="mr-3" size={28} />
                   Medical Intelligence Hub
                 </h1>
-                <p className="text-blue-100">Player Health & Performance Management</p>
+                <div className="flex items-center gap-2 text-sm text-blue-200">
+                  <Link href="/" className="hover:text-white">Home</Link>
+                  <span>›</span>
+                  <span className="text-white">Medical Hub</span>
+                </div>
+                <p className="text-blue-100 text-sm mt-1">Player Health & Performance Management</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
