@@ -2004,10 +2004,10 @@ Provide a detailed, actionable analysis with specific recommendations for North 
       const appointmentData = {
         id: `appointment_${Date.now()}`,
         playerId,
-        type: 'routine_checkup',
+        type: 'routine_checkup' as const,
         date: new Date().toISOString().split('T')[0],
         scheduledTime: '14:00',
-        status: action === 'miss' ? 'missed' : 'completed',
+        status: (action === 'miss' ? 'missed' : 'completed') as const,
         provider: 'Dr. Smith',
         notes: `Demo appointment - ${action === 'miss' ? 'player did not attend' : 'completed successfully'}`
       };

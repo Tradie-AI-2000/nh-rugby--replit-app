@@ -52,6 +52,8 @@ export default function DataIntegrityDemo() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [playerMetrics, setPlayerMetrics] = useState(samplePlayer.currentMetrics);
+  const [lastApiResult, setLastApiResult] = useState<any>(null);
+  const [showCascadingEffects, setShowCascadingEffects] = useState(false);
 
   const medicalAppointmentDemo: SimulationStep[] = [
     {
@@ -118,28 +120,34 @@ export default function DataIntegrityDemo() {
   // API mutations for live testing
   const medicalAppointmentMutation = useMutation({
     mutationFn: async (action: 'miss' | 'attend') => {
-      return apiRequest(`/api/demo/medical-appointment/${samplePlayer.id}`, {
+      const response = await fetch(`/api/demo/medical-appointment/${samplePlayer.id}`, {
         method: 'POST',
-        body: { action }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action })
       });
+      return response.json();
     }
   });
 
   const gpsDataMutation = useMutation({
     mutationFn: async (scenario: 'decline' | 'improve') => {
-      return apiRequest(`/api/demo/gps-data/${samplePlayer.id}`, {
+      const response = await fetch(`/api/demo/gps-data/${samplePlayer.id}`, {
         method: 'POST',
-        body: { scenario }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scenario })
       });
+      return response.json();
     }
   });
 
   const injuryUpdateMutation = useMutation({
     mutationFn: async (action: 'new_injury' | 'clear_injury') => {
-      return apiRequest(`/api/demo/injury-update/${samplePlayer.id}`, {
+      const response = await fetch(`/api/demo/injury-update/${samplePlayer.id}`, {
         method: 'POST',
-        body: { action }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action })
       });
+      return response.json();
     }
   });
 
@@ -185,6 +193,10 @@ export default function DataIntegrityDemo() {
       }
       
       if (result.success) {
+        // Store result for display
+        setLastApiResult(result);
+        setShowCascadingEffects(true);
+        
         // Update metrics based on cascading effects
         const changes = result.cascadingEffects.changes;
         const newMetrics = { ...playerMetrics };
@@ -211,6 +223,8 @@ export default function DataIntegrityDemo() {
     setCurrentStep(0);
     setIsRunning(false);
     setPlayerMetrics(samplePlayer.currentMetrics);
+    setLastApiResult(null);
+    setShowCascadingEffects(false);
   };
 
   const getMetricColor = (current: number, original: number) => {
@@ -389,22 +403,117 @@ export default function DataIntegrityDemo() {
                   <div>
                     <h3 className="font-medium mb-3">Simulation Control</h3>
                     <div className="space-y-4">
-                      <div className="flex gap-3">
+                      <div className="grid grid-cols-2 gap-3">
                         <Button 
-                          onClick={() => runDemo("medical")}
-                          disabled={isRunning}
+                          onClick={() => runLiveDemo("medical", "miss")}
+                          disabled={medicalAppointmentMutation.isPending}
+                          variant="destructive"
                           className="flex-1"
                         >
-                          {isRunning ? "Running..." : "Run Medical Demo"}
+                          {medicalAppointmentMutation.isPending ? "Processing..." : "Miss Appointment"}
                         </Button>
                         <Button 
-                          variant="outline" 
-                          onClick={resetDemo}
-                          disabled={isRunning}
+                          onClick={() => runLiveDemo("medical", "attend")}
+                          disabled={medicalAppointmentMutation.isPending}
+                          className="flex-1"
                         >
-                          Reset
+                          {medicalAppointmentMutation.isPending ? "Processing..." : "Attend Appointment"}
                         </Button>
                       </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button 
+                          onClick={() => runLiveDemo("gps", "decline")}
+                          disabled={gpsDataMutation.isPending}
+                          variant="destructive"
+                          className="flex-1"
+                        >
+                          {gpsDataMutation.isPending ? "Processing..." : "GPS Performance ↓"}
+                        </Button>
+                        <Button 
+                          onClick={() => runLiveDemo("gps", "improve")}
+                          disabled={gpsDataMutation.isPending}
+                          className="flex-1"
+                        >
+                          {gpsDataMutation.isPending ? "Processing..." : "GPS Performance ↑"}
+                        </Button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button 
+                          onClick={() => runLiveDemo("injury", "new_injury")}
+                          disabled={injuryUpdateMutation.isPending}
+                          variant="destructive"
+                          className="flex-1"
+                        >
+                          {injuryUpdateMutation.isPending ? "Processing..." : "New Injury"}
+                        </Button>
+                        <Button 
+                          onClick={() => runLiveDemo("injury", "clear_injury")}
+                          disabled={injuryUpdateMutation.isPending}
+                          className="flex-1"
+                        >
+                          {injuryUpdateMutation.isPending ? "Processing..." : "Clear Injury"}
+                        </Button>
+                      </div>
+
+                      <Button 
+                        variant="outline" 
+                        onClick={resetDemo}
+                        disabled={isRunning}
+                        className="w-full"
+                      >
+                        Reset to Initial State
+                      </Button>
+
+                      {/* Live API Results Display */}
+                      {showCascadingEffects && lastApiResult && (
+                        <div className="mt-6 p-4 border rounded-lg bg-blue-50 border-blue-200">
+                          <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
+                            <Zap className="w-4 h-4 text-blue-500" />
+                            Live Cascading Effects
+                          </h4>
+                          
+                          <div className="space-y-3">
+                            <div className="text-sm">
+                              <span className="font-medium">Trigger:</span> {lastApiResult.cascadingEffects.trigger}
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <span className="text-sm font-medium">Automatic Updates:</span>
+                              {lastApiResult.cascadingEffects.changes.map((change: any, idx: number) => (
+                                <div key={idx} className="flex items-center gap-2 text-sm p-2 rounded bg-white border">
+                                  {getImpactIcon(change.impact)}
+                                  <span className="flex-1">
+                                    {change.field}: {typeof change.before === 'number' && change.field === 'playerValue' 
+                                      ? `$${change.before.toLocaleString()}` 
+                                      : change.before} → {typeof change.after === 'number' && change.field === 'playerValue' 
+                                      ? `$${change.after.toLocaleString()}` 
+                                      : change.after}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            <div className="space-y-2">
+                              <span className="text-sm font-medium">Affected Systems:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {lastApiResult.cascadingEffects.affectedSystems.map((system: string, idx: number) => (
+                                  <Badge key={idx} variant="secondary" className="text-xs">
+                                    {system}
+                                  </Badge>
+                                ))}
+                              </div>
+                            </div>
+                            
+                            {lastApiResult.cascadingEffects.auditTrail && (
+                              <div className="text-xs text-gray-600 pt-2 border-t">
+                                Updated by: {lastApiResult.cascadingEffects.auditTrail.updatedBy} at {new Date(lastApiResult.cascadingEffects.auditTrail.timestamp).toLocaleString()}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
 
                       {activeDemo && (
                         <div className="space-y-3">
