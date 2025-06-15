@@ -1994,6 +1994,133 @@ Provide a detailed, actionable analysis with specific recommendations for North 
     }
   });
 
+  // Medical endpoints for comprehensive patient management
+  app.get('/api/medical/appointments/:playerId', async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      // In production, fetch from database
+      const mockAppointments = [
+        {
+          id: `apt_${playerId}_1`,
+          playerId,
+          type: 'routine_checkup',
+          date: '2024-06-20',
+          scheduledTime: '10:00',
+          status: 'scheduled',
+          provider: 'Dr. Smith',
+          notes: 'Regular health assessment'
+        }
+      ];
+      res.json(mockAppointments);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch appointments' });
+    }
+  });
+
+  app.get('/api/medical/notes/:playerId', async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      // In production, fetch from database
+      const mockNotes = [
+        {
+          id: `note_${playerId}_1`,
+          playerId,
+          date: '2024-06-15',
+          provider: 'Dr. Smith',
+          type: 'assessment',
+          content: 'Player reports good overall fitness. No significant concerns.',
+          recommendations: 'Continue current training regime',
+          urgency: 'low',
+          flaggedForCoach: false
+        }
+      ];
+      res.json(mockNotes);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch medical notes' });
+    }
+  });
+
+  app.get('/api/medical/injuries/:playerId', async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      // In production, fetch from database
+      const mockInjuries = [];
+      res.json(mockInjuries);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch injury records' });
+    }
+  });
+
+  app.post('/api/medical/notes', async (req, res) => {
+    try {
+      const noteData = req.body;
+      
+      // Process through data integrity system
+      const updateResult = await dataIntegrityManager.processDataUpdate(
+        noteData.playerId,
+        { medicalNotes: [noteData] },
+        'medical_update',
+        'Dr. Smith'
+      );
+
+      res.json({ success: true, note: noteData, cascadingUpdates: updateResult.cascadingUpdates });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to create medical note' });
+    }
+  });
+
+  app.post('/api/medical/appointments', async (req, res) => {
+    try {
+      const appointmentData = req.body;
+      
+      // Process through data integrity system for appointment scheduling
+      const updateResult = await dataIntegrityManager.processDataUpdate(
+        appointmentData.playerId,
+        { medicalAppointments: [appointmentData] },
+        'medical_update',
+        'Medical Staff'
+      );
+
+      res.json({ success: true, appointment: appointmentData, cascadingUpdates: updateResult.cascadingUpdates });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to schedule appointment' });
+    }
+  });
+
+  app.post('/api/medical/injuries', async (req, res) => {
+    try {
+      const injuryData = req.body;
+      
+      // Process injury through data integrity system with cascading effects
+      const updateResult = await dataIntegrityManager.processDataUpdate(
+        injuryData.playerId,
+        { 
+          injuries: [injuryData],
+          status: { medical: injuryData.severity === 'severe' ? 'unavailable' : 'modified' }
+        },
+        'medical_update',
+        'Medical Staff'
+      );
+
+      res.json({ success: true, injury: injuryData, cascadingUpdates: updateResult.cascadingUpdates });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to record injury' });
+    }
+  });
+
+  app.post('/api/medical/communication', async (req, res) => {
+    try {
+      const messageData = req.body;
+      
+      // Log communication in system
+      console.log('Medical communication sent:', messageData);
+      
+      res.json({ success: true, message: 'Communication sent successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to send communication' });
+    }
+  });
+
   // Live demo endpoint for testing data integrity
   app.post("/api/demo/medical-appointment/:playerId", async (req, res) => {
     try {

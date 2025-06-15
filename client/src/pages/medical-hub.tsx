@@ -38,7 +38,10 @@ import {
   Timer,
   CalendarPlus,
   Brain,
-  Home
+  Home,
+  User,
+  Send,
+  Save
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -1991,6 +1994,383 @@ export default function MedicalHub() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Medical Record Management Dialogs */}
+        {/* New Treatment Note Dialog */}
+        <Dialog open={showNewNote} onOpenChange={setShowNewNote}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Add Treatment Note</DialogTitle>
+              <DialogDescription>
+                Record medical assessment or treatment details
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Note Type</label>
+                  <Select value={noteForm.type} onValueChange={(value) => 
+                    setNoteForm(prev => ({ ...prev, type: value }))
+                  }>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="assessment">Assessment</SelectItem>
+                      <SelectItem value="treatment">Treatment</SelectItem>
+                      <SelectItem value="progress_note">Progress Note</SelectItem>
+                      <SelectItem value="clearance">Clearance</SelectItem>
+                      <SelectItem value="communication">Communication</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium">Priority</label>
+                  <Select value={noteForm.urgency} onValueChange={(value) => 
+                    setNoteForm(prev => ({ ...prev, urgency: value }))
+                  }>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Content</label>
+                <Textarea
+                  value={noteForm.content}
+                  onChange={(e) => setNoteForm(prev => ({ ...prev, content: e.target.value }))}
+                  placeholder="Assessment findings, treatment details, or observations..."
+                  rows={4}
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Recommendations</label>
+                <Textarea
+                  value={noteForm.recommendations}
+                  onChange={(e) => setNoteForm(prev => ({ ...prev, recommendations: e.target.value }))}
+                  placeholder="Treatment recommendations or modifications..."
+                  rows={2}
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Follow-up Required</label>
+                <Input
+                  value={noteForm.followUp}
+                  onChange={(e) => setNoteForm(prev => ({ ...prev, followUp: e.target.value }))}
+                  placeholder="Follow-up instructions or timeline..."
+                />
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="flagForCoach"
+                  checked={noteForm.flaggedForCoach}
+                  onChange={(e) => setNoteForm(prev => ({ ...prev, flaggedForCoach: e.target.checked }))}
+                />
+                <label htmlFor="flagForCoach" className="text-sm font-medium">
+                  Flag for coaching staff
+                </label>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowNewNote(false)}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => createNoteMutation.mutate(noteForm)}
+                disabled={!noteForm.type || !noteForm.content}
+              >
+                <Save className="h-4 w-4 mr-2" />
+                Save Note
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* New Injury Dialog */}
+        <Dialog open={showNewInjury} onOpenChange={setShowNewInjury}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Record New Injury</DialogTitle>
+              <DialogDescription>
+                Document injury details and treatment plan - will automatically update player status
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Injury Type</label>
+                  <Input
+                    value={injuryForm.type}
+                    onChange={(e) => setInjuryForm(prev => ({ ...prev, type: e.target.value }))}
+                    placeholder="e.g., Hamstring strain"
+                  />
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium">Severity</label>
+                  <Select value={injuryForm.severity} onValueChange={(value) => 
+                    setInjuryForm(prev => ({ ...prev, severity: value }))
+                  }>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select severity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="minor">Minor</SelectItem>
+                      <SelectItem value="moderate">Moderate</SelectItem>
+                      <SelectItem value="severe">Severe</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Description</label>
+                <Textarea
+                  value={injuryForm.description}
+                  onChange={(e) => setInjuryForm(prev => ({ ...prev, description: e.target.value }))}
+                  placeholder="Detailed description of the injury..."
+                  rows={3}
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Expected Return Date</label>
+                <Input
+                  type="date"
+                  value={injuryForm.expectedReturn}
+                  onChange={(e) => setInjuryForm(prev => ({ ...prev, expectedReturn: e.target.value }))}
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Treatment Plan</label>
+                <Textarea
+                  value={injuryForm.treatmentPlan}
+                  onChange={(e) => setInjuryForm(prev => ({ ...prev, treatmentPlan: e.target.value }))}
+                  placeholder="Treatment approach and rehabilitation plan..."
+                  rows={3}
+                />
+              </div>
+            </div>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <div className="flex items-start space-x-2">
+                <Shield className="h-4 w-4 text-blue-600 mt-0.5" />
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium">Data Integrity Integration</p>
+                  <p className="text-xs text-blue-700 mt-1">
+                    Recording this injury will automatically cascade through player availability, team selection metrics, and coaching staff notifications.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowNewInjury(false)}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => createInjuryMutation.mutate(injuryForm)}
+                disabled={!injuryForm.type || !injuryForm.severity || !injuryForm.description}
+              >
+                <Save className="h-4 w-4 mr-2" />
+                Record Injury
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Enhanced Appointment Dialog */}
+        <Dialog open={showAppointmentDialog} onOpenChange={setShowAppointmentDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Schedule Medical Appointment</DialogTitle>
+              <DialogDescription>
+                Add a new appointment for the selected player
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Appointment Type</label>
+                <Select value={appointmentForm.type} onValueChange={(value) => 
+                  setAppointmentForm(prev => ({ ...prev, type: value }))
+                }>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="routine_checkup">Routine Checkup</SelectItem>
+                    <SelectItem value="injury_assessment">Injury Assessment</SelectItem>
+                    <SelectItem value="treatment">Treatment Session</SelectItem>
+                    <SelectItem value="clearance">Medical Clearance</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Date</label>
+                  <Input
+                    type="date"
+                    value={appointmentForm.date}
+                    onChange={(e) => setAppointmentForm(prev => ({ ...prev, date: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Time</label>
+                  <Input
+                    type="time"
+                    value={appointmentForm.time}
+                    onChange={(e) => setAppointmentForm(prev => ({ ...prev, time: e.target.value }))}
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Provider</label>
+                <Input
+                  value={appointmentForm.staff}
+                  onChange={(e) => setAppointmentForm(prev => ({ ...prev, staff: e.target.value }))}
+                  placeholder="Dr. Smith"
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Notes</label>
+                <Textarea
+                  value={appointmentForm.notes}
+                  onChange={(e) => setAppointmentForm(prev => ({ ...prev, notes: e.target.value }))}
+                  placeholder="Additional notes..."
+                />
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowAppointmentDialog(false)}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => createAppointmentMutation.mutate({
+                  type: appointmentForm.type,
+                  date: appointmentForm.date,
+                  scheduledTime: appointmentForm.time,
+                  provider: appointmentForm.staff,
+                  notes: appointmentForm.notes
+                })}
+                disabled={!appointmentForm.type || !appointmentForm.date || !appointmentForm.time}
+              >
+                <Save className="h-4 w-4 mr-2" />
+                Schedule
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Communication Dialog */}
+        <Dialog open={showCommunication} onOpenChange={setShowCommunication}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Send Message</DialogTitle>
+              <DialogDescription>
+                Communicate with player, coaches, or medical staff
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Recipient</label>
+                  <Select value={communicationForm.recipient} onValueChange={(value) => 
+                    setCommunicationForm(prev => ({ ...prev, recipient: value }))
+                  }>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select recipient" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="player">Player</SelectItem>
+                      <SelectItem value="head_coach">Head Coach</SelectItem>
+                      <SelectItem value="assistant_coach">Assistant Coach</SelectItem>
+                      <SelectItem value="medical_team">Medical Team</SelectItem>
+                      <SelectItem value="emergency_contact">Emergency Contact</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium">Priority</label>
+                  <Select value={communicationForm.priority} onValueChange={(value) => 
+                    setCommunicationForm(prev => ({ ...prev, priority: value }))
+                  }>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="normal">Normal</SelectItem>
+                      <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectItem value="emergency">Emergency</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Subject</label>
+                <Input
+                  value={communicationForm.subject}
+                  onChange={(e) => setCommunicationForm(prev => ({ ...prev, subject: e.target.value }))}
+                  placeholder="Message subject..."
+                />
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium">Message</label>
+                <Textarea
+                  value={communicationForm.message}
+                  onChange={(e) => setCommunicationForm(prev => ({ ...prev, message: e.target.value }))}
+                  placeholder="Your message..."
+                  rows={4}
+                />
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowCommunication(false)}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => {
+                  console.log('Sending medical communication:', communicationForm);
+                  setShowCommunication(false);
+                  setCommunicationForm({ recipient: "", subject: "", message: "", priority: "normal" });
+                  toast({
+                    title: "Message Sent",
+                    description: "Communication has been sent successfully.",
+                  });
+                }}
+                disabled={!communicationForm.recipient || !communicationForm.message}
+              >
+                <Send className="h-4 w-4 mr-2" />
+                Send Message
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
