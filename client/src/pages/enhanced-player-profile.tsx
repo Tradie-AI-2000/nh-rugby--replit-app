@@ -427,7 +427,7 @@ export default function EnhancedPlayerProfile() {
               <input
                 id="file-upload"
                 type="file"
-                accept=".json"
+                accept=".csv"
                 style={{ display: 'none' }}
                 onChange={handleFileUpload}
               />
@@ -437,6 +437,15 @@ export default function EnhancedPlayerProfile() {
               </Badge>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* CSV Format Help */}
+      <div className="container mx-auto px-4 pb-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <p className="text-sm text-blue-800">
+            <strong>CSV Export/Import:</strong> Download exports all player data in spreadsheet format. Edit any fields in Excel/Google Sheets and upload the CSV to update player information. Required fields: First Name, Last Name.
+          </p>
         </div>
       </div>
 
