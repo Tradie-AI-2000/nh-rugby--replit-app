@@ -98,57 +98,192 @@ export default function EnhancedPlayerProfile() {
     enabled: !!playerId,
   });
 
-  // Download player data as JSON
+  // Download player data as CSV
   const downloadPlayerData = () => {
     if (!player) return;
     
-    const playerData = {
-      ...player,
-      exportedAt: new Date().toISOString(),
-      exportedBy: "Coach", // Could be dynamic based on user
-      version: "1.0"
-    };
+    const latestPhysical = player.physicalAttributes?.[player.physicalAttributes.length - 1];
+    const latestGameStats = player.gameStats?.[player.gameStats.length - 1];
+    const age = Math.floor((new Date().getTime() - new Date(player.personalDetails.dateOfBirth).getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+    
+    // Create comprehensive CSV data structure
+    const csvData = [
+      // Header row
+      [
+        'Export Date', 'Player ID', 'First Name', 'Last Name', 'Age', 'Date of Birth', 'Email', 'Phone', 'Address',
+        'Emergency Contact Name', 'Emergency Contact Relationship', 'Emergency Contact Phone',
+        'Jersey Number', 'Primary Position', 'Secondary Positions', 'Playing Level', 'Years In Team',
+        'Height (cm)', 'Weight (kg)', 'Body Fat (%)', 'Lean Mass (kg)',
+        'Ball Handling', 'Passing', 'Kicking', 'Defense', 'Communication',
+        'Matches Played', 'Minutes Played', 'Tries', 'Tackles', 'Penalties',
+        'Overall AI Rating', 'Potential Rating', 'Fitness Status', 'Medical Status'
+      ],
+      // Data row
+      [
+        new Date().toISOString().split('T')[0],
+        player.id,
+        player.personalDetails.firstName,
+        player.personalDetails.lastName,
+        age,
+        player.personalDetails.dateOfBirth,
+        player.personalDetails.email,
+        player.personalDetails.phone,
+        player.personalDetails.address,
+        player.personalDetails.emergencyContact.name,
+        player.personalDetails.emergencyContact.relationship,
+        player.personalDetails.emergencyContact.phone,
+        player.rugbyProfile.jerseyNumber,
+        player.rugbyProfile.primaryPosition,
+        player.rugbyProfile.secondaryPositions?.join(';') || '',
+        player.rugbyProfile.playingLevel,
+        player.rugbyProfile.yearsInTeam,
+        latestPhysical?.height || '',
+        latestPhysical?.weight || '',
+        latestPhysical?.bodyFat || '',
+        latestPhysical?.leanMass || '',
+        player.skills.ballHandling || '',
+        player.skills.passing || '',
+        player.skills.kicking || '',
+        player.skills.defense || '',
+        player.skills.communication || '',
+        latestGameStats?.matchesPlayed || '',
+        latestGameStats?.minutesPlayed || '',
+        latestGameStats?.tries || '',
+        latestGameStats?.tackles || '',
+        latestGameStats?.penalties || '',
+        player.aiRating?.overall || '',
+        player.aiRating?.potential || '',
+        player.status.fitness,
+        player.status.medical
+      ]
+    ];
 
-    const dataStr = JSON.stringify(playerData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    // Convert to CSV string
+    const csvContent = csvData.map(row => 
+      row.map(field => {
+        // Handle fields that might contain commas or quotes
+        const stringField = String(field || '');
+        if (stringField.includes(',') || stringField.includes('"') || stringField.includes('\n')) {
+          return `"${stringField.replace(/"/g, '""')}"`;
+        }
+        return stringField;
+      }).join(',')
+    ).join('\n');
+
+    // Create and download file
+    const dataBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(dataBlob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${player.personalDetails.firstName}_${player.personalDetails.lastName}_profile_${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `${player.personalDetails.firstName}_${player.personalDetails.lastName}_profile_${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // Handle file upload
+  // Handle CSV file upload
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      alert('Please select a CSV file');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const uploadedData = JSON.parse(e.target?.result as string);
+        const csvContent = e.target?.result as string;
+        const lines = csvContent.split('\n');
         
-        // Basic validation - check if it's a player profile
-        if (uploadedData.personalDetails && uploadedData.rugbyProfile) {
-          // Here you would typically send the data to your API to update the player
-          console.log('Uploaded player data:', uploadedData);
-          alert('Player data uploaded successfully! (This would update the database in a real implementation)');
-          
-          // You could add API call here:
-          // await apiRequest('/api/players/' + playerId, {
-          //   method: 'PUT',
-          //   body: uploadedData
-          // });
-          
-        } else {
-          alert('Invalid player profile file format');
+        if (lines.length < 2) {
+          alert('CSV file must contain header and data rows');
+          return;
         }
+
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        const dataRow = lines[1].split(',').map(d => d.trim().replace(/"/g, ''));
+
+        // Create player data object from CSV
+        const updatedPlayerData: any = {
+          id: dataRow[headers.indexOf('Player ID')] || player?.id,
+          personalDetails: {
+            firstName: dataRow[headers.indexOf('First Name')] || '',
+            lastName: dataRow[headers.indexOf('Last Name')] || '',
+            dateOfBirth: dataRow[headers.indexOf('Date of Birth')] || '',
+            email: dataRow[headers.indexOf('Email')] || '',
+            phone: dataRow[headers.indexOf('Phone')] || '',
+            address: dataRow[headers.indexOf('Address')] || '',
+            emergencyContact: {
+              name: dataRow[headers.indexOf('Emergency Contact Name')] || '',
+              relationship: dataRow[headers.indexOf('Emergency Contact Relationship')] || '',
+              phone: dataRow[headers.indexOf('Emergency Contact Phone')] || ''
+            }
+          },
+          rugbyProfile: {
+            jerseyNumber: parseInt(dataRow[headers.indexOf('Jersey Number')]) || 0,
+            primaryPosition: dataRow[headers.indexOf('Primary Position')] || '',
+            secondaryPositions: dataRow[headers.indexOf('Secondary Positions')]?.split(';').filter(p => p) || [],
+            playingLevel: dataRow[headers.indexOf('Playing Level')] || '',
+            yearsInTeam: parseInt(dataRow[headers.indexOf('Years In Team')]) || 0
+          },
+          skills: {
+            ballHandling: parseFloat(dataRow[headers.indexOf('Ball Handling')]) || 0,
+            passing: parseFloat(dataRow[headers.indexOf('Passing')]) || 0,
+            kicking: parseFloat(dataRow[headers.indexOf('Kicking')]) || 0,
+            defense: parseFloat(dataRow[headers.indexOf('Defense')]) || 0,
+            communication: parseFloat(dataRow[headers.indexOf('Communication')]) || 0
+          },
+          status: {
+            fitness: dataRow[headers.indexOf('Fitness Status')] || 'unknown',
+            medical: dataRow[headers.indexOf('Medical Status')] || 'unknown'
+          },
+          // Add physical attributes update
+          physicalAttributes: [{
+            ...player?.physicalAttributes?.[player.physicalAttributes.length - 1],
+            date: new Date().toISOString().split('T')[0],
+            height: parseInt(dataRow[headers.indexOf('Height (cm)')]) || player?.physicalAttributes?.[player.physicalAttributes.length - 1]?.height || 0,
+            weight: parseInt(dataRow[headers.indexOf('Weight (kg)')]) || player?.physicalAttributes?.[player.physicalAttributes.length - 1]?.weight || 0,
+            bodyFat: parseFloat(dataRow[headers.indexOf('Body Fat (%)')]) || player?.physicalAttributes?.[player.physicalAttributes.length - 1]?.bodyFat || 0,
+            leanMass: parseFloat(dataRow[headers.indexOf('Lean Mass (kg)')]) || player?.physicalAttributes?.[player.physicalAttributes.length - 1]?.leanMass || 0
+          }],
+          // Add game stats update
+          gameStats: [{
+            ...player?.gameStats?.[player.gameStats.length - 1],
+            season: new Date().getFullYear().toString(),
+            matchesPlayed: parseInt(dataRow[headers.indexOf('Matches Played')]) || player?.gameStats?.[player.gameStats.length - 1]?.matchesPlayed || 0,
+            minutesPlayed: parseInt(dataRow[headers.indexOf('Minutes Played')]) || player?.gameStats?.[player.gameStats.length - 1]?.minutesPlayed || 0,
+            tries: parseInt(dataRow[headers.indexOf('Tries')]) || player?.gameStats?.[player.gameStats.length - 1]?.tries || 0,
+            tackles: parseInt(dataRow[headers.indexOf('Tackles')]) || player?.gameStats?.[player.gameStats.length - 1]?.tackles || 0,
+            penalties: parseInt(dataRow[headers.indexOf('Penalties')]) || player?.gameStats?.[player.gameStats.length - 1]?.penalties || 0
+          }],
+          aiRating: {
+            overall: parseFloat(dataRow[headers.indexOf('Overall AI Rating')]) || undefined,
+            potential: parseFloat(dataRow[headers.indexOf('Potential Rating')]) || undefined
+          }
+        };
+
+        // Validate required fields
+        if (!updatedPlayerData.personalDetails.firstName || !updatedPlayerData.personalDetails.lastName) {
+          alert('CSV must contain valid First Name and Last Name');
+          return;
+        }
+
+        console.log('Parsed CSV player data:', updatedPlayerData);
+        alert(`Player data for ${updatedPlayerData.personalDetails.firstName} ${updatedPlayerData.personalDetails.lastName} uploaded successfully!\n\nNote: In a production system, this would update the database. The parsed data is logged to console for review.`);
+        
+        // Here you would typically send the data to your API to update the player
+        // await apiRequest('/api/players/' + playerId, {
+        //   method: 'PUT',
+        //   body: updatedPlayerData
+        // });
+        
       } catch (error) {
-        alert('Error reading file. Please ensure it\'s a valid JSON file.');
+        console.error('CSV parsing error:', error);
+        alert('Error reading CSV file. Please ensure it\'s properly formatted.');
       }
     };
     reader.readAsText(file);
@@ -278,7 +413,7 @@ export default function EnhancedPlayerProfile() {
                 className="flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
-                Download Data
+                Download CSV
               </Button>
               <Button 
                 variant="outline" 
@@ -287,7 +422,7 @@ export default function EnhancedPlayerProfile() {
                 className="flex items-center gap-2"
               >
                 <Upload className="w-4 h-4" />
-                Upload Data
+                Upload CSV
               </Button>
               <input
                 id="file-upload"
