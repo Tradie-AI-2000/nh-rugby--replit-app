@@ -7,6 +7,8 @@ import { createStatSportsService, sampleGPSData } from "./statSportsGPS";
 import { GPSData } from "@shared/schema";
 import { importMoneyBallPlayers } from "./moneyBallDataImport";
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
+import { dataUpdateService, type MedicalAppointment, type TrainingAttendance } from "./dataUpdateService";
+import { dataIntegrityManager } from "./dataIntegrityManager";
 
 export function registerRoutes(app: Express) {
   // Get all players - FRESH START with your North Harbour Rugby data
@@ -1694,6 +1696,301 @@ Provide a detailed, actionable analysis with specific recommendations for North 
     } catch (error) {
       console.error("Error generating cohesion analysis:", error);
       res.status(500).json({ error: "Failed to generate cohesion analysis" });
+    }
+  });
+
+  // ==========================================
+  // DATA INTEGRITY & INTERCONNECTED UPDATES
+  // ==========================================
+
+  // Medical appointment updates (affects attendance score, player value)
+  app.post("/api/players/:id/medical/appointments", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const appointmentData: MedicalAppointment = req.body;
+      const updatedBy = req.body.updatedBy || 'medical_staff';
+
+      const result = await dataUpdateService.updateMedicalAppointment(appointmentData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'Medical appointment updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating medical appointment:", error);
+      res.status(500).json({ error: "Failed to update medical appointment" });
+    }
+  });
+
+  // Training attendance updates (affects attendance score, cohesion metrics)
+  app.post("/api/players/:id/training/attendance", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const attendanceData: TrainingAttendance = req.body;
+      const updatedBy = req.body.updatedBy || 'coaching_staff';
+
+      const result = await dataUpdateService.updateTrainingAttendance(attendanceData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'Training attendance updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating training attendance:", error);
+      res.status(500).json({ error: "Failed to update training attendance" });
+    }
+  });
+
+  // Injury updates (affects medical status, player value, availability)
+  app.post("/api/players/:id/injuries", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const injuryData = req.body;
+      const updatedBy = req.body.updatedBy || 'medical_staff';
+
+      const result = await dataUpdateService.processInjuryUpdate(playerId, injuryData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'Injury record updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating injury record:", error);
+      res.status(500).json({ error: "Failed to update injury record" });
+    }
+  });
+
+  // CSV data import (comprehensive player data update)
+  app.post("/api/players/:id/csv-import", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const csvData = req.body.data;
+      const updatedBy = req.body.updatedBy || 'coaching_staff';
+
+      const result = await dataUpdateService.processCSVImport(playerId, csvData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'CSV data imported successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error importing CSV data:", error);
+      res.status(500).json({ error: "Failed to import CSV data" });
+    }
+  });
+
+  // Bulk player updates from spreadsheet
+  app.post("/api/players/bulk-update", async (req, res) => {
+    try {
+      const { playerUpdates, updatedBy = 'coaching_staff' } = req.body;
+
+      const results = await dataUpdateService.processBulkPlayerUpdate(playerUpdates, updatedBy);
+      
+      const successCount = results.filter(r => r.success).length;
+      const failureCount = results.length - successCount;
+
+      res.json({ 
+        success: true, 
+        message: `Bulk update completed: ${successCount} successful, ${failureCount} failed`,
+        results 
+      });
+    } catch (error) {
+      console.error("Error processing bulk update:", error);
+      res.status(500).json({ error: "Failed to process bulk update" });
+    }
+  });
+
+  // GPS data updates from StatSports (affects fitness status, performance metrics)
+  app.post("/api/players/:id/gps-data", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const gpsData = req.body;
+      const updatedBy = 'statsports_api';
+
+      const result = await dataUpdateService.processGPSDataUpdate(playerId, gpsData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'GPS data updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating GPS data:", error);
+      res.status(500).json({ error: "Failed to update GPS data" });
+    }
+  });
+
+  // AI analysis updates (affects AI ratings, player insights)
+  app.post("/api/players/:id/ai-analysis", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const aiAnalysis = req.body;
+      const updatedBy = 'ai_system';
+
+      const result = await dataUpdateService.processAIAnalysisUpdate(playerId, aiAnalysis, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'AI analysis updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating AI analysis:", error);
+      res.status(500).json({ error: "Failed to update AI analysis" });
+    }
+  });
+
+  // Player value updates (manual adjustments to MoneyBall metrics)
+  app.post("/api/players/:id/player-value", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const playerValueData = { ...req.body, playerId };
+      const updatedBy = req.body.updatedBy || 'coaching_staff';
+
+      const result = await dataUpdateService.updatePlayerValue(playerValueData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'Player value updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating player value:", error);
+      res.status(500).json({ error: "Failed to update player value" });
+    }
+  });
+
+  // Live match data updates (real-time performance tracking)
+  app.post("/api/players/:id/live-match", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const matchData = req.body;
+      const updatedBy = 'live_system';
+
+      const result = await dataUpdateService.processLiveMatchUpdate(playerId, matchData, updatedBy);
+      
+      if (result.success) {
+        res.json({ success: true, message: 'Live match data updated successfully' });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error("Error updating live match data:", error);
+      res.status(500).json({ error: "Failed to update live match data" });
+    }
+  });
+
+  // External data sync (StatSports, GAIN LINE, Google Sheets)
+  app.post("/api/players/:id/sync/:source", async (req, res) => {
+    try {
+      const { id: playerId, source } = req.params;
+      const data = req.body;
+      const updatedBy = `${source}_api`;
+
+      const result = await dataUpdateService.syncExternalData(
+        playerId, 
+        source as 'statsports' | 'gain_line' | 'google_sheets', 
+        data, 
+        updatedBy
+      );
+      
+      if (result.success) {
+        res.json({ success: true, message: `Data synced from ${source} successfully` });
+      } else {
+        res.status(400).json({ success: false, errors: result.errors, warnings: result.warnings });
+      }
+    } catch (error) {
+      console.error(`Error syncing data from ${req.params.source}:`, error);
+      res.status(500).json({ error: `Failed to sync data from ${req.params.source}` });
+    }
+  });
+
+  // Get player data update history
+  app.get("/api/players/:id/update-history", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+      const limit = parseInt(req.query.limit as string) || 50;
+
+      const history = dataUpdateService.getPlayerDataHistory(playerId, limit);
+      res.json(history);
+    } catch (error) {
+      console.error("Error fetching update history:", error);
+      res.status(500).json({ error: "Failed to fetch update history" });
+    }
+  });
+
+  // Generate data integrity report
+  app.get("/api/players/:id/integrity-report", async (req, res) => {
+    try {
+      const { id: playerId } = req.params;
+
+      const report = await dataUpdateService.generatePlayerDataReport(playerId);
+      res.json(report);
+    } catch (error) {
+      console.error("Error generating integrity report:", error);
+      res.status(500).json({ error: "Failed to generate integrity report" });
+    }
+  });
+
+  // Data validation endpoint
+  app.post("/api/data/validate", async (req, res) => {
+    try {
+      const { playerId, updates, source = 'manual', updatedBy = 'system' } = req.body;
+
+      // Dry run validation without actually updating
+      const result = await dataIntegrityManager.processDataUpdate(
+        playerId, 
+        updates, 
+        source, 
+        updatedBy, 
+        'Validation check'
+      );
+      
+      res.json({
+        valid: result.success,
+        errors: result.errors,
+        warnings: result.warnings
+      });
+    } catch (error) {
+      console.error("Error validating data:", error);
+      res.status(500).json({ error: "Failed to validate data" });
+    }
+  });
+
+  // Cascade impact analysis - show what will be affected by a change
+  app.post("/api/data/impact-analysis", async (req, res) => {
+    try {
+      const { playerId, updates } = req.body;
+
+      // This would analyze what fields would be affected by the proposed updates
+      const impactAnalysis = {
+        directUpdates: Object.keys(updates),
+        cascadingUpdates: [],
+        affectedMetrics: [],
+        riskLevel: 'low'
+      };
+
+      // Example logic for medical status change
+      if (updates['status.medical']) {
+        impactAnalysis.cascadingUpdates.push('status.availability', 'playerValue.medicalScore');
+        impactAnalysis.affectedMetrics.push('Player Value Analysis', 'Team Availability');
+        impactAnalysis.riskLevel = 'medium';
+      }
+
+      if (updates['injuries']) {
+        impactAnalysis.cascadingUpdates.push('status.medical', 'status.availability', 'playerValue.medicalScore');
+        impactAnalysis.affectedMetrics.push('Medical Status', 'Player Value', 'Team Selection');
+        impactAnalysis.riskLevel = 'high';
+      }
+
+      res.json(impactAnalysis);
+    } catch (error) {
+      console.error("Error analyzing impact:", error);
+      res.status(500).json({ error: "Failed to analyze impact" });
     }
   });
 }
