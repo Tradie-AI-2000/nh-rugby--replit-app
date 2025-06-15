@@ -23,6 +23,7 @@ import TeamDashboard from "@/pages/team-dashboard";
 import GPSManagement from "@/pages/gps-management";
 import MatchPerformance from "@/pages/match-performance-fixed";
 import MedicalHub from "@/pages/medical-hub";
+import DataIntegrityDemo from "@/pages/data-integrity-demo";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 
@@ -48,6 +49,7 @@ function Router() {
       <Route path="/match-performance" component={MatchPerformance} />
       <Route path="/medical" component={MedicalHub} />
       <Route path="/medical-hub" component={MedicalHub} />
+      <Route path="/data-integrity" component={DataIntegrityDemo} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
       <Route path="/moneyball" component={MoneyBallPlayers} />

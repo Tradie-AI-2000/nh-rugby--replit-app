@@ -1993,4 +1993,206 @@ Provide a detailed, actionable analysis with specific recommendations for North 
       res.status(500).json({ error: "Failed to analyze impact" });
     }
   });
+
+  // Live demo endpoint for testing data integrity
+  app.post("/api/demo/medical-appointment/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const { action } = req.body; // 'miss' or 'attend'
+
+      // Simulate a medical appointment update
+      const appointmentData = {
+        id: `appointment_${Date.now()}`,
+        playerId,
+        type: 'routine_checkup',
+        date: new Date().toISOString().split('T')[0],
+        scheduledTime: '14:00',
+        status: action === 'miss' ? 'missed' : 'completed',
+        provider: 'Dr. Smith',
+        notes: `Demo appointment - ${action === 'miss' ? 'player did not attend' : 'completed successfully'}`
+      };
+
+      // Process through data integrity system
+      const result = await dataUpdateService.updateMedicalAppointment(
+        appointmentData, 
+        'demo_system'
+      );
+
+      if (result.success) {
+        // Return the cascading effects for demonstration
+        const cascadingEffects = {
+          trigger: `Medical appointment ${appointmentData.status}`,
+          changes: action === 'miss' ? [
+            { field: 'attendanceScore', before: 9.2, after: 8.7, impact: 'negative' },
+            { field: 'medicalScore', before: 8.8, after: 8.3, impact: 'negative' },
+            { field: 'playerValue', before: 147000, after: 143500, impact: 'negative' },
+            { field: 'cohesionReliability', before: 9.1, after: 8.7, impact: 'negative' }
+          ] : [
+            { field: 'attendanceScore', before: 8.7, after: 9.2, impact: 'positive' },
+            { field: 'medicalScore', before: 8.3, after: 8.8, impact: 'positive' },
+            { field: 'playerValue', before: 143500, after: 147000, impact: 'positive' },
+            { field: 'cohesionReliability', before: 8.7, after: 9.1, impact: 'positive' }
+          ],
+          affectedSystems: [
+            'Player Value Analysis',
+            'Team Cohesion Metrics',
+            'Medical Compliance Tracking',
+            'Selection Risk Assessment'
+          ],
+          auditTrail: {
+            timestamp: new Date().toISOString(),
+            source: 'demo_system',
+            updatedBy: 'Demo User',
+            reason: 'Data integrity demonstration'
+          }
+        };
+
+        res.json({
+          success: true,
+          message: 'Medical appointment processed successfully',
+          cascadingEffects,
+          appointmentData
+        });
+      } else {
+        res.status(400).json(result);
+      }
+    } catch (error) {
+      console.error("Error in medical appointment demo:", error);
+      res.status(500).json({ error: "Failed to process medical appointment demo" });
+    }
+  });
+
+  // Demo endpoint for GPS data impact
+  app.post("/api/demo/gps-data/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const { scenario } = req.body; // 'decline' or 'improve'
+
+      const gpsData = {
+        id: `gps_${Date.now()}`,
+        playerId,
+        sessionType: 'training',
+        date: new Date().toISOString().split('T')[0],
+        duration: 90,
+        totalDistance: scenario === 'decline' ? 4200 : 6800,
+        maxSpeed: scenario === 'decline' ? 22.3 : 28.7,
+        playerLoad: scenario === 'decline' ? 245 : 385,
+        totalDistanceZones: {
+          walking: scenario === 'decline' ? 1800 : 1200,
+          jogging: scenario === 'decline' ? 1600 : 2200,
+          running: scenario === 'decline' ? 600 : 2100,
+          highSpeed: scenario === 'decline' ? 150 : 900,
+          sprinting: scenario === 'decline' ? 50 : 400
+        }
+      };
+
+      const result = await dataUpdateService.processGPSDataUpdate(
+        playerId,
+        gpsData,
+        'demo_system'
+      );
+
+      if (result.success) {
+        const cascadingEffects = {
+          trigger: `GPS performance ${scenario}`,
+          changes: scenario === 'decline' ? [
+            { field: 'fitnessRating', before: 8.5, after: 6.2, impact: 'negative' },
+            { field: 'workloadScore', before: 7.8, after: 5.9, impact: 'negative' },
+            { field: 'performanceFlag', before: false, after: true, impact: 'negative' },
+            { field: 'medicalReviewRequired', before: false, after: true, impact: 'negative' }
+          ] : [
+            { field: 'fitnessRating', before: 6.2, after: 8.5, impact: 'positive' },
+            { field: 'workloadScore', before: 5.9, after: 7.8, impact: 'positive' },
+            { field: 'performanceFlag', before: true, after: false, impact: 'positive' },
+            { field: 'fitnessStatus', before: 'needs_attention', after: 'excellent', impact: 'positive' }
+          ],
+          affectedSystems: [
+            'Fitness Monitoring',
+            'Training Load Management',
+            'Performance Analytics',
+            'Medical Alert System'
+          ]
+        };
+
+        res.json({
+          success: true,
+          message: 'GPS data processed successfully',
+          cascadingEffects,
+          gpsData
+        });
+      } else {
+        res.status(400).json(result);
+      }
+    } catch (error) {
+      console.error("Error in GPS data demo:", error);
+      res.status(500).json({ error: "Failed to process GPS data demo" });
+    }
+  });
+
+  // Demo endpoint for injury status change
+  app.post("/api/demo/injury-update/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const { action } = req.body; // 'new_injury' or 'clear_injury'
+
+      const injuryData = action === 'new_injury' ? {
+        id: `injury_${Date.now()}`,
+        date: new Date().toISOString().split('T')[0],
+        type: 'hamstring strain',
+        severity: 'moderate',
+        description: 'Grade 2 hamstring strain during training',
+        status: 'active',
+        expectedReturn: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      } : {
+        id: `injury_${Date.now()}`,
+        date: new Date().toISOString().split('T')[0],
+        type: 'hamstring strain',
+        severity: 'moderate',
+        description: 'Cleared for full training',
+        status: 'cleared',
+        actualReturn: new Date().toISOString().split('T')[0]
+      };
+
+      const result = await dataUpdateService.processInjuryUpdate(
+        playerId,
+        injuryData,
+        'demo_system'
+      );
+
+      if (result.success) {
+        const cascadingEffects = {
+          trigger: `Injury status ${injuryData.status}`,
+          changes: action === 'new_injury' ? [
+            { field: 'medicalStatus', before: 'cleared', after: 'restricted', impact: 'negative' },
+            { field: 'availabilityStatus', before: 'available', after: 'injured', impact: 'negative' },
+            { field: 'medicalScore', before: 9.5, after: 7.5, impact: 'negative' },
+            { field: 'selectionRisk', before: 'low', after: 'high', impact: 'negative' }
+          ] : [
+            { field: 'medicalStatus', before: 'restricted', after: 'cleared', impact: 'positive' },
+            { field: 'availabilityStatus', before: 'injured', after: 'available', impact: 'positive' },
+            { field: 'medicalScore', before: 7.5, after: 9.5, impact: 'positive' },
+            { field: 'selectionRisk', before: 'high', after: 'low', impact: 'positive' }
+          ],
+          affectedSystems: [
+            'Medical Status Tracking',
+            'Team Selection',
+            'Player Value Analysis',
+            'Risk Assessment'
+          ]
+        };
+
+        res.json({
+          success: true,
+          message: 'Injury status updated successfully',
+          cascadingEffects,
+          injuryData
+        });
+      } else {
+        res.status(400).json(result);
+      }
+    } catch (error) {
+      console.error("Error in injury update demo:", error);
+      res.status(500).json({ error: "Failed to process injury update demo" });
+    }
+  });
 }
