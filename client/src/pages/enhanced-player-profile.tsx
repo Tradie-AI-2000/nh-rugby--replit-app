@@ -30,7 +30,9 @@ import {
   DollarSign,
   CheckCircle,
   AlertTriangle,
-  Clock
+  Clock,
+  Download,
+  Upload
 } from "lucide-react";
 
 interface Player {
@@ -95,6 +97,65 @@ export default function EnhancedPlayerProfile() {
     queryKey: [`/api/players/${playerId}`],
     enabled: !!playerId,
   });
+
+  // Download player data as JSON
+  const downloadPlayerData = () => {
+    if (!player) return;
+    
+    const playerData = {
+      ...player,
+      exportedAt: new Date().toISOString(),
+      exportedBy: "Coach", // Could be dynamic based on user
+      version: "1.0"
+    };
+
+    const dataStr = JSON.stringify(playerData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${player.personalDetails.firstName}_${player.personalDetails.lastName}_profile_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Handle file upload
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const uploadedData = JSON.parse(e.target?.result as string);
+        
+        // Basic validation - check if it's a player profile
+        if (uploadedData.personalDetails && uploadedData.rugbyProfile) {
+          // Here you would typically send the data to your API to update the player
+          console.log('Uploaded player data:', uploadedData);
+          alert('Player data uploaded successfully! (This would update the database in a real implementation)');
+          
+          // You could add API call here:
+          // await apiRequest('/api/players/' + playerId, {
+          //   method: 'PUT',
+          //   body: uploadedData
+          // });
+          
+        } else {
+          alert('Invalid player profile file format');
+        }
+      } catch (error) {
+        alert('Error reading file. Please ensure it\'s a valid JSON file.');
+      }
+    };
+    reader.readAsText(file);
+    
+    // Reset the input
+    event.target.value = '';
+  };
 
   if (isLoading) {
     return (
@@ -209,10 +270,37 @@ export default function EnhancedPlayerProfile() {
                 <p className="text-gray-600">#{player.rugbyProfile.jerseyNumber} • {player.rugbyProfile.primaryPosition}</p>
               </div>
             </div>
-            <Badge className={`flex items-center gap-2 ${getStatusColor(player.status.fitness)}`}>
-              {getStatusIcon(player.status.fitness)}
-              {player.status.fitness}
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={downloadPlayerData}
+                className="flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Download Data
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => document.getElementById('file-upload')?.click()}
+                className="flex items-center gap-2"
+              >
+                <Upload className="w-4 h-4" />
+                Upload Data
+              </Button>
+              <input
+                id="file-upload"
+                type="file"
+                accept=".json"
+                style={{ display: 'none' }}
+                onChange={handleFileUpload}
+              />
+              <Badge className={`flex items-center gap-2 ${getStatusColor(player.status.fitness)}`}>
+                {getStatusIcon(player.status.fitness)}
+                {player.status.fitness}
+              </Badge>
+            </div>
           </div>
         </div>
       </div>
