@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import logoPath from "@assets/menulogo_wo.png";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -471,6 +472,12 @@ export default function MedicalHub() {
   const [selectedPlayer, setSelectedPlayer] = useState<string | null>(null);
   const [showTreatmentDialog, setShowTreatmentDialog] = useState(false);
   const [showAppointmentDialog, setShowAppointmentDialog] = useState(false);
+  const [showNewNote, setShowNewNote] = useState(false);
+  const [showNewInjury, setShowNewInjury] = useState(false);
+  const [showCommunication, setShowCommunication] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
   const [treatmentForm, setTreatmentForm] = useState({
     playerId: "",
     type: "",
@@ -486,6 +493,123 @@ export default function MedicalHub() {
     type: "",
     staff: "",
     notes: ""
+  });
+  const [noteForm, setNoteForm] = useState({
+    type: "",
+    content: "",
+    recommendations: "",
+    followUp: "",
+    flaggedForCoach: false,
+    urgency: "low"
+  });
+  const [injuryForm, setInjuryForm] = useState({
+    type: "",
+    severity: "",
+    description: "",
+    expectedReturn: "",
+    treatmentPlan: ""
+  });
+  const [communicationForm, setCommunicationForm] = useState({
+    recipient: "",
+    subject: "",
+    message: "",
+    priority: "normal"
+  });
+
+  // Fetch selected player data
+  const { data: selectedPlayerData, isLoading: playerLoading } = useQuery({
+    queryKey: ["/api/players", selectedPlayer],
+    enabled: !!selectedPlayer,
+  });
+
+  // Fetch medical appointments for selected player
+  const { data: appointments = [] } = useQuery({
+    queryKey: ["/api/medical/appointments", selectedPlayer],
+    enabled: !!selectedPlayer,
+  });
+
+  // Fetch treatment notes for selected player
+  const { data: treatmentNotes = [] } = useQuery({
+    queryKey: ["/api/medical/notes", selectedPlayer],
+    enabled: !!selectedPlayer,
+  });
+
+  // Fetch injury records for selected player
+  const { data: injuryRecords = [] } = useQuery({
+    queryKey: ["/api/medical/injuries", selectedPlayer],
+    enabled: !!selectedPlayer,
+  });
+
+  // Mutations for medical record management
+  const createNoteMutation = useMutation({
+    mutationFn: async (noteData: any) => {
+      const response = await fetch(`/api/medical/notes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...noteData,
+          playerId: selectedPlayer,
+          id: `note_${Date.now()}`,
+          date: new Date().toISOString().split('T')[0],
+          provider: 'Dr. Smith'
+        })
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/medical/notes", selectedPlayer] });
+      queryClient.invalidateQueries({ queryKey: ["/api/players", selectedPlayer] });
+      setShowNewNote(false);
+      setNoteForm({ type: "", content: "", recommendations: "", followUp: "", flaggedForCoach: false, urgency: "low" });
+      toast({
+        title: "Treatment Note Added",
+        description: "Medical note has been recorded and integrated with player data.",
+      });
+    }
+  });
+
+  const createInjuryMutation = useMutation({
+    mutationFn: async (injuryData: any) => {
+      // Process through data integrity system
+      const response = await fetch(`/api/demo/injury-update/${selectedPlayer}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'new_injury', ...injuryData })
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/medical/injuries", selectedPlayer] });
+      queryClient.invalidateQueries({ queryKey: ["/api/players", selectedPlayer] });
+      setShowNewInjury(false);
+      setInjuryForm({ type: "", severity: "", description: "", expectedReturn: "", treatmentPlan: "" });
+      toast({
+        title: "Injury Recorded",
+        description: "Injury has been documented and cascaded through all related systems.",
+      });
+    }
+  });
+
+  const createAppointmentMutation = useMutation({
+    mutationFn: async (appointmentData: any) => {
+      // Process through data integrity system
+      const response = await fetch(`/api/demo/medical-appointment/${selectedPlayer}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'schedule', ...appointmentData })
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/medical/appointments", selectedPlayer] });
+      queryClient.invalidateQueries({ queryKey: ["/api/players", selectedPlayer] });
+      setShowAppointmentDialog(false);
+      setAppointmentForm({ playerId: "", date: "", time: "", type: "", staff: "", notes: "" });
+      toast({
+        title: "Appointment Scheduled",
+        description: "Medical appointment has been scheduled and integrated with player status.",
+      });
+    }
   });
 
   const getStatusColor = (status: string) => {
@@ -962,33 +1086,40 @@ export default function MedicalHub() {
 
           {/* Tab 3: Player Medical Record */}
           <TabsContent value="player-record" className="space-y-6">
-            {selectedPlayer === "tane_edmed" ? (
+            {selectedPlayer ? (
               <div className="space-y-6">
                 {/* Player Header */}
                 <Card>
-                  <CardHeader>
+                  <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                          <UserCheck className="h-8 w-8 text-blue-600" />
+                        <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
+                          <User className="h-8 w-8 text-gray-600" />
                         </div>
                         <div>
-                          <CardTitle className="text-2xl">{taneEdmedMedicalData.personalInfo.name}</CardTitle>
-                          <div className="text-gray-600">
-                            {taneEdmedMedicalData.personalInfo.position} • #{taneEdmedMedicalData.personalInfo.age} years old
+                          <h2 className="text-xl font-bold">
+                            {selectedPlayerData?.personalDetails?.firstName} {selectedPlayerData?.personalDetails?.lastName}
+                          </h2>
+                          <p className="text-gray-600">
+                            {selectedPlayerData?.rugbyProfile?.primaryPosition} • Jersey #{selectedPlayerData?.rugbyProfile?.jerseyNumber}
+                          </p>
+                          <div className="flex items-center space-x-2 mt-2">
+                            {getStatusIcon(selectedPlayerData?.status?.medical || "available")}
+                            <Badge variant={selectedPlayerData?.status?.medical === "available" ? "default" : "destructive"}>
+                              {selectedPlayerData?.status?.medical || "Available"}
+                            </Badge>
                           </div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <Badge className="bg-green-100 text-green-800">
-                          {taneEdmedMedicalData.currentStatus.fitness}
-                        </Badge>
-                        <div className="text-sm text-gray-500 mt-1">
-                          Last Assessment: {new Date(taneEdmedMedicalData.currentStatus.lastAssessment).toLocaleDateString()}
-                        </div>
-                      </div>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setSelectedPlayer(null)}
+                      >
+                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        Back to Dashboard
+                      </Button>
                     </div>
-                  </CardHeader>
+                  </CardContent>
                 </Card>
 
                 {/* Current Status Overview */}
