@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRoute } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -35,7 +36,12 @@ import {
   UserPlus,
   Info,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Calendar,
+  MapPin,
+  Home,
+  Plane,
+  ArrowRight
 } from "lucide-react";
 
 // Sample TWI and cohesion data based on the instructions
@@ -63,6 +69,120 @@ const cohesionData = {
     { game: 8, cohesionStrength: 81, cohesionWeakness: 6, result: "Win", opponent: "Bay of Plenty", score: "29-14" }
   ]
 };
+
+// 2025 NPC Fixtures for North Harbour Rugby
+const npcFixtures2025 = [
+  {
+    id: 1,
+    round: "Round 1",
+    homeTeam: "Manawatū",
+    awayTeam: "North Harbour",
+    date: "Friday 1 August 2025",
+    time: "19:05",
+    venue: "Central Energy Trust Arena",
+    status: "upcoming",
+    isHome: false
+  },
+  {
+    id: 2,
+    round: "Round 2",
+    homeTeam: "North Harbour",
+    awayTeam: "Taranaki",
+    date: "Saturday 9 August 2025",
+    time: "14:05",
+    venue: "North Harbour Stadium",
+    status: "upcoming",
+    isHome: true
+  },
+  {
+    id: 3,
+    round: "Round 3",
+    homeTeam: "Hawke's Bay",
+    awayTeam: "North Harbour",
+    date: "Friday 15 August 2025",
+    time: "19:05",
+    venue: "McLean Park",
+    status: "upcoming",
+    isHome: false
+  },
+  {
+    id: 4,
+    round: "Round 4",
+    homeTeam: "North Harbour",
+    awayTeam: "Tasman",
+    date: "Saturday 23 August 2025",
+    time: "16:35",
+    venue: "North Harbour Stadium",
+    status: "upcoming",
+    isHome: true
+  },
+  {
+    id: 5,
+    round: "Round 5",
+    homeTeam: "North Harbour",
+    awayTeam: "Bay Of Plenty",
+    date: "Friday 29 August 2025",
+    time: "19:05",
+    venue: "North Harbour Stadium",
+    status: "upcoming",
+    isHome: true
+  },
+  {
+    id: 6,
+    round: "Round 6",
+    homeTeam: "Counties Manukau",
+    awayTeam: "North Harbour",
+    date: "Thursday 4 September 2025",
+    time: "19:05",
+    venue: "Navigation Homes Stadium",
+    status: "upcoming",
+    isHome: false
+  },
+  {
+    id: 7,
+    round: "Round 7",
+    homeTeam: "Waikato",
+    awayTeam: "North Harbour",
+    date: "Friday 12 September 2025",
+    time: "19:05",
+    venue: "FMG Stadium Waikato",
+    status: "upcoming",
+    isHome: false
+  },
+  {
+    id: 8,
+    round: "Round 8",
+    homeTeam: "North Harbour",
+    awayTeam: "Northland",
+    date: "Sunday 21 September 2025",
+    time: "14:05",
+    venue: "North Harbour Stadium",
+    status: "upcoming",
+    isHome: true
+  },
+  {
+    id: 9,
+    round: "Round 9",
+    homeTeam: "Otago",
+    awayTeam: "North Harbour",
+    date: "Saturday 27 September 2025",
+    time: "13:05",
+    venue: "Forsyth Barr Stadium",
+    status: "upcoming",
+    isHome: false
+  },
+  {
+    id: 10,
+    round: "Round 10",
+    homeTeam: "North Harbour",
+    awayTeam: "Southland",
+    date: "Friday 3 October 2025",
+    time: "19:05",
+    venue: "North Harbour Stadium",
+    status: "upcoming",
+    isHome: true
+  }
+];
 
 const positionalUnits = {
   "tight_5": {
@@ -946,10 +1066,11 @@ export default function TeamCohesionAnalytics() {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Squad Cohesion</TabsTrigger>
           <TabsTrigger value="units">Positional Units</TabsTrigger>
           <TabsTrigger value="insights">AI Insights</TabsTrigger>
+          <TabsTrigger value="gameday">Game Day Analysis</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
