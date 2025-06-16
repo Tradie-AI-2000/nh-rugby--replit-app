@@ -936,6 +936,83 @@ interface AIRecommendationProps {
   cohesionData: typeof cohesionData;
 }
 
+interface FixtureCardProps {
+  fixture: typeof npcFixtures2025[0];
+}
+
+const FixtureCard = ({ fixture }: FixtureCardProps) => {
+  const handleFixtureClick = () => {
+    // Navigate to Game Day page (to be built later)
+    window.location.href = `/game-day/${fixture.id}`;
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-NZ', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short'
+    });
+  };
+
+  return (
+    <Card 
+      className="cursor-pointer hover:shadow-md transition-shadow duration-200 border-l-4 border-l-blue-500"
+      onClick={handleFixtureClick}
+    >
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <Badge variant="secondary" className="text-xs">
+            {fixture.round}
+          </Badge>
+          <div className="flex items-center gap-1 text-xs text-gray-500">
+            <Calendar className="h-3 w-3" />
+            {formatDate(fixture.date)}
+          </div>
+        </div>
+      </CardHeader>
+      
+      <CardContent className="space-y-4">
+        {/* Teams Display */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {fixture.isHome ? <Home className="h-4 w-4 text-green-600" /> : <Plane className="h-4 w-4 text-blue-600" />}
+              <span className={`font-medium ${fixture.homeTeam === "North Harbour" ? "text-blue-700 font-bold" : ""}`}>
+                {fixture.homeTeam}
+              </span>
+            </div>
+            <span className="text-sm text-gray-500">vs</span>
+            <span className={`font-medium ${fixture.awayTeam === "North Harbour" ? "text-blue-700 font-bold" : ""}`}>
+              {fixture.awayTeam}
+            </span>
+          </div>
+        </div>
+
+        {/* Match Details */}
+        <div className="space-y-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2">
+            <Clock className="h-3 w-3" />
+            <span>{fixture.time}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="h-3 w-3" />
+            <span className="truncate">{fixture.venue}</span>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="pt-2 border-t">
+          <Button variant="ghost" size="sm" className="w-full text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+            <ArrowRight className="h-3 w-3 mr-1" />
+            View Game Day Analysis
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 const AIRecommendationPanel = ({ cohesionData }: AIRecommendationProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [recommendation, setRecommendation] = useState<string | null>(null);
@@ -1245,6 +1322,24 @@ export default function TeamCohesionAnalytics() {
 
         <TabsContent value="insights" className="space-y-6">
           <AIRecommendationPanel cohesionData={cohesionData} />
+        </TabsContent>
+
+        <TabsContent value="gameday" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">2025 NPC Championship</h2>
+              <p className="text-gray-600">North Harbour Rugby Fixture Draw</p>
+            </div>
+            <Badge variant="outline" className="text-sm">
+              10 Rounds • 5 Home • 5 Away
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {npcFixtures2025.map((fixture) => (
+              <FixtureCard key={fixture.id} fixture={fixture} />
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
     </div>
