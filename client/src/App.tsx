@@ -26,6 +26,7 @@ import MedicalHub from "@/pages/medical-hub";
 import DataIntegrityDemo from "@/pages/data-integrity-demo";
 import GameDayAnalysis from "@/pages/game-day-analysis";
 import DataTemplatesHub from "@/pages/data-templates-hub";
+import DataSchemaViewer from "@/pages/data-schema-viewer";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/medical-hub" component={MedicalHub} />
       <Route path="/data-integrity" component={DataIntegrityDemo} />
       <Route path="/data-templates" component={DataTemplatesHub} />
+      <Route path="/data-schema" component={DataSchemaViewer} />
       <Route path="/game-day/:id" component={GameDayAnalysis} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />

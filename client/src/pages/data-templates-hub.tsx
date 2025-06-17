@@ -43,27 +43,115 @@ interface DataTemplate {
 
 const dataTemplates: DataTemplate[] = [
   {
-    id: "players_basic",
-    name: "Player Roster Template",
-    description: "Essential player information for team setup and management",
+    id: "complete_player_profile",
+    name: "Complete Player Profile Template",
+    description: "Comprehensive player data matching the full system schema (60+ fields)",
     category: "players",
+    format: "csv",
+    fields: [
+      // Personal Details
+      { name: "player_id", type: "string", required: true, description: "Unique identifier for player", example: "tane_edmed" },
+      { name: "first_name", type: "string", required: true, description: "Player's first name", example: "Tane" },
+      { name: "last_name", type: "string", required: true, description: "Player's last name", example: "Edmed" },
+      { name: "date_of_birth", type: "date", required: true, description: "Player's birth date (YYYY-MM-DD)", example: "1999-12-15" },
+      { name: "email", type: "string", required: true, description: "Player's email address", example: "tane.edmed@northharbour.co.nz" },
+      { name: "phone", type: "string", required: true, description: "Player's phone number", example: "+64 21 123 4567" },
+      { name: "address", type: "string", required: true, description: "Player's residential address", example: "Albany, Auckland, New Zealand" },
+      { name: "emergency_contact_name", type: "string", required: true, description: "Emergency contact full name", example: "Sarah Edmed" },
+      { name: "emergency_contact_relationship", type: "string", required: true, description: "Relationship to player", example: "Mother" },
+      { name: "emergency_contact_phone", type: "string", required: true, description: "Emergency contact phone", example: "+64 21 987 6543" },
+      { name: "profile_image_url", type: "string", required: false, description: "URL to player's profile photo", example: "https://example.com/photos/tane_edmed.jpg" },
+      
+      // Rugby Profile
+      { name: "jersey_number", type: "number", required: true, description: "Player's jersey number", example: "10" },
+      { name: "primary_position", type: "string", required: true, description: "Primary playing position", example: "First-Five" },
+      { name: "secondary_positions", type: "string", required: false, description: "Secondary positions (comma separated)", example: "Fullback,Centre" },
+      { name: "playing_level", type: "string", required: true, description: "Current playing level", example: "Professional" },
+      { name: "years_in_team", type: "number", required: true, description: "Years with current team", example: "3" },
+      { name: "previous_clubs", type: "string", required: false, description: "Previous clubs (comma separated)", example: "Waratahs,Australian Schoolboys" },
+      { name: "date_joined_club", type: "date", required: true, description: "Date joined current club", example: "2023-01-01" },
+      { name: "representative_honours", type: "string", required: false, description: "Representative achievements", example: "Australia U20,NSW Waratahs" },
+      
+      // Physical Attributes (Current)
+      { name: "height_cm", type: "number", required: true, description: "Height in centimeters", example: "180" },
+      { name: "weight_kg", type: "number", required: true, description: "Weight in kilograms", example: "85" },
+      { name: "body_fat_percent", type: "number", required: false, description: "Body fat percentage", example: "8.5" },
+      { name: "lean_mass_kg", type: "number", required: false, description: "Lean muscle mass in kg", example: "77.8" },
+      
+      // Skills Assessment (1-10 scale)
+      { name: "ball_handling_rating", type: "number", required: false, description: "Ball handling skill (1-10)", example: "9" },
+      { name: "passing_rating", type: "number", required: false, description: "Passing skill (1-10)", example: "9" },
+      { name: "kicking_rating", type: "number", required: false, description: "Kicking skill (1-10)", example: "10" },
+      { name: "lineout_throwing_rating", type: "number", required: false, description: "Lineout throwing skill (1-10)", example: "3" },
+      { name: "scrummaging_rating", type: "number", required: false, description: "Scrummaging skill (1-10)", example: "4" },
+      { name: "rucking_rating", type: "number", required: false, description: "Rucking skill (1-10)", example: "7" },
+      { name: "defense_rating", type: "number", required: false, description: "Defensive skill (1-10)", example: "8" },
+      { name: "communication_rating", type: "number", required: false, description: "Communication skill (1-10)", example: "9" },
+      { name: "vision_rating", type: "number", required: false, description: "Game vision skill (1-10)", example: "8" },
+      { name: "game_management_rating", type: "number", required: false, description: "Game management skill (1-10)", example: "9" },
+      
+      // Current Season Statistics
+      { name: "matches_played_2024", type: "number", required: false, description: "Matches played in 2024", example: "18" },
+      { name: "minutes_played_2024", type: "number", required: false, description: "Total minutes played in 2024", example: "1440" },
+      { name: "tries_2024", type: "number", required: false, description: "Tries scored in 2024", example: "6" },
+      { name: "tackles_2024", type: "number", required: false, description: "Tackles made in 2024", example: "92" },
+      { name: "penalties_2024", type: "number", required: false, description: "Penalties conceded in 2024", example: "4" },
+      { name: "assists_2024", type: "number", required: false, description: "Try assists in 2024", example: "12" },
+      { name: "carries_2024", type: "number", required: false, description: "Ball carries in 2024", example: "156" },
+      { name: "metres_gained_2024", type: "number", required: false, description: "Metres gained in 2024", example: "1247" },
+      { name: "pass_accuracy_2024", type: "number", required: false, description: "Pass accuracy percentage 2024", example: "94.2" },
+      { name: "kicks_at_goal_2024", type: "number", required: false, description: "Kicks at goal attempted 2024", example: "45" },
+      { name: "kicks_successful_2024", type: "number", required: false, description: "Successful kicks 2024", example: "38" },
+      
+      // Medical & Availability
+      { name: "current_availability", type: "string", required: true, description: "Current availability status", example: "Available" },
+      { name: "injury_status", type: "string", required: false, description: "Current injury status", example: "None" },
+      { name: "medical_restrictions", type: "string", required: false, description: "Current medical restrictions", example: "None" },
+      { name: "last_medical_check", type: "date", required: false, description: "Date of last medical assessment", example: "2024-01-15" },
+      
+      // Contract & Value
+      { name: "contract_start_date", type: "date", required: false, description: "Contract start date", example: "2024-01-01" },
+      { name: "contract_end_date", type: "date", required: false, description: "Contract end date", example: "2025-12-31" },
+      { name: "contract_value", type: "number", required: false, description: "Annual contract value (NZD)", example: "150000" },
+      { name: "performance_bonuses", type: "string", required: false, description: "Performance bonus structure", example: "Match fees, rep bonuses" },
+      
+      // AI Ratings
+      { name: "ai_overall_rating", type: "number", required: false, description: "AI overall rating (1-100)", example: "88" },
+      { name: "ai_physicality_rating", type: "number", required: false, description: "AI physicality rating (1-100)", example: "85" },
+      { name: "ai_skillset_rating", type: "number", required: false, description: "AI skillset rating (1-100)", example: "92" },
+      { name: "ai_game_impact_rating", type: "number", required: false, description: "AI game impact rating (1-100)", example: "89" },
+      { name: "ai_potential_rating", type: "number", required: false, description: "AI potential rating (1-100)", example: "91" },
+      
+      // Status & Notes
+      { name: "current_status", type: "string", required: true, description: "Current player status", example: "Active" },
+      { name: "coaching_notes", type: "string", required: false, description: "Current coaching notes", example: "Excellent game management and tactical awareness" },
+      { name: "last_updated", type: "date", required: true, description: "Date record was last updated", example: "2024-01-20" }
+    ],
+    sampleData: `player_id,first_name,last_name,date_of_birth,email,phone,address,emergency_contact_name,emergency_contact_relationship,emergency_contact_phone,profile_image_url,jersey_number,primary_position,secondary_positions,playing_level,years_in_team,previous_clubs,date_joined_club,representative_honours,height_cm,weight_kg,body_fat_percent,lean_mass_kg,ball_handling_rating,passing_rating,kicking_rating,lineout_throwing_rating,scrummaging_rating,rucking_rating,defense_rating,communication_rating,vision_rating,game_management_rating,matches_played_2024,minutes_played_2024,tries_2024,tackles_2024,penalties_2024,assists_2024,carries_2024,metres_gained_2024,pass_accuracy_2024,kicks_at_goal_2024,kicks_successful_2024,current_availability,injury_status,medical_restrictions,last_medical_check,contract_start_date,contract_end_date,contract_value,performance_bonuses,ai_overall_rating,ai_physicality_rating,ai_skillset_rating,ai_game_impact_rating,ai_potential_rating,current_status,coaching_notes,last_updated
+tane_edmed,Tane,Edmed,1999-12-15,tane.edmed@northharbour.co.nz,+64 21 123 4567,"Albany, Auckland, New Zealand",Sarah Edmed,Mother,+64 21 987 6543,https://example.com/photos/tane_edmed.jpg,10,First-Five,"Fullback,Centre",Professional,3,"Waratahs,Australian Schoolboys",2023-01-01,"Australia U20,NSW Waratahs",180,85,8.5,77.8,9,9,10,3,4,7,8,9,8,9,18,1440,6,92,4,12,156,1247,94.2,45,38,Available,None,None,2024-01-15,2024-01-01,2025-12-31,150000,"Match fees, rep bonuses",88,85,92,89,91,Active,"Excellent game management and tactical awareness",2024-01-20
+penaia_cakobau,Penaia,Cakobau,1998-05-10,penaia.cakobau@northharbour.co.nz,+64 21 234 5678,"North Shore, Auckland, New Zealand",Maria Cakobau,Mother,+64 21 876 5432,,2,Hooker,"Prop",Professional,2,"Fiji U20",2024-01-01,"Fiji U20",185,105,12.5,92.0,8,7,4,9,8,9,9,8,6,7,15,1200,1,87,3,5,89,234,88.5,0,0,Available,None,None,2024-01-10,2024-01-01,2025-12-31,120000,"Match fees",82,88,79,84,80,Active,"Strong set piece player with excellent lineout throwing",2024-01-20`,
+    downloadUrl: "/api/templates/download/complete_player_profile.csv"
+  },
+  {
+    id: "players_basic",
+    name: "Basic Player Roster (Simplified)",
+    description: "Simplified player roster for basic team setup",
+    category: "players", 
     format: "csv",
     fields: [
       { name: "player_id", type: "string", required: true, description: "Unique identifier for player", example: "NH001" },
       { name: "first_name", type: "string", required: true, description: "Player's first name", example: "John" },
       { name: "last_name", type: "string", required: true, description: "Player's last name", example: "Smith" },
       { name: "date_of_birth", type: "date", required: true, description: "Player's birth date", example: "1995-03-15" },
-      { name: "position", type: "string", required: true, description: "Primary playing position", example: "Flanker" },
+      { name: "primary_position", type: "string", required: true, description: "Primary playing position", example: "Flanker" },
       { name: "jersey_number", type: "number", required: true, description: "Player's jersey number", example: "7" },
       { name: "height_cm", type: "number", required: false, description: "Height in centimeters", example: "185" },
-      { name: "weight_kg", type: "number", required: false, description: "Weight in kilograms", example: "95" },
-      { name: "contract_start", type: "date", required: false, description: "Contract start date", example: "2024-01-01" },
-      { name: "contract_end", type: "date", required: false, description: "Contract end date", example: "2025-12-31" }
+      { name: "weight_kg", type: "number", required: false, description: "Weight in kilograms", example: "95" }
     ],
-    sampleData: `player_id,first_name,last_name,date_of_birth,position,jersey_number,height_cm,weight_kg,contract_start,contract_end
-NH001,John,Smith,1995-03-15,Flanker,7,185,95,2024-01-01,2025-12-31
-NH002,Mike,Johnson,1993-07-22,Prop,1,180,110,2024-01-01,2025-12-31
-NH003,David,Wilson,1996-11-08,Fly-half,10,175,85,2024-01-01,2025-12-31`,
+    sampleData: `player_id,first_name,last_name,date_of_birth,primary_position,jersey_number,height_cm,weight_kg
+NH001,John,Smith,1995-03-15,Flanker,7,185,95
+NH002,Mike,Johnson,1993-07-22,Prop,1,180,110
+NH003,David,Wilson,1996-11-08,First-Five,10,175,85`,
     downloadUrl: "/api/templates/download/players_basic.csv"
   },
   {
