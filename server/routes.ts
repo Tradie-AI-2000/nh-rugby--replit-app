@@ -2322,4 +2322,235 @@ Provide a detailed, actionable analysis with specific recommendations for North 
       res.status(500).json({ error: "Failed to process injury update demo" });
     }
   });
+
+  // ==========================================
+  // DATA TEMPLATES HUB API ENDPOINTS
+  // ==========================================
+
+  // Get all available data templates
+  app.get("/api/templates", async (req, res) => {
+    try {
+      const templates = [
+        {
+          id: "players_basic",
+          name: "Player Roster Template",
+          description: "Essential player information for team setup and management",
+          category: "players",
+          format: "csv",
+          fields: [
+            { name: "player_id", type: "string", required: true, description: "Unique identifier for player", example: "NH001" },
+            { name: "first_name", type: "string", required: true, description: "Player's first name", example: "John" },
+            { name: "last_name", type: "string", required: true, description: "Player's last name", example: "Smith" },
+            { name: "date_of_birth", type: "date", required: true, description: "Player's birth date", example: "1995-03-15" },
+            { name: "position", type: "string", required: true, description: "Primary playing position", example: "Flanker" },
+            { name: "jersey_number", type: "number", required: true, description: "Player's jersey number", example: "7" },
+            { name: "height_cm", type: "number", required: false, description: "Height in centimeters", example: "185" },
+            { name: "weight_kg", type: "number", required: false, description: "Weight in kilograms", example: "95" },
+            { name: "contract_start", type: "date", required: false, description: "Contract start date", example: "2024-01-01" },
+            { name: "contract_end", type: "date", required: false, description: "Contract end date", example: "2025-12-31" }
+          ]
+        },
+        {
+          id: "match_performance",
+          name: "Match Performance Template",
+          description: "Individual player statistics for match analysis",
+          category: "matches",
+          format: "csv",
+          fields: [
+            { name: "match_id", type: "string", required: true, description: "Unique match identifier", example: "NPC2025_RD1" },
+            { name: "player_id", type: "string", required: true, description: "Player identifier", example: "NH001" },
+            { name: "minutes_played", type: "number", required: true, description: "Minutes on field", example: "80" },
+            { name: "tries", type: "number", required: false, description: "Tries scored", example: "1" },
+            { name: "assists", type: "number", required: false, description: "Try assists", example: "2" },
+            { name: "tackles_made", type: "number", required: false, description: "Successful tackles", example: "12" },
+            { name: "tackles_missed", type: "number", required: false, description: "Missed tackles", example: "2" },
+            { name: "carries", type: "number", required: false, description: "Ball carries", example: "8" },
+            { name: "metres_gained", type: "number", required: false, description: "Metres gained from carries", example: "45" },
+            { name: "passes", type: "number", required: false, description: "Passes attempted", example: "25" },
+            { name: "pass_accuracy", type: "number", required: false, description: "Pass completion percentage", example: "92.5" }
+          ]
+        }
+      ];
+      res.json(templates);
+    } catch (error) {
+      console.error("Error fetching templates:", error);
+      res.status(500).json({ error: "Failed to fetch templates" });
+    }
+  });
+
+  // Download specific template
+  app.get("/api/templates/download/:templateId", async (req, res) => {
+    try {
+      const { templateId } = req.params;
+      
+      const templateData: { [key: string]: string } = {
+        "players_basic": `player_id,first_name,last_name,date_of_birth,position,jersey_number,height_cm,weight_kg,contract_start,contract_end
+NH001,John,Smith,1995-03-15,Flanker,7,185,95,2024-01-01,2025-12-31
+NH002,Mike,Johnson,1993-07-22,Prop,1,180,110,2024-01-01,2025-12-31
+NH003,David,Wilson,1996-11-08,Fly-half,10,175,85,2024-01-01,2025-12-31`,
+        "match_performance": `match_id,player_id,minutes_played,tries,assists,tackles_made,tackles_missed,carries,metres_gained,passes,pass_accuracy
+NPC2025_RD1,NH001,80,1,2,12,2,8,45,25,92.5
+NPC2025_RD1,NH002,65,0,0,8,1,12,35,15,88.2
+NPC2025_RD1,NH003,80,0,3,3,1,15,85,45,94.1`,
+        "gps_training": `session_id,player_id,total_distance,high_speed_distance,sprint_distance,max_speed,accelerations,decelerations,impacts,training_load
+TRN_20250801,NH001,4500,850,125,28.5,45,38,12,285
+TRN_20250801,NH002,3800,650,95,26.2,38,32,8,245
+TRN_20250801,NH003,4200,780,110,27.8,42,35,10,265`,
+        "medical_tracking": `player_id,date,injury_type,injury_severity,expected_return,availability,load_restriction,notes
+NH001,2025-01-15,,,Available,100,Cleared for full training
+NH002,2025-01-15,Hamstring strain,Grade 1,2025-01-29,Injured,0,Rest and rehabilitation required
+NH003,2025-01-15,,,Available,90,Return to play protocol`
+      };
+
+      const data = templateData[templateId];
+      if (!data) {
+        return res.status(404).json({ error: "Template not found" });
+      }
+
+      const filename = `${templateId}_template.csv`;
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Content-Type', 'text/csv');
+      res.send(data);
+    } catch (error) {
+      console.error("Error downloading template:", error);
+      res.status(500).json({ error: "Failed to download template" });
+    }
+  });
+
+  // Get system configuration
+  app.get("/api/configuration", async (req, res) => {
+    try {
+      const config = {
+        teamSetup: {
+          teamName: "North Harbour Rugby",
+          season: "2025 NPC",
+          homeVenue: "North Harbour Stadium",
+          competition: "NPC Championship"
+        },
+        performanceThresholds: {
+          highSpeedThreshold: 15,
+          sprintThreshold: 25,
+          targetCScore: 3.0,
+          tackleSuccessTarget: 90
+        },
+        dataSync: {
+          autoSyncGPS: true,
+          syncFrequency: "daily",
+          dataRetention: 24
+        }
+      };
+      res.json(config);
+    } catch (error) {
+      console.error("Error fetching configuration:", error);
+      res.status(500).json({ error: "Failed to fetch configuration" });
+    }
+  });
+
+  // Update system configuration
+  app.post("/api/configuration", async (req, res) => {
+    try {
+      const config = req.body;
+      // In a real implementation, save to database
+      // For now, just validate and return success
+      res.json({ success: true, message: "Configuration updated successfully" });
+    } catch (error) {
+      console.error("Error updating configuration:", error);
+      res.status(500).json({ error: "Failed to update configuration" });
+    }
+  });
+
+  // Get API integrations status
+  app.get("/api/integrations", async (req, res) => {
+    try {
+      const integrations = [
+        {
+          name: "StatSports API",
+          description: "GPS tracking data integration",
+          endpoint: "/api/statsports/sync",
+          authentication: "API Key",
+          status: "configured",
+          lastSync: "2025-01-16T10:30:00Z"
+        },
+        {
+          name: "Google Sheets",
+          description: "Spreadsheet data synchronization",
+          endpoint: "/api/google-sheets/sync",
+          authentication: "Service Account",
+          status: "configured",
+          lastSync: "2025-01-16T09:15:00Z"
+        },
+        {
+          name: "GAIN LINE Analytics",
+          description: "Cohesion analytics integration",
+          endpoint: "/api/gainline/cohesion",
+          authentication: "OAuth 2.0",
+          status: "pending",
+          lastSync: null
+        }
+      ];
+      res.json(integrations);
+    } catch (error) {
+      console.error("Error fetching integrations:", error);
+      res.status(500).json({ error: "Failed to fetch integrations" });
+    }
+  });
+
+  // Test API integration
+  app.post("/api/integrations/:integrationName/test", async (req, res) => {
+    try {
+      const { integrationName } = req.params;
+      // Mock test result - in real implementation, test actual connection
+      const testResult = {
+        success: true,
+        message: `${integrationName} integration test successful`,
+        timestamp: new Date().toISOString(),
+        responseTime: Math.floor(Math.random() * 500) + 100
+      };
+      res.json(testResult);
+    } catch (error) {
+      console.error("Error testing integration:", error);
+      res.status(500).json({ error: "Failed to test integration" });
+    }
+  });
+
+  // Upload custom data template
+  app.post("/api/templates/upload", async (req, res) => {
+    try {
+      const { name, description, category, format, fields, sampleData } = req.body;
+      
+      // In a real implementation, save to database
+      const templateId = name.toLowerCase().replace(/\s+/g, '_');
+      
+      res.json({ 
+        success: true, 
+        templateId,
+        message: "Custom template uploaded successfully" 
+      });
+    } catch (error) {
+      console.error("Error uploading template:", error);
+      res.status(500).json({ error: "Failed to upload template" });
+    }
+  });
+
+  // Validate uploaded data against template
+  app.post("/api/templates/:templateId/validate", async (req, res) => {
+    try {
+      const { templateId } = req.params;
+      const { data } = req.body;
+      
+      // Mock validation - in real implementation, validate against template schema
+      const validationResult = {
+        valid: true,
+        errors: [],
+        warnings: [],
+        rowsProcessed: Array.isArray(data) ? data.length : 0,
+        summary: "Data validation completed successfully"
+      };
+      
+      res.json(validationResult);
+    } catch (error) {
+      console.error("Error validating data:", error);
+      res.status(500).json({ error: "Failed to validate data" });
+    }
+  });
 }

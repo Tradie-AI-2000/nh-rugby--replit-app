@@ -12,7 +12,10 @@ import {
   Target,
   ArrowRight,
   ArrowLeft,
-  Home
+  Home,
+  Database,
+  FileText,
+  Settings
 } from "lucide-react";
 
 const roles = [
@@ -171,8 +174,82 @@ export default function RoleSelection() {
           })}
         </div>
 
+        {/* Data Management Section */}
+        <div className="mt-16">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 rounded-xl shadow-lg max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold text-white mb-4">Data Management Hub</h3>
+              <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+                Essential tools for data templates, configuration, and system management. Perfect for administrators and technical staff.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="bg-white/10 border-white/20 hover:bg-white/20 transition-all duration-300">
+                <CardHeader className="text-center">
+                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center mx-auto mb-3">
+                    <Database className="h-6 w-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">Data Templates</CardTitle>
+                  <CardDescription className="text-gray-300">
+                    CSV templates, field definitions, and import formats for all data types
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href="/data-templates">
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                      Access Templates Hub
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/10 border-white/20 hover:bg-white/20 transition-all duration-300">
+                <CardHeader className="text-center">
+                  <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center mx-auto mb-3">
+                    <FileText className="h-6 w-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">Data Integration</CardTitle>
+                  <CardDescription className="text-gray-300">
+                    Configure API integrations, upload data, and manage system connections
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href="/data-integration">
+                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                      Manage Integrations
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/10 border-white/20 hover:bg-white/20 transition-all duration-300">
+                <CardHeader className="text-center">
+                  <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center mx-auto mb-3">
+                    <Settings className="h-6 w-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">System Config</CardTitle>
+                  <CardDescription className="text-gray-300">
+                    Team settings, performance thresholds, and system configuration
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link href="/data-templates#configuration">
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                      Configure System
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
         {/* Quick Access Section */}
-        <div className="mt-16 text-center">
+        <div className="mt-12 text-center">
           <div className="bg-white p-8 rounded-xl shadow-lg max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Quick Access</h3>
             <p className="text-gray-600 mb-6">
