@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,9 @@ import {
   Users,
   Shield,
   Zap,
-  Trophy
+  Trophy,
+  GitBranch,
+  ExternalLink
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
