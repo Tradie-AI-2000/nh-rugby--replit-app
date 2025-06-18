@@ -1330,6 +1330,27 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  // Comparative AI Analysis endpoint for tries for/against
+  app.post('/api/ai/try-analysis-comparative', async (req, res) => {
+    try {
+      const { currentTeam, oppositionTeam, comparative } = req.body;
+
+      const analysis = await geminiAnalyst.analyzeComparativeTryPatterns({
+        currentTeam,
+        oppositionTeam,
+        comparative
+      });
+
+      res.json({ analysis });
+    } catch (error) {
+      console.error('Error in comparative try analysis:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate comparative try analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Seed database with sample data
   app.post("/api/seed", async (req, res) => {
     try {

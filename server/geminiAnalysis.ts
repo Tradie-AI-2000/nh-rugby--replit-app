@@ -342,6 +342,91 @@ Provide a comprehensive analysis in a professional rugby coaching format with ac
       throw new Error('Failed to generate try pattern analysis');
     }
   }
+
+  async analyzeComparativeTryPatterns(data: {
+    currentTeam: {
+      name: string;
+      totalTries: number;
+      zoneBreakdown: any[];
+      quarterBreakdown: any[];
+      phaseBreakdown: any[];
+      sourceBreakdown: any[];
+      rawData: any[];
+    };
+    oppositionTeam: {
+      name: string;
+      totalTries: number;
+      rawData: any[];
+    } | null;
+    comparative: boolean;
+  }): Promise<string> {
+    const { currentTeam, oppositionTeam, comparative } = data;
+    
+    let prompt = `As a professional rugby analyst, analyze the following try-scoring patterns for ${currentTeam.name}:
+
+## ${currentTeam.name} Try Analysis
+**Total Tries:** ${currentTeam.totalTries}
+
+**Zone Distribution:**
+${currentTeam.zoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
+
+**Quarter Distribution:**
+${currentTeam.quarterBreakdown.map(quarter => `- ${quarter.name}: ${quarter.value} tries (${quarter.percentage}%)`).join('\n')}
+
+**Phase Distribution:**
+${currentTeam.phaseBreakdown.map(phase => `- ${phase.name}: ${phase.value} tries (${phase.percentage}%)`).join('\n')}
+
+**Try Sources:**
+${currentTeam.sourceBreakdown.map(source => `- ${source.name}: ${source.value} tries (${source.percentage}%)`).join('\n')}`;
+
+    if (comparative && oppositionTeam) {
+      // Calculate opposition zone breakdown for comparison
+      const oppZoneBreakdown = ['attacking_22', 'attacking_22m_halfway', 'defending_22m_halfway', 'defending_22'].map(zone => {
+        const count = oppositionTeam.rawData.filter((t: any) => t.zone === zone).length;
+        return {
+          name: zone.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+          value: count,
+          percentage: oppositionTeam.totalTries > 0 ? Math.round((count / oppositionTeam.totalTries) * 100) : 0
+        };
+      });
+
+      prompt += `
+
+## ${oppositionTeam.name} Tries Against Analysis
+**Total Tries Conceded:** ${oppositionTeam.totalTries}
+
+**Opposition Zone Distribution:**
+${oppZoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
+
+## Comparative Analysis Required:
+1. **Attack vs Defense Patterns**: Compare our try-scoring zones with where we concede tries
+2. **Tactical Balance**: Analyze the relationship between offensive success and defensive vulnerabilities
+3. **Zone-Specific Insights**: Identify if we score in areas where we also concede tries
+4. **Momentum Patterns**: Compare quarter-by-quarter scoring vs conceding patterns
+5. **Coaching Priorities**: Balance between improving attack and strengthening defense
+6. **Opposition Scouting**: How opposition scoring patterns reveal our defensive weaknesses`;
+    }
+
+    prompt += `
+
+**Analysis Framework:**
+1. **Current Team Tactical Patterns**: Detailed analysis of ${currentTeam.name} try-scoring efficiency
+2. **Temporal Analysis**: Quarter-by-quarter patterns and momentum shifts
+3. **Phase Play Effectiveness**: Attacking structure analysis from different phases
+4. **Set Piece vs Open Play**: Platform effectiveness comparison
+${comparative ? '5. **Tries Against Section**: Defensive vulnerability analysis based on opposition scoring patterns\n6. **Attack/Defense Balance**: Recommendations for tactical adjustments\n7. **Coaching Focus Areas**: Priority areas for training and development' : '5. **Development Recommendations**: Areas for tactical improvement\n6. **Future Opposition Preparation**: How this data will inform game planning'}
+
+Provide a comprehensive professional rugby analysis with specific coaching recommendations and actionable insights.`;
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Gemini API error:', error);
+      throw new Error('Failed to generate comparative try pattern analysis');
+    }
+  }
 }
 
 export const geminiAnalyst = new GeminiRugbyAnalyst();
