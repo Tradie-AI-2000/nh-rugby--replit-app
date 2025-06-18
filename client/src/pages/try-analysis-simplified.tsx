@@ -92,6 +92,8 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
   // Save state
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [pendingViewChange, setPendingViewChange] = useState<'home' | 'away' | null>(null);
   
   // Multi-team data management
   const [homeTeamTries, setHomeTeamTries] = useState<Try[]>([]);
@@ -380,7 +382,7 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
   };
 
   // Save try analysis data
-  const saveTryAnalysisData = async () => {
+  const saveTryAnalysisData = async (clearAfterSave = false) => {
     const currentTeamName = currentView === 'home' 
       ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
       : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel);
@@ -415,6 +417,20 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
 
       const result = await response.json();
       setLastSaved(new Date().toLocaleTimeString());
+      setHasUnsavedChanges(false);
+      
+      // Clear data if requested (for team switching)
+      if (clearAfterSave) {
+        setHomeTeamTries([]);
+        setAwayTeamTries([]);
+        setAiAnalysis("");
+      }
+      
+      // Complete pending view change if any
+      if (pendingViewChange) {
+        setCurrentView(pendingViewChange);
+        setPendingViewChange(null);
+      }
       
       // Show success message briefly
       setTimeout(() => setLastSaved(null), 3000);
@@ -425,6 +441,44 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
       setIsSaving(false);
     }
   };
+
+  // Handle team view switching with save prompt
+  const handleViewChange = (newView: 'home' | 'away') => {
+    if (newView === currentView) return;
+    
+    // Check if there are unsaved changes
+    if (hasUnsavedChanges && currentTries.length > 0) {
+      const currentTeamName = currentView === 'home' 
+        ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
+        : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel);
+      
+      const proceed = window.confirm(
+        `You have unsaved data for ${currentTeamName}. Would you like to save it before switching teams?`
+      );
+      
+      if (proceed) {
+        setPendingViewChange(newView);
+        saveTryAnalysisData(true); // Save and clear
+      } else {
+        // Switch without saving, clear current data
+        setHomeTeamTries([]);
+        setAwayTeamTries([]);
+        setAiAnalysis("");
+        setCurrentView(newView);
+        setHasUnsavedChanges(false);
+      }
+    } else {
+      // No unsaved changes, switch directly
+      setCurrentView(newView);
+    }
+  };
+
+  // Track unsaved changes when tries are added/modified
+  useEffect(() => {
+    if (currentTries.length > 0) {
+      setHasUnsavedChanges(true);
+    }
+  }, [currentTries]);
 
   // Auto-generate analysis when data changes (with debounce)
   useEffect(() => {
@@ -467,7 +521,7 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
                 <Button
                   variant={currentView === 'home' ? 'default' : 'ghost'}
                   size="sm"
-                  onClick={() => handleTeamViewChange('home')}
+                  onClick={() => handleViewChange('home')}
                   className="rounded-r-none"
                 >
                   {isNorthHarbourHome ? northHarbourLabel : oppositionLabel} ({homeTeamTries.length})
@@ -475,7 +529,7 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
                 <Button
                   variant={currentView === 'away' ? 'default' : 'ghost'}
                   size="sm"
-                  onClick={() => handleTeamViewChange('away')}
+                  onClick={() => handleViewChange('away')}
                   className="rounded-l-none"
                 >
                   {isNorthHarbourHome ? oppositionLabel : northHarbourLabel} ({awayTeamTries.length})
@@ -573,7 +627,7 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
                   </div>
 
                   <Button 
-                    onClick={saveTryAnalysisData}
+                    onClick={() => saveTryAnalysisData()}
                     disabled={currentTries.length === 0 || isSaving}
                     className="w-full bg-green-600 hover:bg-green-700 text-white"
                   >

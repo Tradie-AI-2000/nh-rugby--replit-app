@@ -50,6 +50,7 @@ function Router() {
       <Route path="/team-cohesion" component={TeamCohesionAnalytics} />
       
       {/* Analytics Routes */}
+      <Route path="/analytics/match-list/match-performance/:matchId/try-analysis" component={TryAnalysisWrapper} />
       <Route path="/analytics/match-list/match-performance/:matchId" component={MatchPerformance} />
       <Route path="/analytics/match-list" component={MatchList} />
       <Route path="/analytics" component={AnalyticsOverview} />
