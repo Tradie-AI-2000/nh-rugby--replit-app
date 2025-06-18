@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload, ArrowLeft, Home } from "lucide-react";
 import { sampleMatchPerformance, matchAnalyticsSections } from "@/data/sampleMatchData";
-import TryAnalysisSimplified from "@/pages/try-analysis-simplified";
+import { TryAnalysisSimplified } from "@/pages/try-analysis-simplified";
 import logoPath from "@assets/menulogo_wo.png";
 
 interface AIAnalysisProps {
@@ -762,7 +762,7 @@ export default function MatchPerformance() {
         </TabsContent>
 
         <TabsContent value="try_analysis">
-          <TryAnalysisSimplified />
+          <TryAnalysisSimplified embedded={true} matchId={matchId} />
         </TabsContent>
       </Tabs>
       </div>

@@ -27,7 +27,7 @@ import DataIntegrityDemo from "@/pages/data-integrity-demo";
 import GameDayAnalysis from "@/pages/game-day-analysis";
 import DataTemplatesHub from "@/pages/data-templates-hub";
 import DataSchemaViewer from "@/pages/data-schema-viewer";
-import TryAnalysisSimplified from "@/pages/try-analysis-simplified";
+import TryAnalysisWrapper from "@/pages/try-analysis-simplified";
 import MatchFixtures from "@/pages/match-fixtures";
 import MatchList from "@/pages/match-list";
 import RoleSelection from "@/pages/role-selection";
@@ -56,13 +56,13 @@ function Router() {
       <Route path="/match-list" component={MatchList} />
       <Route path="/match-performance" component={MatchPerformance} />
       <Route path="/match-performance/:matchId" component={MatchPerformance} />
-      <Route path="/match-performance/:matchId/try-analysis" component={TryAnalysisSimplified} />
+      <Route path="/match-performance/:matchId/try-analysis" component={TryAnalysisWrapper} />
       <Route path="/medical" component={MedicalHub} />
       <Route path="/medical-hub" component={MedicalHub} />
       <Route path="/data-integrity" component={DataIntegrityDemo} />
       <Route path="/data-templates" component={DataTemplatesHub} />
       <Route path="/data-schema" component={DataSchemaViewer} />
-      <Route path="/try-analysis" component={TryAnalysisSimplified} />
+      <Route path="/try-analysis" component={TryAnalysisWrapper} />
       <Route path="/game-day/:id" component={GameDayAnalysis} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
