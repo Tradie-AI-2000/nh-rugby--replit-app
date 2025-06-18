@@ -44,11 +44,17 @@ function Router() {
       <Route path="/players" component={PlayersOverview} />
       <Route path="/player/:playerId" component={EnhancedPlayerProfile} />
       <Route path="/legacy/player/:playerId" component={PlayerDashboard} />
-      <Route path="/team-dashboard" component={TeamDashboard} />
+      {/* Team Routes */}
+      <Route path="/team/overview" component={TeamDashboard} />
       <Route path="/team" component={TeamDashboard} />
       <Route path="/team-cohesion" component={TeamCohesionAnalytics} />
-      <Route path="/team-cohesion-legacy" component={TeamCohesionDashboard} />
+      
+      {/* Analytics Routes */}
+      <Route path="/analytics/match-list/match-performance/:matchId" component={MatchPerformance} />
+      <Route path="/analytics/match-list" component={MatchList} />
       <Route path="/analytics" component={AnalyticsOverview} />
+      
+      {/* Legacy Routes for backwards compatibility */}
       <Route path="/performance-analytics" component={PerformanceAnalytics} />
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />

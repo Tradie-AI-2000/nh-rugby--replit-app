@@ -271,7 +271,7 @@ export default function TeamDashboard() {
                   </Card>
                 </div>
 
-                <Link href="/match-list">
+                <Link href="/analytics/match-list">
                   <Button className="w-full bg-nh-red hover:bg-nh-red-600 text-white">
                     <Trophy className="h-4 w-4 mr-2" />
                     View Comprehensive Match Analytics
@@ -665,7 +665,7 @@ export default function TeamDashboard() {
                     ],
                     status: "good",
                     icon: <Trophy className="w-6 h-6" />,
-                    route: "/match-list"
+                    route: "/analytics/match-list"
                   },
                   {
                     id: "fitness",

@@ -105,7 +105,7 @@ export default function MatchList() {
               <div>
                 <h1 className="text-2xl font-bold">Match Performance Analytics</h1>
                 <div className="flex items-center gap-2 text-sm text-nh-red-200">
-                  <Link href="/team" className="hover:text-white">Coaching Portal</Link>
+                  <Link href="/team/overview" className="hover:text-white">Coaching Portal</Link>
                   <span>›</span>
                   <Link href="/analytics" className="hover:text-white">Analytics</Link>
                   <span>›</span>
@@ -114,7 +114,7 @@ export default function MatchList() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Link href="/team">
+              <Link href="/team/overview">
                 <Button variant="outline" className="text-nh-red bg-white hover:bg-gray-100">
                   <Home className="w-4 h-4 mr-2" />
                   Dashboard Home
@@ -137,7 +137,7 @@ export default function MatchList() {
         {/* Match Fixtures Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {matchFixtures.map((match) => (
-            <Link key={match.id} href={`/match-performance/${match.id}`}>
+            <Link key={match.id} href={`/analytics/match-list/match-performance/${match.id}`}>
               <Card className={`cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 border-2 ${
                 match.result === "Win" 
                   ? "border-green-200 bg-green-50 hover:border-green-300" 
