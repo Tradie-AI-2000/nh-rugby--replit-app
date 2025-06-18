@@ -61,6 +61,12 @@ export default function TryAnalysisSimplified() {
   // AI Analysis state
   const [aiAnalysis, setAiAnalysis] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
+  // Multi-team data management
+  const [homeTeamTries, setHomeTeamTries] = useState<Try[]>([]);
+  const [awayTeamTries, setAwayTeamTries] = useState<Try[]>([]);
+  const [currentView, setCurrentView] = useState<'home' | 'away'>('home');
+  const [showSavePrompt, setShowSavePrompt] = useState(false);
 
   // Chart colors
   const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C'];
@@ -73,43 +79,46 @@ export default function TryAnalysisSimplified() {
     return 'defending_22'; // Top 20%
   };
 
-  // Calculate analytical metrics
+  // Get current team's tries based on view
+  const currentTries = currentView === 'home' ? homeTeamTries : awayTeamTries;
+  
+  // Calculate analytical metrics for current team
   const zoneData = useMemo(() => {
     const zones = ['attacking_22', 'attacking_22m_halfway', 'defending_22m_halfway', 'defending_22'];
     return zones.map(zone => ({
       name: zone.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-      value: tries.filter(t => t.zone === zone).length,
-      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.zone === zone).length / tries.length) * 100) : 0
+      value: currentTries.filter(t => t.zone === zone).length,
+      percentage: currentTries.length > 0 ? Math.round((currentTries.filter(t => t.zone === zone).length / currentTries.length) * 100) : 0
     }));
-  }, [tries]);
+  }, [currentTries]);
 
   const quarterData = useMemo(() => {
     const quarters = [1, 2, 3, 4];
     return quarters.map(quarter => ({
       name: `Q${quarter}`,
-      value: tries.filter(t => t.quarter === quarter).length,
-      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.quarter === quarter).length / tries.length) * 100) : 0
+      value: currentTries.filter(t => t.quarter === quarter).length,
+      percentage: currentTries.length > 0 ? Math.round((currentTries.filter(t => t.quarter === quarter).length / currentTries.length) * 100) : 0
     }));
-  }, [tries]);
+  }, [currentTries]);
 
   const phaseData = useMemo(() => {
     const phases = ['phase_1', 'phase_2_3', 'phase_4_6', 'phase_7_plus'];
     const phaseLabels = ['Phase 1', 'Phase 2-3', 'Phase 4-6', 'Phase 7+'];
     return phases.map((phase, index) => ({
       name: phaseLabels[index],
-      value: tries.filter(t => t.phase === phase).length,
-      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.phase === phase).length / tries.length) * 100) : 0
+      value: currentTries.filter(t => t.phase === phase).length,
+      percentage: currentTries.length > 0 ? Math.round((currentTries.filter(t => t.phase === phase).length / currentTries.length) * 100) : 0
     }));
-  }, [tries]);
+  }, [currentTries]);
 
   const sourceData = useMemo(() => {
     const sources = tryTypes.map(t => t.value);
     return sources.map(source => ({
       name: tryTypes.find(t => t.value === source)?.label || source,
-      value: tries.filter(t => t.type === source).length,
-      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.type === source).length / tries.length) * 100) : 0
+      value: currentTries.filter(t => t.type === source).length,
+      percentage: currentTries.length > 0 ? Math.round((currentTries.filter(t => t.type === source).length / currentTries.length) * 100) : 0
     })).filter(item => item.value > 0);
-  }, [tries]);
+  }, [currentTries]);
 
   const handleMouseMove = (event: React.MouseEvent<SVGElement>) => {
     if (!isPlacingTry) {
@@ -157,7 +166,13 @@ export default function TryAnalysisSimplified() {
       phase: 'phase_1' // Default, will be edited
     };
 
-    setTries([...tries, newTry]);
+    // Add to the appropriate team's data
+    if (currentView === 'home') {
+      setHomeTeamTries([...homeTeamTries, newTry]);
+    } else {
+      setAwayTeamTries([...awayTeamTries, newTry]);
+    }
+    
     setIsPlacingTry(false);
     setMousePosition(null);
   };
@@ -178,18 +193,51 @@ export default function TryAnalysisSimplified() {
       phase: editPhase as 'phase_1' | 'phase_2_3' | 'phase_4_6' | 'phase_7_plus'
     };
 
-    setTries(tries.map(t => t.id === editingTry.id ? updatedTry : t));
+    if (currentView === 'home') {
+      setHomeTeamTries(homeTeamTries.map(t => t.id === editingTry.id ? updatedTry : t));
+    } else {
+      setAwayTeamTries(awayTeamTries.map(t => t.id === editingTry.id ? updatedTry : t));
+    }
+    
     setEditingTry(null);
     setEditQuarter("");
     setEditPhase("");
   };
 
   const deleteTry = (id: string) => {
-    setTries(tries.filter(t => t.id !== id));
+    if (currentView === 'home') {
+      setHomeTeamTries(homeTeamTries.filter(t => t.id !== id));
+    } else {
+      setAwayTeamTries(awayTeamTries.filter(t => t.id !== id));
+    }
   };
 
   const clearAll = () => {
-    setTries([]);
+    if (currentView === 'home') {
+      setHomeTeamTries([]);
+    } else {
+      setAwayTeamTries([]);
+    }
+  };
+
+  // Handle team view switching with save prompt
+  const handleTeamViewChange = (newView: 'home' | 'away') => {
+    if (newView === currentView) return;
+    
+    const currentTeamHasData = currentView === 'home' ? homeTeamTries.length > 0 : awayTeamTries.length > 0;
+    
+    if (currentTeamHasData) {
+      setShowSavePrompt(true);
+    } else {
+      setCurrentView(newView);
+      setSelectedTeam(newView);
+    }
+  };
+
+  const confirmTeamSwitch = (newView: 'home' | 'away') => {
+    setCurrentView(newView);
+    setSelectedTeam(newView);
+    setShowSavePrompt(false);
   };
 
   const getTryTypeConfig = (type: string) => {
@@ -211,26 +259,36 @@ export default function TryAnalysisSimplified() {
     URL.revokeObjectURL(url);
   };
 
-  // AI Analysis function
+  // AI Analysis function with comparative data
   const generateAIAnalysis = async () => {
-    if (tries.length === 0) return;
+    const hasCurrentData = currentTries.length > 0;
+    const hasOppositionData = currentView === 'home' ? awayTeamTries.length > 0 : homeTeamTries.length > 0;
+    
+    if (!hasCurrentData) return;
     
     setIsAnalyzing(true);
     try {
+      const oppositionTries = currentView === 'home' ? awayTeamTries : homeTeamTries;
+      
       const analysisData = {
-        totalTries: tries.length,
-        zoneBreakdown: zoneData,
-        quarterBreakdown: quarterData,
-        phaseBreakdown: phaseData,
-        sourceBreakdown: sourceData,
-        teamBreakdown: {
-          home: tries.filter(t => t.team === 'home').length,
-          away: tries.filter(t => t.team === 'away').length
+        currentTeam: {
+          name: currentView === 'home' ? 'Us' : 'Opposition',
+          totalTries: currentTries.length,
+          zoneBreakdown: zoneData,
+          quarterBreakdown: quarterData,
+          phaseBreakdown: phaseData,
+          sourceBreakdown: sourceData,
+          rawData: currentTries
         },
-        rawData: tries
+        oppositionTeam: hasOppositionData ? {
+          name: currentView === 'home' ? 'Opposition' : 'Us',
+          totalTries: oppositionTries.length,
+          rawData: oppositionTries
+        } : null,
+        comparative: hasOppositionData
       };
 
-      const response = await fetch('/api/ai/try-analysis', {
+      const response = await fetch('/api/ai/try-analysis-comparative', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -252,9 +310,9 @@ export default function TryAnalysisSimplified() {
     }
   };
 
-  // Auto-generate analysis when tries data changes (with debounce)
+  // Auto-generate analysis when data changes (with debounce)
   useEffect(() => {
-    if (tries.length > 0) {
+    if (currentTries.length > 0) {
       const timeoutId = setTimeout(() => {
         generateAIAnalysis();
       }, 1000); // 1 second debounce
@@ -263,7 +321,7 @@ export default function TryAnalysisSimplified() {
     } else {
       setAiAnalysis("");
     }
-  }, [tries]);
+  }, [currentTries, homeTeamTries, awayTeamTries, currentView]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -276,8 +334,30 @@ export default function TryAnalysisSimplified() {
               Interactive rugby pitch with zone detection and analytical insights
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline">{tries.length} tries plotted</Badge>
+          <div className="flex items-center gap-4">
+            {/* Team View Selector */}
+            <div className="flex items-center gap-2">
+              <Label className="text-sm font-medium">Viewing:</Label>
+              <div className="flex rounded-lg border">
+                <Button
+                  variant={currentView === 'home' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleTeamViewChange('home')}
+                  className="rounded-r-none"
+                >
+                  Us ({homeTeamTries.length})
+                </Button>
+                <Button
+                  variant={currentView === 'away' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handleTeamViewChange('away')}
+                  className="rounded-l-none"
+                >
+                  Opposition ({awayTeamTries.length})
+                </Button>
+              </div>
+            </div>
+            <Badge variant="outline">{currentTries.length} tries plotted</Badge>
             <Button 
               variant="outline" 
               size="sm" 
@@ -467,7 +547,7 @@ export default function TryAnalysisSimplified() {
                     )}
 
                     {/* Try markers */}
-                    {tries.map(tryItem => {
+                    {currentTries.map(tryItem => {
                       const config = getTryTypeConfig(tryItem.type);
                       const x = (tryItem.x / 100) * 400;
                       const y = (tryItem.y / 100) * 600;
@@ -479,7 +559,7 @@ export default function TryAnalysisSimplified() {
                             cy={y}
                             r="10"
                             fill={config.color}
-                            stroke={tryItem.team === 'home' ? '#1E40AF' : '#DC2626'}
+                            stroke={currentView === 'home' ? '#1E40AF' : '#DC2626'}
                             strokeWidth="2"
                             className="cursor-pointer hover:opacity-80"
                             onClick={(e) => handleTryClick(tryItem, e)}
@@ -656,8 +736,36 @@ export default function TryAnalysisSimplified() {
           </div>
         )}
 
+        {/* Save Prompt Dialog */}
+        <Dialog open={showSavePrompt} onOpenChange={setShowSavePrompt}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Save Current Data?</DialogTitle>
+              <DialogDescription>
+                You have {currentView === 'home' ? homeTeamTries.length : awayTeamTries.length} tries plotted for {currentView === 'home' ? 'Us' : 'Opposition'}. 
+                Switching teams will clear this data. Do you want to continue?
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex gap-2 mt-4">
+              <Button 
+                onClick={() => confirmTeamSwitch(currentView === 'home' ? 'away' : 'home')} 
+                className="flex-1"
+              >
+                Continue Switch
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowSavePrompt(false)} 
+                className="flex-1"
+              >
+                Cancel
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* AI Analysis Section */}
-        {tries.length > 0 && (
+        {currentTries.length > 0 && (
           <div className="mt-6">
             <Card>
               <CardHeader>
