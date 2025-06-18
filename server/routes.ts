@@ -100,30 +100,572 @@ function aggregateMetrics(existing: any[], newData: any[], totalTries: number) {
 }
 
 export function registerRoutes(app: Express) {
-  // Get all players - FRESH START with your North Harbour Rugby data
+  // Get all players - Complete North Harbour Rugby roster
   app.get("/api/players", async (req, res) => {
     try {
-      // Your actual North Harbour Rugby players from CSV
+      // Complete North Harbour Rugby players roster
       const northHarbourPlayers = [
+        // Forwards
+        {
+          id: "jake_thompson",
+          personalDetails: {
+            firstName: "Jake",
+            lastName: "Thompson",
+            dateOfBirth: "1996-03-15",
+            position: "Hooker",
+            jerseyNumber: 2
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 2, tackles: 45, tries: 1, matchesPlayed: 12 }],
+          skills: { ballHandling: 8, passing: 7, defense: 8, communication: 9 }
+        },
+        {
+          id: "mike_wilson",
+          personalDetails: {
+            firstName: "Mike",
+            lastName: "Wilson",
+            dateOfBirth: "1995-07-22",
+            position: "Prop",
+            jerseyNumber: 1
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 5, turnovers: 1, tackles: 38, tries: 0, matchesPlayed: 15 }],
+          skills: { ballHandling: 6, passing: 6, defense: 9, communication: 7 }
+        },
+        {
+          id: "sam_roberts",
+          personalDetails: {
+            firstName: "Sam",
+            lastName: "Roberts",
+            dateOfBirth: "1997-11-08",
+            position: "Lock",
+            jerseyNumber: 4
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 3, tackles: 52, tries: 2, matchesPlayed: 14 }],
+          skills: { ballHandling: 7, passing: 6, defense: 8, communication: 8 }
+        },
         {
           id: "penaia_cakobau",
           personalDetails: {
             firstName: "Penaia",
             lastName: "Cakobau",
             dateOfBirth: "1998-05-10",
-            email: "penaia.cakobau@example.com",
-            phone: "555-123-4567",
-            address: "Auckland, New Zealand",
-            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
+            position: "Hooker",
+            jerseyNumber: 2
           },
-          rugbyProfile: {
-            jerseyNumber: 2,
-            primaryPosition: "Hooker",
-            secondaryPositions: [],
-            playingLevel: "Professional",
-            yearsInTeam: 2,
-            previousClubs: []
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 1, tackles: 42, tries: 3, matchesPlayed: 13 }],
+          skills: { ballHandling: 9, passing: 8, defense: 8, communication: 9 }
+        },
+        {
+          id: "bryn_gordon",
+          personalDetails: {
+            firstName: "Bryn",
+            lastName: "Gordon",
+            dateOfBirth: "1999-02-14",
+            position: "Lock",
+            jerseyNumber: 5
           },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 4, tackles: 58, tries: 1, matchesPlayed: 11 }],
+          skills: { ballHandling: 7, passing: 6, defense: 9, communication: 7 }
+        },
+        {
+          id: "shilo_klein",
+          personalDetails: {
+            firstName: "Shilo",
+            lastName: "Klein",
+            dateOfBirth: "1998-08-22",
+            position: "Flanker",
+            jerseyNumber: 6
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 6, turnovers: 8, tackles: 65, tries: 4, matchesPlayed: 14 }],
+          skills: { ballHandling: 8, passing: 7, defense: 9, communication: 8 }
+        },
+        {
+          id: "sam_davies",
+          personalDetails: {
+            firstName: "Sam",
+            lastName: "Davies",
+            dateOfBirth: "1997-04-18",
+            position: "Lock",
+            jerseyNumber: 4
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 2, tackles: 51, tries: 0, matchesPlayed: 12 }],
+          skills: { ballHandling: 6, passing: 6, defense: 8, communication: 7 }
+        },
+        {
+          id: "tevita_langi",
+          personalDetails: {
+            firstName: "Tevita",
+            lastName: "Langi",
+            dateOfBirth: "1996-09-30",
+            position: "Number 8",
+            jerseyNumber: 8
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 5, turnovers: 6, tackles: 48, tries: 2, matchesPlayed: 13 }],
+          skills: { ballHandling: 8, passing: 7, defense: 8, communication: 8 }
+        },
+        {
+          id: "james_lay",
+          personalDetails: {
+            firstName: "James",
+            lastName: "Lay",
+            dateOfBirth: "1995-12-05",
+            position: "Prop",
+            jerseyNumber: 3
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 7, turnovers: 1, tackles: 35, tries: 0, matchesPlayed: 15 }],
+          skills: { ballHandling: 5, passing: 5, defense: 9, communication: 6 }
+        },
+        {
+          id: "sione_mafileo",
+          personalDetails: {
+            firstName: "Sione",
+            lastName: "Mafile'o",
+            dateOfBirth: "1998-01-12",
+            position: "Hooker",
+            jerseyNumber: 16
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 1, tackles: 38, tries: 1, matchesPlayed: 8 }],
+          skills: { ballHandling: 8, passing: 7, defense: 7, communication: 8 }
+        },
+        {
+          id: "tevita_mafileo",
+          personalDetails: {
+            firstName: "Tevita",
+            lastName: "Mafile'o",
+            dateOfBirth: "1999-06-25",
+            position: "Prop",
+            jerseyNumber: 17
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 0, tackles: 32, tries: 0, matchesPlayed: 10 }],
+          skills: { ballHandling: 6, passing: 5, defense: 8, communication: 6 }
+        },
+        {
+          id: "fatongia_paea",
+          personalDetails: {
+            firstName: "Fatongia",
+            lastName: "Paea",
+            dateOfBirth: "1997-03-08",
+            position: "Lock",
+            jerseyNumber: 19
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 44, tries: 1, matchesPlayed: 9 }],
+          skills: { ballHandling: 7, passing: 6, defense: 8, communication: 7 }
+        },
+        {
+          id: "karl_tuinukuafe",
+          personalDetails: {
+            firstName: "Karl",
+            lastName: "Tu'inukuafe",
+            dateOfBirth: "1995-11-15",
+            position: "Prop",
+            jerseyNumber: 1
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 6, turnovers: 1, tackles: 41, tries: 0, matchesPlayed: 14 }],
+          skills: { ballHandling: 6, passing: 6, defense: 9, communication: 7 }
+        },
+        // Backs
+        {
+          id: "cam_christie",
+          personalDetails: {
+            firstName: "Cam",
+            lastName: "Christie",
+            dateOfBirth: "1999-07-17",
+            position: "Wing",
+            jerseyNumber: 11
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 3, tackles: 28, tries: 8, matchesPlayed: 12 }],
+          skills: { ballHandling: 9, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "james_fiebig",
+          personalDetails: {
+            firstName: "James",
+            lastName: "Fiebig",
+            dateOfBirth: "1998-05-20",
+            position: "Flanker",
+            jerseyNumber: 7
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 7, tackles: 61, tries: 3, matchesPlayed: 13 }],
+          skills: { ballHandling: 8, passing: 7, defense: 9, communication: 8 }
+        },
+        {
+          id: "ben_grant",
+          personalDetails: {
+            firstName: "Ben",
+            lastName: "Grant",
+            dateOfBirth: "1996-10-03",
+            position: "Flanker",
+            jerseyNumber: 6
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 5, turnovers: 6, tackles: 55, tries: 2, matchesPlayed: 11 }],
+          skills: { ballHandling: 7, passing: 7, defense: 8, communication: 7 }
+        },
+        {
+          id: "felix_kalapu",
+          personalDetails: {
+            firstName: "Felix",
+            lastName: "Kalapu",
+            dateOfBirth: "1999-01-28",
+            position: "Flanker",
+            jerseyNumber: 20
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 5, tackles: 43, tries: 1, matchesPlayed: 8 }],
+          skills: { ballHandling: 7, passing: 6, defense: 8, communication: 7 }
+        },
+        {
+          id: "mahonri_ngakuru",
+          personalDetails: {
+            firstName: "Mahonri",
+            lastName: "Ngakuru",
+            dateOfBirth: "1997-12-11",
+            position: "Lock",
+            jerseyNumber: 18
+          },
+          currentStatus: "Injured",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 2, tackles: 35, tries: 0, matchesPlayed: 6 }],
+          skills: { ballHandling: 6, passing: 5, defense: 8, communication: 6 }
+        },
+        {
+          id: "tristyn_cook",
+          personalDetails: {
+            firstName: "Tristyn",
+            lastName: "Cook",
+            dateOfBirth: "1998-04-09",
+            position: "Scrum-half",
+            jerseyNumber: 21
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 4, tackles: 32, tries: 2, matchesPlayed: 7 }],
+          skills: { ballHandling: 9, passing: 9, defense: 6, communication: 8 }
+        },
+        {
+          id: "talimoni_finau",
+          personalDetails: {
+            firstName: "Talimoni",
+            lastName: "Finau",
+            dateOfBirth: "1996-08-14",
+            position: "Flanker",
+            jerseyNumber: 22
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 6, tackles: 49, tries: 1, matchesPlayed: 10 }],
+          skills: { ballHandling: 7, passing: 6, defense: 8, communication: 7 }
+        },
+        {
+          id: "lotu_inisi",
+          personalDetails: {
+            firstName: "Lotu",
+            lastName: "Inisi",
+            dateOfBirth: "1999-03-22",
+            position: "Centre",
+            jerseyNumber: 23
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 41, tries: 5, matchesPlayed: 9 }],
+          skills: { ballHandling: 8, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "tamarau_mcgahan",
+          personalDetails: {
+            firstName: "Tamarau",
+            lastName: "McGahan",
+            dateOfBirth: "1997-09-16",
+            position: "Centre",
+            jerseyNumber: 12
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 4, tackles: 47, tries: 3, matchesPlayed: 11 }],
+          skills: { ballHandling: 8, passing: 8, defense: 8, communication: 8 }
+        },
+        {
+          id: "jed_melvin",
+          personalDetails: {
+            firstName: "Jed",
+            lastName: "Melvin",
+            dateOfBirth: "1998-11-07",
+            position: "Wing",
+            jerseyNumber: 14
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 2, tackles: 25, tries: 6, matchesPlayed: 10 }],
+          skills: { ballHandling: 8, passing: 7, defense: 6, communication: 6 }
+        },
+        {
+          id: "karl_ruzich",
+          personalDetails: {
+            firstName: "Karl",
+            lastName: "Ruzich",
+            dateOfBirth: "1996-06-30",
+            position: "Lock",
+            jerseyNumber: 5
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 2, tackles: 53, tries: 1, matchesPlayed: 13 }],
+          skills: { ballHandling: 7, passing: 6, defense: 9, communication: 8 }
+        },
+        {
+          id: "wallace_sititi",
+          personalDetails: {
+            firstName: "Wallace",
+            lastName: "Sititi",
+            dateOfBirth: "1999-05-12",
+            position: "Number 8",
+            jerseyNumber: 8
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 4, turnovers: 7, tackles: 52, tries: 4, matchesPlayed: 12 }],
+          skills: { ballHandling: 8, passing: 7, defense: 8, communication: 8 }
+        },
+        {
+          id: "cameron_suafoa",
+          personalDetails: {
+            firstName: "Cameron",
+            lastName: "Suafoa",
+            dateOfBirth: "1997-02-28",
+            position: "Flanker",
+            jerseyNumber: 7
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 5, turnovers: 8, tackles: 59, tries: 2, matchesPlayed: 14 }],
+          skills: { ballHandling: 7, passing: 7, defense: 9, communication: 8 }
+        },
+        {
+          id: "aisea_halo",
+          personalDetails: {
+            firstName: "Aisea",
+            lastName: "Halo",
+            dateOfBirth: "1998-12-19",
+            position: "Scrum-half",
+            jerseyNumber: 9
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 35, tries: 1, matchesPlayed: 11 }],
+          skills: { ballHandling: 9, passing: 9, defense: 6, communication: 9 }
+        },
+        {
+          id: "bryn_hall",
+          personalDetails: {
+            firstName: "Bryn",
+            lastName: "Hall",
+            dateOfBirth: "1994-08-25",
+            position: "Scrum-half",
+            jerseyNumber: 9
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 2, tackles: 41, tries: 2, matchesPlayed: 13 }],
+          skills: { ballHandling: 9, passing: 9, defense: 7, communication: 9 }
+        },
+        {
+          id: "siaosi_nginingini",
+          personalDetails: {
+            firstName: "Siaosi",
+            lastName: "Nginingini",
+            dateOfBirth: "1999-01-15",
+            position: "Flanker",
+            jerseyNumber: 6
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 5, tackles: 46, tries: 1, matchesPlayed: 9 }],
+          skills: { ballHandling: 7, passing: 6, defense: 8, communication: 7 }
+        },
+        {
+          id: "tane_edmed",
+          personalDetails: {
+            firstName: "Tane",
+            lastName: "Edmed",
+            dateOfBirth: "2000-04-29",
+            position: "Fly-half",
+            jerseyNumber: 10
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 4, tackles: 33, tries: 3, matchesPlayed: 12 }],
+          skills: { ballHandling: 9, passing: 9, defense: 6, communication: 9 }
+        },
+        {
+          id: "cam_howell",
+          personalDetails: {
+            firstName: "Cam",
+            lastName: "Howell",
+            dateOfBirth: "1998-10-11",
+            position: "Fly-half",
+            jerseyNumber: 22
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 2, tackles: 28, tries: 2, matchesPlayed: 8 }],
+          skills: { ballHandling: 8, passing: 8, defense: 6, communication: 8 }
+        },
+        {
+          id: "oscar_koller",
+          personalDetails: {
+            firstName: "Oscar",
+            lastName: "Koller",
+            dateOfBirth: "1999-07-03",
+            position: "Centre",
+            jerseyNumber: 13
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 39, tries: 4, matchesPlayed: 10 }],
+          skills: { ballHandling: 8, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "tom_barham",
+          personalDetails: {
+            firstName: "Tom",
+            lastName: "Barham",
+            dateOfBirth: "1997-05-18",
+            position: "Centre",
+            jerseyNumber: 12
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 3, turnovers: 4, tackles: 44, tries: 2, matchesPlayed: 11 }],
+          skills: { ballHandling: 8, passing: 8, defense: 8, communication: 7 }
+        },
+        {
+          id: "leo_gordon",
+          personalDetails: {
+            firstName: "Leo",
+            lastName: "Gordon",
+            dateOfBirth: "1999-09-27",
+            position: "Wing",
+            jerseyNumber: 14
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 1, tackles: 22, tries: 7, matchesPlayed: 9 }],
+          skills: { ballHandling: 9, passing: 7, defense: 6, communication: 6 }
+        },
+        {
+          id: "moses_leo",
+          personalDetails: {
+            firstName: "Moses",
+            lastName: "Leo",
+            dateOfBirth: "1998-03-14",
+            position: "Wing",
+            jerseyNumber: 11
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 0, turnovers: 2, tackles: 26, tries: 5, matchesPlayed: 8 }],
+          skills: { ballHandling: 8, passing: 7, defense: 6, communication: 6 }
+        },
+        {
+          id: "james_little",
+          personalDetails: {
+            firstName: "James",
+            lastName: "Little",
+            dateOfBirth: "1997-11-21",
+            position: "Centre",
+            jerseyNumber: 13
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 41, tries: 3, matchesPlayed: 10 }],
+          skills: { ballHandling: 8, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "kade_banks",
+          personalDetails: {
+            firstName: "Kade",
+            lastName: "Banks",
+            dateOfBirth: "1999-04-06",
+            position: "Fullback",
+            jerseyNumber: 15
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 2, tackles: 34, tries: 4, matchesPlayed: 11 }],
+          skills: { ballHandling: 9, passing: 8, defense: 7, communication: 8 }
+        },
+        {
+          id: "tima_faingaanuku",
+          personalDetails: {
+            firstName: "Tima",
+            lastName: "Fainga'anuku",
+            dateOfBirth: "1997-06-12",
+            position: "Wing",
+            jerseyNumber: 14
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 3, tackles: 29, tries: 9, matchesPlayed: 13 }],
+          skills: { ballHandling: 9, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "fine_inisi",
+          personalDetails: {
+            firstName: "Fine",
+            lastName: "Inisi",
+            dateOfBirth: "1998-08-08",
+            position: "Centre",
+            jerseyNumber: 12
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 2, tackles: 36, tries: 2, matchesPlayed: 7 }],
+          skills: { ballHandling: 8, passing: 7, defense: 7, communication: 7 }
+        },
+        {
+          id: "sofai_maka",
+          personalDetails: {
+            firstName: "Sofai",
+            lastName: "Maka",
+            dateOfBirth: "1999-02-19",
+            position: "Wing",
+            jerseyNumber: 11
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 0, turnovers: 1, tackles: 21, tries: 4, matchesPlayed: 6 }],
+          skills: { ballHandling: 8, passing: 7, defense: 6, communication: 6 }
+        },
+        {
+          id: "hunter_rice",
+          personalDetails: {
+            firstName: "Hunter",
+            lastName: "Rice",
+            dateOfBirth: "1998-12-03",
+            position: "Fullback",
+            jerseyNumber: 15
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 2, tackles: 31, tries: 3, matchesPlayed: 9 }],
+          skills: { ballHandling: 8, passing: 8, defense: 7, communication: 7 }
+        },
+        {
+          id: "shaun_stevenson",
+          personalDetails: {
+            firstName: "Shaun",
+            lastName: "Stevenson",
+            dateOfBirth: "1996-10-26",
+            position: "Fullback",
+            jerseyNumber: 15
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 2, turnovers: 3, tackles: 38, tries: 6, matchesPlayed: 12 }],
+          skills: { ballHandling: 9, passing: 9, defense: 7, communication: 8 }
+        },
+        {
+          id: "mark_telea",
+          personalDetails: {
+            firstName: "Mark",
+            lastName: "Tele'a",
+            dateOfBirth: "1997-01-17",
+            position: "Wing",
+            jerseyNumber: 11
+          },
+          currentStatus: "Fit",
+          gameStats: [{ season: "2024", penalties: 1, turnovers: 4, tackles: 32, tries: 12, matchesPlayed: 14 }],
+          skills: { ballHandling: 9, passing: 8, defense: 7, communication: 7 }
+        }
           physicalAttributes: [{
             date: "2024-01-01",
             weight: 105,
@@ -1692,10 +2234,26 @@ Provide:
       const { squadId } = req.params;
       const { playerId, position, isStarter, selectionReason } = req.body;
 
+      // Find the player to get their actual position if not provided
+      let playerPosition = position;
+      if (!playerPosition) {
+        // Get position from player's personalDetails
+        const response = await fetch('http://localhost:5000/api/players');
+        const allPlayers = await response.json();
+        const player = allPlayers.find((p: any) => p.id === playerId);
+        
+        if (player && player.personalDetails && player.personalDetails.position) {
+          playerPosition = player.personalDetails.position;
+        } else {
+          // Fallback position mapping
+          playerPosition = 'Forward';
+        }
+      }
+
       const [selection] = await db.insert(squadSelections).values({
         squadId: parseInt(squadId),
         playerId,
-        position,
+        position: playerPosition,
         isStarter: isStarter ?? true,
         selectionReason
       }).returning();
