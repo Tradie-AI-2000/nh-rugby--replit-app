@@ -262,9 +262,15 @@ export default function RoleSelection() {
                   Player Profiles
                 </Button>
               </Link>
-              <Link href="/dashboard">
+              <Link href="/try-analysis">
                 <Button variant="outline" className="flex items-center">
                   <Target className="mr-2 h-4 w-4" />
+                  Try Analysis Pitch
+                </Button>
+              </Link>
+              <Link href="/dashboard">
+                <Button variant="outline" className="flex items-center">
+                  <BarChart className="mr-2 h-4 w-4" />
                   Main Dashboard
                 </Button>
               </Link>
