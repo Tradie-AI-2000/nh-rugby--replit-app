@@ -359,13 +359,18 @@ Provide a comprehensive analysis in a professional rugby coaching format with ac
       rawData: any[];
     } | null;
     comparative: boolean;
+    analysisFrom?: string;
   }): Promise<string> {
-    const { currentTeam, oppositionTeam, comparative } = data;
+    const { currentTeam, oppositionTeam, comparative, analysisFrom } = data;
     
-    let prompt = `As a professional rugby analyst, analyze the following try-scoring patterns for ${currentTeam.name}:
+    // Determine if we're analyzing our own tries or opposition tries
+    const isAnalyzingOurTries = currentTeam.name.includes('Us') || currentTeam.name === 'Us';
+    const isAnalyzingOpposition = currentTeam.name.includes('Opposition');
+    
+    let prompt = `As a professional rugby analyst for "North Harbour Rugby", provide analysis from our team's perspective:
 
-## ${currentTeam.name} Try Analysis
-**Total Tries:** ${currentTeam.totalTries}
+## ${isAnalyzingOurTries ? 'Our Try-Scoring Analysis' : 'Opposition Try-Scoring Analysis (Scouting Report)'}
+**${isAnalyzingOurTries ? 'Our Tries Scored' : 'Opposition Tries Analyzed'}:** ${currentTeam.totalTries}
 
 **Zone Distribution:**
 ${currentTeam.zoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
@@ -390,33 +395,54 @@ ${currentTeam.sourceBreakdown.map(source => `- ${source.name}: ${source.value} t
         };
       });
 
-      prompt += `
+      if (isAnalyzingOurTries) {
+        prompt += `
 
-## ${oppositionTeam.name} Tries Against Analysis
-**Total Tries Conceded:** ${oppositionTeam.totalTries}
+## Tries Against Analysis (Defensive Patterns)
+**Total Tries We Conceded:** ${oppositionTeam.totalTries}
 
-**Opposition Zone Distribution:**
+**Where Opposition Scored Against Us:**
 ${oppZoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
 
-## Comparative Analysis Required:
-1. **Attack vs Defense Patterns**: Compare our try-scoring zones with where we concede tries
-2. **Tactical Balance**: Analyze the relationship between offensive success and defensive vulnerabilities
-3. **Zone-Specific Insights**: Identify if we score in areas where we also concede tries
-4. **Momentum Patterns**: Compare quarter-by-quarter scoring vs conceding patterns
-5. **Coaching Priorities**: Balance between improving attack and strengthening defense
-6. **Opposition Scouting**: How opposition scoring patterns reveal our defensive weaknesses`;
+## Attack vs Defense Comparison:
+1. **Zone Patterns**: Compare where we score vs where we concede
+2. **Defensive Vulnerabilities**: Identify our weak defensive zones
+3. **Tactical Balance**: Areas where we're strong in attack but weak in defense
+4. **Coaching Priorities**: Balance offensive development with defensive improvements`;
+      } else {
+        prompt += `
+
+## Our Try-Scoring Reference
+**Our Tries Scored:** ${oppositionTeam.totalTries}
+
+**Our Zone Distribution:**
+${oppZoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
+
+## Opposition Scouting vs Our Performance:
+1. **Comparative Strengths**: How opposition patterns compare to our own
+2. **Tactical Insights**: What their try patterns reveal about our defensive performance
+3. **Strategic Planning**: How to exploit their patterns while improving our own`;
+      }
     }
 
     prompt += `
 
-**Analysis Framework:**
-1. **Current Team Tactical Patterns**: Detailed analysis of ${currentTeam.name} try-scoring efficiency
-2. **Temporal Analysis**: Quarter-by-quarter patterns and momentum shifts
-3. **Phase Play Effectiveness**: Attacking structure analysis from different phases
-4. **Set Piece vs Open Play**: Platform effectiveness comparison
-${comparative ? '5. **Tries Against Section**: Defensive vulnerability analysis based on opposition scoring patterns\n6. **Attack/Defense Balance**: Recommendations for tactical adjustments\n7. **Coaching Focus Areas**: Priority areas for training and development' : '5. **Development Recommendations**: Areas for tactical improvement\n6. **Future Opposition Preparation**: How this data will inform game planning'}
+**Analysis Framework (Always from North Harbour Rugby perspective):**
+${isAnalyzingOurTries ? 
+  `1. **Our Attacking Efficiency**: Detailed analysis of our try-scoring patterns
+2. **Temporal Patterns**: Our quarter-by-quarter momentum and fitness levels
+3. **Our Phase Play**: Effectiveness of our attacking structures
+4. **Our Platform Success**: Set piece vs open play effectiveness
+${comparative ? '5. **Our Defensive Analysis**: Where we concede tries and why\n6. **Tactical Balance**: Optimizing our attack while strengthening defense\n7. **Training Focus**: Priority areas for our team development' : '5. **Our Development Areas**: Tactical improvements needed\n6. **Game Planning**: How this data informs our future matches'}` :
+  `1. **Opposition Scouting**: Understanding their try-scoring patterns and tendencies
+2. **Their Temporal Patterns**: When they score most effectively
+3. **Their Attacking Structure**: How they build phases and create opportunities
+4. **Their Platform Preferences**: Where they're most dangerous
+5. **Defensive Strategy**: How we can nullify their strengths
+6. **Exploit Opportunities**: Their weaknesses we can target
+7. **Game Plan Recommendations**: Tactical adjustments to counter their patterns`}
 
-Provide a comprehensive professional rugby analysis with specific coaching recommendations and actionable insights.`;
+Provide comprehensive analysis with specific recommendations for North Harbour Rugby coaching staff.`;
 
     try {
       const result = await this.model.generateContent(prompt);

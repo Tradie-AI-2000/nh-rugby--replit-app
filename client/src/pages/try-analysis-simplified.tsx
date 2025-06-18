@@ -67,6 +67,7 @@ export default function TryAnalysisSimplified() {
   const [awayTeamTries, setAwayTeamTries] = useState<Try[]>([]);
   const [currentView, setCurrentView] = useState<'home' | 'away'>('home');
   const [showSavePrompt, setShowSavePrompt] = useState(false);
+  const [pendingView, setPendingView] = useState<'home' | 'away' | null>(null);
 
   // Chart colors
   const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C'];
@@ -220,23 +221,35 @@ export default function TryAnalysisSimplified() {
     }
   };
 
-  // Handle team view switching with save prompt
+  // Handle team view switching with immediate save prompt
   const handleTeamViewChange = (newView: 'home' | 'away') => {
     if (newView === currentView) return;
     
     const currentTeamHasData = currentView === 'home' ? homeTeamTries.length > 0 : awayTeamTries.length > 0;
     
+    // Always show save prompt when switching teams if there's data
     if (currentTeamHasData) {
+      setPendingView(newView);
       setShowSavePrompt(true);
     } else {
+      // No data, switch immediately
       setCurrentView(newView);
       setSelectedTeam(newView);
     }
   };
 
-  const confirmTeamSwitch = (newView: 'home' | 'away') => {
-    setCurrentView(newView);
-    setSelectedTeam(newView);
+  const confirmTeamSwitch = (saveData: boolean) => {
+    if (saveData) {
+      // Data is already saved in state, just switch views
+      console.log(`Data saved for ${currentView === 'home' ? 'Us' : 'Opposition'}`);
+    }
+    
+    // Switch to the pending view
+    if (pendingView) {
+      setCurrentView(pendingView);
+      setSelectedTeam(pendingView);
+      setPendingView(null);
+    }
     setShowSavePrompt(false);
   };
 
@@ -272,7 +285,7 @@ export default function TryAnalysisSimplified() {
       
       const analysisData = {
         currentTeam: {
-          name: currentView === 'home' ? 'Us' : 'Opposition',
+          name: currentView === 'home' ? 'Us' : 'Opposition (being analyzed)',
           totalTries: currentTries.length,
           zoneBreakdown: zoneData,
           quarterBreakdown: quarterData,
@@ -285,7 +298,8 @@ export default function TryAnalysisSimplified() {
           totalTries: oppositionTries.length,
           rawData: oppositionTries
         } : null,
-        comparative: hasOppositionData
+        comparative: hasOppositionData,
+        analysisFrom: 'us' // Always analyze from "Us" perspective
       };
 
       const response = await fetch('/api/ai/try-analysis-comparative', {
@@ -597,7 +611,7 @@ export default function TryAnalysisSimplified() {
                 </div>
                 
                 <div className="mt-4 text-sm text-gray-600">
-                  <p>Click on a try marker to edit Quarter and Phase details. Total tries: {tries.length}</p>
+                  <p>Click on a try marker to edit Quarter and Phase details. Total tries: {currentTries.length}</p>
                   {isPlacingTry && (
                     <p className="text-blue-600 font-medium">
                       Click anywhere on the pitch to place a {getTryTypeConfig(selectedType).label} try
@@ -610,7 +624,7 @@ export default function TryAnalysisSimplified() {
         </div>
 
         {/* Analytical Metrics Charts */}
-        {tries.length > 0 && (
+        {currentTries.length > 0 && (
           <div className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Zone Analysis */}
@@ -743,19 +757,29 @@ export default function TryAnalysisSimplified() {
               <DialogTitle>Save Current Data?</DialogTitle>
               <DialogDescription>
                 You have {currentView === 'home' ? homeTeamTries.length : awayTeamTries.length} tries plotted for {currentView === 'home' ? 'Us' : 'Opposition'}. 
-                Switching teams will clear this data. Do you want to continue?
+                Would you like to save this data before switching to {pendingView === 'home' ? 'Us' : 'Opposition'}?
               </DialogDescription>
             </DialogHeader>
             <div className="flex gap-2 mt-4">
               <Button 
-                onClick={() => confirmTeamSwitch(currentView === 'home' ? 'away' : 'home')} 
+                onClick={() => confirmTeamSwitch(true)} 
                 className="flex-1"
               >
-                Continue Switch
+                Save & Switch
               </Button>
               <Button 
                 variant="outline" 
-                onClick={() => setShowSavePrompt(false)} 
+                onClick={() => confirmTeamSwitch(false)} 
+                className="flex-1"
+              >
+                Switch Without Saving
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setShowSavePrompt(false);
+                  setPendingView(null);
+                }} 
                 className="flex-1"
               >
                 Cancel
