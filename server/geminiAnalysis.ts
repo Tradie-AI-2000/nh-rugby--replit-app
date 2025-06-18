@@ -287,6 +287,61 @@ Write in a professional coaching tone suitable for team management and player fe
       throw new Error("Failed to generate match report");
     }
   }
+
+  async analyzeTryPatterns(data: {
+    totalTries: number;
+    zoneBreakdown: any[];
+    quarterBreakdown: any[];
+    phaseBreakdown: any[];
+    sourceBreakdown: any[];
+    teamBreakdown: any;
+    rawData: any[];
+  }): Promise<string> {
+    const prompt = `As a professional rugby analyst, analyze the following try-scoring patterns and provide detailed insights:
+
+**Try Scoring Data:**
+- Total Tries: ${data.totalTries}
+- Team Breakdown: ${data.teamBreakdown.home} home tries, ${data.teamBreakdown.away} away tries
+
+**Zone Distribution:**
+${data.zoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
+
+**Quarter Distribution:**
+${data.quarterBreakdown.map(quarter => `- ${quarter.name}: ${quarter.value} tries (${quarter.percentage}%)`).join('\n')}
+
+**Phase Distribution:**
+${data.phaseBreakdown.map(phase => `- ${phase.name}: ${phase.value} tries (${phase.percentage}%)`).join('\n')}
+
+**Try Sources:**
+${data.sourceBreakdown.map(source => `- ${source.name}: ${source.value} tries (${source.percentage}%)`).join('\n')}
+
+**Analysis Requirements:**
+1. **Tactical Patterns**: Identify key trends in try-scoring zones and what this reveals about team tactics
+2. **Temporal Analysis**: Analyze quarter-by-quarter patterns and what this indicates about fitness, momentum, or tactical changes
+3. **Phase Play Insights**: Examine phase distribution to understand attacking structures and efficiency
+4. **Source Analysis**: Evaluate the effectiveness of different attacking platforms (set piece vs. open play)
+5. **Comparative Context**: How these patterns compare to typical rugby performance metrics
+6. **Future Implications**: Recommendations for tactical adjustments and areas of focus
+7. **Opposition Scouting**: If this is opposition data, highlight vulnerabilities to exploit
+8. **Performance Benchmarking**: Compare against professional rugby standards where relevant
+
+**Future Analysis Note**: When more match data becomes available, this analysis will include:
+- Comparison with historical performance
+- Opposition-specific try-scoring patterns
+- Home vs. away performance variations
+- Seasonal trends and development trajectories
+
+Provide a comprehensive analysis in a professional rugby coaching format with actionable insights.`;
+
+    try {
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error('Gemini API error:', error);
+      throw new Error('Failed to generate try pattern analysis');
+    }
+  }
 }
 
 export const geminiAnalyst = new GeminiRugbyAnalyst();
