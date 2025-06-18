@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { useRoute } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -640,6 +641,8 @@ const IndividualPerformanceSection = () => {
 
 export default function MatchPerformance() {
   const [activeTab, setActiveTab] = useState("possession_territory");
+  // Get matchId from URL params - for now using default since we need to fix routing
+  const matchId = "nh_vs_auckland_2024";
   const match = sampleMatchPerformance.matchInfo;
 
   return (
