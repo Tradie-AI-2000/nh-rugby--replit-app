@@ -91,6 +91,7 @@ export default function TryAnalysisPitch() {
   const [patternInsights, setPatternInsights] = useState<PatternInsight | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showAIOverlay, setShowAIOverlay] = useState(false);
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
 
   const analyzePatterns = async () => {
     if (tries.length < 3) return;
@@ -291,13 +292,43 @@ export default function TryAnalysisPitch() {
     }
   }, [tries]);
 
+  const handleMouseMove = (event: React.MouseEvent<SVGElement>) => {
+    if (!isPlacingTry) {
+      setMousePosition(null);
+      return;
+    }
+
+    const svg = event.currentTarget;
+    const rect = svg.getBoundingClientRect();
+    
+    // Get precise mouse position
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    
+    // Convert to SVG coordinates
+    const svgX = (mouseX / rect.width) * 400;
+    const svgY = (mouseY / rect.height) * 600;
+    
+    setMousePosition({ x: svgX, y: svgY });
+  };
+
   const handlePitchClick = (event: React.MouseEvent<SVGElement>) => {
     if (!isPlacingTry || !selectedType || !selectedArea) return;
 
     const svg = event.currentTarget;
     const rect = svg.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    
+    // Get the exact click position relative to the SVG element
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+    
+    // Convert to SVG coordinate system (400x600 viewBox) with precise mapping
+    const svgX = (clickX / rect.width) * 400;
+    const svgY = (clickY / rect.height) * 600;
+    
+    // Store coordinates as SVG values directly, then convert to percentage
+    const x = (svgX / 400) * 100;
+    const y = (svgY / 600) * 100;
 
     const newTry: Try = {
       id: Math.random().toString(36).substr(2, 9),
@@ -310,6 +341,7 @@ export default function TryAnalysisPitch() {
 
     setTries([...tries, newTry]);
     setIsPlacingTry(false);
+    setMousePosition(null);
   };
 
   const deleteTry = (id: string) => {
@@ -551,7 +583,10 @@ export default function TryAnalysisPitch() {
                     viewBox="0 0 400 600"
                     className={`w-full h-auto ${isPlacingTry ? 'cursor-crosshair' : 'cursor-default'}`}
                     onClick={handlePitchClick}
-                    style={{ maxHeight: '80vh' }}
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={() => setMousePosition(null)}
+                    style={{ maxHeight: '80vh', display: 'block' }}
+                    preserveAspectRatio="xMidYMid meet"
                   >
                     {/* Pitch Background */}
                     <rect width="400" height="600" fill="#4ADE80" />
@@ -647,9 +682,53 @@ export default function TryAnalysisPitch() {
                       </g>
                     )}
 
+                    {/* Mouse crosshair preview */}
+                    {isPlacingTry && mousePosition && selectedType && (
+                      <g opacity="0.8">
+                        {/* Crosshair lines */}
+                        <line
+                          x1={mousePosition.x - 15}
+                          y1={mousePosition.y}
+                          x2={mousePosition.x + 15}
+                          y2={mousePosition.y}
+                          stroke="yellow"
+                          strokeWidth="2"
+                        />
+                        <line
+                          x1={mousePosition.x}
+                          y1={mousePosition.y - 15}
+                          x2={mousePosition.x}
+                          y2={mousePosition.y + 15}
+                          stroke="yellow"
+                          strokeWidth="2"
+                        />
+                        {/* Preview try marker */}
+                        <circle
+                          cx={mousePosition.x}
+                          cy={mousePosition.y}
+                          r="8"
+                          fill={getTryTypeConfig(selectedType).color}
+                          stroke={selectedTeam === 'home' ? '#1E40AF' : '#DC2626'}
+                          strokeWidth="2"
+                          opacity="0.7"
+                        />
+                        <text
+                          x={mousePosition.x}
+                          y={mousePosition.y + 2}
+                          fill="white"
+                          fontSize="10"
+                          textAnchor="middle"
+                          opacity="0.9"
+                        >
+                          {getTryTypeConfig(selectedType).icon}
+                        </text>
+                      </g>
+                    )}
+
                     {/* Try markers */}
                     {tries.map(tryItem => {
                       const config = getTryTypeConfig(tryItem.type);
+                      // Ensure precise coordinate mapping
                       const x = (tryItem.x / 100) * 400;
                       const y = (tryItem.y / 100) * 600;
                       
