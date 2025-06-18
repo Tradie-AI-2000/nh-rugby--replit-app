@@ -270,7 +270,7 @@ export default function RoleSelection() {
               </Link>
               <Link href="/dashboard">
                 <Button variant="outline" className="flex items-center">
-                  <BarChart className="mr-2 h-4 w-4" />
+                  <Target className="mr-2 h-4 w-4" />
                   Main Dashboard
                 </Button>
               </Link>

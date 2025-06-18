@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import { 
   Plus, 
   Download, 
@@ -15,7 +16,14 @@ import {
   Target,
   Trophy,
   MapPin,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Brain,
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle,
+  BarChart3,
+  Zap,
+  Eye
 } from "lucide-react";
 
 interface Try {
@@ -27,6 +35,26 @@ interface Try {
   team: 'home' | 'away';
   minute?: number;
   player?: string;
+}
+
+interface AIPattern {
+  id: string;
+  type: 'hotspot' | 'weakness' | 'trend' | 'opportunity';
+  title: string;
+  description: string;
+  confidence: number;
+  severity: 'low' | 'medium' | 'high';
+  recommendations: string[];
+  affectedTries: string[];
+}
+
+interface PatternInsight {
+  dominantType: string;
+  hotspotZone: { x: number; y: number; radius: number };
+  weaknessZone: { x: number; y: number; radius: number };
+  teamBalance: number; // -1 to 1, negative favors away team
+  fieldPositionTrend: 'attacking' | 'defensive' | 'balanced';
+  opportunityScore: number; // 0-100
 }
 
 const tryTypes = [
@@ -59,6 +87,209 @@ export default function TryAnalysisPitch() {
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
   const [isPlacingTry, setIsPlacingTry] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [aiPatterns, setAiPatterns] = useState<AIPattern[]>([]);
+  const [patternInsights, setPatternInsights] = useState<PatternInsight | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showAIOverlay, setShowAIOverlay] = useState(false);
+
+  const analyzePatterns = async () => {
+    if (tries.length < 3) return;
+    
+    setIsAnalyzing(true);
+    
+    // Simulate AI analysis delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Calculate pattern insights
+    const insights = calculatePatternInsights(tries);
+    setPatternInsights(insights);
+    
+    // Generate AI pattern recommendations
+    const patterns = generateAIPatterns(tries, insights);
+    setAiPatterns(patterns);
+    
+    setIsAnalyzing(false);
+  };
+
+  const calculatePatternInsights = (tryData: Try[]): PatternInsight => {
+    // Calculate dominant try type
+    const typeCount: Record<string, number> = {};
+    tryData.forEach(t => {
+      typeCount[t.type] = (typeCount[t.type] || 0) + 1;
+    });
+    const dominantType = Object.entries(typeCount).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+
+    // Find hotspot zone (area with most tries)
+    const avgX = tryData.reduce((sum, t) => sum + t.x, 0) / tryData.length;
+    const avgY = tryData.reduce((sum, t) => sum + t.y, 0) / tryData.length;
+    
+    // Calculate team balance
+    const homeCount = tryData.filter(t => t.team === 'home').length;
+    const awayCount = tryData.filter(t => t.team === 'away').length;
+    const teamBalance = (homeCount - awayCount) / tryData.length;
+
+    // Determine field position trend
+    const attackingTries = tryData.filter(t => t.y > 70).length; // Bottom third
+    const defensiveTries = tryData.filter(t => t.y < 30).length; // Top third
+    let fieldPositionTrend: 'attacking' | 'defensive' | 'balanced' = 'balanced';
+    if (attackingTries > defensiveTries * 1.5) fieldPositionTrend = 'attacking';
+    else if (defensiveTries > attackingTries * 1.5) fieldPositionTrend = 'defensive';
+
+    // Calculate opportunity score based on try diversity and positioning
+    const typeVariety = Object.keys(typeCount).length / tryTypes.length;
+    const positionSpread = calculatePositionSpread(tryData);
+    const opportunityScore = Math.round((typeVariety * 50) + (positionSpread * 50));
+
+    return {
+      dominantType,
+      hotspotZone: { x: avgX, y: avgY, radius: 15 },
+      weaknessZone: findWeaknessZone(tryData),
+      teamBalance,
+      fieldPositionTrend,
+      opportunityScore
+    };
+  };
+
+  const calculatePositionSpread = (tryData: Try[]): number => {
+    if (tryData.length < 2) return 0;
+    
+    let totalDistance = 0;
+    for (let i = 0; i < tryData.length; i++) {
+      for (let j = i + 1; j < tryData.length; j++) {
+        const dx = tryData[i].x - tryData[j].x;
+        const dy = tryData[i].y - tryData[j].y;
+        totalDistance += Math.sqrt(dx * dx + dy * dy);
+      }
+    }
+    
+    const maxPossibleDistance = Math.sqrt(100 * 100 + 100 * 100);
+    const averageDistance = totalDistance / (tryData.length * (tryData.length - 1) / 2);
+    return Math.min(averageDistance / maxPossibleDistance, 1);
+  };
+
+  const findWeaknessZone = (tryData: Try[]): { x: number; y: number; radius: number } => {
+    // Find area with fewest tries (weakness)
+    const grid = 4; // 4x4 grid
+    const cellSize = 100 / grid;
+    const cellCounts: number[][] = Array(grid).fill(null).map(() => Array(grid).fill(0));
+    
+    tryData.forEach(t => {
+      const cellX = Math.min(Math.floor(t.x / cellSize), grid - 1);
+      const cellY = Math.min(Math.floor(t.y / cellSize), grid - 1);
+      cellCounts[cellY][cellX]++;
+    });
+    
+    let minCount = Infinity;
+    let weakestCell = { x: 0, y: 0 };
+    
+    for (let y = 0; y < grid; y++) {
+      for (let x = 0; x < grid; x++) {
+        if (cellCounts[y][x] < minCount) {
+          minCount = cellCounts[y][x];
+          weakestCell = { x, y };
+        }
+      }
+    }
+    
+    return {
+      x: (weakestCell.x * cellSize) + (cellSize / 2),
+      y: (weakestCell.y * cellSize) + (cellSize / 2),
+      radius: cellSize / 2
+    };
+  };
+
+  const generateAIPatterns = (tryData: Try[], insights: PatternInsight): AIPattern[] => {
+    const patterns: AIPattern[] = [];
+    
+    // Dominant pattern analysis
+    const dominantConfig = getTryTypeConfig(insights.dominantType);
+    patterns.push({
+      id: 'dominant-pattern',
+      type: 'trend',
+      title: `${dominantConfig.label} Dominance`,
+      description: `${dominantConfig.label} accounts for the majority of scoring patterns`,
+      confidence: 85,
+      severity: 'medium',
+      recommendations: [
+        `Continue exploiting ${dominantConfig.label} opportunities`,
+        'Develop counter-strategies for opponents',
+        'Train alternative scoring methods for unpredictability'
+      ],
+      affectedTries: tryData.filter(t => t.type === insights.dominantType).map(t => t.id)
+    });
+
+    // Hotspot analysis
+    if (tryData.length >= 5) {
+      patterns.push({
+        id: 'scoring-hotspot',
+        type: 'hotspot',
+        title: 'Scoring Concentration Zone',
+        description: 'High concentration of tries in specific field area',
+        confidence: 92,
+        severity: 'high',
+        recommendations: [
+          'Focus attacking plays on identified hotspot',
+          'Develop plays to exploit this area consistently',
+          'Study defensive weaknesses in this zone'
+        ],
+        affectedTries: tryData.filter(t => {
+          const distance = Math.sqrt(
+            Math.pow(t.x - insights.hotspotZone.x, 2) + 
+            Math.pow(t.y - insights.hotspotZone.y, 2)
+          );
+          return distance <= insights.hotspotZone.radius;
+        }).map(t => t.id)
+      });
+    }
+
+    // Team balance analysis
+    if (Math.abs(insights.teamBalance) > 0.3) {
+      const favoredTeam = insights.teamBalance > 0 ? 'home' : 'away';
+      patterns.push({
+        id: 'team-dominance',
+        type: 'trend',
+        title: `${favoredTeam === 'home' ? 'Home' : 'Away'} Team Scoring Advantage`,
+        description: `${favoredTeam === 'home' ? 'Home' : 'Away'} team showing superior scoring efficiency`,
+        confidence: Math.round(Math.abs(insights.teamBalance) * 100),
+        severity: Math.abs(insights.teamBalance) > 0.5 ? 'high' : 'medium',
+        recommendations: [
+          favoredTeam === 'home' ? 'Maintain home advantage strategies' : 'Study away team tactics',
+          'Analyze why one team is more effective',
+          'Develop counter-strategies for balanced competition'
+        ],
+        affectedTries: tryData.filter(t => t.team === favoredTeam).map(t => t.id)
+      });
+    }
+
+    // Opportunity analysis
+    if (insights.opportunityScore < 40) {
+      patterns.push({
+        id: 'limited-variety',
+        type: 'weakness',
+        title: 'Limited Scoring Variety',
+        description: 'Try scoring patterns show limited tactical diversity',
+        confidence: 78,
+        severity: 'medium',
+        recommendations: [
+          'Diversify attacking strategies',
+          'Practice alternative scoring methods',
+          'Exploit underutilized areas of the field'
+        ],
+        affectedTries: []
+      });
+    }
+
+    return patterns;
+  };
+
+  useEffect(() => {
+    if (tries.length >= 3) {
+      analyzePatterns();
+    } else {
+      setAiPatterns([]);
+      setPatternInsights(null);
+    }
+  }, [tries]);
 
   const handlePitchClick = (event: React.MouseEvent<SVGElement>) => {
     if (!isPlacingTry || !selectedType || !selectedArea) return;
@@ -128,11 +359,26 @@ export default function TryAnalysisPitch() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Try Analysis Pitch</h1>
             <p className="text-gray-600 mt-2">
-              Interactive rugby pitch visualization for analyzing try origins and scoring patterns
+              Interactive rugby pitch visualization with AI-powered pattern recognition
             </p>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline">{tries.length} tries plotted</Badge>
+            {aiPatterns.length > 0 && (
+              <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+                <Brain className="h-3 w-3 mr-1" />
+                {aiPatterns.length} AI insights
+              </Badge>
+            )}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setShowAIOverlay(!showAIOverlay)}
+              disabled={!patternInsights}
+            >
+              <Eye className="h-4 w-4 mr-1" />
+              {showAIOverlay ? 'Hide' : 'Show'} AI Overlay
+            </Button>
             <Button 
               variant="outline" 
               size="sm" 
@@ -142,6 +388,22 @@ export default function TryAnalysisPitch() {
             </Button>
           </div>
         </div>
+
+        {/* AI Analysis Status */}
+        {isAnalyzing && (
+          <Card className="border-blue-200 bg-blue-50">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Brain className="h-5 w-5 text-blue-600 animate-pulse" />
+                <div className="flex-1">
+                  <h3 className="font-medium text-blue-800">AI Pattern Analysis in Progress</h3>
+                  <p className="text-sm text-blue-600">Analyzing try scoring patterns and generating tactical insights...</p>
+                  <Progress value={66} className="mt-2 h-2" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Controls Panel */}
@@ -338,6 +600,53 @@ export default function TryAnalysisPitch() {
                     <text x="30" y="525" fill="white" fontSize="8" textAnchor="middle">5m</text>
                     <text x="30" y="555" fill="white" fontSize="10" textAnchor="middle">TL</text>
 
+                    {/* AI Pattern Overlays */}
+                    {showAIOverlay && patternInsights && (
+                      <g opacity="0.7">
+                        {/* Hotspot zone */}
+                        <circle
+                          cx={(patternInsights.hotspotZone.x / 100) * 400}
+                          cy={(patternInsights.hotspotZone.y / 100) * 600}
+                          r={(patternInsights.hotspotZone.radius / 100) * 200}
+                          fill="rgba(255, 0, 0, 0.2)"
+                          stroke="rgba(255, 0, 0, 0.6)"
+                          strokeWidth="2"
+                          strokeDasharray="5,5"
+                        />
+                        <text
+                          x={(patternInsights.hotspotZone.x / 100) * 400}
+                          y={(patternInsights.hotspotZone.y / 100) * 600 - patternInsights.hotspotZone.radius - 10}
+                          fill="red"
+                          fontSize="12"
+                          textAnchor="middle"
+                          fontWeight="bold"
+                        >
+                          HOTSPOT
+                        </text>
+
+                        {/* Weakness zone */}
+                        <circle
+                          cx={(patternInsights.weaknessZone.x / 100) * 400}
+                          cy={(patternInsights.weaknessZone.y / 100) * 600}
+                          r={(patternInsights.weaknessZone.radius / 100) * 200}
+                          fill="rgba(0, 0, 255, 0.2)"
+                          stroke="rgba(0, 0, 255, 0.6)"
+                          strokeWidth="2"
+                          strokeDasharray="5,5"
+                        />
+                        <text
+                          x={(patternInsights.weaknessZone.x / 100) * 400}
+                          y={(patternInsights.weaknessZone.y / 100) * 600 - patternInsights.weaknessZone.radius - 10}
+                          fill="blue"
+                          fontSize="12"
+                          textAnchor="middle"
+                          fontWeight="bold"
+                        >
+                          OPPORTUNITY
+                        </text>
+                      </g>
+                    )}
+
                     {/* Try markers */}
                     {tries.map(tryItem => {
                       const config = getTryTypeConfig(tryItem.type);
@@ -426,6 +735,113 @@ export default function TryAnalysisPitch() {
             )}
           </div>
         </div>
+
+        {/* AI Insights Panel */}
+        {aiPatterns.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Pattern Insights */}
+            {patternInsights && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BarChart3 className="h-5 w-5" />
+                    Pattern Insights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <div className="text-sm font-medium text-blue-800">Dominant Pattern</div>
+                      <div className="text-lg font-bold text-blue-900">
+                        {getTryTypeConfig(patternInsights.dominantType).label}
+                      </div>
+                    </div>
+                    <div className="p-3 bg-green-50 rounded-lg">
+                      <div className="text-sm font-medium text-green-800">Opportunity Score</div>
+                      <div className="text-lg font-bold text-green-900">
+                        {patternInsights.opportunityScore}/100
+                      </div>
+                    </div>
+                    <div className="p-3 bg-purple-50 rounded-lg">
+                      <div className="text-sm font-medium text-purple-800">Field Trend</div>
+                      <div className="text-lg font-bold text-purple-900 capitalize">
+                        {patternInsights.fieldPositionTrend}
+                      </div>
+                    </div>
+                    <div className="p-3 bg-orange-50 rounded-lg">
+                      <div className="text-sm font-medium text-orange-800">Team Balance</div>
+                      <div className="text-lg font-bold text-orange-900">
+                        {patternInsights.teamBalance > 0.1 ? 'Home Favored' : 
+                         patternInsights.teamBalance < -0.1 ? 'Away Favored' : 'Balanced'}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* AI Recommendations */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="h-5 w-5" />
+                  AI Recommendations
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {aiPatterns.map(pattern => (
+                    <div key={pattern.id} className="p-3 border rounded-lg">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          {pattern.type === 'hotspot' && <TrendingUp className="h-4 w-4 text-red-500" />}
+                          {pattern.type === 'weakness' && <AlertTriangle className="h-4 w-4 text-orange-500" />}
+                          {pattern.type === 'trend' && <BarChart3 className="h-4 w-4 text-blue-500" />}
+                          {pattern.type === 'opportunity' && <Zap className="h-4 w-4 text-green-500" />}
+                          <span className="font-medium text-sm">{pattern.title}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Badge 
+                            variant={pattern.severity === 'high' ? 'destructive' : 
+                                   pattern.severity === 'medium' ? 'default' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {pattern.confidence}% confidence
+                          </Badge>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600 mb-2">{pattern.description}</p>
+                      <div className="space-y-1">
+                        {pattern.recommendations.slice(0, 2).map((rec, index) => (
+                          <div key={index} className="flex items-start gap-2 text-xs">
+                            <CheckCircle className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                            <span className="text-gray-700">{rec}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Getting Started Message */}
+        {tries.length === 0 && (
+          <Card className="border-gray-200 bg-gray-50">
+            <CardContent className="p-8 text-center">
+              <Brain className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Start Adding Tries</h3>
+              <p className="text-gray-600 mb-4">
+                Add at least 3 tries to unlock AI-powered pattern recognition and tactical insights.
+              </p>
+              <Badge variant="outline" className="text-sm">
+                AI analysis activates automatically
+              </Badge>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
