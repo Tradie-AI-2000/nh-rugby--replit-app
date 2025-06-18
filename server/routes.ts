@@ -49,17 +49,17 @@ async function updateSeasonAnalysis(matchId: string, teamName: string, matchData
     } else {
       // Update existing season analysis with aggregated data
       const existing = existingSeasonData[0];
-      const newTotalTries = existing.totalTries + matchData.tries.length;
+      const newTotalTries = (existing.totalTries || 0) + matchData.tries.length;
       
       // Aggregate zone data
-      const aggregatedZones = aggregateMetrics(existing.aggregatedZones, matchData.zoneBreakdown, newTotalTries);
-      const aggregatedQuarters = aggregateMetrics(existing.aggregatedQuarters, matchData.quarterBreakdown, newTotalTries);
-      const aggregatedPhases = aggregateMetrics(existing.aggregatedPhases, matchData.phaseBreakdown, newTotalTries);
-      const aggregatedSources = aggregateMetrics(existing.aggregatedSources, matchData.sourceBreakdown, newTotalTries);
+      const aggregatedZones = aggregateMetrics(existing.aggregatedZones || [], matchData.zoneBreakdown, newTotalTries);
+      const aggregatedQuarters = aggregateMetrics(existing.aggregatedQuarters || [], matchData.quarterBreakdown, newTotalTries);
+      const aggregatedPhases = aggregateMetrics(existing.aggregatedPhases || [], matchData.phaseBreakdown, newTotalTries);
+      const aggregatedSources = aggregateMetrics(existing.aggregatedSources || [], matchData.sourceBreakdown, newTotalTries);
 
       await db.update(seasonAnalysis)
         .set({
-          totalMatches: existing.totalMatches + 1,
+          totalMatches: (existing.totalMatches || 0) + 1,
           totalTries: newTotalTries,
           aggregatedZones,
           aggregatedQuarters,

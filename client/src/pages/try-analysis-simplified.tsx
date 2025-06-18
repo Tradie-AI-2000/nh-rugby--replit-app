@@ -89,6 +89,10 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
   const [aiAnalysis, setAiAnalysis] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   
+  // Save state
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
+  
   // Multi-team data management
   const [homeTeamTries, setHomeTeamTries] = useState<Try[]>([]);
   const [awayTeamTries, setAwayTeamTries] = useState<Try[]>([]);
@@ -375,6 +379,53 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
     }
   };
 
+  // Save try analysis data
+  const saveTryAnalysisData = async () => {
+    const currentTeamName = currentView === 'home' 
+      ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
+      : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel);
+    
+    const isCurrentTeamNorthHarbour = currentTeamName === "North Harbour";
+    const analysisPerspective = isCurrentTeamNorthHarbour ? 'attacking' : 'defensive';
+
+    setIsSaving(true);
+    try {
+      const response = await fetch('/api/try-analysis/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          matchId,
+          teamName: currentTeamName,
+          isNorthHarbour: isCurrentTeamNorthHarbour,
+          analysisPerspective,
+          tries: currentTries,
+          zoneBreakdown: zoneData,
+          quarterBreakdown: quarterData,
+          phaseBreakdown: phaseData,
+          sourceBreakdown: sourceData,
+          aiAnalysis
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save try analysis data');
+      }
+
+      const result = await response.json();
+      setLastSaved(new Date().toLocaleTimeString());
+      
+      // Show success message briefly
+      setTimeout(() => setLastSaved(null), 3000);
+    } catch (error) {
+      console.error('Error saving try analysis data:', error);
+      alert('Failed to save data. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   // Auto-generate analysis when data changes (with debounce)
   useEffect(() => {
     if (currentTries.length > 0) {
@@ -520,6 +571,30 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
                       Export CSV
                     </Button>
                   </div>
+
+                  <Button 
+                    onClick={saveTryAnalysisData}
+                    disabled={currentTries.length === 0 || isSaving}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    {isSaving ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Save Data
+                      </>
+                    )}
+                  </Button>
+
+                  {lastSaved && (
+                    <div className="text-xs text-green-600 text-center">
+                      Saved at {lastSaved}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 

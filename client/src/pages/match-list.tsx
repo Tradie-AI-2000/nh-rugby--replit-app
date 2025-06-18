@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Home } from "lucide-react";
 import logoPath from "@assets/menulogo_wo.png";
+import { SeasonTryOverview } from "@/components/SeasonTryOverview";
 
 // Match fixtures data with stats matching the image format
 const matchFixtures = [
@@ -133,6 +134,9 @@ export default function MatchList() {
             Select a match to view detailed performance analytics and try analysis
           </p>
         </div>
+
+        {/* Season Try Analysis Overview */}
+        <SeasonTryOverview />
 
         {/* Match Fixtures Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
