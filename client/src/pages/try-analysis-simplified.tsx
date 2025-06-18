@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 import { 
   Plus, 
@@ -57,6 +57,10 @@ export default function TryAnalysisSimplified() {
   const [editingTry, setEditingTry] = useState<Try | null>(null);
   const [editQuarter, setEditQuarter] = useState<string>("");
   const [editPhase, setEditPhase] = useState<string>("");
+  
+  // AI Analysis state
+  const [aiAnalysis, setAiAnalysis] = useState<string>("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Chart colors
   const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C'];
@@ -206,6 +210,60 @@ export default function TryAnalysisSimplified() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  // AI Analysis function
+  const generateAIAnalysis = async () => {
+    if (tries.length === 0) return;
+    
+    setIsAnalyzing(true);
+    try {
+      const analysisData = {
+        totalTries: tries.length,
+        zoneBreakdown: zoneData,
+        quarterBreakdown: quarterData,
+        phaseBreakdown: phaseData,
+        sourceBreakdown: sourceData,
+        teamBreakdown: {
+          home: tries.filter(t => t.team === 'home').length,
+          away: tries.filter(t => t.team === 'away').length
+        },
+        rawData: tries
+      };
+
+      const response = await fetch('/api/ai/try-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(analysisData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate AI analysis');
+      }
+
+      const result = await response.json();
+      setAiAnalysis(result.analysis);
+    } catch (error) {
+      console.error('Error generating AI analysis:', error);
+      setAiAnalysis('Unable to generate AI analysis at this time. Please try again later.');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  // Auto-generate analysis when tries data changes (with debounce)
+  useEffect(() => {
+    if (tries.length > 0) {
+      const timeoutId = setTimeout(() => {
+        generateAIAnalysis();
+      }, 1000); // 1 second debounce
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      setAiAnalysis("");
+    }
+  }, [tries]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -598,12 +656,64 @@ export default function TryAnalysisSimplified() {
           </div>
         )}
 
+        {/* AI Analysis Section */}
+        {tries.length > 0 && (
+          <div className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="h-5 w-5" />
+                  AI Analysis - Try Patterns & Trends
+                  {isAnalyzing && (
+                    <Badge variant="secondary" className="ml-auto">
+                      Analyzing...
+                    </Badge>
+                  )}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isAnalyzing ? (
+                  <div className="flex items-center justify-center p-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <span className="ml-3 text-gray-600">Generating AI insights...</span>
+                  </div>
+                ) : aiAnalysis ? (
+                  <div className="space-y-4">
+                    <div className="prose max-w-none">
+                      <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                        {aiAnalysis}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 pt-4 border-t">
+                      <Button variant="outline" size="sm" onClick={generateAIAnalysis}>
+                        <TrendingUp className="h-4 w-4 mr-2" />
+                        Refresh Analysis
+                      </Button>
+                      <Badge variant="outline" className="ml-auto">
+                        Powered by Gemini AI
+                      </Badge>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center p-6 text-gray-500">
+                    <Brain className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                    <p>AI analysis will appear here once try data is available</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Edit Try Dialog */}
         {editingTry && (
           <Dialog open={!!editingTry} onOpenChange={() => setEditingTry(null)}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Edit Try Details</DialogTitle>
+                <DialogDescription>
+                  Update the quarter and phase information for this try
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div>

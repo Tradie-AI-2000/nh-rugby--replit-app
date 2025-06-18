@@ -1297,6 +1297,39 @@ export function registerRoutes(app: Express) {
     }
   });
 
+  // AI Analysis endpoint for try patterns and trends
+  app.post('/api/ai/try-analysis', async (req, res) => {
+    try {
+      const {
+        totalTries,
+        zoneBreakdown,
+        quarterBreakdown,
+        phaseBreakdown,
+        sourceBreakdown,
+        teamBreakdown,
+        rawData
+      } = req.body;
+
+      const analysis = await geminiAnalyst.analyzeTryPatterns({
+        totalTries,
+        zoneBreakdown,
+        quarterBreakdown,
+        phaseBreakdown,
+        sourceBreakdown,
+        teamBreakdown,
+        rawData
+      });
+
+      res.json({ analysis });
+    } catch (error) {
+      console.error('Error in try analysis:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate try analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Seed database with sample data
   app.post("/api/seed", async (req, res) => {
     try {
