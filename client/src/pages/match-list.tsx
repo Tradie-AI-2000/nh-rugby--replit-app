@@ -30,53 +30,52 @@ const seasonMatches = [
     time: "7:05 PM",
     venue: "Orangetheory Stadium",
     status: "completed" as const,
-    result: { homeScore: 28, awayScore: 31, outcome: "win" as const },
+    result: { homeScore: 18, awayScore: 25, outcome: "loss" as const },
+    competition: "NPC"
+  },
+  {
+    id: "nh_vs_otago_2024",
+    round: "Round 3",
+    homeTeam: "North Harbour",
+    awayTeam: "Otago",
+    date: "Saturday 15 June 2024",
+    time: "2:35 PM",
+    venue: "North Harbour Stadium",
+    status: "completed" as const,
+    result: { homeScore: 41, awayScore: 17, outcome: "win" as const },
+    competition: "NPC"
+  },
+  {
+    id: "tasman_vs_nh_2024",
+    round: "Round 4",
+    homeTeam: "Tasman",
+    awayTeam: "North Harbour",
+    date: "Saturday 22 June 2024",
+    time: "4:35 PM",
+    venue: "Trafalgar Park",
+    status: "completed" as const,
+    result: { homeScore: 31, awayScore: 28, outcome: "loss" as const },
     competition: "NPC"
   },
   {
     id: "nh_vs_wellington_2024",
-    round: "Round 3",
-    homeTeam: "North Harbour", 
-    awayTeam: "Wellington",
-    date: "Saturday 14 June 2024",
-    time: "2:35 PM",
-    venue: "North Harbour Stadium",
-    status: "completed" as const,
-    result: { homeScore: 25, awayScore: 19, outcome: "win" as const },
-    competition: "NPC"
-  },
-  {
-    id: "otago_vs_nh_2024",
-    round: "Round 4",
-    homeTeam: "Otago",
-    awayTeam: "North Harbour", 
-    date: "Friday 21 June 2024",
-    time: "7:05 PM",
-    venue: "Forsyth Barr Stadium",
-    status: "completed" as const,
-    result: { homeScore: 22, awayScore: 27, outcome: "win" as const },
-    competition: "NPC"
-  },
-  {
-    id: "nh_vs_tasman_2024",
     round: "Round 5",
     homeTeam: "North Harbour",
-    awayTeam: "Tasman",
-    date: "Saturday 28 June 2024", 
+    awayTeam: "Wellington",
+    date: "Saturday 29 June 2024",
     time: "2:35 PM",
     venue: "North Harbour Stadium",
-    status: "completed" as const,
-    result: { homeScore: 35, awayScore: 20, outcome: "win" as const },
+    status: "upcoming" as const,
     competition: "NPC"
   },
   {
-    id: "bay_of_plenty_vs_nh_2024",
+    id: "waikato_vs_nh_2024",
     round: "Round 6",
-    homeTeam: "Bay of Plenty",
+    homeTeam: "Waikato",
     awayTeam: "North Harbour",
-    date: "Saturday 5 July 2024",
-    time: "2:35 PM", 
-    venue: "Tauranga Domain",
+    date: "Saturday 6 July 2024",
+    time: "7:05 PM",
+    venue: "FMG Stadium Waikato",
     status: "upcoming" as const,
     competition: "NPC"
   }
@@ -118,24 +117,24 @@ export default function MatchList() {
               </Badge>
               {match.status === "completed" && result && (
                 <Badge 
-                  className={`${
-                    result.outcome === "win" 
-                      ? "bg-green-100 text-green-800" 
-                      : result.outcome === "loss"
-                      ? "bg-red-100 text-red-800"
-                      : "bg-gray-100 text-gray-800"
-                  }`}
+                  variant={result.outcome === "win" ? "default" : "destructive"}
+                  className={result.outcome === "win" 
+                    ? "bg-green-100 text-green-800 hover:bg-green-200" 
+                    : "bg-red-100 text-red-800 hover:bg-red-200"
+                  }
                 >
-                  {result.outcome === "win" ? "W" : result.outcome === "loss" ? "L" : "D"}
+                  {result.outcome === "win" ? "WIN" : "LOSS"}
                 </Badge>
-              )}
-              {match.status === "upcoming" && (
-                <Badge variant="secondary">Upcoming</Badge>
               )}
             </div>
             
-            <CardTitle className="text-lg group-hover:text-red-600 transition-colors">
-              North Harbour vs {opponent}
+            <CardTitle className="text-lg">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-nh-red">North Harbour</span>
+                <span className="text-gray-400">vs</span>
+                <span>{opponent}</span>
+                {isHome && <Badge variant="outline" className="text-xs ml-2">Home</Badge>}
+              </div>
             </CardTitle>
           </CardHeader>
           
@@ -248,22 +247,28 @@ export default function MatchList() {
           </CardContent>
         </Card>
 
-        {/* Match List Tabs */}
-        <Tabs defaultValue="completed" className="space-y-6">
+        {/* Match Lists */}
+        <Tabs defaultValue="completed" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="completed">Completed Matches ({completedMatches.length})</TabsTrigger>
-            <TabsTrigger value="upcoming">Upcoming Matches ({upcomingMatches.length})</TabsTrigger>
+            <TabsTrigger value="completed" className="flex items-center gap-2">
+              <Trophy className="h-4 w-4" />
+              Completed Matches ({completedMatches.length})
+            </TabsTrigger>
+            <TabsTrigger value="upcoming" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Upcoming Fixtures ({upcomingMatches.length})
+            </TabsTrigger>
           </TabsList>
-
-          <TabsContent value="completed" className="space-y-6">
+          
+          <TabsContent value="completed" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {completedMatches.map((match) => (
                 <MatchCard key={match.id} match={match} />
               ))}
             </div>
           </TabsContent>
-
-          <TabsContent value="upcoming" className="space-y-6">
+          
+          <TabsContent value="upcoming" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingMatches.map((match) => (
                 <MatchCard key={match.id} match={match} />
