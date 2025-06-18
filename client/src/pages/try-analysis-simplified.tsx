@@ -56,10 +56,16 @@ const tryTypes = [
   { value: "turnover_won", label: "Turnover Won", color: "#BE185D", icon: "●" }
 ];
 
-export default function TryAnalysisSimplified() {
-  // Get match ID from URL params
+interface TryAnalysisProps {
+  embedded?: boolean;
+  matchId?: string;
+}
+
+function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
+  const { embedded = false, matchId: propMatchId } = props;
+  // Get match ID from URL params or props
   const [match, params] = useRoute("/match-performance/:matchId/try-analysis");
-  const matchId = params?.matchId || "nh_vs_auckland_2024";
+  const matchId = propMatchId || params?.matchId || "nh_vs_auckland_2024";
   const currentMatch = matchData[matchId as keyof typeof matchData] || matchData["nh_vs_auckland_2024"];
   
   // Determine team names based on match context
@@ -366,26 +372,27 @@ export default function TryAnalysisSimplified() {
   }, [currentTries, homeTeamTries, awayTeamTries, currentView]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className={embedded ? "" : "min-h-screen bg-gray-50 p-6"}>
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href={`/match-performance/${matchId}`}>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Match
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Try Analysis - {currentMatch.homeTeam} vs {currentMatch.awayTeam}</h1>
-              <p className="text-gray-600 mt-2">
-                Interactive rugby pitch with zone detection and analytical insights
-              </p>
+        {/* Header - only show when not embedded */}
+        {!embedded && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Link href={`/match-performance/${matchId}`}>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Match
+                </Button>
+              </Link>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Try Analysis - {currentMatch.homeTeam} vs {currentMatch.awayTeam}</h1>
+                <p className="text-gray-600 mt-2">
+                  Interactive rugby pitch with zone detection and analytical insights
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-4">
-            {/* Team View Selector */}
+            <div className="flex items-center gap-4">
+              {/* Team View Selector */}
             <div className="flex items-center gap-2">
               <Label className="text-sm font-medium">Viewing:</Label>
               <div className="flex rounded-lg border">
@@ -408,15 +415,16 @@ export default function TryAnalysisSimplified() {
               </div>
             </div>
             <Badge variant="outline">{currentTries.length} tries plotted</Badge>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setShowControls(!showControls)}
-            >
-              {showControls ? 'Hide' : 'Show'} Controls
-            </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowControls(!showControls)}
+              >
+                {showControls ? 'Hide' : 'Show'} Controls
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Top Section: Controls and Rugby Pitch */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
@@ -926,3 +934,11 @@ export default function TryAnalysisSimplified() {
     </div>
   );
 }
+
+// Wrapper component for routing compatibility
+export default function TryAnalysisWrapper() {
+  return <TryAnalysisSimplified />;
+}
+
+// Export the main component for embedding
+export { TryAnalysisSimplified };
