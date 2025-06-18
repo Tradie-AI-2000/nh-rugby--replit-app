@@ -20,8 +20,18 @@ import {
   Clock,
   Activity,
   Zap,
-  Edit
+  Edit,
+  ArrowLeft
 } from "lucide-react";
+
+// Match data for context
+const matchData = {
+  "nh_vs_auckland_2024": { homeTeam: "North Harbour", awayTeam: "Auckland", venue: "North Harbour Stadium", date: "Saturday 1 June 2024" },
+  "canterbury_vs_nh_2024": { homeTeam: "Canterbury", awayTeam: "North Harbour", venue: "Orangetheory Stadium", date: "Friday 7 June 2024" },
+  "nh_vs_wellington_2024": { homeTeam: "North Harbour", awayTeam: "Wellington", venue: "North Harbour Stadium", date: "Saturday 14 June 2024" },
+  "otago_vs_nh_2024": { homeTeam: "Otago", awayTeam: "North Harbour", venue: "Forsyth Barr Stadium", date: "Friday 21 June 2024" },
+  "nh_vs_tasman_2024": { homeTeam: "North Harbour", awayTeam: "Tasman", venue: "North Harbour Stadium", date: "Saturday 28 June 2024" }
+};
 
 interface Try {
   id: string;
@@ -47,6 +57,16 @@ const tryTypes = [
 ];
 
 export default function TryAnalysisSimplified() {
+  // Get match ID from URL params
+  const [match, params] = useRoute("/match-performance/:matchId/try-analysis");
+  const matchId = params?.matchId || "nh_vs_auckland_2024";
+  const currentMatch = matchData[matchId as keyof typeof matchData] || matchData["nh_vs_auckland_2024"];
+  
+  // Determine team names based on match context
+  const isNorthHarbourHome = currentMatch.homeTeam === "North Harbour";
+  const northHarbourLabel = "North Harbour";
+  const oppositionLabel = isNorthHarbourHome ? currentMatch.awayTeam : currentMatch.homeTeam;
+
   const [tries, setTries] = useState<Try[]>([]);
   const [selectedType, setSelectedType] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
@@ -360,7 +380,7 @@ export default function TryAnalysisSimplified() {
                   onClick={() => handleTeamViewChange('home')}
                   className="rounded-r-none"
                 >
-                  Us ({homeTeamTries.length})
+                  {isNorthHarbourHome ? northHarbourLabel : oppositionLabel} ({homeTeamTries.length})
                 </Button>
                 <Button
                   variant={currentView === 'away' ? 'default' : 'ghost'}
@@ -368,7 +388,7 @@ export default function TryAnalysisSimplified() {
                   onClick={() => handleTeamViewChange('away')}
                   className="rounded-l-none"
                 >
-                  Opposition ({awayTeamTries.length})
+                  {isNorthHarbourHome ? oppositionLabel : northHarbourLabel} ({awayTeamTries.length})
                 </Button>
               </div>
             </div>
@@ -403,8 +423,8 @@ export default function TryAnalysisSimplified() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="home">Us</SelectItem>
-                        <SelectItem value="away">Opposition</SelectItem>
+                        <SelectItem value="home">{isNorthHarbourHome ? northHarbourLabel : oppositionLabel}</SelectItem>
+                        <SelectItem value="away">{isNorthHarbourHome ? oppositionLabel : northHarbourLabel}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
