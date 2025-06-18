@@ -9,8 +9,8 @@ import { importMoneyBallPlayers } from "./moneyBallDataImport";
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
 import { dataUpdateService, type MedicalAppointment, type TrainingAttendance } from "./dataUpdateService";
 import { dataIntegrityManager } from "./dataIntegrityManager";
-import { matchTryData, seasonAnalysis, type InsertMatchTryData, type InsertSeasonAnalysis } from "@shared/schema";
-import { eq, and } from "drizzle-orm";
+import { matchTryData, seasonAnalysis, squads, squadSelections, squadAdvice, type InsertMatchTryData, type InsertSeasonAnalysis, type InsertSquad, type InsertSquadSelection, type InsertSquadAdvice } from "@shared/schema";
+import { eq, and, desc } from "drizzle-orm";
 import { db } from "./db";
 
 // Helper function to update season analysis aggregation
@@ -1612,6 +1612,295 @@ Provide:
       });
     }
   });
+
+  // Squad Builder API Endpoints
+  
+  // Get all squads for a user
+  app.get('/api/squads', async (req, res) => {
+    try {
+      const createdBy = "current_user"; // TODO: Get from authenticated user
+      
+      const userSquads = await db.select()
+        .from(squads)
+        .where(eq(squads.createdBy, createdBy))
+        .orderBy(desc(squads.createdAt));
+
+      res.json(userSquads);
+    } catch (error) {
+      console.error('Error fetching squads:', error);
+      res.status(500).json({ error: 'Failed to fetch squads' });
+    }
+  });
+
+  // Create a new squad
+  app.post('/api/squads', async (req, res) => {
+    try {
+      const { name, matchName, matchDate, notes } = req.body;
+      const createdBy = "current_user"; // TODO: Get from authenticated user
+
+      const [newSquad] = await db.insert(squads).values({
+        name,
+        matchName,
+        matchDate,
+        createdBy,
+        notes
+      }).returning();
+
+      res.json(newSquad);
+    } catch (error) {
+      console.error('Error creating squad:', error);
+      res.status(500).json({ error: 'Failed to create squad' });
+    }
+  });
+
+  // Get squad details with selections
+  app.get('/api/squads/:squadId', async (req, res) => {
+    try {
+      const { squadId } = req.params;
+      
+      const [squad] = await db.select()
+        .from(squads)
+        .where(eq(squads.id, parseInt(squadId)));
+
+      if (!squad) {
+        return res.status(404).json({ error: 'Squad not found' });
+      }
+
+      const selections = await db.select()
+        .from(squadSelections)
+        .where(eq(squadSelections.squadId, parseInt(squadId)));
+
+      const advice = await db.select()
+        .from(squadAdvice)
+        .where(eq(squadAdvice.squadId, parseInt(squadId)))
+        .orderBy(desc(squadAdvice.priority));
+
+      res.json({
+        ...squad,
+        selections,
+        advice
+      });
+    } catch (error) {
+      console.error('Error fetching squad details:', error);
+      res.status(500).json({ error: 'Failed to fetch squad details' });
+    }
+  });
+
+  // Add player to squad
+  app.post('/api/squads/:squadId/players', async (req, res) => {
+    try {
+      const { squadId } = req.params;
+      const { playerId, position, isStarter, selectionReason } = req.body;
+
+      const [selection] = await db.insert(squadSelections).values({
+        squadId: parseInt(squadId),
+        playerId,
+        position,
+        isStarter: isStarter ?? true,
+        selectionReason
+      }).returning();
+
+      // Generate selection advice for this squad
+      await generateSquadAdvice(parseInt(squadId));
+
+      res.json(selection);
+    } catch (error) {
+      console.error('Error adding player to squad:', error);
+      res.status(500).json({ error: 'Failed to add player to squad' });
+    }
+  });
+
+  // Remove player from squad
+  app.delete('/api/squads/:squadId/players/:playerId', async (req, res) => {
+    try {
+      const { squadId, playerId } = req.params;
+
+      await db.delete(squadSelections)
+        .where(
+          and(
+            eq(squadSelections.squadId, parseInt(squadId)),
+            eq(squadSelections.playerId, playerId)
+          )
+        );
+
+      // Regenerate advice after removal
+      await generateSquadAdvice(parseInt(squadId));
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error removing player from squad:', error);
+      res.status(500).json({ error: 'Failed to remove player from squad' });
+    }
+  });
+
+  // Update squad details
+  app.put('/api/squads/:squadId', async (req, res) => {
+    try {
+      const { squadId } = req.params;
+      const { name, matchName, matchDate, notes } = req.body;
+
+      const [updatedSquad] = await db.update(squads)
+        .set({
+          name,
+          matchName,
+          matchDate,
+          notes,
+          updatedAt: new Date()
+        })
+        .where(eq(squads.id, parseInt(squadId)))
+        .returning();
+
+      res.json(updatedSquad);
+    } catch (error) {
+      console.error('Error updating squad:', error);
+      res.status(500).json({ error: 'Failed to update squad' });
+    }
+  });
+
+  // Delete squad
+  app.delete('/api/squads/:squadId', async (req, res) => {
+    try {
+      const { squadId } = req.params;
+
+      // Delete related advice and selections first
+      await db.delete(squadAdvice).where(eq(squadAdvice.squadId, parseInt(squadId)));
+      await db.delete(squadSelections).where(eq(squadSelections.squadId, parseInt(squadId)));
+      await db.delete(squads).where(eq(squads.id, parseInt(squadId)));
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting squad:', error);
+      res.status(500).json({ error: 'Failed to delete squad' });
+    }
+  });
+
+  // Generate squad analysis
+  app.post('/api/squads/:squadId/analyze', async (req, res) => {
+    try {
+      const { squadId } = req.params;
+      await generateSquadAdvice(parseInt(squadId));
+      
+      const advice = await db.select()
+        .from(squadAdvice)
+        .where(eq(squadAdvice.squadId, parseInt(squadId)))
+        .orderBy(desc(squadAdvice.priority));
+
+      res.json(advice);
+    } catch (error) {
+      console.error('Error analyzing squad:', error);
+      res.status(500).json({ error: 'Failed to analyze squad' });
+    }
+  });
+
+// Helper function to generate squad advice
+async function generateSquadAdvice(squadId: number) {
+  try {
+    // Clear existing advice
+    await db.delete(squadAdvice).where(eq(squadAdvice.squadId, squadId));
+
+    // Get squad selections
+    const selections = await db.select()
+      .from(squadSelections)
+      .where(eq(squadSelections.squadId, squadId));
+
+    const advice: InsertSquadAdvice[] = [];
+
+    // Get player data for analysis
+    const playerIds = selections.map(s => s.playerId);
+    const players = samplePlayers.filter(p => playerIds.includes(p.id));
+
+    // Check for injured/suspended players
+    players.forEach(player => {
+      if (player.currentStatus === 'Injured') {
+        advice.push({
+          squadId,
+          adviceType: 'warning',
+          category: 'injury',
+          message: `${player.personalDetails.firstName} ${player.personalDetails.lastName} is currently injured and unavailable for selection`,
+          priority: 5,
+          playerId: player.id
+        });
+      }
+      
+      if (player.currentStatus === 'Suspended') {
+        advice.push({
+          squadId,
+          adviceType: 'warning',
+          category: 'suspension',
+          message: `${player.personalDetails.firstName} ${player.personalDetails.lastName} is currently suspended and unavailable for selection`,
+          priority: 5,
+          playerId: player.id
+        });
+      }
+
+      // Check penalty count
+      const recentStats = player.gameStats[player.gameStats.length - 1];
+      if (recentStats && recentStats.penalties > 5) {
+        advice.push({
+          squadId,
+          adviceType: 'warning',
+          category: 'penalties',
+          message: `${player.personalDetails.firstName} ${player.personalDetails.lastName} has high penalty count (${recentStats.penalties}) - consider disciplinary focus`,
+          priority: 3,
+          playerId: player.id
+        });
+      }
+
+      // Check turnover count
+      if (recentStats && recentStats.turnovers > 8) {
+        advice.push({
+          squadId,
+          adviceType: 'suggestion',
+          category: 'turnovers',
+          message: `${player.personalDetails.firstName} ${player.personalDetails.lastName} has high turnover count (${recentStats.turnovers}) - monitor ball security`,
+          priority: 2,
+          playerId: player.id
+        });
+      }
+    });
+
+    // Squad balance checks
+    const positions = selections.reduce((acc, sel) => {
+      acc[sel.position] = (acc[sel.position] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    // Check position coverage
+    const requiredPositions = ['Prop', 'Hooker', 'Lock', 'Flanker', 'Number 8', 'Scrum-half', 'Fly-half', 'Centre', 'Wing', 'Fullback'];
+    requiredPositions.forEach(pos => {
+      if (!positions[pos]) {
+        advice.push({
+          squadId,
+          adviceType: 'warning',
+          category: 'balance',
+          message: `No ${pos} selected - critical position gap`,
+          priority: 4
+        });
+      }
+    });
+
+    // Check for too many in one position
+    Object.entries(positions).forEach(([pos, count]) => {
+      if (count > 4) {
+        advice.push({
+          squadId,
+          adviceType: 'suggestion',
+          category: 'balance',
+          message: `Too many players selected for ${pos} (${count}) - consider position balance`,
+          priority: 2
+        });
+      }
+    });
+
+    // Insert advice
+    if (advice.length > 0) {
+      await db.insert(squadAdvice).values(advice);
+    }
+
+  } catch (error) {
+    console.error('Error generating squad advice:', error);
+  }
+}
 
   // Seed database with sample data
   app.post("/api/seed", async (req, res) => {

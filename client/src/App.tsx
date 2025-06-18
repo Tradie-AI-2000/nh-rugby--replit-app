@@ -30,6 +30,7 @@ import DataSchemaViewer from "@/pages/data-schema-viewer";
 import TryAnalysisWrapper from "@/pages/try-analysis-simplified";
 import MatchFixtures from "@/pages/match-fixtures";
 import MatchList from "@/pages/match-list";
+import SquadBuilder from "@/pages/squad-builder";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 
