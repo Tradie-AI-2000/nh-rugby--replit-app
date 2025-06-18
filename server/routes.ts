@@ -99,12 +99,12 @@ function aggregateMetrics(existing: any[], newData: any[], totalTries: number) {
   return aggregated;
 }
 
+import { northHarbourPlayers } from './northHarbourPlayers';
+
 export function registerRoutes(app: Express) {
   // Get all players - Complete North Harbour Rugby roster
   app.get("/api/players", async (req, res) => {
     try {
-      // Complete North Harbour Rugby players roster
-      const northHarbourPlayers = [
         // Forwards
         {
           id: "jake_thompson",
@@ -666,82 +666,50 @@ export function registerRoutes(app: Express) {
           gameStats: [{ season: "2024", penalties: 1, turnovers: 4, tackles: 32, tries: 12, matchesPlayed: 14 }],
           skills: { ballHandling: 9, passing: 8, defense: 7, communication: 7 }
         }
-          physicalAttributes: [{
-            date: "2024-01-01",
-            weight: 105,
-            height: 185,
-            bodyFat: 12.5,
-            leanMass: 92
-          }],
-          testResults: [],
-          gameStats: [{
-            season: "2024",
-            matchesPlayed: 15,
-            minutesPlayed: 1200,
-            tries: 1,
-            tackles: 150,
-            lineoutWins: 85,
-            turnovers: 12,
-            penalties: 8
-          }],
-          skills: {
-            ballHandling: 8,
-            passing: 7,
-            kicking: 6,
-            lineoutThrowing: 9,
-            scrummaging: 8,
-            rucking: 7,
-            defense: 8,
-            communication: 9
-          },
-          injuries: [],
-          reports: [],
-          activities: [],
-          videoAnalysis: [],
-          status: { fitness: "available", medical: "cleared" },
-          aiRating: {
-            overall: 85,
-            potential: 88,
-            physicality: 87,
-            skillset: 83,
-            gameImpact: 85,
-            lastUpdated: "2024-01-15"
-          },
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          id: "tane_edmed",
-          personalDetails: {
-            firstName: "Tane",
-            lastName: "Edmed",
-            dateOfBirth: "2000-04-29",
-            email: "tane.edmed@example.com",
-            phone: "555-777-6666",
-            address: "Auckland, New Zealand",
-            emergencyContact: { name: "Emergency Contact", relationship: "Family", phone: "555-000-0000" }
-          },
-          rugbyProfile: {
-            jerseyNumber: 10,
-            primaryPosition: "First-Five",
-            secondaryPositions: ["Fullback"],
-            playingLevel: "Professional",
-            yearsInTeam: 2,
-            previousClubs: []
-          },
-          physicalAttributes: [{
-            date: "2024-01-01",
-            weight: 85,
-            height: 180,
-            bodyFat: 9,
-            leanMass: 77
-          }],
-          testResults: [],
-          gameStats: [{
-            season: "2024",
-            matchesPlayed: 18,
-            minutesPlayed: 1440,
-            tries: 0,
+      ];
+
+      res.json(northHarbourPlayers);
+    } catch (error) {
+      console.error("Error fetching players:", error);
+      res.status(500).json({ error: "Failed to fetch players" });
+    }
+  });
+
+  // Get single player by ID
+  app.get("/api/players/:id", async (req, res) => {
+    try {
+      const player = northHarbourPlayers.find(p => p.id === req.params.id);
+      if (!player) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+      res.json(player);
+    } catch (error) {
+      console.error("Error fetching player:", error);
+      res.status(500).json({ error: "Failed to fetch player" });
+    }
+  });
+
+  // Create new player
+  app.post("/api/players", async (req, res) => {
+    try {
+      // Implementation for creating players would go here
+      res.status(201).json({ message: "Player creation endpoint" });
+    } catch (error) {
+      console.error("Error creating player:", error);
+      res.status(500).json({ error: "Failed to create player" });
+    }
+  });
+
+  // Update player
+  app.patch("/api/players/:id", async (req, res) => {
+    try {
+      // Implementation for updating players would go here
+      res.json({ message: "Player update endpoint" });
+    } catch (error) {
+      console.error("Error updating player:", error);
+      res.status(500).json({ error: "Failed to update player" });
+    }
+  });
             tackles: 72,
             lineoutWins: 0,
             turnovers: 5,
