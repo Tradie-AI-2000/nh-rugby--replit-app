@@ -352,25 +352,41 @@ Provide a comprehensive analysis in a professional rugby coaching format with ac
       phaseBreakdown: any[];
       sourceBreakdown: any[];
       rawData: any[];
+      isNorthHarbour: boolean;
     };
     oppositionTeam: {
       name: string;
       totalTries: number;
       rawData: any[];
+      isNorthHarbour: boolean;
     } | null;
     comparative: boolean;
     analysisFrom?: string;
+    analysisPerspective?: string;
+    matchContext?: {
+      homeTeam: string;
+      awayTeam: string;
+      venue: string;
+      date: string;
+    };
   }): Promise<string> {
-    const { currentTeam, oppositionTeam, comparative, analysisFrom } = data;
+    const { currentTeam, oppositionTeam, comparative, analysisFrom, analysisPerspective, matchContext } = data;
     
-    // Determine if we're analyzing our own tries or opposition tries
-    const isAnalyzingOurTries = currentTeam.name.includes('Us') || currentTeam.name === 'Us';
-    const isAnalyzingOpposition = currentTeam.name.includes('Opposition');
+    // Determine analysis perspective based on whether current team is North Harbour
+    const isAnalyzingNorthHarbour = currentTeam.isNorthHarbour;
+    const analysisType = isAnalyzingNorthHarbour ? 'attacking' : 'defensive';
     
     let prompt = `As a professional rugby analyst for "North Harbour Rugby", provide analysis from our team's perspective:
 
-## ${isAnalyzingOurTries ? 'Our Try-Scoring Analysis' : 'Opposition Try-Scoring Analysis (Scouting Report)'}
-**${isAnalyzingOurTries ? 'Our Tries Scored' : 'Opposition Tries Analyzed'}:** ${currentTeam.totalTries}
+## Match Context
+**Fixture:** ${matchContext?.homeTeam || 'Team 1'} vs ${matchContext?.awayTeam || 'Team 2'}
+**Venue:** ${matchContext?.venue || 'Stadium'}
+**Date:** ${matchContext?.date || 'Match Day'}
+
+## ${isAnalyzingNorthHarbour ? 'North Harbour Attacking Analysis' : 'Opposition Scouting Report (Defensive Analysis)'}
+**Analysis Type:** ${isAnalyzingNorthHarbour ? 'Our try-scoring patterns and attacking effectiveness' : 'Opposition try-scoring patterns - how they score against us'}
+**Team Analyzed:** ${currentTeam.name}
+**Total Tries:** ${currentTeam.totalTries}
 
 **Zone Distribution:**
 ${currentTeam.zoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
@@ -428,21 +444,30 @@ ${oppZoneBreakdown.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.perc
     prompt += `
 
 **Analysis Framework (Always from North Harbour Rugby perspective):**
-${isAnalyzingOurTries ? 
-  `1. **Our Attacking Efficiency**: Detailed analysis of our try-scoring patterns
-2. **Temporal Patterns**: Our quarter-by-quarter momentum and fitness levels
-3. **Our Phase Play**: Effectiveness of our attacking structures
-4. **Our Platform Success**: Set piece vs open play effectiveness
-${comparative ? '5. **Our Defensive Analysis**: Where we concede tries and why\n6. **Tactical Balance**: Optimizing our attack while strengthening defense\n7. **Training Focus**: Priority areas for our team development' : '5. **Our Development Areas**: Tactical improvements needed\n6. **Game Planning**: How this data informs our future matches'}` :
-  `1. **Opposition Scouting**: Understanding their try-scoring patterns and tendencies
-2. **Their Temporal Patterns**: When they score most effectively
+${isAnalyzingNorthHarbour ? 
+  `1. **Our Attacking Efficiency**: Detailed analysis of North Harbour's try-scoring patterns and effectiveness
+2. **Temporal Patterns**: Our quarter-by-quarter momentum, fitness, and concentration levels
+3. **Our Phase Play**: Effectiveness of our attacking structures and continuity
+4. **Our Platform Success**: Set piece vs open play try-scoring effectiveness
+5. **Zone Analysis**: Our preferred attacking areas and success rates
+6. **Strategic Development**: Areas where North Harbour can improve attacking output
+7. **Training Focus**: Priority attacking skills for team development sessions` :
+  `1. **Opposition Scouting**: Understanding ${currentTeam.name}'s try-scoring patterns and tendencies
+2. **Their Temporal Patterns**: When ${currentTeam.name} scores most effectively against us
 3. **Their Attacking Structure**: How they build phases and create opportunities
-4. **Their Platform Preferences**: Where they're most dangerous
-5. **Defensive Strategy**: How we can nullify their strengths
-6. **Exploit Opportunities**: Their weaknesses we can target
-7. **Game Plan Recommendations**: Tactical adjustments to counter their patterns`}
+4. **Their Platform Preferences**: Where ${currentTeam.name} is most dangerous against our defense
+5. **Defensive Strategy**: How North Harbour can nullify their attacking strengths
+6. **Exploit Opportunities**: ${currentTeam.name}'s attacking weaknesses we can target
+7. **Game Plan Recommendations**: Tactical adjustments to prevent their try-scoring patterns`}
 
-Provide comprehensive analysis with specific recommendations for North Harbour Rugby coaching staff.`;
+${comparative && oppositionTeam ? `
+**Comparative Analysis Available:**
+- Opposition Team: ${oppositionTeam.name}
+- Opposition Tries: ${oppositionTeam.totalTries}
+- Provide direct comparisons and tactical recommendations based on both datasets
+` : ''}
+
+Provide comprehensive analysis with specific, actionable recommendations for North Harbour Rugby coaching staff.`;
 
     try {
       const result = await this.model.generateContent(prompt);

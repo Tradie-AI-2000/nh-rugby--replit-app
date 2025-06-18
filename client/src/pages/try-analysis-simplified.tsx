@@ -313,27 +313,44 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
     try {
       const oppositionTries = currentView === 'home' ? awayTeamTries : homeTeamTries;
       
+      // Determine if current view is North Harbour or opposition
+      const currentTeamName = currentView === 'home' 
+        ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
+        : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel);
+      
+      const isCurrentTeamNorthHarbour = currentTeamName === "North Harbour";
+      const analysisPerspective = isCurrentTeamNorthHarbour ? 'attacking' : 'defensive';
+      
       const analysisData = {
         currentTeam: {
-          name: currentView === 'home' 
-            ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
-            : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel),
+          name: currentTeamName,
           totalTries: currentTries.length,
           zoneBreakdown: zoneData,
           quarterBreakdown: quarterData,
           phaseBreakdown: phaseData,
           sourceBreakdown: sourceData,
-          rawData: currentTries
+          rawData: currentTries,
+          isNorthHarbour: isCurrentTeamNorthHarbour
         },
         oppositionTeam: hasOppositionData ? {
           name: currentView === 'home' 
             ? (isNorthHarbourHome ? oppositionLabel : northHarbourLabel)
             : (isNorthHarbourHome ? northHarbourLabel : oppositionLabel),
           totalTries: oppositionTries.length,
-          rawData: oppositionTries
+          rawData: oppositionTries,
+          isNorthHarbour: (currentView === 'home' 
+            ? (isNorthHarbourHome ? oppositionLabel : northHarbourLabel)
+            : (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)) === "North Harbour"
         } : null,
         comparative: hasOppositionData,
-        analysisFrom: 'north_harbour' // Always analyze from North Harbour perspective
+        analysisFrom: 'north_harbour', // Always analyze from North Harbour perspective
+        analysisPerspective: analysisPerspective, // 'attacking' when NH scoring, 'defensive' when opposition scoring
+        matchContext: {
+          homeTeam: currentMatch.homeTeam,
+          awayTeam: currentMatch.awayTeam,
+          venue: currentMatch.venue,
+          date: currentMatch.date
+        }
       };
 
       const response = await fetch('/api/ai/try-analysis-comparative', {
@@ -440,14 +457,28 @@ function TryAnalysisSimplified(props: TryAnalysisProps = {}) {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <Label>Team</Label>
+                    <Label>Team (Who scored the try?)</Label>
                     <Select value={selectedTeam} onValueChange={(value: 'home' | 'away') => setSelectedTeam(value)}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="home">{isNorthHarbourHome ? northHarbourLabel : oppositionLabel}</SelectItem>
-                        <SelectItem value="away">{isNorthHarbourHome ? oppositionLabel : northHarbourLabel}</SelectItem>
+                        <SelectItem value="home">
+                          <div className="flex items-center gap-2">
+                            <span>{isNorthHarbourHome ? northHarbourLabel : oppositionLabel}</span>
+                            {(isNorthHarbourHome ? northHarbourLabel : oppositionLabel) === "North Harbour" && (
+                              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700">Us</Badge>
+                            )}
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="away">
+                          <div className="flex items-center gap-2">
+                            <span>{isNorthHarbourHome ? oppositionLabel : northHarbourLabel}</span>
+                            {(isNorthHarbourHome ? oppositionLabel : northHarbourLabel) === "North Harbour" && (
+                              <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700">Us</Badge>
+                            )}
+                          </div>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
