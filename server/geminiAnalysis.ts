@@ -23,7 +23,7 @@ export interface GeminiAnalysisResult {
 }
 
 export class GeminiRugbyAnalyst {
-  private model: any;
+  public model: any;
   
   constructor() {
     // Use Gemini Pro for advanced rugby analysis
