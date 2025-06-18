@@ -1805,9 +1805,26 @@ async function generateSquadAdvice(squadId: number) {
 
     const advice: InsertSquadAdvice[] = [];
 
-    // Get player data for analysis
+    // Get player data for analysis - use existing player data structure
     const playerIds = selections.map(s => s.playerId);
-    const players = samplePlayers.filter(p => playerIds.includes(p.id));
+    
+    // For now, we'll use a basic player structure that matches our schema
+    // In production, this would query the actual player database
+    const mockPlayerData = playerIds.map(id => ({
+      id,
+      personalDetails: { firstName: "Player", lastName: id.slice(-4), position: "Forward" },
+      currentStatus: Math.random() > 0.8 ? (Math.random() > 0.5 ? "Injured" : "Suspended") : "Fit",
+      gameStats: [{
+        season: "2024",
+        penalties: Math.floor(Math.random() * 10),
+        turnovers: Math.floor(Math.random() * 12),
+        tackles: Math.floor(Math.random() * 50),
+        tries: Math.floor(Math.random() * 8),
+        matchesPlayed: Math.floor(Math.random() * 15)
+      }]
+    }));
+    
+    const players = mockPlayerData;
 
     // Check for injured/suspended players
     players.forEach(player => {
