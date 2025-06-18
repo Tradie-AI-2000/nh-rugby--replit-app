@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
 import { 
   Plus, 
   Download, 
@@ -35,6 +36,11 @@ interface Try {
   team: 'home' | 'away';
   minute?: number;
   player?: string;
+  // New analytical metrics
+  zone: 'attacking_22' | 'attacking_22m_halfway' | 'defending_22m_halfway' | 'defending_22';
+  quarter: 1 | 2 | 3 | 4;
+  phase: 'phase_1' | 'phase_2_3' | 'phase_4_6' | 'phase_7_plus';
+  source: 'scrum' | 'lineout' | 'penalty' | 'kickoff' | 'turnover' | 'open_play' | 'restart';
 }
 
 interface AIPattern {
@@ -86,12 +92,60 @@ export default function TryAnalysisPitch() {
   const [selectedArea, setSelectedArea] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
   const [isPlacingTry, setIsPlacingTry] = useState(false);
+  
+  // New analytical metric states
+  const [selectedZone, setSelectedZone] = useState<string>("");
+  const [selectedQuarter, setSelectedQuarter] = useState<string>("");
+  const [selectedPhase, setSelectedPhase] = useState<string>("");
+  const [selectedSource, setSelectedSource] = useState<string>("");
+  const [selectedMinute, setSelectedMinute] = useState<string>("");
   const [showControls, setShowControls] = useState(true);
   const [aiPatterns, setAiPatterns] = useState<AIPattern[]>([]);
   const [patternInsights, setPatternInsights] = useState<PatternInsight | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showAIOverlay, setShowAIOverlay] = useState(false);
   const [mousePosition, setMousePosition] = useState<{ x: number; y: number } | null>(null);
+
+  // Chart colors for consistency
+  const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C'];
+
+  // Calculate analytical metrics
+  const zoneData = useMemo(() => {
+    const zones = ['attacking_22', 'attacking_22m_halfway', 'defending_22m_halfway', 'defending_22'];
+    return zones.map(zone => ({
+      name: zone.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      value: tries.filter(t => t.zone === zone).length,
+      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.zone === zone).length / tries.length) * 100) : 0
+    }));
+  }, [tries]);
+
+  const quarterData = useMemo(() => {
+    const quarters = [1, 2, 3, 4];
+    return quarters.map(quarter => ({
+      name: `Q${quarter}`,
+      value: tries.filter(t => t.quarter === quarter).length,
+      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.quarter === quarter).length / tries.length) * 100) : 0
+    }));
+  }, [tries]);
+
+  const phaseData = useMemo(() => {
+    const phases = ['phase_1', 'phase_2_3', 'phase_4_6', 'phase_7_plus'];
+    const phaseLabels = ['Phase 1', 'Phase 2-3', 'Phase 4-6', 'Phase 7+'];
+    return phases.map((phase, index) => ({
+      name: phaseLabels[index],
+      value: tries.filter(t => t.phase === phase).length,
+      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.phase === phase).length / tries.length) * 100) : 0
+    }));
+  }, [tries]);
+
+  const sourceData = useMemo(() => {
+    const sources = ['scrum', 'lineout', 'penalty', 'kickoff', 'turnover', 'open_play', 'restart'];
+    return sources.map(source => ({
+      name: source.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      value: tries.filter(t => t.source === source).length,
+      percentage: tries.length > 0 ? Math.round((tries.filter(t => t.source === source).length / tries.length) * 100) : 0
+    })).filter(item => item.value > 0); // Only show sources with tries
+  }, [tries]);
 
   const analyzePatterns = async () => {
     if (tries.length < 3) return;
@@ -313,7 +367,7 @@ export default function TryAnalysisPitch() {
   };
 
   const handlePitchClick = (event: React.MouseEvent<SVGElement>) => {
-    if (!isPlacingTry || !selectedType || !selectedArea) return;
+    if (!isPlacingTry || !selectedType || !selectedArea || !selectedZone || !selectedQuarter || !selectedPhase || !selectedSource) return;
 
     const svg = event.currentTarget;
     const rect = svg.getBoundingClientRect();
@@ -336,7 +390,12 @@ export default function TryAnalysisPitch() {
       y,
       type: selectedType,
       area: selectedArea,
-      team: selectedTeam
+      team: selectedTeam,
+      zone: selectedZone as any,
+      quarter: parseInt(selectedQuarter) as any,
+      phase: selectedPhase as any,
+      source: selectedSource as any,
+      minute: selectedMinute ? parseInt(selectedMinute) : undefined
     };
 
     setTries([...tries, newTry]);
