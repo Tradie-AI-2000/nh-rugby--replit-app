@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { db } from "./db";
 import { squads, squadSelections, squadAdvice } from "@shared/schema";
 import { northHarbourPlayers } from './northHarbourPlayers';
@@ -43,7 +43,7 @@ export function registerRoutes(app: Express): Server {
         matchName,
         matchDate,
         notes,
-        userId: 'user-1' // Replace with actual user ID from auth
+        createdBy: 'user-1' // Replace with actual user ID from auth
       }).returning();
 
       res.status(201).json(squad);
@@ -56,7 +56,7 @@ export function registerRoutes(app: Express): Server {
   // Get all squads for user
   app.get('/api/squads', async (req, res) => {
     try {
-      const userSquads = await db.select().from(squads).where(eq(squads.userId, 'user-1'));
+      const userSquads = await db.select().from(squads).where(eq(squads.createdBy, 'user-1'));
       res.json(userSquads);
     } catch (error) {
       console.error('Error fetching squads:', error);
@@ -129,8 +129,12 @@ export function registerRoutes(app: Express): Server {
       const { squadId, playerId } = req.params;
       
       await db.delete(squadSelections)
-        .where(eq(squadSelections.squadId, parseInt(squadId)))
-        .where(eq(squadSelections.playerId, playerId));
+        .where(
+          and(
+            eq(squadSelections.squadId, parseInt(squadId)),
+            eq(squadSelections.playerId, playerId)
+          )
+        );
 
       // Regenerate selection advice
       await generateSquadAdvice(parseInt(squadId));
@@ -212,9 +216,10 @@ export function registerRoutes(app: Express): Server {
       for (const advice of adviceItems) {
         await db.insert(squadAdvice).values({
           squadId,
-          type: advice.type,
+          adviceType: advice.type,
+          category: 'selection_advice',
           message: advice.message,
-          priority: advice.priority
+          priority: advice.priority === 'high' ? 5 : advice.priority === 'medium' ? 3 : 1
         });
       }
 
