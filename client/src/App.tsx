@@ -27,7 +27,7 @@ import DataIntegrityDemo from "@/pages/data-integrity-demo";
 import GameDayAnalysis from "@/pages/game-day-analysis";
 import DataTemplatesHub from "@/pages/data-templates-hub";
 import DataSchemaViewer from "@/pages/data-schema-viewer";
-import TryAnalysisPitch from "@/pages/try-analysis-pitch";
+import TryAnalysisSimplified from "@/pages/try-analysis-simplified";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 
@@ -56,7 +56,7 @@ function Router() {
       <Route path="/data-integrity" component={DataIntegrityDemo} />
       <Route path="/data-templates" component={DataTemplatesHub} />
       <Route path="/data-schema" component={DataSchemaViewer} />
-      <Route path="/try-analysis" component={TryAnalysisPitch} />
+      <Route path="/try-analysis" component={TryAnalysisSimplified} />
       <Route path="/game-day/:id" component={GameDayAnalysis} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />

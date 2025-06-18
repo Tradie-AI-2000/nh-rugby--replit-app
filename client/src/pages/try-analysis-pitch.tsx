@@ -95,12 +95,10 @@ export default function TryAnalysisPitch() {
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away'>('home');
   const [isPlacingTry, setIsPlacingTry] = useState(false);
   
-  // New analytical metric states
-  const [selectedZone, setSelectedZone] = useState<string>("");
-  const [selectedQuarter, setSelectedQuarter] = useState<string>("");
-  const [selectedPhase, setSelectedPhase] = useState<string>("");
-  const [selectedSource, setSelectedSource] = useState<string>("");
-  const [selectedMinute, setSelectedMinute] = useState<string>("");
+  // Editing state for try details
+  const [editingTry, setEditingTry] = useState<string | null>(null);
+  const [editQuarter, setEditQuarter] = useState<string>("");
+  const [editPhase, setEditPhase] = useState<string>("");
   const [showControls, setShowControls] = useState(true);
   const [aiPatterns, setAiPatterns] = useState<AIPattern[]>([]);
   const [patternInsights, setPatternInsights] = useState<PatternInsight | null>(null);
@@ -110,6 +108,14 @@ export default function TryAnalysisPitch() {
 
   // Chart colors for consistency
   const CHART_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D', '#FFC658', '#FF7C7C'];
+
+  // Function to detect zone based on Y coordinate
+  const detectZone = (y: number): 'attacking_22' | 'attacking_22m_halfway' | 'defending_22m_halfway' | 'defending_22' => {
+    if (y >= 80) return 'attacking_22'; // Bottom 20% of pitch
+    if (y >= 50) return 'attacking_22m_halfway'; // 50-80%
+    if (y >= 20) return 'defending_22m_halfway'; // 20-50%
+    return 'defending_22'; // Top 20%
+  };
 
   // Calculate analytical metrics
   const zoneData = useMemo(() => {
@@ -369,7 +375,7 @@ export default function TryAnalysisPitch() {
   };
 
   const handlePitchClick = (event: React.MouseEvent<SVGElement>) => {
-    if (!isPlacingTry || !selectedType || !selectedArea || !selectedZone || !selectedQuarter || !selectedPhase || !selectedSource) return;
+    if (!isPlacingTry || !selectedType) return;
 
     const svg = event.currentTarget;
     const rect = svg.getBoundingClientRect();
@@ -386,18 +392,20 @@ export default function TryAnalysisPitch() {
     const x = (svgX / 400) * 100;
     const y = (svgY / 600) * 100;
 
+    // Auto-detect zone based on Y position
+    const detectedZone = detectZone(y);
+
     const newTry: Try = {
       id: Math.random().toString(36).substr(2, 9),
       x,
       y,
       type: selectedType,
-      area: selectedArea,
+      area: selectedArea || detectedZone,
       team: selectedTeam,
-      zone: selectedZone as any,
-      quarter: parseInt(selectedQuarter) as any,
-      phase: selectedPhase as any,
-      source: selectedSource as any,
-      minute: selectedMinute ? parseInt(selectedMinute) : undefined
+      zone: detectedZone,
+      quarter: 1, // Default, will be edited later
+      phase: 'phase_1', // Default, will be edited later
+      source: selectedType as any // Use try type as source for now
     };
 
     setTries([...tries, newTry]);
@@ -518,8 +526,8 @@ export default function TryAnalysisPitch() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="home">Home Team</SelectItem>
-                        <SelectItem value="away">Away Team</SelectItem>
+                        <SelectItem value="home">Us</SelectItem>
+                        <SelectItem value="away">Opposition</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -543,101 +551,10 @@ export default function TryAnalysisPitch() {
                     </Select>
                   </div>
 
-                  <div>
-                    <Label>Field Area</Label>
-                    <Select value={selectedArea} onValueChange={setSelectedArea}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select field area" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {fieldAreas.map(area => (
-                          <SelectItem key={area} value={area}>
-                            {area}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Zone</Label>
-                    <Select value={selectedZone} onValueChange={setSelectedZone}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select zone" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="attacking_22">Attacking 22</SelectItem>
-                        <SelectItem value="attacking_22m_halfway">Attacking 22m-Halfway</SelectItem>
-                        <SelectItem value="defending_22m_halfway">Defending 22m-Halfway</SelectItem>
-                        <SelectItem value="defending_22">Defending 22</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Quarter</Label>
-                    <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select quarter" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">Q1 (0-20min)</SelectItem>
-                        <SelectItem value="2">Q2 (20-40min)</SelectItem>
-                        <SelectItem value="3">Q3 (40-60min)</SelectItem>
-                        <SelectItem value="4">Q4 (60-80min)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Phase</Label>
-                    <Select value={selectedPhase} onValueChange={setSelectedPhase}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select phase" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="phase_1">Phase 1</SelectItem>
-                        <SelectItem value="phase_2_3">Phase 2-3</SelectItem>
-                        <SelectItem value="phase_4_6">Phase 4-6</SelectItem>
-                        <SelectItem value="phase_7_plus">Phase 7+</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Source</Label>
-                    <Select value={selectedSource} onValueChange={setSelectedSource}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select source" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="scrum">Scrum</SelectItem>
-                        <SelectItem value="lineout">Lineout</SelectItem>
-                        <SelectItem value="penalty">Penalty</SelectItem>
-                        <SelectItem value="kickoff">Kickoff</SelectItem>
-                        <SelectItem value="turnover">Turnover</SelectItem>
-                        <SelectItem value="open_play">Open Play</SelectItem>
-                        <SelectItem value="restart">Restart</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Match Minute (Optional)</Label>
-                    <Input 
-                      type="number" 
-                      min="0" 
-                      max="80" 
-                      value={selectedMinute} 
-                      onChange={(e) => setSelectedMinute(e.target.value)}
-                      placeholder="0-80"
-                    />
-                  </div>
-
                   <Button 
                     className="w-full" 
                     onClick={() => setIsPlacingTry(true)}
-                    disabled={!selectedType || !selectedArea || !selectedZone || !selectedQuarter || !selectedPhase || !selectedSource || isPlacingTry}
+                    disabled={!selectedType || isPlacingTry}
                   >
                     {isPlacingTry ? 'Click on pitch to place' : 'Place Try on Pitch'}
                   </Button>
