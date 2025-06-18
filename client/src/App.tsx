@@ -29,6 +29,7 @@ import DataTemplatesHub from "@/pages/data-templates-hub";
 import DataSchemaViewer from "@/pages/data-schema-viewer";
 import TryAnalysisSimplified from "@/pages/try-analysis-simplified";
 import MatchFixtures from "@/pages/match-fixtures";
+import MatchList from "@/pages/match-list";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/fitness-analytics" component={FitnessAnalytics} />
       <Route path="/gps-management" component={GPSManagement} />
       <Route path="/match-fixtures" component={MatchFixtures} />
+      <Route path="/match-list" component={MatchList} />
       <Route path="/match-performance" component={MatchPerformance} />
       <Route path="/match-performance/:matchId" component={MatchPerformance} />
       <Route path="/match-performance/:matchId/try-analysis" component={TryAnalysisSimplified} />

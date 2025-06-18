@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload, ArrowLeft, Home } from "lucide-react";
 import { sampleMatchPerformance, matchAnalyticsSections } from "@/data/sampleMatchData";
+import TryAnalysisSimplified from "@/pages/try-analysis-simplified";
 import logoPath from "@assets/menulogo_wo.png";
 
 interface AIAnalysisProps {
@@ -761,27 +762,7 @@ export default function MatchPerformance() {
         </TabsContent>
 
         <TabsContent value="try_analysis">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Try Analysis
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center space-y-4">
-                <p className="text-gray-600">
-                  Interactive try scoring patterns and zone analysis for detailed tactical insights
-                </p>
-                <Link href={`/match-performance/${match.id}/try-analysis`}>
-                  <Button className="bg-red-600 hover:bg-red-700">
-                    <Target className="h-4 w-4 mr-2" />
-                    Open Try Analysis Pitch
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+          <TryAnalysisSimplified />
         </TabsContent>
       </Tabs>
       </div>

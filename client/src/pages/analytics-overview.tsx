@@ -107,7 +107,7 @@ export default function AnalyticsOverview() {
       ],
       status: "good",
       icon: <Trophy className="w-6 h-6" />,
-      route: "/match-fixtures",
+      route: "/match-list",
       category: "performance"
     },
     {
