@@ -724,7 +724,7 @@ export default function MatchPerformance() {
 
       {/* Analytics Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 bg-gray-100 p-1">
+        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 bg-gray-100 p-1">
           {matchAnalyticsSections.map((section) => (
             <TabsTrigger 
               key={section.id} 
@@ -758,6 +758,30 @@ export default function MatchPerformance() {
 
         <TabsContent value="individual_performance">
           <IndividualPerformanceSection />
+        </TabsContent>
+
+        <TabsContent value="try_analysis">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                Try Analysis
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center space-y-4">
+                <p className="text-gray-600">
+                  Interactive try scoring patterns and zone analysis for detailed tactical insights
+                </p>
+                <Link href={`/match-performance/${match.id}/try-analysis`}>
+                  <Button className="bg-red-600 hover:bg-red-700">
+                    <Target className="h-4 w-4 mr-2" />
+                    Open Try Analysis Pitch
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
       </div>

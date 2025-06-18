@@ -262,7 +262,10 @@ export default function TryAnalysisSimplified() {
   const confirmTeamSwitch = (saveData: boolean) => {
     if (saveData) {
       // Data is already saved in state, just switch views
-      console.log(`Data saved for ${currentView === 'home' ? 'Us' : 'Opposition'}`);
+      const teamName = currentView === 'home' 
+        ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
+        : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel);
+      console.log(`Data saved for ${teamName}`);
     }
     
     // Switch to the pending view
@@ -306,7 +309,9 @@ export default function TryAnalysisSimplified() {
       
       const analysisData = {
         currentTeam: {
-          name: currentView === 'home' ? 'Us' : 'Opposition (being analyzed)',
+          name: currentView === 'home' 
+            ? (isNorthHarbourHome ? northHarbourLabel : oppositionLabel)
+            : (isNorthHarbourHome ? oppositionLabel : northHarbourLabel),
           totalTries: currentTries.length,
           zoneBreakdown: zoneData,
           quarterBreakdown: quarterData,
@@ -315,12 +320,14 @@ export default function TryAnalysisSimplified() {
           rawData: currentTries
         },
         oppositionTeam: hasOppositionData ? {
-          name: currentView === 'home' ? 'Opposition' : 'Us',
+          name: currentView === 'home' 
+            ? (isNorthHarbourHome ? oppositionLabel : northHarbourLabel)
+            : (isNorthHarbourHome ? northHarbourLabel : oppositionLabel),
           totalTries: oppositionTries.length,
           rawData: oppositionTries
         } : null,
         comparative: hasOppositionData,
-        analysisFrom: 'us' // Always analyze from "Us" perspective
+        analysisFrom: 'north_harbour' // Always analyze from North Harbour perspective
       };
 
       const response = await fetch('/api/ai/try-analysis-comparative', {
@@ -363,11 +370,19 @@ export default function TryAnalysisSimplified() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Try Analysis Pitch</h1>
-            <p className="text-gray-600 mt-2">
-              Interactive rugby pitch with zone detection and analytical insights
-            </p>
+          <div className="flex items-center gap-4">
+            <Link href={`/match-performance/${matchId}`}>
+              <Button variant="outline" size="sm" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Match
+              </Button>
+            </Link>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Try Analysis - {currentMatch.homeTeam} vs {currentMatch.awayTeam}</h1>
+              <p className="text-gray-600 mt-2">
+                Interactive rugby pitch with zone detection and analytical insights
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             {/* Team View Selector */}

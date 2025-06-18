@@ -223,5 +223,10 @@ export const matchAnalyticsSections = [
     id: "individual_performance",
     title: "Individual Performance",
     description: "Player-specific match contributions"
+  },
+  {
+    id: "try_analysis",
+    title: "Try Analysis",
+    description: "Interactive try scoring patterns and zones"
   }
 ];
