@@ -411,7 +411,7 @@ ${currentTeam.sourceBreakdown.map(source => `- ${source.name}: ${source.value} t
         };
       });
 
-      if (isAnalyzingOurTries) {
+      if (isAnalyzingNorthHarbour) {
         prompt += `
 
 ## Tries Against Analysis (Defensive Patterns)
