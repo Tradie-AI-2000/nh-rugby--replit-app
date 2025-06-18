@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 import { 
   Plus, 
   Download, 
@@ -24,7 +24,9 @@ import {
   CheckCircle,
   BarChart3,
   Zap,
-  Eye
+  Eye,
+  Clock,
+  Activity
 } from "lucide-react";
 
 interface Try {
@@ -556,10 +558,85 @@ export default function TryAnalysisPitch() {
                     </Select>
                   </div>
 
+                  <div>
+                    <Label>Zone</Label>
+                    <Select value={selectedZone} onValueChange={setSelectedZone}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select zone" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="attacking_22">Attacking 22</SelectItem>
+                        <SelectItem value="attacking_22m_halfway">Attacking 22m-Halfway</SelectItem>
+                        <SelectItem value="defending_22m_halfway">Defending 22m-Halfway</SelectItem>
+                        <SelectItem value="defending_22">Defending 22</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label>Quarter</Label>
+                    <Select value={selectedQuarter} onValueChange={setSelectedQuarter}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select quarter" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Q1 (0-20min)</SelectItem>
+                        <SelectItem value="2">Q2 (20-40min)</SelectItem>
+                        <SelectItem value="3">Q3 (40-60min)</SelectItem>
+                        <SelectItem value="4">Q4 (60-80min)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label>Phase</Label>
+                    <Select value={selectedPhase} onValueChange={setSelectedPhase}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select phase" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="phase_1">Phase 1</SelectItem>
+                        <SelectItem value="phase_2_3">Phase 2-3</SelectItem>
+                        <SelectItem value="phase_4_6">Phase 4-6</SelectItem>
+                        <SelectItem value="phase_7_plus">Phase 7+</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label>Source</Label>
+                    <Select value={selectedSource} onValueChange={setSelectedSource}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select source" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="scrum">Scrum</SelectItem>
+                        <SelectItem value="lineout">Lineout</SelectItem>
+                        <SelectItem value="penalty">Penalty</SelectItem>
+                        <SelectItem value="kickoff">Kickoff</SelectItem>
+                        <SelectItem value="turnover">Turnover</SelectItem>
+                        <SelectItem value="open_play">Open Play</SelectItem>
+                        <SelectItem value="restart">Restart</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label>Match Minute (Optional)</Label>
+                    <Input 
+                      type="number" 
+                      min="0" 
+                      max="80" 
+                      value={selectedMinute} 
+                      onChange={(e) => setSelectedMinute(e.target.value)}
+                      placeholder="0-80"
+                    />
+                  </div>
+
                   <Button 
                     className="w-full" 
                     onClick={() => setIsPlacingTry(true)}
-                    disabled={!selectedType || !selectedArea || isPlacingTry}
+                    disabled={!selectedType || !selectedArea || !selectedZone || !selectedQuarter || !selectedPhase || !selectedSource || isPlacingTry}
                   >
                     {isPlacingTry ? 'Click on pitch to place' : 'Place Try on Pitch'}
                   </Button>
@@ -619,6 +696,133 @@ export default function TryAnalysisPitch() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          )}
+
+          {/* Analytical Metrics Charts */}
+          {tries.length > 0 && (
+            <div className="xl:col-span-4 mb-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Zone Analysis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Target className="h-5 w-5" />
+                      Tries by Zone
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={zoneData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis 
+                          dataKey="name" 
+                          fontSize={12}
+                          angle={-45}
+                          textAnchor="end"
+                          height={60}
+                        />
+                        <YAxis />
+                        <Tooltip 
+                          formatter={(value, name) => [value, 'Tries']}
+                          labelFormatter={(label) => `Zone: ${label}`}
+                        />
+                        <Bar dataKey="value" fill={CHART_COLORS[0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {/* Quarter Analysis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Activity className="h-5 w-5" />
+                      Tries by Quarter
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <RechartsPieChart>
+                        <Tooltip 
+                          formatter={(value: any, name: any) => [value, 'Tries']}
+                        />
+                        <Legend />
+                        <Pie
+                          data={quarterData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                          label={({ name, percentage }: any) => `${name}: ${percentage}%`}
+                        >
+                          {quarterData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {/* Phase Analysis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Zap className="h-5 w-5" />
+                      Tries by Phase
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={phaseData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip 
+                          formatter={(value, name) => [value, 'Tries']}
+                          labelFormatter={(label) => `Phase: ${label}`}
+                        />
+                        <Bar dataKey="value" fill={CHART_COLORS[1]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {/* Source Analysis */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <MapPin className="h-5 w-5" />
+                      Tries by Source
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <RechartsPieChart>
+                        <Tooltip 
+                          formatter={(value: any, name: any) => [value, 'Tries']}
+                        />
+                        <Legend />
+                        <Pie
+                          data={sourceData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                          label={({ name, percentage }: any) => `${name}: ${percentage}%`}
+                        >
+                          {sourceData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           )}
 
