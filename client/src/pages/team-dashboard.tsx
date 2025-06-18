@@ -187,7 +187,7 @@ export default function TeamDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <Link href="/match-performance">
+                  <Link href="/match-list">
                     <Card className="cursor-pointer hover:shadow-md transition-shadow border-l-4 border-l-green-500">
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start mb-2">
@@ -271,7 +271,7 @@ export default function TeamDashboard() {
                   </Card>
                 </div>
 
-                <Link href="/match-performance">
+                <Link href="/match-list">
                   <Button className="w-full bg-nh-red hover:bg-nh-red-600 text-white">
                     <Trophy className="h-4 w-4 mr-2" />
                     View Comprehensive Match Analytics
@@ -665,7 +665,7 @@ export default function TeamDashboard() {
                     ],
                     status: "good",
                     icon: <Trophy className="w-6 h-6" />,
-                    route: "/match-performance"
+                    route: "/match-list"
                   },
                   {
                     id: "fitness",
