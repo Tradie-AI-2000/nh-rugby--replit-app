@@ -907,3 +907,81 @@ export const insertMatchSummarySchema = createInsertSchema(matchSummaries);
 // Legacy Zod schemas for backwards compatibility  
 export type PlayerZod = z.infer<typeof playerSchema>;
 export type InsertPlayerZod = z.infer<typeof insertPlayerSchema>;
+
+// Try Analysis Database Tables
+export const matchTryData = pgTable("match_try_data", {
+  id: serial("id").primaryKey(),
+  matchId: text("match_id").notNull(),
+  teamName: text("team_name").notNull(),
+  isNorthHarbour: boolean("is_north_harbour").notNull(),
+  analysisPerspective: text("analysis_perspective").notNull(), // 'attacking' or 'defensive'
+  tries: jsonb("tries").notNull().$type<Array<{
+    id: string;
+    x: number;
+    y: number;
+    type: string;
+    team: 'home' | 'away';
+    zone: 'attacking_22' | 'attacking_22m_halfway' | 'defending_22m_halfway' | 'defending_22';
+    quarter: 1 | 2 | 3 | 4;
+    phase: 'phase_1' | 'phase_2_3' | 'phase_4_6' | 'phase_7_plus';
+  }>>(),
+  zoneBreakdown: jsonb("zone_breakdown").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  quarterBreakdown: jsonb("quarter_breakdown").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  phaseBreakdown: jsonb("phase_breakdown").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  sourceBreakdown: jsonb("source_breakdown").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  aiAnalysis: text("ai_analysis"),
+  savedAt: timestamp("saved_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+// Season Analysis Summary for aggregated data
+export const seasonAnalysis = pgTable("season_analysis", {
+  id: serial("id").primaryKey(),
+  season: text("season").notNull(),
+  teamName: text("team_name").notNull(),
+  totalMatches: integer("total_matches").default(0),
+  totalTries: integer("total_tries").default(0),
+  aggregatedZones: jsonb("aggregated_zones").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  aggregatedQuarters: jsonb("aggregated_quarters").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  aggregatedPhases: jsonb("aggregated_phases").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  aggregatedSources: jsonb("aggregated_sources").notNull().$type<Array<{
+    name: string;
+    value: number;
+    percentage: number;
+  }>>(),
+  seasonAiAnalysis: text("season_ai_analysis"),
+  lastUpdated: timestamp("last_updated").defaultNow()
+});
+
+export type MatchTryData = typeof matchTryData.$inferSelect;
+export type InsertMatchTryData = typeof matchTryData.$inferInsert;
+export type SeasonAnalysis = typeof seasonAnalysis.$inferSelect;
+export type InsertSeasonAnalysis = typeof seasonAnalysis.$inferInsert;

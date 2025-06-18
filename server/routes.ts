@@ -9,6 +9,95 @@ import { importMoneyBallPlayers } from "./moneyBallDataImport";
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
 import { dataUpdateService, type MedicalAppointment, type TrainingAttendance } from "./dataUpdateService";
 import { dataIntegrityManager } from "./dataIntegrityManager";
+import { matchTryData, seasonAnalysis, type InsertMatchTryData, type InsertSeasonAnalysis } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import { db } from "./db";
+
+// Helper function to update season analysis aggregation
+async function updateSeasonAnalysis(matchId: string, teamName: string, matchData: {
+  tries: any[];
+  zoneBreakdown: any[];
+  quarterBreakdown: any[];
+  phaseBreakdown: any[];
+  sourceBreakdown: any[];
+}) {
+  const season = "2024"; // Extract from matchId or make dynamic
+  
+  try {
+    // Check if season analysis exists for this team
+    const existingSeasonData = await db.select()
+      .from(seasonAnalysis)
+      .where(
+        and(
+          eq(seasonAnalysis.season, season),
+          eq(seasonAnalysis.teamName, teamName)
+        )
+      );
+
+    if (existingSeasonData.length === 0) {
+      // Create new season analysis record
+      await db.insert(seasonAnalysis).values({
+        season,
+        teamName,
+        totalMatches: 1,
+        totalTries: matchData.tries.length,
+        aggregatedZones: matchData.zoneBreakdown,
+        aggregatedQuarters: matchData.quarterBreakdown,
+        aggregatedPhases: matchData.phaseBreakdown,
+        aggregatedSources: matchData.sourceBreakdown
+      });
+    } else {
+      // Update existing season analysis with aggregated data
+      const existing = existingSeasonData[0];
+      const newTotalTries = existing.totalTries + matchData.tries.length;
+      
+      // Aggregate zone data
+      const aggregatedZones = aggregateMetrics(existing.aggregatedZones, matchData.zoneBreakdown, newTotalTries);
+      const aggregatedQuarters = aggregateMetrics(existing.aggregatedQuarters, matchData.quarterBreakdown, newTotalTries);
+      const aggregatedPhases = aggregateMetrics(existing.aggregatedPhases, matchData.phaseBreakdown, newTotalTries);
+      const aggregatedSources = aggregateMetrics(existing.aggregatedSources, matchData.sourceBreakdown, newTotalTries);
+
+      await db.update(seasonAnalysis)
+        .set({
+          totalMatches: existing.totalMatches + 1,
+          totalTries: newTotalTries,
+          aggregatedZones,
+          aggregatedQuarters,
+          aggregatedPhases,
+          aggregatedSources,
+          lastUpdated: new Date()
+        })
+        .where(
+          and(
+            eq(seasonAnalysis.season, season),
+            eq(seasonAnalysis.teamName, teamName)
+          )
+        );
+    }
+  } catch (error) {
+    console.error('Error updating season analysis:', error);
+  }
+}
+
+// Helper function to aggregate metrics
+function aggregateMetrics(existing: any[], newData: any[], totalTries: number) {
+  const aggregated = [...existing];
+  
+  newData.forEach(newItem => {
+    const existingIndex = aggregated.findIndex(item => item.name === newItem.name);
+    if (existingIndex >= 0) {
+      aggregated[existingIndex].value += newItem.value;
+      aggregated[existingIndex].percentage = Math.round((aggregated[existingIndex].value / totalTries) * 100);
+    } else {
+      aggregated.push({
+        ...newItem,
+        percentage: Math.round((newItem.value / totalTries) * 100)
+      });
+    }
+  });
+  
+  return aggregated;
+}
 
 export function registerRoutes(app: Express) {
   // Get all players - FRESH START with your North Harbour Rugby data
@@ -1356,6 +1445,169 @@ export function registerRoutes(app: Express) {
       console.error('Error in comparative try analysis:', error);
       res.status(500).json({ 
         error: 'Failed to generate comparative try analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Try Analysis Data Management Endpoints
+  app.post('/api/try-analysis/save', async (req, res) => {
+    try {
+      const {
+        matchId,
+        teamName,
+        isNorthHarbour,
+        analysisPerspective,
+        tries,
+        zoneBreakdown,
+        quarterBreakdown,
+        phaseBreakdown,
+        sourceBreakdown,
+        aiAnalysis
+      } = req.body;
+
+      const [savedData] = await db.insert(matchTryData).values({
+        matchId,
+        teamName,
+        isNorthHarbour,
+        analysisPerspective,
+        tries,
+        zoneBreakdown,
+        quarterBreakdown,
+        phaseBreakdown,
+        sourceBreakdown,
+        aiAnalysis
+      }).returning();
+
+      // Update or create season analysis aggregation
+      await updateSeasonAnalysis(matchId, teamName, {
+        tries,
+        zoneBreakdown,
+        quarterBreakdown,
+        phaseBreakdown,
+        sourceBreakdown
+      });
+
+      res.json({ 
+        success: true, 
+        message: 'Try analysis data saved successfully',
+        id: savedData.id 
+      });
+    } catch (error) {
+      console.error('Error saving try analysis data:', error);
+      res.status(500).json({ 
+        error: 'Failed to save try analysis data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  app.get('/api/try-analysis/match/:matchId', async (req, res) => {
+    try {
+      const { matchId } = req.params;
+      
+      const tryData = await db.select()
+        .from(matchTryData)
+        .where(eq(matchTryData.matchId, matchId));
+
+      res.json(tryData);
+    } catch (error) {
+      console.error('Error fetching try analysis data:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch try analysis data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  app.get('/api/try-analysis/season/:season', async (req, res) => {
+    try {
+      const { season } = req.params;
+      
+      const seasonData = await db.select()
+        .from(seasonAnalysis)
+        .where(eq(seasonAnalysis.season, season));
+
+      res.json(seasonData);
+    } catch (error) {
+      console.error('Error fetching season analysis data:', error);
+      res.status(500).json({ 
+        error: 'Failed to fetch season analysis data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  app.post('/api/try-analysis/season-ai-analysis', async (req, res) => {
+    try {
+      const { season, teamName } = req.body;
+      
+      const seasonData = await db.select()
+        .from(seasonAnalysis)
+        .where(
+          and(
+            eq(seasonAnalysis.season, season),
+            eq(seasonAnalysis.teamName, teamName)
+          )
+        );
+
+      if (seasonData.length === 0) {
+        return res.status(404).json({ error: 'No season data found' });
+      }
+
+      const data = seasonData[0];
+      
+      // Generate season-wide AI analysis
+      const seasonAnalysisPrompt = `As a professional rugby analyst for North Harbour Rugby, provide comprehensive season analysis based on try-scoring patterns:
+
+## Season Overview - ${season}
+**Team:** ${teamName}
+**Total Matches Analyzed:** ${data.totalMatches}
+**Total Tries:** ${data.totalTries}
+
+**Zone Distribution:**
+${data.aggregatedZones.map(zone => `- ${zone.name}: ${zone.value} tries (${zone.percentage}%)`).join('\n')}
+
+**Quarter Distribution:**
+${data.aggregatedQuarters.map(quarter => `- ${quarter.name}: ${quarter.value} tries (${quarter.percentage}%)`).join('\n')}
+
+**Phase Distribution:**
+${data.aggregatedPhases.map(phase => `- ${phase.name}: ${phase.value} tries (${phase.percentage}%)`).join('\n')}
+
+**Source Distribution:**
+${data.aggregatedSources.map(source => `- ${source.name}: ${source.value} tries (${source.percentage}%)`).join('\n')}
+
+Provide:
+1. **Season Trends Analysis**: Key patterns and trends across the season
+2. **Tactical Evolution**: How our try-scoring has evolved
+3. **Strengths to Maintain**: What's working well consistently
+4. **Areas for Development**: Where we can improve our try-scoring
+5. **Opposition Analysis**: Patterns in how we concede tries
+6. **Strategic Recommendations**: Tactical adjustments for next season
+7. **Training Focus**: Priority areas for off-season development`;
+
+      const analysis = await geminiAnalyst.model.generateContent(seasonAnalysisPrompt);
+      const response = await analysis.response;
+      const seasonAiAnalysis = response.text();
+
+      // Update the season analysis with AI insights
+      await db.update(seasonAnalysis)
+        .set({ 
+          seasonAiAnalysis,
+          lastUpdated: new Date()
+        })
+        .where(
+          and(
+            eq(seasonAnalysis.season, season),
+            eq(seasonAnalysis.teamName, teamName)
+          )
+        );
+
+      res.json({ analysis: seasonAiAnalysis });
+    } catch (error) {
+      console.error('Error generating season AI analysis:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate season AI analysis',
         message: error instanceof Error ? error.message : 'Unknown error'
       });
     }
