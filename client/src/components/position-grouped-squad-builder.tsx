@@ -557,7 +557,7 @@ export default function PositionGroupedSquadBuilder() {
                           }`}
                         >
                           <div className="font-medium mb-1">
-                            {advice.adviceType.replace('_', ' ').toUpperCase()}
+                            {advice.adviceType ? advice.adviceType.replace('_', ' ').toUpperCase() : 'SQUAD ADVICE'}
                           </div>
                           <div>{advice.message}</div>
                         </div>
