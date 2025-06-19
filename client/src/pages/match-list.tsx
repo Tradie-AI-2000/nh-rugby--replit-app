@@ -1,9 +1,7 @@
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home } from "lucide-react";
-import logoPath from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 import { SeasonTryOverview } from "@/components/SeasonTryOverview";
 
 // Match fixtures data with stats matching the image format
@@ -91,40 +89,21 @@ const matchFixtures = [
 export default function MatchList() {
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation Header */}
-      <div className="bg-nh-red text-white p-4 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href="/analytics">
-                <Button variant="ghost" className="text-white hover:bg-nh-red-600">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Analytics
-                </Button>
-              </Link>
-              <img src={logoPath} alt="North Harbour Rugby" className="h-10 w-10" />
-              <div>
-                <h1 className="text-2xl font-bold">Match Performance Analytics</h1>
-                <div className="flex items-center gap-2 text-sm text-nh-red-200">
-                  <Link href="/team/overview" className="hover:text-white">Coaching Portal</Link>
-                  <span>›</span>
-                  <Link href="/analytics" className="hover:text-white">Analytics</Link>
-                  <span>›</span>
-                  <span className="text-white">Match Fixtures</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link href="/team/overview">
-                <Button variant="outline" className="text-nh-red bg-white hover:bg-gray-100">
-                  <Home className="w-4 h-4 mr-2" />
-                  Dashboard Home
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Match Performance Analytics"
+        description="Select a fixture to analyze match performance and try patterns"
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Analytics", href: "/analytics" },
+          { label: "Match List" }
+        ]}
+        badges={[
+          { text: "2024 NPC Season", className: "bg-white text-nh-red" },
+          { text: "12 Matches", className: "bg-nh-red-700 text-white" }
+        ]}
+        backUrl="/analytics"
+        backLabel="Back to Analytics"
+      />
 
       <div className="container mx-auto p-6">
         {/* Season Header */}

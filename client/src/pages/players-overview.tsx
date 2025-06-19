@@ -14,11 +14,10 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  ArrowLeft,
   Settings,
   Bell
 } from "lucide-react";
-import logoPath from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 
 interface Player {
   id: string;

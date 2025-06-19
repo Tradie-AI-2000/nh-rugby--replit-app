@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
-import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload, ArrowLeft, Home } from "lucide-react";
+import { TrendingUp, TrendingDown, Target, Users, Trophy, Activity, Brain, FileText, Upload } from "lucide-react";
 import { sampleMatchPerformance, matchAnalyticsSections } from "@/data/sampleMatchData";
 import { TryAnalysisSimplified } from "@/pages/try-analysis-simplified";
-import logoPath from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 
 interface AIAnalysisProps {
   sectionId: string;
@@ -647,40 +647,22 @@ export default function MatchPerformance() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation Header */}
-      <div className="bg-nh-red text-white p-4 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link href="/team">
-                <Button variant="ghost" className="text-white hover:bg-nh-red-600">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Team Dashboard
-                </Button>
-              </Link>
-              <img src={logoPath} alt="North Harbour Rugby" className="h-10 w-10" />
-              <div>
-                <h1 className="text-2xl font-bold">Match Performance Analytics</h1>
-                <div className="flex items-center gap-2 text-sm text-nh-red-200">
-                  <Link href="/team" className="hover:text-white">Coaching Portal</Link>
-                  <span>›</span>
-                  <Link href="/team" className="hover:text-white">Analytics</Link>
-                  <span>›</span>
-                  <span className="text-white">Match Performance</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Link href="/team">
-                <Button variant="outline" className="text-nh-red bg-white hover:bg-gray-100">
-                  <Home className="w-4 h-4 mr-2" />
-                  Dashboard Home
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Match Performance Analytics"
+        description={`${sampleMatchPerformance.matchInfo.opponent} • ${sampleMatchPerformance.matchInfo.competition}`}
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Analytics", href: "/analytics" },
+          { label: "Match List", href: "/analytics/match-list" },
+          { label: "Match Performance" }
+        ]}
+        badges={[
+          { text: sampleMatchPerformance.matchInfo.result, className: sampleMatchPerformance.matchInfo.result === "Win" ? "bg-green-600 text-white" : "bg-red-600 text-white" },
+          { text: sampleMatchPerformance.matchInfo.finalScore, className: "bg-white text-nh-red" }
+        ]}
+        backUrl="/analytics/match-list"
+        backLabel="Back to Match List"
+      />
 
       <div className="container mx-auto p-6 space-y-6">
         {/* Match Header */}
