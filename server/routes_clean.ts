@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { db } from "./db";
 import { squads, squadSelections, squadAdvice } from "@shared/schema";
 import { northHarbourPlayers } from './northHarbourPlayers';
@@ -373,14 +373,35 @@ export function registerRoutes(app: Express): Server {
     try {
       const { analysisData, matchId, season } = req.body;
       
-      // For now, we'll simulate saving the data successfully
-      // In a real implementation, this would save to the database
-      console.log('Saving try analysis data:', { matchId, season, dataSize: JSON.stringify(analysisData).length });
+      // Validate required fields
+      if (!analysisData) {
+        return res.status(400).json({ 
+          error: 'Missing required field: analysisData' 
+        });
+      }
+      
+      if (!matchId) {
+        return res.status(400).json({ 
+          error: 'Missing required field: matchId' 
+        });
+      }
+      
+      // Save to database
+      const result = await db.execute(sql`
+        INSERT INTO try_analysis (match_id, season, team_name, analysis_data)
+        VALUES (${matchId}, ${season || '2024'}, 'North Harbour', ${JSON.stringify(analysisData)})
+        ON CONFLICT (match_id) DO UPDATE SET
+          analysis_data = ${JSON.stringify(analysisData)},
+          updated_at = NOW()
+        RETURNING id
+      `);
+      
+      console.log('Successfully saved try analysis data:', { matchId, season });
       
       res.json({ 
         success: true, 
         message: 'Try analysis data saved successfully',
-        id: `try_analysis_${Date.now()}`
+        id: result.rows[0]?.id || `try_analysis_${Date.now()}`
       });
     } catch (error) {
       console.error('Error saving try analysis data:', error);
