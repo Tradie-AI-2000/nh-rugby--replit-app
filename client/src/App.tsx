@@ -76,6 +76,7 @@ function Router() {
       <Route path="/try-analysis" component={TryAnalysisWrapper} />
       <Route path="/analytics/work-rate-report" component={WorkRateReport} />
       <Route path="/work-rate-report" component={WorkRateReport} />
+      <Route path="/database-admin" component={DatabaseAdmin} />
       <Route path="/game-day/:id" component={GameDayAnalysis} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />
