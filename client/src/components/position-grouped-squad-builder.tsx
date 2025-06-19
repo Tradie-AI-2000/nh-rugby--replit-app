@@ -534,7 +534,7 @@ export default function PositionGroupedSquadBuilder() {
             </Card>
 
             {/* AI Squad Advice */}
-            {squadAdvice.length > 0 && (
+            {(squadAdvice as SquadAdvice[]).length > 0 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
