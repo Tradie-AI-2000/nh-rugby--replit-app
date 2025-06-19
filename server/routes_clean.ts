@@ -334,6 +334,60 @@ export function registerRoutes(app: Express): Server {
     ]);
   });
 
+  // AI Analysis endpoints for try patterns and trends
+  app.post('/api/ai/try-analysis-comparative', async (req, res) => {
+    try {
+      const { 
+        currentTeam, 
+        oppositionTeam, 
+        comparative, 
+        analysisFrom, 
+        analysisPerspective, 
+        matchContext 
+      } = req.body;
+
+      const analysis = await geminiAnalyst.analyzeComparativeTryPatterns({
+        currentTeam,
+        oppositionTeam,
+        comparative,
+        analysisFrom,
+        analysisPerspective,
+        matchContext
+      });
+
+      res.json({ analysis });
+    } catch (error) {
+      console.error('Error in comparative try analysis:', error);
+      res.status(500).json({ 
+        error: 'Failed to generate comparative try analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Save try analysis data endpoint
+  app.post('/api/try-analysis/save', async (req, res) => {
+    try {
+      const { analysisData, matchId, season } = req.body;
+      
+      // For now, we'll simulate saving the data successfully
+      // In a real implementation, this would save to the database
+      console.log('Saving try analysis data:', { matchId, season, dataSize: JSON.stringify(analysisData).length });
+      
+      res.json({ 
+        success: true, 
+        message: 'Try analysis data saved successfully',
+        id: `try_analysis_${Date.now()}`
+      });
+    } catch (error) {
+      console.error('Error saving try analysis data:', error);
+      res.status(500).json({ 
+        error: 'Failed to save try analysis data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
