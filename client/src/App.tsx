@@ -32,6 +32,7 @@ import MatchFixtures from "@/pages/match-fixtures";
 import MatchList from "@/pages/match-list";
 import SquadBuilder from "@/pages/squad-builder";
 import WorkRateReport from "@/pages/work-rate-report";
+import DatabaseAdmin from "@/pages/database-admin";
 import RoleSelection from "@/pages/role-selection";
 import NotFound from "@/pages/not-found";
 

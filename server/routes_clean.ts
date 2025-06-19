@@ -5,6 +5,9 @@ import { db } from "./db";
 import { squads, squadSelections, squadAdvice } from "@shared/schema";
 import { northHarbourPlayers } from './northHarbourPlayers';
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
+import { DatabaseStorage } from "./storage";
+
+const storage = new DatabaseStorage();
 
 export function registerRoutes(app: Express): Server {
   // Get all players - Complete North Harbour Rugby roster
@@ -383,6 +386,92 @@ export function registerRoutes(app: Express): Server {
       console.error('Error saving try analysis data:', error);
       res.status(500).json({ 
         error: 'Failed to save try analysis data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Populate database with North Harbour players
+  app.post('/api/players/populate', async (req, res) => {
+    try {
+      const { northHarbourPlayers } = await import('./northHarbourPlayers');
+      let insertedCount = 0;
+      let updatedCount = 0;
+
+      for (const playerData of northHarbourPlayers) {
+        try {
+          // Transform the data to match the database schema
+          const dbPlayer = {
+            id: playerData.id,
+            personalDetails: {
+              firstName: playerData.personalDetails.firstName,
+              lastName: playerData.personalDetails.lastName,
+              email: `${playerData.personalDetails.firstName.toLowerCase()}.${playerData.personalDetails.lastName.toLowerCase()}@northharbour.co.nz`,
+              phone: `+64 21 ${Math.floor(Math.random() * 9000000) + 1000000}`,
+              dateOfBirth: playerData.personalDetails.dateOfBirth || '1995-01-01'
+            },
+            rugbyProfile: {
+              jerseyNumber: playerData.personalDetails.jerseyNumber,
+              primaryPosition: playerData.personalDetails.position,
+              secondaryPositions: [],
+              yearsInTeam: 3,
+              clubHistory: ["North Harbour Rugby"]
+            },
+            physicalAttributes: [{
+              date: "2024-06-01",
+              weight: 85 + Math.floor(Math.random() * 30), // Random realistic weight
+              height: 175 + Math.floor(Math.random() * 25), // Random realistic height
+              bodyFat: 8 + Math.floor(Math.random() * 8),
+              muscleMass: 75 + Math.floor(Math.random() * 15)
+            }],
+            testResults: [{
+              date: "2024-06-01",
+              benchPress: 80 + Math.floor(Math.random() * 40),
+              squat: 120 + Math.floor(Math.random() * 60),
+              sprint40m: 4.5 + Math.random() * 1.5,
+              verticalJump: 55 + Math.floor(Math.random() * 15),
+              beepTest: 12 + Math.floor(Math.random() * 6)
+            }],
+            gameStats: playerData.gameStats || [],
+            skills: playerData.skills || {},
+            status: {
+              fitness: playerData.currentStatus === "Fit" ? "available" : "injured",
+              medical: "cleared",
+              availability: "available"
+            },
+            injuryHistory: [],
+            trainingPrograms: [],
+            videoAnalysis: []
+          };
+
+          // Check if player already exists
+          const existingPlayer = await storage.getPlayer(playerData.id);
+          
+          if (existingPlayer) {
+            // Update existing player
+            await storage.updatePlayer(playerData.id, dbPlayer);
+            updatedCount++;
+          } else {
+            // Create new player
+            await storage.createPlayer(dbPlayer);
+            insertedCount++;
+          }
+        } catch (playerError) {
+          console.error(`Error processing player ${playerData.id}:`, playerError);
+        }
+      }
+
+      res.json({
+        success: true,
+        message: `Database populated successfully`,
+        inserted: insertedCount,
+        updated: updatedCount,
+        total: northHarbourPlayers.length
+      });
+    } catch (error) {
+      console.error('Error populating players database:', error);
+      res.status(500).json({
+        error: 'Failed to populate players database',
         message: error instanceof Error ? error.message : 'Unknown error'
       });
     }
