@@ -300,12 +300,38 @@ export function registerRoutes(app: Express): Server {
 
   // Try analysis season data
   app.get('/api/try-analysis/season/2024', (req, res) => {
-    res.json({
-      totalTries: 45,
-      averagePerMatch: 3.2,
-      homeAdvantage: 12,
-      awayTries: 20
-    });
+    res.json([
+      {
+        teamName: "North Harbour",
+        totalTries: 45,
+        averagePerMatch: 3.2,
+        homeAdvantage: 12,
+        awayTries: 20,
+        aggregatedZones: [
+          { name: "Zone 1", value: 8, percentage: 17.8 },
+          { name: "Zone 2", value: 12, percentage: 26.7 },
+          { name: "Zone 3", value: 15, percentage: 33.3 },
+          { name: "Zone 4", value: 10, percentage: 22.2 }
+        ],
+        aggregatedQuarters: [
+          { name: "Q1", value: 8, percentage: 17.8 },
+          { name: "Q2", value: 14, percentage: 31.1 },
+          { name: "Q3", value: 12, percentage: 26.7 },
+          { name: "Q4", value: 11, percentage: 24.4 }
+        ],
+        aggregatedPhases: [
+          { name: "0-2 phases", value: 18, percentage: 40.0 },
+          { name: "3-5 phases", value: 15, percentage: 33.3 },
+          { name: "6+ phases", value: 12, percentage: 26.7 }
+        ],
+        aggregatedSources: [
+          { name: "Set Piece", value: 22, percentage: 48.9 },
+          { name: "Turnover", value: 12, percentage: 26.7 },
+          { name: "Lineout", value: 8, percentage: 17.8 },
+          { name: "Counter Attack", value: 3, percentage: 6.7 }
+        ]
+      }
+    ]);
   });
 
   const httpServer = createServer(app);

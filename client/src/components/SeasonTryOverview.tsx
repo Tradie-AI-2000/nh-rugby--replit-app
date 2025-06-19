@@ -97,8 +97,10 @@ export function SeasonTryOverview() {
     }
   };
 
-  const nhData = seasonData.find(d => d.teamName === "North Harbour");
-  const oppositionData = seasonData.filter(d => d.teamName !== "North Harbour");
+  // Handle case where seasonData might be an object instead of array
+  const seasonArray = Array.isArray(seasonData) ? seasonData : [];
+  const nhData = seasonArray.find(d => d.teamName === "North Harbour");
+  const oppositionData = seasonArray.filter(d => d.teamName !== "North Harbour");
 
   if (isLoading) {
     return (
