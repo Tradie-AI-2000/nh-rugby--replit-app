@@ -371,30 +371,48 @@ export function registerRoutes(app: Express): Server {
   // Save try analysis data endpoint
   app.post('/api/try-analysis/save', async (req, res) => {
     try {
-      const { analysisData, matchId, season } = req.body;
+      const { 
+        matchId, 
+        teamName, 
+        isNorthHarbour, 
+        analysisPerspective, 
+        tries, 
+        zoneBreakdown, 
+        quarterBreakdown, 
+        phaseBreakdown, 
+        sourceBreakdown, 
+        aiAnalysis 
+      } = req.body;
       
       // Validate required fields
-      if (!analysisData) {
-        return res.status(400).json({ 
-          error: 'Missing required field: analysisData' 
-        });
-      }
-      
       if (!matchId) {
         return res.status(400).json({ 
           error: 'Missing required field: matchId' 
         });
       }
       
+      // Construct analysis data object
+      const analysisData = {
+        teamName,
+        isNorthHarbour,
+        analysisPerspective,
+        tries: tries || [],
+        zoneBreakdown: zoneBreakdown || {},
+        quarterBreakdown: quarterBreakdown || {},
+        phaseBreakdown: phaseBreakdown || {},
+        sourceBreakdown: sourceBreakdown || {},
+        aiAnalysis: aiAnalysis || ''
+      };
+      
       // Save to database
       const analysisJson = JSON.stringify(analysisData);
-      const seasonValue = season || '2024';
+      const seasonValue = '2024';
       
       // First try to insert, if it fails due to conflict, update
       try {
         const result = await db.execute(sql`
           INSERT INTO try_analysis (match_id, season, team_name, analysis_data)
-          VALUES (${matchId}, ${seasonValue}, 'North Harbour', ${analysisJson})
+          VALUES (${matchId}, ${seasonValue}, ${teamName}, ${analysisJson})
           RETURNING id
         `);
         console.log('Successfully inserted new try analysis data');
@@ -411,7 +429,7 @@ export function registerRoutes(app: Express): Server {
         }
       }
       
-      console.log('Successfully saved try analysis data:', { matchId, season: seasonValue });
+      console.log('Successfully saved try analysis data:', { matchId, teamName, dataSize: analysisJson.length });
       
       res.json({ 
         success: true, 
