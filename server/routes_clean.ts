@@ -408,7 +408,13 @@ export function registerRoutes(app: Express): Server {
               lastName: playerData.personalDetails.lastName,
               email: `${playerData.personalDetails.firstName.toLowerCase()}.${playerData.personalDetails.lastName.toLowerCase()}@northharbour.co.nz`,
               phone: `+64 21 ${Math.floor(Math.random() * 9000000) + 1000000}`,
-              dateOfBirth: playerData.personalDetails.dateOfBirth || '1995-01-01'
+              dateOfBirth: playerData.personalDetails.dateOfBirth || '1995-01-01',
+              address: "North Harbour, Auckland, New Zealand",
+              emergencyContact: {
+                name: "Emergency Contact",
+                relationship: "Family",
+                phone: `+64 21 ${Math.floor(Math.random() * 9000000) + 1000000}`
+              }
             },
             rugbyProfile: {
               jerseyNumber: playerData.personalDetails.jerseyNumber,
@@ -433,12 +439,24 @@ export function registerRoutes(app: Express): Server {
               beepTest: 12 + Math.floor(Math.random() * 6)
             }],
             gameStats: playerData.gameStats || [],
-            skills: playerData.skills || {},
+            skills: {
+              ballHandling: playerData.skills?.ballHandling || 7,
+              passing: playerData.skills?.passing || 7,
+              kicking: playerData.skills?.kicking || 6,
+              lineoutThrowing: playerData.skills?.lineoutThrowing || 6,
+              scrummaging: playerData.skills?.scrummaging || 7,
+              rucking: playerData.skills?.rucking || 7,
+              defense: playerData.skills?.defense || 7,
+              communication: playerData.skills?.communication || 7
+            },
             status: {
               fitness: playerData.currentStatus === "Fit" ? "available" : "injured",
               medical: "cleared",
               availability: "available"
             },
+            injuries: [],
+            reports: [],
+            activities: [],
             injuryHistory: [],
             trainingPrograms: [],
             videoAnalysis: []
