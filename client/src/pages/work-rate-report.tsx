@@ -338,7 +338,7 @@ export default function WorkRateReport() {
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Time in Red Zone (&gt;85% HR)</span>
+                        <span>Time in Red Zone (above 85% HR)</span>
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>

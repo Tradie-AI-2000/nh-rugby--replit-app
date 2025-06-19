@@ -73,6 +73,7 @@ function Router() {
       <Route path="/data-templates" component={DataTemplatesHub} />
       <Route path="/data-schema" component={DataSchemaViewer} />
       <Route path="/try-analysis" component={TryAnalysisWrapper} />
+      <Route path="/analytics/work-rate-report" component={WorkRateReport} />
       <Route path="/game-day/:id" component={GameDayAnalysis} />
       <Route path="/role-selection" component={RoleSelection} />
       <Route path="/experimental/player/:playerId" component={ExperimentalPlayerProfile} />

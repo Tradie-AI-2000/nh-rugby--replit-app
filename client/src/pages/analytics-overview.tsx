@@ -191,6 +191,26 @@ export default function AnalyticsOverview() {
       category: "tactical"
     },
     {
+      id: "work-rate",
+      title: "Work Rate Report",
+      description: "Integrated OPTA match events with GPS tracking data for comprehensive player work rate analysis",
+      primaryMetric: {
+        value: "571",
+        label: "Avg Dynamic Stress Load",
+        trend: "up",
+        trendValue: "+12%"
+      },
+      secondaryMetrics: [
+        { label: "Total Distance", value: "31.3km", color: "text-blue-600" },
+        { label: "High Speed Running", value: "2.7km", color: "text-green-600" },
+        { label: "Red Zone Time", value: "22.6 min", color: "text-red-600" }
+      ],
+      status: "good",
+      icon: <BarChart3 className="w-6 h-6" />,
+      route: "/analytics/work-rate-report",
+      category: "performance"
+    },
+    {
       id: "development",
       title: "Player Development",
       description: "Individual player progression tracking and skill development analysis",
