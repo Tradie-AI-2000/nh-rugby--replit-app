@@ -626,6 +626,20 @@ export default function TeamDashboard() {
                     route: "/analytics/match-list"
                   },
                   {
+                    id: "work-rate",
+                    title: "Work Rate Report",
+                    description: "OPTA match data integration with GPS analysis for comprehensive player work rate insights",
+                    primaryMetric: { value: "8.4km", label: "Avg Work Rate", trend: "up", trendValue: "+0.3km" },
+                    secondaryMetrics: [
+                      { label: "High Intensity", value: "24%", color: "text-red-600" },
+                      { label: "Sprint Distance", value: "485m", color: "text-purple-600" },
+                      { label: "Work Efficiency", value: "87%", color: "text-green-600" }
+                    ],
+                    status: "good",
+                    icon: <BarChart3 className="w-6 h-6" />,
+                    route: "/work-rate-report"
+                  },
+                  {
                     id: "fitness",
                     title: "Fitness & Conditioning",
                     description: "Player fitness levels, training loads, and physical conditioning metrics",
