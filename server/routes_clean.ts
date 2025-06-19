@@ -387,21 +387,36 @@ export function registerRoutes(app: Express): Server {
       }
       
       // Save to database
-      const result = await db.execute(sql`
-        INSERT INTO try_analysis (match_id, season, team_name, analysis_data)
-        VALUES (${matchId}, ${season || '2024'}, 'North Harbour', ${JSON.stringify(analysisData)})
-        ON CONFLICT (match_id) DO UPDATE SET
-          analysis_data = ${JSON.stringify(analysisData)},
-          updated_at = NOW()
-        RETURNING id
-      `);
+      const analysisJson = JSON.stringify(analysisData);
+      const seasonValue = season || '2024';
       
-      console.log('Successfully saved try analysis data:', { matchId, season });
+      // First try to insert, if it fails due to conflict, update
+      try {
+        const result = await db.execute(sql`
+          INSERT INTO try_analysis (match_id, season, team_name, analysis_data)
+          VALUES (${matchId}, ${seasonValue}, 'North Harbour', ${analysisJson})
+          RETURNING id
+        `);
+        console.log('Successfully inserted new try analysis data');
+      } catch (insertError: any) {
+        if (insertError.code === '23505') { // Unique violation
+          await db.execute(sql`
+            UPDATE try_analysis 
+            SET analysis_data = ${analysisJson}, updated_at = NOW()
+            WHERE match_id = ${matchId} AND season = ${seasonValue}
+          `);
+          console.log('Successfully updated existing try analysis data');
+        } else {
+          throw insertError;
+        }
+      }
+      
+      console.log('Successfully saved try analysis data:', { matchId, season: seasonValue });
       
       res.json({ 
         success: true, 
         message: 'Try analysis data saved successfully',
-        id: result.rows[0]?.id || `try_analysis_${Date.now()}`
+        id: `try_analysis_${Date.now()}`
       });
     } catch (error) {
       console.error('Error saving try analysis data:', error);
