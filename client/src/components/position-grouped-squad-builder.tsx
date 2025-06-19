@@ -33,15 +33,23 @@ interface Player {
     lastName: string;
     position: string;
     jerseyNumber?: number;
+    dateOfBirth?: string;
     profileImage?: string;
   };
-  physicalAttributes: {
-    height: number;
-    weight: number;
-    age: number;
-  };
-  availability: {
-    status: string;
+  currentStatus: string;
+  gameStats?: Array<{
+    season: string;
+    penalties?: number;
+    turnovers?: number;
+    tackles?: number;
+    tries?: number;
+    matchesPlayed?: number;
+  }>;
+  skills?: {
+    ballHandling?: number;
+    passing?: number;
+    defense?: number;
+    communication?: number;
   };
 }
 
@@ -243,6 +251,7 @@ export default function PositionGroupedSquadBuilder() {
 
   const getAvailabilityColor = (status: string) => {
     switch (status.toLowerCase()) {
+      case 'fit': return 'bg-green-100 text-green-800';
       case 'available': return 'bg-green-100 text-green-800';
       case 'injured': return 'bg-red-100 text-red-800';
       case 'suspended': return 'bg-yellow-100 text-yellow-800';
@@ -443,18 +452,24 @@ export default function PositionGroupedSquadBuilder() {
                                     )}
                                   </div>
                                   <div className="text-right text-sm text-gray-500">
-                                    <div>{player.physicalAttributes.height}cm</div>
-                                    <div>{player.physicalAttributes.weight}kg</div>
-                                    <div>{player.physicalAttributes.age}y</div>
+                                    <div>
+                                      {player.gameStats?.[0]?.matchesPlayed || 0} matches
+                                    </div>
+                                    <div>
+                                      {player.gameStats?.[0]?.tries || 0} tries
+                                    </div>
+                                    <div>
+                                      {player.gameStats?.[0]?.tackles || 0} tackles
+                                    </div>
                                   </div>
                                 </div>
 
                                 <div className="flex items-center justify-between">
                                   <Badge 
-                                    className={`text-xs ${getAvailabilityColor(player.availability.status)}`}
+                                    className={`text-xs ${getAvailabilityColor(player.currentStatus)}`}
                                   >
-                                    {getAvailabilityIcon(player.availability.status)}
-                                    <span className="ml-1">{player.availability.status}</span>
+                                    {getAvailabilityIcon(player.currentStatus)}
+                                    <span className="ml-1">{player.currentStatus}</span>
                                   </Badge>
 
                                   {isSelected ? (
@@ -473,7 +488,7 @@ export default function PositionGroupedSquadBuilder() {
                                       onClick={() => handleAddPlayer(player.id)}
                                       disabled={
                                         addPlayerMutation.isPending || 
-                                        player.availability.status.toLowerCase() === 'injured'
+                                        player.currentStatus.toLowerCase() === 'injured'
                                       }
                                     >
                                       <UserPlus size={14} className="mr-1" />
