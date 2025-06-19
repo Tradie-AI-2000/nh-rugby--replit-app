@@ -115,12 +115,10 @@ export default function PositionGroupedSquadBuilder() {
   // Create squad mutation
   const createSquadMutation = useMutation({
     mutationFn: async (squadData: typeof newSquadData) => {
-      return apiRequest('/api/squads', {
-        method: 'POST',
-        body: squadData,
-      });
+      const response = await apiRequest('POST', '/api/squads', squadData);
+      return await response.json();
     },
-    onSuccess: (newSquad) => {
+    onSuccess: (newSquad: any) => {
       queryClient.invalidateQueries({ queryKey: ['/api/squads'] });
       setSelectedSquad(newSquad);
       setIsCreatingSquad(false);
@@ -142,10 +140,8 @@ export default function PositionGroupedSquadBuilder() {
   // Add player to squad mutation
   const addPlayerMutation = useMutation({
     mutationFn: async ({ squadId, playerId }: { squadId: number; playerId: string }) => {
-      return apiRequest(`/api/squads/${squadId}/players`, {
-        method: 'POST',
-        body: { playerId },
-      });
+      const response = await apiRequest('POST', `/api/squads/${squadId}/players`, { playerId });
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/squads'] });
@@ -166,9 +162,8 @@ export default function PositionGroupedSquadBuilder() {
   // Remove player from squad mutation
   const removePlayerMutation = useMutation({
     mutationFn: async ({ squadId, playerId }: { squadId: number; playerId: string }) => {
-      return apiRequest(`/api/squads/${squadId}/players/${playerId}`, {
-        method: 'DELETE',
-      });
+      const response = await apiRequest('DELETE', `/api/squads/${squadId}/players/${playerId}`);
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/squads'] });
@@ -189,9 +184,8 @@ export default function PositionGroupedSquadBuilder() {
   // Generate AI advice mutation
   const generateAdviceMutation = useMutation({
     mutationFn: async (squadId: number) => {
-      return apiRequest(`/api/squads/${squadId}/advice`, {
-        method: 'POST',
-      });
+      const response = await apiRequest('POST', `/api/squads/${squadId}/advice`);
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/squads', selectedSquad?.id, 'advice'] });
@@ -211,7 +205,7 @@ export default function PositionGroupedSquadBuilder() {
 
   // Group players by position categories
   const groupedPlayers = Object.entries(POSITION_GROUPS).reduce((acc, [groupName, positions]) => {
-    acc[groupName] = players.filter((player: Player) => 
+    acc[groupName] = (players as Player[]).filter((player: Player) => 
       positions.includes(player.personalDetails.position)
     );
     return acc;
@@ -261,6 +255,7 @@ export default function PositionGroupedSquadBuilder() {
 
   const getAvailabilityIcon = (status: string) => {
     switch (status.toLowerCase()) {
+      case 'fit': return <CheckCircle size={14} />;
       case 'available': return <CheckCircle size={14} />;
       case 'injured': return <AlertCircle size={14} />;
       case 'suspended': return <Clock size={14} />;
@@ -350,7 +345,7 @@ export default function PositionGroupedSquadBuilder() {
         <CardContent>
           {/* Squad Selection */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {squads.map((squad: Squad) => (
+            {(squads as Squad[]).map((squad: Squad) => (
               <Card 
                 key={squad.id} 
                 className={`cursor-pointer transition-all ${
@@ -550,7 +545,7 @@ export default function PositionGroupedSquadBuilder() {
                 <CardContent>
                   <ScrollArea className="h-64">
                     <div className="space-y-3">
-                      {squadAdvice.map((advice: SquadAdvice) => (
+                      {(squadAdvice as SquadAdvice[]).map((advice: SquadAdvice) => (
                         <div 
                           key={advice.id}
                           className={`p-3 rounded-lg text-sm ${
