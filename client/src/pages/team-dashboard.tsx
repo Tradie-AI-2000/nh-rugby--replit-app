@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import RealTimeMatchAnalytics from "@/components/real-time-match-analytics";
+import PositionGroupedSquadBuilder from "@/components/position-grouped-squad-builder";
 import { 
   Calendar, 
   MessageSquare, 
@@ -588,50 +589,7 @@ export default function TeamDashboard() {
           </TabsContent>
 
           <TabsContent value="squad" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Users size={24} />
-                  <span>Squad Rotation & Lineup</span>
-                </CardTitle>
-                <CardDescription>
-                  Manage starting lineups and squad rotation for optimal performance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {squadRotation.map((position, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4">
-                      <div className="font-semibold text-lg mb-3 text-nh-red">{position.position}</div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <div className="font-medium mb-2 text-green-700">Starting XV</div>
-                          <div className="space-y-1">
-                            {position.starters.map((player, playerIndex) => (
-                              <div key={playerIndex} className="flex items-center space-x-2 p-2 bg-green-50 rounded">
-                                <UserCheck size={16} className="text-green-600" />
-                                <span>{player}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-medium mb-2 text-blue-700">Bench</div>
-                          <div className="space-y-1">
-                            {position.bench.map((player, playerIndex) => (
-                              <div key={playerIndex} className="flex items-center space-x-2 p-2 bg-blue-50 rounded">
-                                <Users size={16} className="text-blue-600" />
-                                <span>{player}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <PositionGroupedSquadBuilder />
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6">
