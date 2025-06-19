@@ -1,0 +1,86 @@
+This report is designed to be a blueprint for a feature within the North Harbour Performance App, providing coaches, S&C staff, and players with actionable insights.
+
+North Harbour Rugby: Integrated Work Rate Report
+Match: Bunnings NPC - North Harbour vs. Hawke's Bay
+Date: Sunday, 11 August 2024
+Venue: North Harbour Stadium
+Final Score: NH 32 - 41 HB
+
+1. Report Objective
+This report synthesizes traditional match event data (OPTA) with player tracking data (GPS) to provide a holistic view of individual work rate. The objective is to move beyond simple statistics and quantify the physical cost of a player's actions on the field. By combining what a player did (OPTA) with how they did it (GPS), we can make more informed decisions regarding training load, recovery protocols, and tactical execution.
+
+2. Key Performance Indicator (KPI) Definitions
+OPTA Stats: Standard rugby events (Carries, Tackles, Metres, etc.).
+GPS Metrics (Assumed Data):
+Total Distance (m): Total metres covered during the match.
+Distance Per Minute (m/min): Work rate intensity independent of total minutes played.
+High-Speed Running - HSR (m): Distance covered above 20 km/h, indicating efforts in open play.
+High Metabolic Load Distance - HMLD (m): Distance covered during intense accelerations, decelerations, and changes of direction. A key indicator of work in confined spaces (e.g., breakdown, defensive line sets).
+Max Speed (km/h): The player's peak speed achieved during the match.
+Accelerations/Decelerations: Number of explosive efforts, crucial for beating defenders or making cover tackles.
+Dynamic Stress Load (DSL): A composite score measuring the total physiological and biomechanical load on the body.
+Time in Red Zone (min): Time spent operating at over 85% of max heart rate, indicating periods of maximum physiological exertion.
+3. Individual Player Work Rate Analysis
+Here is a sample analysis for a forward, a loose forward, and a back to demonstrate the positional differences in work rate.
+
+Player: #2 Kalolo Tuiloma (Hooker)
+Match Contributions (OPTA Data):
+
+Minutes Played: 48
+Set Piece: Flawless at the lineout, hitting 7/7 of his targets.
+Defence: A perfect 100% tackle success rate (11/11) and a crucial turnover won.
+Attack: 5 carries for 11 metres, showing involvement in tight exchanges.
+Physical Output (Assumed GPS Data):
+
+Total Distance: 4,500m
+Distance Per Minute: 93.8 m/min
+HSR / HMLD: 150m / 650m
+Accelerations (>3m/s²): 35
+Dynamic Stress Load (DSL): 550 units
+Time in Red Zone: 18 minutes
+Integrated Work Rate Analysis:
+Tuiloma's report exemplifies the modern hooker's role. His high HMLD (650m) relative to his HSR (150m) confirms his work was concentrated in short, explosive bursts around the scrum, maul, and breakdown, which is corroborated by his high number of accelerations (35) and perfect tackle stats. His 93.8 m/min is a solid output for a front-rower, and spending 18 of his 48 minutes in the Red Zone highlights the immense physical toll of his scrummaging and defensive duties. This was a high-impact, efficient performance.
+
+Player: #7 Karl Ruzich (Openside Flanker)
+Match Contributions (OPTA Data):
+
+Minutes Played: 80
+Defence: Team-high 22 tackles, demonstrating immense defensive involvement across the park.
+Attack: Scored a try, made 10 carries for a strong 79 metres, including one clean break.
+Involvement: Made 6 passes, indicating a role in linking play.
+Physical Output (Assumed GPS Data):
+
+Total Distance: 7,200m
+Distance Per Minute: 90.0 m/min
+HSR / HMLD: 750m / 1100m
+Accelerations (>3m/s²): 45
+Dynamic Stress Load (DSL): 780 units
+Time in Red Zone: 35 minutes
+Integrated Work Rate Analysis:
+Ruzich’s profile is a textbook example of a high-volume loose forward. His team-leading 22 tackles directly correlates with his exceptional DSL (780 units) and Time in Red Zone (35 mins), indicating a relentless physical output for the full 80 minutes. The combination of high HSR (750m) and even higher HMLD (1100m) shows he not only covered the ground between rucks but was also heavily involved in the contact and contest phases. This dual capability is what makes him so effective and underscores the significant load he managed.
+
+Player: #15 Shaun Stevenson (Fullback)
+Match Contributions (OPTA Data):
+
+Minutes Played: 80
+Attack: A dominant attacking performance with a try, a team-high 187 metres carried, 4 clean breaks, and 10 defenders beaten.
+Kicking Game: A key contributor with multiple kicks from hand.
+Defence: A perfect 100% tackle success rate (5/5) in crucial last-line situations.
+Physical Output (Assumed GPS Data):
+
+Total Distance: 8,100m
+Distance Per Minute: 101.3 m/min
+HSR / HMLD: 1200m / 950m
+Max Speed: 35.5 km/h
+No. of Sprints: 30
+Time in Red Zone: 30 minutes
+Integrated Work Rate Analysis:
+Stevenson's GPS data confirms what the OPTA stats suggest: he was the team's primary attacking weapon. His exceptional Distance per Minute (101.3m) and massive HSR distance (1200m) reflect his role covering the backfield and injecting himself into the line on kick returns and counter-attacks. Reaching a Max Speed of 35.5 km/h during one of his 30 sprints likely corresponds to one of his 4 clean breaks. While his tackle count is lower, the high-stakes nature of a fullback's defensive duties requires constant positional work, contributing to his high total distance. This was an explosive, high-intensity performance.
+
+4. Application within the North Harbour Performance App
+This integrated report is the exact type of analysis we should build into the next module of our performance app.
+
+Dashboard View: A team dashboard visualizing these integrated metrics, allowing coaches to see at a glance who had the highest physical load (DSL) versus their on-field impact (OPTA KPIs).
+Player Profiles: Each player can log in to see their own report, comparing their match data to their personal baseline and positional averages. This empowers them to take ownership of their performance and recovery.
+Automated Insights: We can develop algorithms to flag potential issues, such as a player with a high DSL but low on-field involvements (suggesting inefficient work) or a player whose GPS numbers are trending downwards week-over-week (a potential sign of fatigue or injury risk).
+By building this capability, we provide North Harbour with a genuine competitive advantage, turning raw data into a strategic asset for winning more games.
