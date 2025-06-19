@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import logoPath from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +14,6 @@ import {
   FileText,
   Shield,
   AlertTriangle,
-  ArrowLeft,
   Settings,
   Bell,
   Heart,
@@ -38,7 +37,6 @@ import {
   Timer,
   CalendarPlus,
   Brain,
-  Home,
   User,
   Send,
   Save
@@ -644,47 +642,21 @@ export default function MedicalHub() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Medical Hub Header */}
-      <div className="bg-blue-700 text-white p-6 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-blue-800">
-                  <ArrowLeft size={16} className="mr-2" />
-                  Back to Home
-                </Button>
-              </Link>
-              <img 
-                src={logoPath} 
-                alt="North Harbour Rugby" 
-                className="h-12 w-auto"
-              />
-              <div>
-                <h1 className="text-2xl font-bold flex items-center">
-                  <Stethoscope className="mr-3" size={28} />
-                  Medical Intelligence Hub
-                </h1>
-                <div className="flex items-center gap-2 text-sm text-blue-200">
-                  <Link href="/" className="hover:text-white">Home</Link>
-                  <span>›</span>
-                  <span className="text-white">Medical Hub</span>
-                </div>
-                <p className="text-blue-100 text-sm mt-1">Player Health & Performance Management</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-800">
-                <Bell size={16} className="mr-2" />
-                Alerts
-              </Button>
-              <Button variant="ghost" size="sm" className="text-white hover:bg-blue-800">
-                <Settings size={16} />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Medical Intelligence Hub"
+        description="Player Health & Performance Management"
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Medical Hub" }
+        ]}
+        badges={[
+          { text: `${injuredPlayers.length} Injured`, className: "bg-red-600 text-white" },
+          { text: `${atRiskPlayers.length} At Risk`, className: "bg-orange-600 text-white" },
+          { text: "Live Medical Data", className: "bg-white text-nh-red" }
+        ]}
+        backUrl="/"
+        backLabel="Back to Portal"
+      />
 
       <div className="container mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

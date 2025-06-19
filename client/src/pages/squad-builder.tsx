@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import NavigationHeader from "@/components/navigation-header";
 import { 
   Users, 
   Plus, 
@@ -29,7 +30,6 @@ import {
   TrendingUp,
   Award
 } from "lucide-react";
-import nhLogo from "@assets/menulogo_wo.png";
 
 interface Player {
   id: string;

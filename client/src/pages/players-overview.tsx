@@ -95,36 +95,20 @@ export default function PlayersOverview() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-nh-red text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="outline" size="sm" className="text-nh-red border-white hover:bg-white hover:text-nh-red">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Dashboard
-                </Button>
-              </Link>
-              <img src={logoPath} alt="North Harbour Rugby" className="h-12 w-auto" />
-              <div>
-                <h1 className="text-2xl font-bold">Player Management Portal</h1>
-                <p className="text-blue-100">North Harbour Rugby Performance Hub</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-nh-red">
-                <Bell className="w-4 h-4 mr-2" />
-                Notifications
-              </Button>
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-nh-red">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Player Management Portal"
+        description="North Harbour Rugby Performance Hub"
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Players" }
+        ]}
+        badges={[
+          { text: `${players.length} Players`, className: "bg-white text-nh-red" },
+          { text: "Active Squad", className: "bg-nh-red-700 text-white" }
+        ]}
+        backUrl="/"
+        backLabel="Back to Portal"
+      />
 
       <div className="container mx-auto px-4 py-8">
         {/* Search and Filter Controls */}
