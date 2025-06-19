@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import logoPath from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -203,42 +203,21 @@ export default function WorkRateReport() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-nh-red text-white p-6 shadow-lg">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/analytics">
-                <Button variant="ghost" size="sm" className="text-white hover:bg-red-700">
-                  <ArrowLeft size={16} className="mr-2" />
-                  Back to Analytics
-                </Button>
-              </Link>
-              <img 
-                src={logoPath} 
-                alt="North Harbour Rugby" 
-                className="h-12 w-auto"
-              />
-              <div>
-                <h1 className="text-2xl font-bold">Work Rate Report</h1>
-                <div className="flex items-center gap-2 text-sm text-nh-red-200">
-                  <Link href="/" className="hover:text-white">Home</Link>
-                  <span>›</span>
-                  <Link href="/analytics" className="hover:text-white">Analytics</Link>
-                  <span>›</span>
-                  <span className="text-white">Work Rate Report</span>
-                </div>
-                <p className="text-red-100 text-sm mt-1">Integrated OPTA & GPS Analysis</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-sm text-red-100">{matchData.match}</div>
-              <div className="text-xs text-red-200">{matchData.date} • {matchData.venue}</div>
-              <Badge className="mt-1 bg-red-700 text-white">{matchData.finalScore}</Badge>
-            </div>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Work Rate Report"
+        description="Integrated OPTA & GPS Analysis"
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Analytics", href: "/analytics" },
+          { label: "Work Rate Report" }
+        ]}
+        badges={[
+          { text: matchData.finalScore, className: "bg-nh-red-700 text-white" },
+          { text: "Live Match Data", className: "bg-white text-nh-red" }
+        ]}
+        backUrl="/analytics"
+        backLabel="Back to Analytics"
+      />
 
       <div className="container mx-auto p-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

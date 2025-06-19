@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { TrendingUp, TrendingDown, Users, Target, Award, AlertTriangle, BarChart3, LineChart, Activity, Heart, Calendar, Trophy, Shield, Zap } from "lucide-react";
-import nhLogo from "@assets/menulogo_wo.png";
+import NavigationHeader from "@/components/navigation-header";
 
 interface AnalyticsCard {
   id: string;
@@ -287,22 +287,20 @@ export default function AnalyticsOverview() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-nh-red text-white p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <img src={nhLogo} alt="North Harbour Rugby" className="h-12 w-12" />
-            <div>
-              <h1 className="text-3xl font-bold">Analytics Overview</h1>
-              <p className="text-nh-red-200">Squad Analytics & Performance Intelligence</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <Badge className="bg-white text-nh-red">2024 Season</Badge>
-            <Badge className="bg-nh-red-700 text-white">Live Data</Badge>
-          </div>
-        </div>
-      </div>
+      <NavigationHeader
+        title="Analytics Overview"
+        description="Squad Analytics & Performance Intelligence"
+        breadcrumbs={[
+          { label: "Portal", href: "/" },
+          { label: "Analytics" }
+        ]}
+        badges={[
+          { text: "2024 Season", className: "bg-white text-nh-red" },
+          { text: "Live Data", className: "bg-nh-red-700 text-white" }
+        ]}
+        backUrl="/"
+        backLabel="Back to Portal"
+      />
 
       <div className="p-6">
         {/* Category Filters */}
