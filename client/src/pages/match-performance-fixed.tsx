@@ -640,6 +640,7 @@ const IndividualPerformanceSection = () => {
 
 export default function MatchPerformance() {
   const [activeTab, setActiveTab] = useState("possession_territory");
+  const [selectedTeam, setSelectedTeam] = useState<"north_harbour" | "opposition">("north_harbour");
   // Get matchId from URL params - for now using default since we need to fix routing
   const matchId = "nh_vs_auckland_2024";
   const match = sampleMatchPerformance.matchInfo;
@@ -700,6 +701,44 @@ export default function MatchPerformance() {
               <Badge className="bg-green-600 hover:bg-green-700 mt-2">
                 {match.result}
               </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Team Perspective Toggle */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Analysis Perspective</h3>
+              <p className="text-gray-600 text-sm">Choose which team's performance to analyze in detail</p>
+            </div>
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <Button
+                variant={selectedTeam === "north_harbour" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedTeam("north_harbour")}
+                className={`px-4 py-2 ${
+                  selectedTeam === "north_harbour" 
+                    ? "bg-nh-red text-white hover:bg-nh-red-700" 
+                    : "text-gray-600 hover:text-gray-800"
+                }`}
+              >
+                North Harbour
+              </Button>
+              <Button
+                variant={selectedTeam === "opposition" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedTeam("opposition")}
+                className={`px-4 py-2 ${
+                  selectedTeam === "opposition" 
+                    ? "bg-gray-800 text-white hover:bg-gray-900" 
+                    : "text-gray-600 hover:text-gray-800"
+                }`}
+              >
+                {match.opponent}
+              </Button>
             </div>
           </div>
         </CardContent>

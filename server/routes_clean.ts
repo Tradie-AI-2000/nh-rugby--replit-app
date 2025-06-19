@@ -228,6 +228,86 @@ export function registerRoutes(app: Express): Server {
     }
   }
 
+  // Gemini AI Analysis Routes
+  app.post("/api/gemini/analyze-section", async (req, res) => {
+    try {
+      const { sectionId, matchData, teamStats, playerPerformances } = req.body;
+      
+      const analysisRequest = {
+        sectionId,
+        matchData,
+        teamStats,
+        playerPerformances
+      };
+      
+      const analysis = await geminiAnalyst.analyzeMatchSection(analysisRequest);
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error generating Gemini analysis:", error);
+      res.status(500).json({ error: "Failed to generate AI analysis" });
+    }
+  });
+
+  // Sample analytics data
+  app.get('/api/analytics/overview', (req, res) => {
+    res.json({
+      teamMetrics: {
+        totalPlayers: northHarbourPlayers.length,
+        activePlayers: northHarbourPlayers.filter(p => p.currentStatus === 'Fit').length,
+        averageAge: 24.5,
+        winRate: 0.67
+      }
+    });
+  });
+
+  // Team cohesion data
+  app.get('/api/team/cohesion/twi-progression/2024', (req, res) => {
+    res.json([
+      { month: 'January', twiScore: 22.1, inSeasonCohesion: 485 },
+      { month: 'February', twiScore: 23.4, inSeasonCohesion: 502 },
+      { month: 'March', twiScore: 24.1, inSeasonCohesion: 512 }
+    ]);
+  });
+
+  // Team performance overview
+  app.get('/api/team/performance/overview', (req, res) => {
+    res.json({
+      winRate: 67,
+      pointsFor: 385,
+      pointsAgainst: 298,
+      matchesPlayed: 12
+    });
+  });
+
+  // Medical overview
+  app.get('/api/team/medical/overview', (req, res) => {
+    res.json({
+      injuryRate: 6.4,
+      playersAvailable: 42,
+      totalPlayers: 45,
+      averageRecovery: 12
+    });
+  });
+
+  // Fitness overview
+  app.get('/api/team/fitness/overview', (req, res) => {
+    res.json({
+      averageFitness: 89,
+      trainingAttendance: 94,
+      loadManagement: 'Optimal'
+    });
+  });
+
+  // Try analysis season data
+  app.get('/api/try-analysis/season/2024', (req, res) => {
+    res.json({
+      totalTries: 45,
+      averagePerMatch: 3.2,
+      homeAdvantage: 12,
+      awayTries: 20
+    });
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
