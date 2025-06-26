@@ -813,24 +813,24 @@ export default function MedicalHub() {
                     <div className="space-y-3">
                       {atRiskPlayers.map((player, index) => (
                         <div key={index} className={`p-3 rounded-lg border transition-all hover:shadow-md ${
-                          player.riskLevel === "high" ? "bg-red-50 border-red-200" : "bg-amber-50 border-amber-200"
+                          player.injuryRisk === "high" ? "bg-red-50 border-red-200" : "bg-amber-50 border-amber-200"
                         }`}>
                           <div className="flex items-center justify-between">
                             <div>
                               <div className="font-medium text-sm">{player.name}</div>
                               <div className="text-xs text-gray-600">{player.position}</div>
                             </div>
-                            <Badge className={`text-xs ${getRiskLevelColor(player.riskLevel)}`}>
-                              {player.riskLevel}
+                            <Badge className={`text-xs ${getRiskLevelColor(player.injuryRisk)}`}>
+                              {player.injuryRisk}
                             </Badge>
                           </div>
                           <div className={`text-xs mt-1 font-medium ${
-                            player.riskLevel === "high" ? "text-red-700" : "text-amber-700"
+                            player.injuryRisk === "high" ? "text-red-700" : "text-amber-700"
                           }`}>
-                            {player.riskFactor}
+                            ACWR Ratio: {player.acwrRatio}
                           </div>
                           <div className="text-xs text-gray-600 mt-1">
-                            {player.details}
+                            Last Assessment: {player.lastAssessment}
                           </div>
                         </div>
                       ))}
@@ -1078,15 +1078,15 @@ export default function MedicalHub() {
                         </div>
                         <div>
                           <h2 className="text-xl font-bold">
-                            {selectedPlayerData?.personalDetails?.firstName} {selectedPlayerData?.personalDetails?.lastName}
+                            {selectedPlayerData?.name || "Player Name"}
                           </h2>
                           <p className="text-gray-600">
-                            {selectedPlayerData?.rugbyProfile?.primaryPosition} • Jersey #{selectedPlayerData?.rugbyProfile?.jerseyNumber}
+                            {selectedPlayerData?.position || "Position"} • Jersey #{selectedPlayerData?.jerseyNumber || "N/A"}
                           </p>
                           <div className="flex items-center space-x-2 mt-2">
-                            {getStatusIcon(selectedPlayerData?.status?.medical || "available")}
-                            <Badge variant={selectedPlayerData?.status?.medical === "available" ? "default" : "destructive"}>
-                              {selectedPlayerData?.status?.medical || "Available"}
+                            {getStatusIcon(selectedPlayerData?.status || "available")}
+                            <Badge variant={selectedPlayerData?.status === "available" ? "default" : "destructive"}>
+                              {selectedPlayerData?.status || "Available"}
                             </Badge>
                           </div>
                         </div>
@@ -1251,8 +1251,8 @@ export default function MedicalHub() {
                                   <div className="text-gray-600">
                                     {exercise.sets && `${exercise.sets} sets`}
                                     {exercise.reps && ` × ${exercise.reps} reps`}
-                                    {exercise.duration && exercise.duration}
-                                    {exercise.distance && exercise.distance}
+                                    {(exercise as any).duration && ` • ${(exercise as any).duration}`}
+                                    {(exercise as any).distance && ` • ${(exercise as any).distance}`}
                                     • {exercise.frequency}
                                   </div>
                                 </div>
