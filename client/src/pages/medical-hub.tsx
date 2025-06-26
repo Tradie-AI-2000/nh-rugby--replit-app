@@ -1078,15 +1078,15 @@ export default function MedicalHub() {
                         </div>
                         <div>
                           <h2 className="text-xl font-bold">
-                            {selectedPlayerData?.name || "Player Name"}
+                            {(selectedPlayerData as any)?.name || "Player Name"}
                           </h2>
                           <p className="text-gray-600">
-                            {selectedPlayerData?.position || "Position"} • Jersey #{selectedPlayerData?.jerseyNumber || "N/A"}
+                            {(selectedPlayerData as any)?.position || "Position"} • Jersey #{(selectedPlayerData as any)?.jerseyNumber || "N/A"}
                           </p>
                           <div className="flex items-center space-x-2 mt-2">
-                            {getStatusIcon(selectedPlayerData?.status || "available")}
-                            <Badge variant={selectedPlayerData?.status === "available" ? "default" : "destructive"}>
-                              {selectedPlayerData?.status || "Available"}
+                            {getStatusIcon((selectedPlayerData as any)?.status || "available")}
+                            <Badge variant={(selectedPlayerData as any)?.status === "available" ? "default" : "destructive"}>
+                              {(selectedPlayerData as any)?.status || "Available"}
                             </Badge>
                           </div>
                         </div>
@@ -1576,7 +1576,7 @@ export default function MedicalHub() {
                 </div>
 
                 <div className="space-y-3">
-                  {appointments.map((appointment) => (
+                  {(appointments as any[]).map((appointment: any) => (
                     <div key={appointment.id} className={`border rounded-lg p-3 ${
                       appointment.status === "completed" ? "bg-gray-50" : "bg-white"
                     }`}>
