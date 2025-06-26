@@ -39,7 +39,8 @@ import {
   Brain,
   User,
   Send,
-  Save
+  Save,
+  ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -478,6 +479,10 @@ export default function MedicalHub() {
   const [showCommunication, setShowCommunication] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // Filter players by medical status
+  const injuredPlayers = squadMedicalStatus.filter(player => player.status === "injured");
+  const atRiskPlayers = squadMedicalStatus.filter(player => player.injuryRisk === "high" || player.injuryRisk === "moderate");
 
   const [treatmentForm, setTreatmentForm] = useState({
     playerId: "",
