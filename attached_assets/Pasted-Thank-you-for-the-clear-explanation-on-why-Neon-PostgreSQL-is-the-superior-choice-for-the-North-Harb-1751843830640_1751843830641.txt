@@ -1,0 +1,39 @@
+Thank you for the clear explanation on why Neon PostgreSQL is the superior choice for the North Harbour Rugby app's database. I understand its advantages for performance, scaling, and cost efficiency.
+
+However, for the purpose of long-term operational management and eventual handover to North Harbour Rugby staff (who are not developers), I need a comprehensive, simple explanation of the database setup and integration.
+
+Please provide a detailed, step-by-step guide for non-technical rugby staff on the following:
+
+How to Locate and Access the Backend Database (Neon PostgreSQL):
+
+Where exactly do they go to see the database? Is there a specific Neon portal or tool?
+
+What credentials or access methods would they use?
+
+Can they view the actual tables and the data within them?
+
+How to Manually View and Change Data Directly in the Database:
+
+What is the simplest, most user-friendly way for them to browse and potentially make small, direct edits to player profiles, injury statuses, or other data points, if absolutely necessary? (e.g., using a web-based interface like Neon's console or a simple database client).
+
+Are there any critical warnings or best practices they need to be aware of to avoid accidental data corruption?
+
+How to Automatically Upload and Integrate Data with the Frontend (Leveraging Google Sheets):
+
+Please re-explain, in simple terms, the end-to-end process from a staff member's perspective:
+
+Where do they make their data changes (e.g., in a specific Google Sheet)?
+
+How do these changes get from the Google Sheet into the Neon PostgreSQL database? (e.g., "click this button in the app," "data syncs every hour automatically," "run this simple script").
+
+Once the data is in the database, how does it then appear on the frontend of the North Harbour Rugby app? Is there an automatic refresh, or do they need to do something?
+
+Specifically, confirm how the existing POST /api/sheets/sync-all and POST /api/sheets/sync-matches endpoints are triggered and how they interact with Neon.
+
+Understanding and Controlling Costs:
+
+Since Neon is "pay-as-you-go," how can non-technical staff easily monitor the database usage and understand the associated costs? Is there a specific dashboard in Neon?
+
+What are the main drivers of cost they should be aware of (e.g., number of queries, storage, data transfer)?
+
+Essentially, I need to understand the "user experience" of managing the data for a non-technical person from end-to-end, considering Neon PostgreSQL as the core database, and Google Sheets as the primary data input method for staff."
