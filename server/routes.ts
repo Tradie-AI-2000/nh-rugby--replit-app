@@ -3988,4 +3988,96 @@ NH003,2025-01-15,,,Available,90,Return to play protocol`
       res.status(500).json({ error: "Failed to get training sessions" });
     }
   });
+
+  // Submit fitness test data
+  app.post("/api/sc/fitness-tests", async (req, res) => {
+    try {
+      const { playerId, testType, score, unit, date, notes } = req.body;
+      
+      // Insert into player test results (using existing structure)
+      const player = await storage.getPlayer(playerId);
+      if (!player) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+
+      // Add to test results array
+      const updatedTestResults = [
+        ...(player.testResults || []),
+        {
+          date,
+          testType,
+          value: score,
+          unit,
+          notes
+        }
+      ];
+
+      // Update player with new test result
+      await storage.updatePlayer(playerId, {
+        testResults: updatedTestResults
+      });
+
+      res.json({ 
+        success: true, 
+        message: "Fitness test data added successfully",
+        testResult: {
+          date,
+          testType,
+          value: score,
+          unit,
+          notes
+        }
+      });
+    } catch (error) {
+      console.error("Error submitting fitness test:", error);
+      res.status(500).json({ error: "Failed to submit fitness test data" });
+    }
+  });
+
+  // Get position-based fitness comparisons
+  app.get("/api/sc/position-comparisons/:position", async (req, res) => {
+    try {
+      const { position } = req.params;
+      const { testType } = req.query;
+      
+      const players = await storage.getPlayers();
+      const positionPlayers = players.filter(p => 
+        p.rugbyProfile?.primaryPosition === position || 
+        p.rugbyProfile?.secondaryPositions?.includes(position)
+      );
+
+      const comparisons = positionPlayers.map(player => {
+        const latestTest = player.testResults
+          ?.filter(test => testType ? test.testType === testType : true)
+          ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+
+        return {
+          playerId: player.id,
+          playerName: `${player.personalDetails.firstName} ${player.personalDetails.lastName}`,
+          jerseyNumber: player.rugbyProfile?.jerseyNumber,
+          latestScore: latestTest ? {
+            value: latestTest.value,
+            unit: latestTest.unit,
+            date: latestTest.date,
+            testType: latestTest.testType
+          } : null
+        };
+      });
+
+      res.json({
+        position,
+        testType: testType || 'all',
+        playerCount: comparisons.length,
+        comparisons: comparisons.sort((a, b) => {
+          if (!a.latestScore && !b.latestScore) return 0;
+          if (!a.latestScore) return 1;
+          if (!b.latestScore) return -1;
+          return b.latestScore.value - a.latestScore.value;
+        })
+      });
+    } catch (error) {
+      console.error("Error getting position comparisons:", error);
+      res.status(500).json({ error: "Failed to get position comparisons" });
+    }
+  });
 }
