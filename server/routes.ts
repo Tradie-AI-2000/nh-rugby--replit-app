@@ -9,7 +9,8 @@ import { importMoneyBallPlayers } from "./moneyBallDataImport";
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
 import { dataUpdateService, type MedicalAppointment, type TrainingAttendance } from "./dataUpdateService";
 import { dataIntegrityManager } from "./dataIntegrityManager";
-import { matchTryData, seasonAnalysis, squads, squadSelections, squadAdvice, type InsertMatchTryData, type InsertSeasonAnalysis, type InsertSquad, type InsertSquadSelection, type InsertSquadAdvice } from "@shared/schema";
+import { scAnalyticsService } from "./scAnalytics";
+import { matchTryData, seasonAnalysis, squads, squadSelections, squadAdvice, playerWellness, injuryRiskFlags, playerLoadTargets, loadAnalytics, trainingSessions, type InsertMatchTryData, type InsertSeasonAnalysis, type InsertSquad, type InsertSquadSelection, type InsertSquadAdvice } from "@shared/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { db } from "./db";
 
@@ -3699,6 +3700,292 @@ NH003,2025-01-15,,,Available,90,Return to play protocol`
     } catch (error) {
       console.error("Error validating data:", error);
       res.status(500).json({ error: "Failed to validate data" });
+    }
+  });
+
+  // ==========================================
+  // STRENGTH & CONDITIONING PORTAL API ROUTES
+  // ==========================================
+
+  // Get squad overview for S&C dashboard
+  app.get("/api/sc/squad-overview", async (req, res) => {
+    try {
+      const overview = await scAnalyticsService.getSquadOverview();
+      res.json(overview);
+    } catch (error) {
+      console.error("Error getting squad overview:", error);
+      res.status(500).json({ error: "Failed to get squad overview" });
+    }
+  });
+
+  // Get daily readiness view for all players
+  app.get("/api/sc/daily-readiness", async (req, res) => {
+    try {
+      const readinessData = await scAnalyticsService.getDailyReadinessView();
+      res.json(readinessData);
+    } catch (error) {
+      console.error("Error getting daily readiness:", error);
+      res.status(500).json({ error: "Failed to get daily readiness data" });
+    }
+  });
+
+  // Get detailed player analytics for S&C
+  app.get("/api/sc/player-analytics/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const analytics = await scAnalyticsService.getPlayerDeepDive(playerId);
+      res.json(analytics);
+    } catch (error) {
+      console.error("Error getting player analytics:", error);
+      res.status(500).json({ error: "Failed to get player analytics" });
+    }
+  });
+
+  // Submit wellness entry
+  app.post("/api/sc/wellness", async (req, res) => {
+    try {
+      const { playerId, date, sleepQuality, muscleSoreness, fatigueLevel, stressLevel, mood, notes, readinessScore } = req.body;
+      
+      // Calculate readiness score using service method
+      const calculatedReadiness = scAnalyticsService.calculateReadinessScore({
+        sleepQuality, muscleSoreness, fatigueLevel, stressLevel, mood
+      });
+
+      // Insert wellness entry into database
+      const wellnessEntry = await db.insert(playerWellness).values({
+        playerId,
+        date,
+        sleepQuality,
+        muscleSoreness, 
+        fatigueLevel,
+        stressLevel,
+        mood,
+        readinessScore: calculatedReadiness,
+        notes
+      }).returning();
+
+      // Check for wellness-based injury risk flags
+      if (calculatedReadiness < 60) {
+        await db.insert(injuryRiskFlags).values({
+          playerId,
+          flagType: 'wellness_drop',
+          riskLevel: calculatedReadiness < 50 ? 'high' : 'moderate',
+          triggerValue: calculatedReadiness,
+          threshold: 70,
+          description: `Low wellness readiness score: ${calculatedReadiness}%`,
+          dataSource: 'wellness',
+          recommendedActions: ['Monitor closely', 'Consider modified training load', 'Extra recovery protocols']
+        });
+      }
+
+      res.json({ success: true, wellnessEntry: wellnessEntry[0], readinessScore: calculatedReadiness });
+    } catch (error) {
+      console.error("Error submitting wellness entry:", error);
+      res.status(500).json({ error: "Failed to submit wellness entry" });
+    }
+  });
+
+  // Submit GPS data
+  app.post("/api/sc/gps-data", async (req, res) => {
+    try {
+      const gpsEntry = req.body;
+      const result = await scAnalyticsService.processGPSData(gpsEntry);
+      res.json({ success: true, data: result });
+    } catch (error) {
+      console.error("Error processing GPS data:", error);
+      res.status(500).json({ error: "Failed to process GPS data" });
+    }
+  });
+
+  // Set load targets for a player
+  app.post("/api/sc/load-targets", async (req, res) => {
+    try {
+      const { playerId, weekStarting, weeklyHmlTarget, dailyHmlTarget, weeklyPlayerLoadTarget, weeklyDistanceTarget, weeklyHsrTarget, setBy, notes } = req.body;
+
+      const targets = await db.insert(playerLoadTargets).values({
+        playerId,
+        weekStarting,
+        weeklyHmlTarget,
+        dailyHmlTarget,
+        weeklyPlayerLoadTarget,
+        weeklyDistanceTarget,
+        weeklyHsrTarget,
+        setBy,
+        notes
+      }).returning();
+
+      res.json({ success: true, targets: targets[0] });
+    } catch (error) {
+      console.error("Error setting load targets:", error);
+      res.status(500).json({ error: "Failed to set load targets" });
+    }
+  });
+
+  // Check load targets for a player and week
+  app.get("/api/sc/load-targets/:playerId/:weekStarting", async (req, res) => {
+    try {
+      const { playerId, weekStarting } = req.params;
+      const targetCheck = await scAnalyticsService.checkLoadTargets(playerId, weekStarting);
+      res.json(targetCheck);
+    } catch (error) {
+      console.error("Error checking load targets:", error);
+      res.status(500).json({ error: "Failed to check load targets" });
+    }
+  });
+
+  // Get cumulative load analysis
+  app.get("/api/sc/cumulative-load/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const weeks = parseInt(req.query.weeks as string) || 4;
+      const loadAnalysis = await scAnalyticsService.calculateCumulativeLoad(playerId, weeks);
+      res.json(loadAnalysis);
+    } catch (error) {
+      console.error("Error getting cumulative load:", error);
+      res.status(500).json({ error: "Failed to get cumulative load analysis" });
+    }
+  });
+
+  // Get wellness correlations for a player
+  app.get("/api/sc/wellness-correlations/:playerId", async (req, res) => {
+    try {
+      const { playerId } = req.params;
+      const days = parseInt(req.query.days as string) || 30;
+      const correlations = await scAnalyticsService.analyzeWellnessCorrelations(playerId, days);
+      res.json(correlations);
+    } catch (error) {
+      console.error("Error analyzing wellness correlations:", error);
+      res.status(500).json({ error: "Failed to analyze wellness correlations" });
+    }
+  });
+
+  // Get injury risk flags
+  app.get("/api/sc/injury-flags", async (req, res) => {
+    try {
+      const playerId = req.query.playerId as string;
+      const trends = await scAnalyticsService.analyzeInjuryTrends(playerId);
+      res.json(trends);
+    } catch (error) {
+      console.error("Error getting injury flags:", error);
+      res.status(500).json({ error: "Failed to get injury risk analysis" });
+    }
+  });
+
+  // Acknowledge/resolve injury risk flag
+  app.patch("/api/sc/injury-flags/:flagId", async (req, res) => {
+    try {
+      const { flagId } = req.params;
+      const { status, acknowledgedBy } = req.body;
+
+      const updatedFlag = await db.update(injuryRiskFlags)
+        .set({
+          status,
+          acknowledgedBy,
+          acknowledgedAt: status === 'acknowledged' ? new Date() : undefined,
+          resolvedAt: status === 'resolved' ? new Date() : undefined
+        })
+        .where(eq(injuryRiskFlags.id, parseInt(flagId)))
+        .returning();
+
+      res.json({ success: true, flag: updatedFlag[0] });
+    } catch (error) {
+      console.error("Error updating injury flag:", error);
+      res.status(500).json({ error: "Failed to update injury flag" });
+    }
+  });
+
+  // Bulk GPS data import (for StatSports integration)
+  app.post("/api/sc/gps-data/bulk", async (req, res) => {
+    try {
+      const { sessions } = req.body;
+      const results = [];
+
+      for (const session of sessions) {
+        try {
+          const result = await scAnalyticsService.processGPSData(session);
+          results.push({ success: true, sessionId: session.sessionId, data: result });
+        } catch (error) {
+          results.push({ success: false, sessionId: session.sessionId, error: error.message });
+        }
+      }
+
+      const successCount = results.filter(r => r.success).length;
+      const failCount = results.filter(r => !r.success).length;
+
+      res.json({
+        success: true,
+        processed: sessions.length,
+        successful: successCount,
+        failed: failCount,
+        results
+      });
+    } catch (error) {
+      console.error("Error processing bulk GPS data:", error);
+      res.status(500).json({ error: "Failed to process bulk GPS data" });
+    }
+  });
+
+  // Get load analytics summary for dashboard
+  app.get("/api/sc/load-analytics", async (req, res) => {
+    try {
+      const weekStarting = req.query.weekStarting as string;
+      const position = req.query.position as string;
+      
+      // Get load analytics data based on filters
+      let query = db.select().from(loadAnalytics);
+      
+      if (weekStarting) {
+        query = query.where(eq(loadAnalytics.weekStarting, weekStarting));
+      }
+
+      const analyticsData = await query;
+      
+      // Additional processing could be done here for position filtering
+      res.json(analyticsData);
+    } catch (error) {
+      console.error("Error getting load analytics:", error);
+      res.status(500).json({ error: "Failed to get load analytics" });
+    }
+  });
+
+  // Create training session
+  app.post("/api/sc/training-sessions", async (req, res) => {
+    try {
+      const sessionData = req.body;
+      
+      const session = await db.insert(trainingSessions).values({
+        id: `session_${Date.now()}`,
+        ...sessionData,
+        createdBy: sessionData.createdBy || 'sc_staff'
+      }).returning();
+
+      res.json({ success: true, session: session[0] });
+    } catch (error) {
+      console.error("Error creating training session:", error);
+      res.status(500).json({ error: "Failed to create training session" });
+    }
+  });
+
+  // Get training sessions
+  app.get("/api/sc/training-sessions", async (req, res) => {
+    try {
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+      
+      let query = db.select().from(trainingSessions);
+      
+      if (startDate && endDate) {
+        query = query.where(and(
+          gte(trainingSessions.date, startDate),
+          lte(trainingSessions.date, endDate)
+        ));
+      }
+      
+      const sessions = await query.orderBy(desc(trainingSessions.date));
+      res.json(sessions);
+    } catch (error) {
+      console.error("Error getting training sessions:", error);
+      res.status(500).json({ error: "Failed to get training sessions" });
     }
   });
 }

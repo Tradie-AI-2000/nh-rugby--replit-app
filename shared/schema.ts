@@ -1027,3 +1027,225 @@ export type SquadSelection = typeof squadSelections.$inferSelect;
 export type InsertSquadSelection = typeof squadSelections.$inferInsert;
 export type SquadAdvice = typeof squadAdvice.$inferSelect;
 export type InsertSquadAdvice = typeof squadAdvice.$inferInsert;
+
+// ===== S&C PORTAL: NEW TABLES =====
+
+// Enhanced GPS Data Table for S&C Portal
+export const gpsData = pgTable("gps_data", {
+  id: serial("id").primaryKey(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  sessionId: text("session_id").notNull(), // Links to training session
+  sessionType: text("session_type").notNull(), // 'training', 'match', 'recovery'
+  date: text("date").notNull(),
+  ballInPlayMinutes: real("ball_in_play_minutes").default(0),
+  
+  // Core GPS Metrics
+  totalDistance: real("total_distance").default(0), // meters
+  highSpeedRunning: real("high_speed_running").default(0), // meters above 20km/h
+  hmlDistance: real("hml_distance").default(0), // High Metabolic Load distance
+  hmlEffortsPerMin: real("hml_efforts_per_min").default(0),
+  maxSpeed: real("max_speed").default(0), // km/h
+  accelerations: integer("accelerations").default(0),
+  decelerations: integer("decelerations").default(0),
+  collisions: integer("collisions").default(0),
+  
+  // Additional Performance Metrics
+  averageSpeed: real("average_speed").default(0),
+  sprintCount: integer("sprint_count").default(0),
+  playerLoad: real("player_load").default(0),
+  dynamicStressLoad: real("dynamic_stress_load").default(0),
+  
+  // Data Quality Indicators
+  gpsSignalStrength: real("gps_signal_strength").default(0), // percentage
+  satelliteCount: integer("satellite_count").default(0),
+  dataCompleteness: real("data_completeness").default(0), // percentage
+  
+  // Weather Context (for injury correlation)
+  temperature: real("temperature"),
+  humidity: real("humidity"),
+  windSpeed: real("wind_speed"),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Player Wellness Table
+export const playerWellness = pgTable("player_wellness", {
+  id: serial("id").primaryKey(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  date: text("date").notNull(),
+  
+  // Wellness Components (1-5 scale)
+  sleepQuality: integer("sleep_quality").notNull(), // 1-5
+  muscleSoreness: integer("muscle_soreness").notNull(), // 1-5
+  fatigueLevel: integer("fatigue_level").notNull(), // 1-5
+  stressLevel: integer("stress_level").notNull(), // 1-5
+  mood: integer("mood").notNull(), // 1-5
+  
+  // Calculated Readiness Score (derived from above)
+  readinessScore: real("readiness_score"), // 0-100
+  
+  // Optional Notes
+  notes: text("notes"),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Player Load Targets Table
+export const playerLoadTargets = pgTable("player_load_targets", {
+  id: serial("id").primaryKey(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  weekStarting: text("week_starting").notNull(), // ISO date string
+  
+  // Weekly HML Targets
+  weeklyHmlTarget: real("weekly_hml_target").notNull(), // meters
+  dailyHmlTarget: real("daily_hml_target").notNull(), // meters
+  
+  // Training Load Targets
+  weeklyPlayerLoadTarget: real("weekly_player_load_target"),
+  weeklyDistanceTarget: real("weekly_distance_target"),
+  weeklyHsrTarget: real("weekly_hsr_target"), // High Speed Running
+  
+  // Position-specific targets
+  positionMultiplier: real("position_multiplier").default(1.0),
+  
+  // Target rationale
+  setBy: text("set_by").notNull(), // User who set the target
+  notes: text("notes"),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Training Sessions Table
+export const trainingSessions = pgTable("training_sessions", {
+  id: text("id").primaryKey(),
+  date: text("date").notNull(),
+  sessionType: text("session_type").notNull(), // 'team_training', 'skills', 'conditioning', 'recovery'
+  duration: integer("duration").notNull(), // minutes
+  intensity: text("intensity").notNull(), // 'low', 'moderate', 'high', 'very_high'
+  
+  // Session Details
+  title: text("title").notNull(),
+  description: text("description"),
+  focusAreas: text("focus_areas").array().default([]), // ['fitness', 'skills', 'tactical']
+  
+  // Weather Conditions
+  weather: jsonb("weather").$type<{
+    temperature: number;
+    humidity: number;
+    windSpeed: number;
+    conditions: string;
+  }>(),
+  
+  // Session Outcomes
+  ballInPlayTime: real("ball_in_play_time"), // total BIP minutes for session
+  
+  createdBy: text("created_by").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Injury Risk Flags Table
+export const injuryRiskFlags = pgTable("injury_risk_flags", {
+  id: serial("id").primaryKey(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  flagType: text("flag_type").notNull(), // 'load_spike', 'wellness_drop', 'cumulative_fatigue'
+  riskLevel: text("risk_level").notNull(), // 'low', 'moderate', 'high', 'critical'
+  
+  // Flag Details
+  triggerValue: real("trigger_value"), // The value that triggered the flag
+  threshold: real("threshold"), // The threshold that was exceeded
+  description: text("description").notNull(),
+  
+  // Contextual Data
+  dataSource: text("data_source").notNull(), // 'gps', 'wellness', 'manual'
+  weeklyAverage: real("weekly_average"),
+  rollingAverage: real("rolling_average"),
+  
+  // Flag Status
+  status: text("status").default('active'), // 'active', 'acknowledged', 'resolved'
+  acknowledgedBy: text("acknowledged_by"),
+  acknowledgedAt: timestamp("acknowledged_at"),
+  
+  // Follow-up Actions
+  recommendedActions: text("recommended_actions").array().default([]),
+  
+  createdAt: timestamp("created_at").defaultNow(),
+  resolvedAt: timestamp("resolved_at"),
+});
+
+// Load Analytics Summary Table (for quick dashboard queries)
+export const loadAnalytics = pgTable("load_analytics", {
+  id: serial("id").primaryKey(),
+  playerId: text("player_id").notNull().references(() => players.id),
+  weekStarting: text("week_starting").notNull(),
+  
+  // Weekly Totals
+  totalDistance: real("total_distance").default(0),
+  totalHmlDistance: real("total_hml_distance").default(0),
+  totalPlayerLoad: real("total_player_load").default(0),
+  totalHsr: real("total_hsr").default(0),
+  
+  // Targets vs Actual
+  hmlTargetAchievement: real("hml_target_achievement").default(0), // percentage
+  loadTargetAchievement: real("load_target_achievement").default(0),
+  
+  // Wellness Averages
+  avgReadinessScore: real("avg_readiness_score"),
+  avgSleepQuality: real("avg_sleep_quality"),
+  avgFatigueLevel: real("avg_fatigue_level"),
+  
+  // Risk Indicators
+  loadTrend: text("load_trend"), // 'increasing', 'stable', 'decreasing'
+  riskScore: real("risk_score"), // 0-100
+  
+  // Injury Risk Factors
+  hasActiveFlags: boolean("has_active_flags").default(false),
+  flagCount: integer("flag_count").default(0),
+  
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Relations for new S&C tables
+export const gpsDataRelations = relations(gpsData, ({ one }) => ({
+  player: one(players, { fields: [gpsData.playerId], references: [players.id] }),
+}));
+
+export const playerWellnessRelations = relations(playerWellness, ({ one }) => ({
+  player: one(players, { fields: [playerWellness.playerId], references: [players.id] }),
+}));
+
+export const playerLoadTargetsRelations = relations(playerLoadTargets, ({ one }) => ({
+  player: one(players, { fields: [playerLoadTargets.playerId], references: [players.id] }),
+}));
+
+export const injuryRiskFlagsRelations = relations(injuryRiskFlags, ({ one }) => ({
+  player: one(players, { fields: [injuryRiskFlags.playerId], references: [players.id] }),
+}));
+
+export const loadAnalyticsRelations = relations(loadAnalytics, ({ one }) => ({
+  player: one(players, { fields: [loadAnalytics.playerId], references: [players.id] }),
+}));
+
+// Types for new S&C tables
+export type GPSData = typeof gpsData.$inferSelect;
+export type InsertGPSData = typeof gpsData.$inferInsert;
+export type PlayerWellness = typeof playerWellness.$inferSelect;
+export type InsertPlayerWellness = typeof playerWellness.$inferInsert;
+export type PlayerLoadTargets = typeof playerLoadTargets.$inferSelect;
+export type InsertPlayerLoadTargets = typeof playerLoadTargets.$inferInsert;
+export type TrainingSession = typeof trainingSessions.$inferSelect;
+export type InsertTrainingSession = typeof trainingSessions.$inferInsert;
+export type InjuryRiskFlag = typeof injuryRiskFlags.$inferSelect;
+export type InsertInjuryRiskFlag = typeof injuryRiskFlags.$inferInsert;
+export type LoadAnalytics = typeof loadAnalytics.$inferSelect;
+export type InsertLoadAnalytics = typeof loadAnalytics.$inferInsert;
+
+// Insert schemas for S&C tables
+export const insertGPSDataSchema = createInsertSchema(gpsData);
+export const insertPlayerWellnessSchema = createInsertSchema(playerWellness);
+export const insertPlayerLoadTargetsSchema = createInsertSchema(playerLoadTargets);
+export const insertTrainingSessionSchema = createInsertSchema(trainingSessions);
+export const insertInjuryRiskFlagSchema = createInsertSchema(injuryRiskFlags);
+export const insertLoadAnalyticsSchema = createInsertSchema(loadAnalytics);

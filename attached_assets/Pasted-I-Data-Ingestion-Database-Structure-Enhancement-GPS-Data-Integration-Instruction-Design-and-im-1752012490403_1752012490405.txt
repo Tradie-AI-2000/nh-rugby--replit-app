@@ -1,0 +1,88 @@
+I. Data Ingestion & Database Structure Enhancement
+GPS Data Integration:
+
+Instruction: Design and implement robust data ingestion pipelines to import raw GPS data (CSV, JSON, or direct API if available from STATSport) for High speed running, total distance, # of collisions, #accelerations/decelerations, max speed, HML distance, and HML efforts per/min.
+
+Database Schema: Add new fields to player performance tables for these GPS metrics, indexed for quick retrieval and analysis. Ensure Ball in Play (BIP) minutes is also captured and linked to sessions.
+
+Wellness Score Capture:
+
+Instruction: Develop a user-friendly interface within the app for players to submit daily wellness scores. This could be a simple form with sliders or radio buttons for sleep quality, muscle soreness, fatigue levels, stress, and mood (e.g., on a 1-5 scale).
+
+Database Schema: Create a dedicated table for PlayerWellness with player_id, date, and individual wellness component scores.
+
+Load Target Tracking:
+
+Instruction: Implement a mechanism for coaches/S&C staff to input weekly HML targets for each player.
+
+Database Schema: Add weekly_hml_target to player profiles or a PlayerLoadTargets table.
+
+II. Backend Logic & Analytics Development
+Real-time Metric Calculation:
+
+Instruction: Develop backend scripts or functions that, upon data ingestion, automatically calculate:
+
+HML efforts per/min in relation to Ball in Play mins.
+
+Daily/weekly totals for all GPS metrics.
+
+Correlation Engine:
+
+Instruction: Build a correlation analysis module. This module should:
+
+Identify correlations: Between wellness scores and effort/load (e.g., HSR, HML distance).
+
+Analyze game outcome impact: Determine if wellness scores and effort/load significantly drop after a loss or rise after a win. This requires linking performance data to game results.
+
+Player Load Trending & Flagging:
+
+Instruction: Implement a longitudinal tracking system for player load.
+
+Algorithm: Develop an algorithm to calculate cumulative load over weeks, designed to show trending upwards load, which is desirable for adaptation.
+
+Anomaly Detection: Create a major load spike detection system. Define thresholds (e.g., a certain percentage increase over a rolling average) that, when exceeded, trigger an injury risk flag. This flagging should be automated and appear prominently in dashboards.
+
+Injury Trend Prediction (AI/Advanced Analytics):
+
+Instruction: Architect a module for injury trend analysis, specifically for soft tissue injuries. This is a complex, data-intensive task, potentially leveraging AI/ML models.
+
+Data Points for Analysis: Injury type, date, player_id, position, training session details (type, duration, intensity), weather conditions (if available), game outcome (win/loss), starting status (starter/non-starter for the week), and set piece count (lineout/scrum numbers per game).
+
+Analysis Focus: Develop algorithms to identify spike points in season, prevalent times (training, day of week), positional group prevalence, weather correlation, game outcome correlation, and set piece impact (e.g., lineout jumping count vs. lower limb injury rates). This may involve clustering, regression, or time-series analysis.
+
+III. Frontend Visualization & User Experience (UX)
+Dynamic Dashboards & Layout:
+
+Instruction: Design and develop flexible dashboard views on Replit, enabling:
+
+Overview Dashboard: A high-level view for coaches to see squad recovery status and overall load trends.
+
+Individual Deep Dive: Detailed individual player performance cards displaying all GPS metrics, wellness scores, and load trends over time.
+
+Daily Readiness View: A quick snapshot showing each player's wellness score and distance from weekly HML target (e.g., using a traffic light system or color-coding - green for on-target, yellow for approaching, red for significantly off or exceeding).
+
+Visualization Tools: Utilize Replit-compatible data visualization libraries (e.g., Plotly, Matplotlib, Seaborn within a web framework like Flask or Streamlit) to create:
+
+Trend graphs over time for all key metrics.
+
+Player comparison charts for specific KPIs.
+
+Load spike flags clearly visible on player timelines.
+
+Player-Facing App/Reports (Conditional):
+
+Instruction: If wellness scores are collected via an in-app system, implement a player-facing section or automated report generation feature.
+
+Content: This section/report should display:
+
+Readiness score (derived from wellness).
+
+Summary of training load from the prior week (e.g., HML meters from game, HML meters from Tuesday/Thursday trainings).
+
+Weekly top speed in comparison to overall career/season top speed.
+
+Design Principle: Ensure information is clear, concise, and motivational, avoiding overwhelming players. Make it easily digestible for their personal use while understanding the need for coach-led conversations.
+
+Coach/Staff Summaries:
+
+Instruction: Develop a feature to generate exportable summaries (e.g., PDF or CSV) for coaches and staff, consolidating all relevant performance data, wellness scores, load trends, and flagged injury risks. These summaries are intended to facilitate personal conversations with players.
