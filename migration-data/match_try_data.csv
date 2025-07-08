@@ -1,0 +1,155 @@
+id,matchId,teamName,isNorthHarbour,analysisPerspective,tries,zoneBreakdown,quarterBreakdown,phaseBreakdown,sourceBreakdown,aiAnalysis,savedAt,updatedAt
+1,nh_vs_auckland_2024,North Harbour,true,attacking,"[{""x"":51.843317972350235,""y"":76.60373422342755,""id"":""yxsmyt9e1"",""team"":""home"",""type"":""tap_penalty"",""zone"":""attacking_22m_halfway"",""phase"":""phase_2_3"",""quarter"":1},{""x"":83.41013824884793,""y"":66.59017419422135,""id"":""wmt5oy24f"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":1},{""x"":83.6405529953917,""y"":72.7652028788985,""id"":""4iy2tkm3c"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_4_6"",""quarter"":2},{""x"":22.811059907834103,""y"":31.375821424846144,""id"":""z8xf9nlzf"",""team"":""home"",""type"":""kick_return"",""zone"":""defending_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":1},{""x"":50.46082949308756,""y"":59.24689683947012,""id"":""ha8voigxq"",""team"":""home"",""type"":""scrum"",""zone"":""attacking_22m_halfway"",""phase"":""phase_4_6"",""quarter"":3}]","[{""name"":""Attacking 22"",""value"":0,""percentage"":0},{""name"":""Attacking 22m Halfway"",""value"":4,""percentage"":80},{""name"":""Defending 22m Halfway"",""value"":1,""percentage"":20},{""name"":""Defending 22"",""value"":0,""percentage"":0}]","[{""name"":""Q1"",""value"":3,""percentage"":60},{""name"":""Q2"",""value"":1,""percentage"":20},{""name"":""Q3"",""value"":1,""percentage"":20},{""name"":""Q4"",""value"":0,""percentage"":0}]","[{""name"":""Phase 1"",""value"":0,""percentage"":0},{""name"":""Phase 2-3"",""value"":1,""percentage"":20},{""name"":""Phase 4-6"",""value"":2,""percentage"":40},{""name"":""Phase 7+"",""value"":2,""percentage"":40}]","[{""name"":""Kick Return"",""value"":1,""percentage"":20},{""name"":""Lineout"",""value"":2,""percentage"":40},{""name"":""Scrum"",""value"":1,""percentage"":20},{""name"":""Tap Penalty"",""value"":1,""percentage"":20}]","## North Harbour Rugby Attacking Analysis: vs Auckland (1 June 2024)
+
+**1. Our Attacking Efficiency:**
+
+North Harbour scored five tries against Auckland, a respectable return. However, the distribution reveals significant areas for improvement.  While the overall try count is positive, the alarmingly low number of tries from within the attacking 22 (0%) highlights a crucial weakness. Our ability to convert pressure within the opposition's 22m needs immediate attention.  We're relying too heavily on quick strike opportunities rather than sustained pressure culminating in tries close to the line.
+
+**2. Temporal Patterns:**
+
+The strong first quarter (60% of tries scored) suggests a sharp start and excellent early game execution. However, the significant drop-off in subsequent quarters, particularly the scoreless fourth, indicates potential fitness concerns, a loss of focus, or a tactical inflexibility to adapt to Auckland's defensive adjustments.  The coaching staff needs to investigate why this momentum waned and implement strategies to maintain intensity throughout the match.
+
+**3. Our Phase Play:**
+
+Our success is surprisingly distributed across various phases. The equal contribution from phases 4-6 and 7+ (40% each) shows a capacity for both structured and unstructured attacking play.  The low number of tries from phases 1-3 (20%) suggests we need to focus on improving our early phase attacking game to create more immediate opportunities and relieve pressure on our set piece. We need to improve our ability to break the gain line early to set up quicker attacking opportunities.
+
+**4. Our Platform Success:**
+
+Our set-piece play yielded a healthy return, contributing 60% of our tries (2 lineouts and 1 scrum). This highlights the importance of our lineout and scrum dominance. This is a strength to build upon, but we must not become overly reliant on set piece plays. We must continue to develop our attacking maul and lineout options to ensure consistency from these platforms.
+
+**5. Zone Analysis:**
+
+The overwhelming majority of our tries (80%) came from the attacking 22m halfway zone. This confirms our reliance on quick attacking plays and counter-attacking opportunities. The lack of tries within both the attacking and defending 22m is deeply concerning. We need to implement specific drills and strategies focused on attacking the opposition's defensive line, improving our breakdown efficiency, and creating opportunities closer to the try line.
+
+**6. Strategic Development:**
+
+* **Improve attacking 22m efficiency:** This is the paramount focus.  We need dedicated training sessions on close-range attacking play, improving our ability to create space, execute quick ball recycling, and maintain composure under pressure in the opposition's red zone.
+* **Maintain momentum:** Develop strategies to avoid the significant drop-off in try-scoring from Q1 onwards.  Analyze Auckland's adjustments and find counter-strategies. This may involve improved fitness, tactical flexibility, and mental resilience training.
+* **Increase early phase attacking effectiveness:** Improve our first and second phase play to quickly gain the upper hand and create immediate attacking opportunities, lessening our reliance on deeper phases.
+* **Develop more attacking variation:** While the set-piece has been effective, we need to develop more fluid attacking options from open play to reduce predictability.
+
+
+**7. Training Focus:**
+
+* **Close-range attacking drills:** Focus on maul variations, short-range passing, and ruck speed within the 22m.
+* **High-intensity fitness training:** Improve stamina and capacity to maintain intensity over 80 minutes.
+* **Mental resilience training:** Develop strategies to deal with setbacks and maintain composure under pressure.
+* **Breakdown efficiency:** Refine our skills in securing quick ball and preventing turnovers in crucial areas.
+* **Improved phase play:** Focus on varied attacking options from open play, focusing on phase 1-3.
+
+In conclusion, while a 5-try performance is positive, the underlying analysis reveals significant areas for improvement.  The coaching staff must prioritize improving our attacking efficiency within the 22m, maintaining attacking momentum throughout the match, and developing a more varied and unpredictable attacking game. By addressing these key areas, North Harbour can significantly enhance its overall attacking potency and achieve consistent success.
+","""2025-06-18T22:08:54.677Z""","""2025-06-18T22:08:54.677Z"""
+2,nh_vs_auckland_2024,North Harbour,true,attacking,"[{""x"":39.823008849557525,""y"":45.39480546573485,""id"":""8drkvzdwn"",""team"":""home"",""type"":""free_kick"",""zone"":""defending_22m_halfway"",""phase"":""phase_2_3"",""quarter"":3},{""x"":82.19026548672566,""y"":59.91446750808387,""id"":""jhokhovwu"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":2},{""x"":16.5929203539823,""y"":52.90497548763952,""id"":""syuxoag20"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_4_6"",""quarter"":4},{""x"":47.23451327433628,""y"":63.919891519766345,""id"":""sbd051x4k"",""team"":""home"",""type"":""scrum"",""zone"":""attacking_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":3}]","[{""name"":""Attacking 22"",""value"":0,""percentage"":0},{""name"":""Attacking 22m Halfway"",""value"":3,""percentage"":75},{""name"":""Defending 22m Halfway"",""value"":1,""percentage"":25},{""name"":""Defending 22"",""value"":0,""percentage"":0}]","[{""name"":""Q1"",""value"":0,""percentage"":0},{""name"":""Q2"",""value"":1,""percentage"":25},{""name"":""Q3"",""value"":2,""percentage"":50},{""name"":""Q4"",""value"":1,""percentage"":25}]","[{""name"":""Phase 1"",""value"":0,""percentage"":0},{""name"":""Phase 2-3"",""value"":1,""percentage"":25},{""name"":""Phase 4-6"",""value"":1,""percentage"":25},{""name"":""Phase 7+"",""value"":2,""percentage"":50}]","[{""name"":""Free Kick"",""value"":1,""percentage"":25},{""name"":""Lineout"",""value"":2,""percentage"":50},{""name"":""Scrum"",""value"":1,""percentage"":25}]","## North Harbour Rugby – Attacking Analysis: vs Auckland (1/6/2024)
+
+**1. Our Attacking Efficiency:**
+
+North Harbour scored four tries against Auckland, a respectable tally, however, the distribution reveals areas for significant improvement.  Our efficiency is hampered by a concerning reliance on longer phases of play (50% of tries from Phase 7+). While this demonstrates a capacity for sustained pressure, it also suggests a lack of cutting edge in the early phases of attack.  We need to create more opportunities to score early and avoid overly prolonged phases that risk turnovers and fatigue. The conversion rate from attacking opportunities needs further investigation.  We need to quantify the number of attacking opportunities versus the number of tries to accurately assess efficiency.
+
+**2. Temporal Patterns:**
+
+The distribution of tries across quarters (0, 1, 2, 1) shows a positive trend of building momentum throughout the game.  The scoreless first quarter is a concern, possibly indicating slow starts or issues with initial game management.  The strong performance in the third quarter suggests good fitness levels and effective halftime adjustments. Maintaining this momentum throughout all four quarters is crucial for future matches.  We need to analyse video footage to understand the reasons behind the strong Q3 and identify strategies to replicate this performance in Q1.
+
+**3. Our Phase Play:**
+
+Our reliance on later phases highlights a need to sharpen our early attacking play.  The success rate from phases 2-3 and 4-6 is only 50%, demonstrating a vulnerability in our mid-range attacking structures. We need to drill our attacking shape and decision-making in the first six phases to create more immediate scoring chances. This may require simplifying our attacking structure for phases 1-6, prioritizing quick ball and decisive play.
+
+**4. Our Platform Success:**
+
+The even distribution of tries from lineouts (50%), scrums (25%), and free kicks (25%) suggests a balanced approach to set-piece attacking.  While this is positive, we need to examine the quality of our set-piece play. Were these tries the result of dominance, or opportunistic moments? We should focus on consistently winning quick ball from the scrum and lineout to provide a more reliable attacking platform, even under pressure.
+
+**5. Zone Analysis:**
+
+The complete lack of tries from our attacking 22 is alarming.  This suggests a critical breakdown in our attacking execution in the most crucial area of the field.  Conversely, our success in the Attacking 22m Halfway zone (3 tries, 75%) highlights our ability to create opportunities from distance.  However, this shouldn't come at the expense of finishing in the opposition 22.  We need targeted training drills focused on penetrating the defensive line and finishing plays inside the 22m.
+
+**6. Strategic Development:**
+
+* **Improve attacking 22 efficiency:** This is the highest priority.  Analysis of why we aren’t scoring in the 22 must be undertaken, looking at decision-making, support play, and the effectiveness of our attacking patterns inside the 22.
+* **Reduce reliance on longer phases:** Emphasize sharp, quick plays in the early phases of attack. This requires improved decision-making at the breakdown, quicker ball distribution, and better exploitation of space.
+* **Improve first-quarter performance:** Identify and address factors contributing to our slow starts.  This could involve pre-game warm-up adjustments, different game management strategies, or addressing any mental aspects of starting the match.
+
+**7. Training Focus:**
+
+* **Attacking 22 entry and finish:** Dedicated training sessions simulating game-like situations in the opposition 22, focusing on decision-making under pressure, accurate passing, and finishing moves.
+* **Phase 1-6 attacking plays:**  Implement drills to improve the speed and effectiveness of our attacking shape in the first six phases, including variations of passing combinations and offensive ruck strategies.
+* **Set-piece execution:**  Prioritize securing quick, clean ball from both scrum and lineout.
+* **Decision-making and Support Play:**  Focus on improving individual decision-making in attack with a strong emphasis on support play and maintaining width.
+
+
+This analysis provides a roadmap for improving North Harbour's attacking game.  By focusing on these key areas and implementing the recommended training strategies, we can significantly enhance our attacking efficiency and scoring ability.  Further analysis using match video and individual player statistics will further refine our understanding and inform future training plans.
+","""2025-06-18T22:42:42.051Z""","""2025-06-18T22:42:42.051Z"""
+3,nh_vs_auckland_2024,Auckland,false,defensive,"[{""x"":50,""y"":13.18452070512152,""id"":""vgpghbw4s"",""team"":""away"",""type"":""scrum"",""zone"":""defending_22"",""phase"":""phase_7_plus"",""quarter"":3}]","[{""name"":""Attacking 22"",""value"":0,""percentage"":0},{""name"":""Attacking 22m Halfway"",""value"":0,""percentage"":0},{""name"":""Defending 22m Halfway"",""value"":0,""percentage"":0},{""name"":""Defending 22"",""value"":1,""percentage"":100}]","[{""name"":""Q1"",""value"":0,""percentage"":0},{""name"":""Q2"",""value"":0,""percentage"":0},{""name"":""Q3"",""value"":1,""percentage"":100},{""name"":""Q4"",""value"":0,""percentage"":0}]","[{""name"":""Phase 1"",""value"":0,""percentage"":0},{""name"":""Phase 2-3"",""value"":0,""percentage"":0},{""name"":""Phase 4-6"",""value"":0,""percentage"":0},{""name"":""Phase 7+"",""value"":1,""percentage"":100}]","[{""name"":""Scrum"",""value"":1,""percentage"":100}]","## North Harbour Rugby - Post-Match Analysis: Auckland Fixture (1 June 2024)
+
+**1. Opposition Scouting:** Auckland's lone try against us came from a scrum in our defending 22, in the third quarter, after a prolonged attacking sequence (Phase 7+). This highlights a concerning vulnerability in our scrum defense late in the game, particularly when facing sustained pressure.  Their complete lack of success elsewhere suggests a structured defense that was effective in most areas.
+
+**2. Their Temporal Patterns:** Auckland’s only successful attacking sequence occurred in the third quarter, suggesting potential fatigue or lapse in concentration in our defensive line during this period. This needs addressing through fitness and mental resilience training.
+
+**3. Their Attacking Structure:** The single try originating from a scrum demonstrates Auckland's ability to leverage set-piece dominance into attacking opportunities.  Their inability to score from open play suggests they struggle against a well-organized Harbour defensive line, especially outside of the scrum.
+
+**4. Their Platform Preferences:**  Auckland clearly prioritizes the scrum as their preferred attacking platform against us. Their lack of success elsewhere indicates they struggle to break us down in open play.
+
+**5. Defensive Strategy:** Our defensive strategy was largely successful, neutralizing Auckland's attack in all areas except the scrum in the third quarter.  However, the vulnerability at the scrum in the later stages of the game is a critical area for improvement.  We need to analyze the specific scrummaging techniques Auckland employed that led to the try, focusing on potential weaknesses in our scrum engagement, pushing, or defensive positioning around the breakdown.
+
+**6. Exploit Opportunities:** Auckland's inability to score from open play presents a significant opportunity. Our own try-scoring distribution (75% from the attacking 22m halfway) suggests we excel at exploiting space in midfield. We should continue to focus on this strength, maintaining quick ball movement and exploiting space to create scoring opportunities.  Their single try being the only one in Q3 further strengthens this focus on maintaining intensity throughout the match.
+
+**7. Game Plan Recommendations:**
+
+* **Scrum Defence:** Dedicated scrum defence sessions focusing on late-game fatigue management and counteracting Auckland's specific scrum tactics are crucial. This includes:
+    * **Strength and Conditioning:** Enhanced scrum-specific fitness training to address fatigue in the later stages of the game.
+    * **Technical Refinement:** Video analysis of the try to identify and correct technical flaws in our scrum defence.  Specific drills targeting engagement, pushing technique, and breakdown defence need to be implemented.
+    * **Mental Fortitude:** Focus on maintaining intensity and discipline throughout the game, especially under pressure in the late stages.
+
+
+* **Maintaining Intensity:** Strategies to prevent a drop-off in defensive intensity in the third quarter need to be implemented. This could include:
+    * **Rotation Policy:** Optimize player rotations to prevent fatigue.
+    * **Tactical Substitutions:** Introduce fresh players at key moments in the third quarter to maintain energy levels.
+    * **Water Breaks:** Strategically timed water breaks to provide short periods of rest and hydration.
+
+
+* **Exploit Midfield Dominance:** Continue to focus on our strengths – creating attacking opportunities from midfield. This requires:
+    * **Maintaining Quick Ball:** Emphasis on securing quick ball at the breakdown to maintain momentum and exploit gaps in Auckland's defence.
+    * **Strategic Kicking:**  Utilize tactical kicking to pin Auckland back in their own half and create attacking opportunities.
+
+
+* **Set-Piece Dominance:**  Since Auckland struggled to generate attacking opportunities outside the scrum, we should aim to secure our own set piece to create attacking platforms. This requires focus on both our scrum and lineout.
+
+
+By focusing on these key areas, North Harbour can strengthen its defensive capabilities, particularly at the scrum, maintain a high level of intensity throughout the game, and continue to exploit Auckland's weaknesses in open play.  This multifaceted approach will significantly improve our chances of success in future encounters.
+","""2025-06-18T22:43:31.027Z""","""2025-06-18T22:43:31.027Z"""
+4,nh_vs_auckland_2024,North Harbour,true,attacking,"[{""x"":39.823008849557525,""y"":45.39480546573485,""id"":""8drkvzdwn"",""team"":""home"",""type"":""free_kick"",""zone"":""defending_22m_halfway"",""phase"":""phase_2_3"",""quarter"":3},{""x"":82.19026548672566,""y"":59.91446750808387,""id"":""jhokhovwu"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":2},{""x"":16.5929203539823,""y"":52.90497548763952,""id"":""syuxoag20"",""team"":""home"",""type"":""lineout"",""zone"":""attacking_22m_halfway"",""phase"":""phase_4_6"",""quarter"":4},{""x"":47.23451327433628,""y"":63.919891519766345,""id"":""sbd051x4k"",""team"":""home"",""type"":""scrum"",""zone"":""attacking_22m_halfway"",""phase"":""phase_7_plus"",""quarter"":3}]","[{""name"":""Attacking 22"",""value"":0,""percentage"":0},{""name"":""Attacking 22m Halfway"",""value"":3,""percentage"":75},{""name"":""Defending 22m Halfway"",""value"":1,""percentage"":25},{""name"":""Defending 22"",""value"":0,""percentage"":0}]","[{""name"":""Q1"",""value"":0,""percentage"":0},{""name"":""Q2"",""value"":1,""percentage"":25},{""name"":""Q3"",""value"":2,""percentage"":50},{""name"":""Q4"",""value"":1,""percentage"":25}]","[{""name"":""Phase 1"",""value"":0,""percentage"":0},{""name"":""Phase 2-3"",""value"":1,""percentage"":25},{""name"":""Phase 4-6"",""value"":1,""percentage"":25},{""name"":""Phase 7+"",""value"":2,""percentage"":50}]","[{""name"":""Free Kick"",""value"":1,""percentage"":25},{""name"":""Lineout"",""value"":2,""percentage"":50},{""name"":""Scrum"",""value"":1,""percentage"":25}]","## North Harbour Rugby - Post-Match Analysis: Auckland Fixture (1 June 2024)
+
+**1. Opposition Scouting:** Auckland's lone try against us came from a scrum in our defending 22, in the third quarter, after a prolonged attacking sequence (Phase 7+). This highlights a concerning vulnerability in our scrum defense late in the game, particularly when facing sustained pressure.  Their complete lack of success elsewhere suggests a structured defense that was effective in most areas.
+
+**2. Their Temporal Patterns:** Auckland’s only successful attacking sequence occurred in the third quarter, suggesting potential fatigue or lapse in concentration in our defensive line during this period. This needs addressing through fitness and mental resilience training.
+
+**3. Their Attacking Structure:** The single try originating from a scrum demonstrates Auckland's ability to leverage set-piece dominance into attacking opportunities.  Their inability to score from open play suggests they struggle against a well-organized Harbour defensive line, especially outside of the scrum.
+
+**4. Their Platform Preferences:**  Auckland clearly prioritizes the scrum as their preferred attacking platform against us. Their lack of success elsewhere indicates they struggle to break us down in open play.
+
+**5. Defensive Strategy:** Our defensive strategy was largely successful, neutralizing Auckland's attack in all areas except the scrum in the third quarter.  However, the vulnerability at the scrum in the later stages of the game is a critical area for improvement.  We need to analyze the specific scrummaging techniques Auckland employed that led to the try, focusing on potential weaknesses in our scrum engagement, pushing, or defensive positioning around the breakdown.
+
+**6. Exploit Opportunities:** Auckland's inability to score from open play presents a significant opportunity. Our own try-scoring distribution (75% from the attacking 22m halfway) suggests we excel at exploiting space in midfield. We should continue to focus on this strength, maintaining quick ball movement and exploiting space to create scoring opportunities.  Their single try being the only one in Q3 further strengthens this focus on maintaining intensity throughout the match.
+
+**7. Game Plan Recommendations:**
+
+* **Scrum Defence:** Dedicated scrum defence sessions focusing on late-game fatigue management and counteracting Auckland's specific scrum tactics are crucial. This includes:
+    * **Strength and Conditioning:** Enhanced scrum-specific fitness training to address fatigue in the later stages of the game.
+    * **Technical Refinement:** Video analysis of the try to identify and correct technical flaws in our scrum defence.  Specific drills targeting engagement, pushing technique, and breakdown defence need to be implemented.
+    * **Mental Fortitude:** Focus on maintaining intensity and discipline throughout the game, especially under pressure in the late stages.
+
+
+* **Maintaining Intensity:** Strategies to prevent a drop-off in defensive intensity in the third quarter need to be implemented. This could include:
+    * **Rotation Policy:** Optimize player rotations to prevent fatigue.
+    * **Tactical Substitutions:** Introduce fresh players at key moments in the third quarter to maintain energy levels.
+    * **Water Breaks:** Strategically timed water breaks to provide short periods of rest and hydration.
+
+
+* **Exploit Midfield Dominance:** Continue to focus on our strengths – creating attacking opportunities from midfield. This requires:
+    * **Maintaining Quick Ball:** Emphasis on securing quick ball at the breakdown to maintain momentum and exploit gaps in Auckland's defence.
+    * **Strategic Kicking:**  Utilize tactical kicking to pin Auckland back in their own half and create attacking opportunities.
+
+
+* **Set-Piece Dominance:**  Since Auckland struggled to generate attacking opportunities outside the scrum, we should aim to secure our own set piece to create attacking platforms. This requires focus on both our scrum and lineout.
+
+
+By focusing on these key areas, North Harbour can strengthen its defensive capabilities, particularly at the scrum, maintain a high level of intensity throughout the game, and continue to exploit Auckland's weaknesses in open play.  This multifaceted approach will significantly improve our chances of success in future encounters.
+","""2025-06-18T22:43:42.721Z""","""2025-06-18T22:43:42.721Z"""

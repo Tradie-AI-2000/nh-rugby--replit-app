@@ -9,7 +9,7 @@
 
 import { db } from "../server/db";
 import * as schema from "../shared/schema";
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { format } from "date-fns";
 
 interface MigrationData {
@@ -36,8 +36,8 @@ async function exportCurrentData(): Promise<MigrationData> {
     console.log("🎯 Exporting match try data...");
     const matchTryData = await db.select().from(schema.matchTryData).catch(() => []);
     
-    console.log("📅 Exporting sessions...");
-    const sessions = await db.select().from(schema.sessions).catch(() => []);
+    console.log("📅 Exporting training sessions...");
+    const sessions = await db.select().from(schema.trainingSessions).catch(() => []);
     
     console.log("👥 Exporting users...");
     const users = await db.select().from(schema.users).catch(() => []);
@@ -266,9 +266,8 @@ async function main() {
     console.log("");
 
     // Create migration directory
-    const fs = require('fs');
-    if (!fs.existsSync('migration-data')) {
-      fs.mkdirSync('migration-data');
+    if (!existsSync('migration-data')) {
+      mkdirSync('migration-data');
     }
 
     // Export current data
@@ -310,7 +309,7 @@ async function main() {
 }
 
 // Run if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 

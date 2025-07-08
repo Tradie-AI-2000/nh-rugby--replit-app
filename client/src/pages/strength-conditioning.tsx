@@ -425,7 +425,7 @@ export default function StrengthConditioning() {
                       {players.map((player) => (
                         <SelectItem key={player.id} value={player.id}>
                           {player.personalDetails.firstName} {player.personalDetails.lastName} 
-                          ({player.rugbyProfile.primaryPosition})
+                          ({player.rugbyProfile?.primaryPosition || 'Unknown'})
                         </SelectItem>
                       ))}
                     </SelectContent>

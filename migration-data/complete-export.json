@@ -1,0 +1,4159 @@
+{
+  "players": [
+    {
+      "id": "james-mitchell",
+      "personalDetails": {
+        "email": "james.mitchell@northharbour.rugby",
+        "phone": "+64 21 123 4567",
+        "address": "123 Rugby Street, Auckland",
+        "lastName": "Mitchell",
+        "firstName": "James",
+        "dateOfBirth": "2001-03-15",
+        "emergencyContact": {
+          "name": "Sarah Mitchell",
+          "phone": "+64 21 765 4321",
+          "relationship": "Mother"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 7,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Auckland Grammar",
+          "Auckland U19"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": [
+          "Number 8",
+          "Lock"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-01-15",
+          "height": 188,
+          "weight": 103,
+          "bodyFat": 9,
+          "leanMass": 93.7
+        },
+        {
+          "date": "2024-02-15",
+          "height": 188,
+          "weight": 104,
+          "bodyFat": 8.5,
+          "leanMass": 95.2
+        },
+        {
+          "date": "2024-03-15",
+          "height": 188,
+          "weight": 105,
+          "bodyFat": 8.2,
+          "leanMass": 96.4
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-03-10",
+          "unit": "kg",
+          "value": 130,
+          "testType": "bench_press"
+        },
+        {
+          "date": "2024-03-10",
+          "unit": "kg",
+          "value": 185,
+          "testType": "squat"
+        },
+        {
+          "date": "2024-03-10",
+          "unit": "s",
+          "value": 5.1,
+          "testType": "sprint_40m"
+        },
+        {
+          "date": "2024-03-10",
+          "unit": "level",
+          "value": 18.2,
+          "testType": "yo_yo"
+        },
+        {
+          "date": "2024-03-10",
+          "unit": "ml/kg/min",
+          "value": 58.2,
+          "testType": "vo2_max"
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2023",
+          "tackles": 128,
+          "penalties": 8,
+          "turnovers": 18,
+          "lineoutWins": 32,
+          "matchesPlayed": 12,
+          "minutesPlayed": 1058
+        },
+        {
+          "tries": 6,
+          "season": "2024",
+          "tackles": 142,
+          "penalties": 6,
+          "turnovers": 23,
+          "lineoutWins": 38,
+          "matchesPlayed": 14,
+          "minutesPlayed": 1247
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [
+        {
+          "id": "r1",
+          "date": "2024-03-15",
+          "type": "coach",
+          "title": "Performance Review - March 2024",
+          "author": "Coach Thompson",
+          "content": "Excellent progress in lineout work...",
+          "lastUpdated": "2024-03-15"
+        },
+        {
+          "id": "r2",
+          "date": "2024-03-08",
+          "type": "medical",
+          "title": "Medical Clearance",
+          "author": "Dr. Smith",
+          "content": "Cleared for full contact...",
+          "lastUpdated": "2024-03-08"
+        }
+      ],
+      "activities": [
+        {
+          "id": "a1",
+          "date": "2024-03-20",
+          "type": "test",
+          "details": "Strength & conditioning assessment",
+          "description": "Physical Test Completed"
+        },
+        {
+          "id": "a2",
+          "date": "2024-03-18",
+          "type": "match",
+          "details": "75 minutes vs Auckland",
+          "description": "Match Performance"
+        },
+        {
+          "id": "a3",
+          "date": "2024-03-15",
+          "type": "meeting",
+          "details": "Performance feedback session",
+          "description": "Coach Review"
+        }
+      ],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared"
+      },
+      "aiRating": {
+        "overall": 87,
+        "skillset": 85,
+        "potential": 84,
+        "gameImpact": 89,
+        "lastUpdated": "2024-03-20",
+        "physicality": 92
+      },
+      "createdAt": "2025-05-24T01:19:52.976Z",
+      "updatedAt": "2025-05-24T01:19:52.976Z"
+    },
+    {
+      "id": "tane_edmed",
+      "personalDetails": {
+        "email": "tane.edmed@northharbour.co.nz",
+        "phone": "+64 21 8817069",
+        "lastName": "Edmed",
+        "firstName": "Tane",
+        "dateOfBirth": "2000-04-29"
+      },
+      "rugbyProfile": {
+        "clubHistory": [
+          "North Harbour Rugby"
+        ],
+        "yearsInTeam": 3,
+        "jerseyNumber": 10,
+        "primaryPosition": "Fly-half",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 183,
+          "weight": 96,
+          "bodyFat": 8,
+          "muscleMass": 76
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 137,
+          "beepTest": 12,
+          "sprint40m": 5.25929748612671,
+          "benchPress": 101,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 6,
+        "passing": 9,
+        "ballHandling": 9,
+        "communication": 9
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 33,
+          "penalties": 2,
+          "turnovers": 4,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": {
+        "overall": 88,
+        "skillset": 93,
+        "potential": 94,
+        "gameImpact": 90,
+        "lastUpdated": "2024-06-13",
+        "physicality": 82
+      },
+      "createdAt": "2025-06-13T04:13:10.914Z",
+      "updatedAt": "2025-06-19T08:51:51.176Z"
+    },
+    {
+      "id": "jake_thompson",
+      "personalDetails": {
+        "email": "jake.thompson@northharbour.co.nz",
+        "phone": "+64 21 2345678",
+        "address": "North Harbour, Auckland",
+        "lastName": "Thompson",
+        "firstName": "Jake",
+        "dateOfBirth": "1996-03-15",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 2345679",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 2,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "North Harbour Rugby"
+        ],
+        "primaryPosition": "Hooker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 95,
+          "bodyFat": 12,
+          "muscleMass": 83
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 160,
+          "beepTest": 14,
+          "sprint40m": 5.2,
+          "benchPress": 120,
+          "verticalJump": 58
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 8,
+        "scrummaging": 8,
+        "ballHandling": 8,
+        "communication": 9,
+        "lineoutThrowing": 9
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 45,
+          "penalties": 3,
+          "turnovers": 2,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:53:30.476Z",
+      "updatedAt": "2025-06-19T08:53:30.476Z"
+    },
+    {
+      "id": "mike_wilson",
+      "personalDetails": {
+        "email": "mike.wilson@northharbour.co.nz",
+        "phone": "+64 21 3456789",
+        "address": "North Harbour, Auckland",
+        "lastName": "Wilson",
+        "firstName": "Mike",
+        "dateOfBirth": "1995-07-22",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 3456790",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 1,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "North Harbour Rugby"
+        ],
+        "primaryPosition": "Prop",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 180,
+          "weight": 115,
+          "bodyFat": 15,
+          "muscleMass": 97
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 180,
+          "beepTest": 12,
+          "sprint40m": 5.8,
+          "benchPress": 140,
+          "verticalJump": 52
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 6,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 0,
+          "season": "2024",
+          "tackles": 38,
+          "penalties": 5,
+          "turnovers": 1,
+          "matchesPlayed": 15
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:53:30.476Z",
+      "updatedAt": "2025-06-19T08:53:30.476Z"
+    },
+    {
+      "id": "sam_roberts",
+      "personalDetails": {
+        "email": "sam.roberts@northharbour.co.nz",
+        "phone": "+64 21 4567890",
+        "address": "North Harbour, Auckland",
+        "lastName": "Roberts",
+        "firstName": "Sam",
+        "dateOfBirth": "1997-11-08",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 4567891",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 4,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "North Harbour Rugby"
+        ],
+        "primaryPosition": "Lock",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 200,
+          "weight": 105,
+          "bodyFat": 10,
+          "muscleMass": 94
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 170,
+          "beepTest": 13,
+          "sprint40m": 5.5,
+          "benchPress": 130,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 9,
+        "scrummaging": 8,
+        "ballHandling": 7,
+        "communication": 8,
+        "lineoutThrowing": 8
+      },
+      "gameStats": [
+        {
+          "tries": 2,
+          "season": "2024",
+          "tackles": 52,
+          "penalties": 4,
+          "turnovers": 3,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:53:30.476Z",
+      "updatedAt": "2025-06-19T08:53:30.476Z"
+    },
+    {
+      "id": "penaia_cakobau",
+      "personalDetails": {
+        "email": "penaia.cakobau@northharbour.co.nz",
+        "phone": "+64 21 5678901",
+        "address": "North Harbour, Auckland",
+        "lastName": "Cakobau",
+        "firstName": "Penaia",
+        "dateOfBirth": "1998-05-10",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 5678902",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 16,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "North Harbour Rugby"
+        ],
+        "primaryPosition": "Hooker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 182,
+          "weight": 92,
+          "bodyFat": 11,
+          "muscleMass": 81
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 155,
+          "beepTest": 15,
+          "sprint40m": 5.1,
+          "benchPress": 115,
+          "verticalJump": 60
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 8,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 9
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 32,
+          "penalties": 2,
+          "turnovers": 4,
+          "matchesPlayed": 10
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:22.084Z",
+      "updatedAt": "2025-06-19T08:54:22.084Z"
+    },
+    {
+      "id": "david_havili",
+      "personalDetails": {
+        "email": "david.havili@northharbour.co.nz",
+        "phone": "+64 21 6789012",
+        "address": "North Harbour, Auckland",
+        "lastName": "Havili",
+        "firstName": "David",
+        "dateOfBirth": "1994-12-21",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 6789013",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 5,
+        "jerseyNumber": 12,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Crusaders",
+          "Canterbury"
+        ],
+        "primaryPosition": "Centre",
+        "secondaryPositions": [
+          "Fullback"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 88,
+          "bodyFat": 8,
+          "muscleMass": 80
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 145,
+          "beepTest": 16,
+          "sprint40m": 4.8,
+          "benchPress": 105,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 8,
+        "passing": 9,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 9,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 8,
+          "season": "2024",
+          "tackles": 45,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 16
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:22.084Z",
+      "updatedAt": "2025-06-19T08:54:22.084Z"
+    },
+    {
+      "id": "rieko_ioane",
+      "personalDetails": {
+        "email": "rieko.ioane@northharbour.co.nz",
+        "phone": "+64 21 7890123",
+        "address": "North Harbour, Auckland",
+        "lastName": "Ioane",
+        "firstName": "Rieko",
+        "dateOfBirth": "1997-05-18",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 7890124",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 6,
+        "jerseyNumber": 11,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": [
+          "Centre"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 188,
+          "weight": 85,
+          "bodyFat": 7,
+          "muscleMass": 78
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 140,
+          "beepTest": 17,
+          "sprint40m": 4.5,
+          "benchPress": 100,
+          "verticalJump": 70
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 7,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 12,
+          "season": "2024",
+          "tackles": 38,
+          "penalties": 1,
+          "turnovers": 3,
+          "matchesPlayed": 15
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:22.084Z",
+      "updatedAt": "2025-06-19T08:54:22.084Z"
+    },
+    {
+      "id": "akira_ioane",
+      "personalDetails": {
+        "email": "akira.ioane@northharbour.co.nz",
+        "phone": "+64 21 8901234",
+        "address": "North Harbour, Auckland",
+        "lastName": "Ioane",
+        "firstName": "Akira",
+        "dateOfBirth": "1995-04-16",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 8901235",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 7,
+        "jerseyNumber": 6,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Blindside Flanker",
+        "secondaryPositions": [
+          "Number 8"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 193,
+          "weight": 105,
+          "bodyFat": 9,
+          "muscleMass": 95
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 175,
+          "beepTest": 15,
+          "sprint40m": 4.9,
+          "benchPress": 135,
+          "verticalJump": 68
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 8,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 62,
+          "penalties": 3,
+          "turnovers": 5,
+          "matchesPlayed": 18
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:22.084Z",
+      "updatedAt": "2025-06-19T08:54:22.084Z"
+    },
+    {
+      "id": "beauden_barrett",
+      "personalDetails": {
+        "email": "beauden.barrett@northharbour.co.nz",
+        "phone": "+64 21 9012345",
+        "address": "North Harbour, Auckland",
+        "lastName": "Barrett",
+        "firstName": "Beauden",
+        "dateOfBirth": "1991-05-27",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 9012346",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 10,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Hurricanes",
+          "Taranaki"
+        ],
+        "primaryPosition": "Fly-half",
+        "secondaryPositions": [
+          "Fullback"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 82,
+          "bodyFat": 6,
+          "muscleMass": 76
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 135,
+          "beepTest": 18,
+          "sprint40m": 4.6,
+          "benchPress": 95,
+          "verticalJump": 72
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 10,
+        "passing": 9,
+        "rucking": 6,
+        "scrummaging": 5,
+        "ballHandling": 9,
+        "communication": 10,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 6,
+          "season": "2024",
+          "tackles": 28,
+          "penalties": 2,
+          "turnovers": 1,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:22.084Z",
+      "updatedAt": "2025-06-19T08:54:22.084Z"
+    },
+    {
+      "id": "ardie_savea",
+      "personalDetails": {
+        "email": "ardie.savea@northharbour.co.nz",
+        "phone": "+64 21 1234567",
+        "address": "North Harbour, Auckland",
+        "lastName": "Savea",
+        "firstName": "Ardie",
+        "dateOfBirth": "1993-10-14",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 1234568",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 8,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Hurricanes",
+          "Wellington"
+        ],
+        "primaryPosition": "Number 8",
+        "secondaryPositions": [
+          "Openside Flanker"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 98,
+          "bodyFat": 8,
+          "muscleMass": 89
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 165,
+          "beepTest": 16,
+          "sprint40m": 4.7,
+          "benchPress": 125,
+          "verticalJump": 75
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 9,
+        "scrummaging": 7,
+        "ballHandling": 9,
+        "communication": 9,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 7,
+          "season": "2024",
+          "tackles": 58,
+          "penalties": 2,
+          "turnovers": 6,
+          "matchesPlayed": 17
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:51.748Z",
+      "updatedAt": "2025-06-19T08:54:51.748Z"
+    },
+    {
+      "id": "dalton_papalii",
+      "personalDetails": {
+        "email": "dalton.papalii@northharbour.co.nz",
+        "phone": "+64 21 2345678",
+        "address": "North Harbour, Auckland",
+        "lastName": "Papalii",
+        "firstName": "Dalton",
+        "dateOfBirth": "1997-03-05",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 2345679",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 7,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Openside Flanker",
+        "secondaryPositions": [
+          "Blindside Flanker"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 188,
+          "weight": 95,
+          "bodyFat": 9,
+          "muscleMass": 86
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 160,
+          "beepTest": 15,
+          "sprint40m": 4.8,
+          "benchPress": 120,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 5,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 72,
+          "penalties": 3,
+          "turnovers": 8,
+          "matchesPlayed": 19
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:51.748Z",
+      "updatedAt": "2025-06-19T08:54:51.748Z"
+    },
+    {
+      "id": "patrick_tuipulotu",
+      "personalDetails": {
+        "email": "patrick.tuipulotu@northharbour.co.nz",
+        "phone": "+64 21 3456789",
+        "address": "North Harbour, Auckland",
+        "lastName": "Tuipulotu",
+        "firstName": "Patrick",
+        "dateOfBirth": "1993-01-21",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 3456790",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 8,
+        "jerseyNumber": 5,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Lock",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 203,
+          "weight": 115,
+          "bodyFat": 11,
+          "muscleMass": 102
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 185,
+          "beepTest": 13,
+          "sprint40m": 5.4,
+          "benchPress": 145,
+          "verticalJump": 68
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 7,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 7,
+        "communication": 9,
+        "lineoutThrowing": 9
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 48,
+          "penalties": 4,
+          "turnovers": 2,
+          "matchesPlayed": 16
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:51.748Z",
+      "updatedAt": "2025-06-19T08:54:51.748Z"
+    },
+    {
+      "id": "finlay_christie",
+      "personalDetails": {
+        "email": "finlay.christie@northharbour.co.nz",
+        "phone": "+64 21 4567890",
+        "address": "North Harbour, Auckland",
+        "lastName": "Christie",
+        "firstName": "Finlay",
+        "dateOfBirth": "1996-08-12",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 4567891",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 5,
+        "jerseyNumber": 9,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Tasman"
+        ],
+        "primaryPosition": "Scrum-half",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 175,
+          "weight": 78,
+          "bodyFat": 7,
+          "muscleMass": 72
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 125,
+          "beepTest": 17,
+          "sprint40m": 4.4,
+          "benchPress": 85,
+          "verticalJump": 58
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 8,
+        "passing": 10,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 10,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 32,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 18
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:51.748Z",
+      "updatedAt": "2025-06-19T08:54:51.748Z"
+    },
+    {
+      "id": "mark_telea",
+      "personalDetails": {
+        "email": "mark.telea@northharbour.co.nz",
+        "phone": "+64 21 5678901",
+        "address": "North Harbour, Auckland",
+        "lastName": "Telea",
+        "firstName": "Mark",
+        "dateOfBirth": "1997-02-28",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 5678902",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 14,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": [
+          "Fullback"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 183,
+          "weight": 87,
+          "bodyFat": 8,
+          "muscleMass": 79
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 138,
+          "beepTest": 16,
+          "sprint40m": 4.5,
+          "benchPress": 98,
+          "verticalJump": 67
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 7,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 9,
+          "season": "2024",
+          "tackles": 41,
+          "penalties": 1,
+          "turnovers": 3,
+          "matchesPlayed": 16
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:54:51.748Z",
+      "updatedAt": "2025-06-19T08:54:51.748Z"
+    },
+    {
+      "id": "caleb_clarke",
+      "personalDetails": {
+        "email": "caleb.clarke@northharbour.co.nz",
+        "phone": "+64 21 6789012",
+        "address": "North Harbour, Auckland",
+        "lastName": "Clarke",
+        "firstName": "Caleb",
+        "dateOfBirth": "1998-11-03",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 6789013",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 15,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": [
+          "Fullback"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 187,
+          "weight": 92,
+          "bodyFat": 7,
+          "muscleMass": 85
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 150,
+          "beepTest": 16,
+          "sprint40m": 4.4,
+          "benchPress": 110,
+          "verticalJump": 73
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 7,
+        "passing": 8,
+        "rucking": 8,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 11,
+          "season": "2024",
+          "tackles": 35,
+          "penalties": 2,
+          "turnovers": 4,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "stephen_perofeta",
+      "personalDetails": {
+        "email": "stephen.perofeta@northharbour.co.nz",
+        "phone": "+64 21 7890123",
+        "address": "North Harbour, Auckland",
+        "lastName": "Perofeta",
+        "firstName": "Stephen",
+        "dateOfBirth": "1996-09-15",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 7890124",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 22,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Taranaki"
+        ],
+        "primaryPosition": "Fullback",
+        "secondaryPositions": [
+          "Fly-half"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 182,
+          "weight": 84,
+          "bodyFat": 8,
+          "muscleMass": 77
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 135,
+          "beepTest": 17,
+          "sprint40m": 4.7,
+          "benchPress": 95,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 9,
+        "passing": 8,
+        "rucking": 6,
+        "scrummaging": 5,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 5,
+          "season": "2024",
+          "tackles": 28,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "tom_robinson",
+      "personalDetails": {
+        "email": "tom.robinson@northharbour.co.nz",
+        "phone": "+64 21 8901234",
+        "address": "North Harbour, Auckland",
+        "lastName": "Robinson",
+        "firstName": "Tom",
+        "dateOfBirth": "1997-06-20",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 8901235",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 20,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": [
+          "Number 8"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 190,
+          "weight": 100,
+          "bodyFat": 9,
+          "muscleMass": 91
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 165,
+          "beepTest": 14,
+          "sprint40m": 5,
+          "benchPress": 125,
+          "verticalJump": 62
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 8,
+        "ballHandling": 7,
+        "communication": 7,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 2,
+          "season": "2024",
+          "tackles": 55,
+          "penalties": 4,
+          "turnovers": 6,
+          "matchesPlayed": 13
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "hoskins_sotutu",
+      "personalDetails": {
+        "email": "hoskins.sotutu@northharbour.co.nz",
+        "phone": "+64 21 9012345",
+        "address": "North Harbour, Auckland",
+        "lastName": "Sotutu",
+        "firstName": "Hoskins",
+        "dateOfBirth": "1999-01-11",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 9012346",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 19,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Number 8",
+        "secondaryPositions": [
+          "Lock"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 196,
+          "weight": 108,
+          "bodyFat": 10,
+          "muscleMass": 97
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 170,
+          "beepTest": 14,
+          "sprint40m": 5.1,
+          "benchPress": 130,
+          "verticalJump": 66
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 8,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 7
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 48,
+          "penalties": 3,
+          "turnovers": 5,
+          "matchesPlayed": 15
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "ofa_tuungafasi",
+      "personalDetails": {
+        "email": "ofa.tuungafasi@northharbour.co.nz",
+        "phone": "+64 21 1234567",
+        "address": "North Harbour, Auckland",
+        "lastName": "Tuungafasi",
+        "firstName": "Ofa",
+        "dateOfBirth": "1992-03-12",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 1234568",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 6,
+        "jerseyNumber": 3,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Prop",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 120,
+          "bodyFat": 14,
+          "muscleMass": 103
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 190,
+          "beepTest": 11,
+          "sprint40m": 5.6,
+          "benchPress": 150,
+          "verticalJump": 50
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 6,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 42,
+          "penalties": 6,
+          "turnovers": 1,
+          "matchesPlayed": 17
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "karl_tuinukuafe",
+      "personalDetails": {
+        "email": "karl.tuinukuafe@northharbour.co.nz",
+        "phone": "+64 21 2345678",
+        "address": "North Harbour, Auckland",
+        "lastName": "Tuinukuafe",
+        "firstName": "Karl",
+        "dateOfBirth": "1991-07-08",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 2345679",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 7,
+        "jerseyNumber": 17,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "North Harbour"
+        ],
+        "primaryPosition": "Prop",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 180,
+          "weight": 118,
+          "bodyFat": 15,
+          "muscleMass": 100
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 185,
+          "beepTest": 10,
+          "sprint40m": 5.7,
+          "benchPress": 145,
+          "verticalJump": 48
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 4,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 6,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 0,
+          "season": "2024",
+          "tackles": 38,
+          "penalties": 5,
+          "turnovers": 2,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "kurt_eklund",
+      "personalDetails": {
+        "email": "kurt.eklund@northharbour.co.nz",
+        "phone": "+64 21 3456789",
+        "address": "North Harbour, Auckland",
+        "lastName": "Eklund",
+        "firstName": "Kurt",
+        "dateOfBirth": "1998-12-04",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 3456790",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 18,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Hooker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 183,
+          "weight": 95,
+          "bodyFat": 11,
+          "muscleMass": 84
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 158,
+          "beepTest": 14,
+          "sprint40m": 5.2,
+          "benchPress": 118,
+          "verticalJump": 59
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 8,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 8
+      },
+      "gameStats": [
+        {
+          "tries": 2,
+          "season": "2024",
+          "tackles": 35,
+          "penalties": 3,
+          "turnovers": 3,
+          "matchesPlayed": 11
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:55:35.270Z",
+      "updatedAt": "2025-06-19T08:55:35.270Z"
+    },
+    {
+      "id": "josh_goodhue",
+      "personalDetails": {
+        "email": "josh.goodhue@northharbour.co.nz",
+        "phone": "+64 21 4567890",
+        "address": "North Harbour, Auckland",
+        "lastName": "Goodhue",
+        "firstName": "Josh",
+        "dateOfBirth": "1995-04-25",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 4567891",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 5,
+        "jerseyNumber": 21,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Northland"
+        ],
+        "primaryPosition": "Lock",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 198,
+          "weight": 110,
+          "bodyFat": 12,
+          "muscleMass": 97
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 175,
+          "beepTest": 13,
+          "sprint40m": 5.3,
+          "benchPress": 135,
+          "verticalJump": 63
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 8,
+        "ballHandling": 7,
+        "communication": 7,
+        "lineoutThrowing": 8
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 45,
+          "penalties": 3,
+          "turnovers": 3,
+          "matchesPlayed": 13
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "adrian_choat",
+      "personalDetails": {
+        "email": "adrian.choat@northharbour.co.nz",
+        "phone": "+64 21 5678901",
+        "address": "North Harbour, Auckland",
+        "lastName": "Choat",
+        "firstName": "Adrian",
+        "dateOfBirth": "1996-11-18",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 5678902",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 23,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Chiefs",
+          "Taranaki"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 186,
+          "weight": 98,
+          "bodyFat": 9,
+          "muscleMass": 89
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 162,
+          "beepTest": 15,
+          "sprint40m": 4.9,
+          "benchPress": 122,
+          "verticalJump": 64
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 58,
+          "penalties": 2,
+          "turnovers": 7,
+          "matchesPlayed": 16
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "bryce_heem",
+      "personalDetails": {
+        "email": "bryce.heem@northharbour.co.nz",
+        "phone": "+64 21 6789012",
+        "address": "North Harbour, Auckland",
+        "lastName": "Heem",
+        "firstName": "Bryce",
+        "dateOfBirth": "1989-09-23",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 6789013",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 6,
+        "jerseyNumber": 13,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Chiefs",
+          "Worcester Warriors"
+        ],
+        "primaryPosition": "Centre",
+        "secondaryPositions": [
+          "Wing"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 184,
+          "weight": 90,
+          "bodyFat": 8,
+          "muscleMass": 82
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 145,
+          "beepTest": 15,
+          "sprint40m": 4.6,
+          "benchPress": 105,
+          "verticalJump": 68
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 7,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 6,
+          "season": "2024",
+          "tackles": 42,
+          "penalties": 2,
+          "turnovers": 3,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "aj_lam",
+      "personalDetails": {
+        "email": "aj.lam@northharbour.co.nz",
+        "phone": "+64 21 7890123",
+        "address": "North Harbour, Auckland",
+        "lastName": "Lam",
+        "firstName": "AJ",
+        "dateOfBirth": "1998-01-14",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 7890124",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 24,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Centre",
+        "secondaryPositions": [
+          "Wing"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 180,
+          "weight": 88,
+          "bodyFat": 8,
+          "muscleMass": 80
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 140,
+          "beepTest": 16,
+          "sprint40m": 4.5,
+          "benchPress": 100,
+          "verticalJump": 66
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 9,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 5,
+          "season": "2024",
+          "tackles": 35,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 11
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "tanielu_tele_a",
+      "personalDetails": {
+        "email": "tanielu.telea@northharbour.co.nz",
+        "phone": "+64 21 8901234",
+        "address": "North Harbour, Auckland",
+        "lastName": "Tele a",
+        "firstName": "Tanielu",
+        "dateOfBirth": "1996-05-30",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 8901235",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 25,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Scrum-half",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 178,
+          "weight": 80,
+          "bodyFat": 7,
+          "muscleMass": 74
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 128,
+          "beepTest": 17,
+          "sprint40m": 4.3,
+          "benchPress": 88,
+          "verticalJump": 60
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 7,
+        "passing": 9,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 9,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 28,
+          "penalties": 1,
+          "turnovers": 3,
+          "matchesPlayed": 10
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "zarn_sullivan",
+      "personalDetails": {
+        "email": "zarn.sullivan@northharbour.co.nz",
+        "phone": "+64 21 9012345",
+        "address": "North Harbour, Auckland",
+        "lastName": "Sullivan",
+        "firstName": "Zarn",
+        "dateOfBirth": "2001-08-19",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 9012346",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 26,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Fullback",
+        "secondaryPositions": [
+          "Wing"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 181,
+          "weight": 85,
+          "bodyFat": 7,
+          "muscleMass": 78
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 132,
+          "beepTest": 18,
+          "sprint40m": 4.4,
+          "benchPress": 92,
+          "verticalJump": 69
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 8,
+        "passing": 8,
+        "rucking": 6,
+        "scrummaging": 5,
+        "ballHandling": 9,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 22,
+          "penalties": 0,
+          "turnovers": 2,
+          "matchesPlayed": 8
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "blake_gibson",
+      "personalDetails": {
+        "email": "blake.gibson@northharbour.co.nz",
+        "phone": "+64 21 1234567",
+        "address": "North Harbour, Auckland",
+        "lastName": "Gibson",
+        "firstName": "Blake",
+        "dateOfBirth": "1995-02-11",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 1234568",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 6,
+        "jerseyNumber": 27,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": [
+          "Number 8"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 189,
+          "weight": 102,
+          "bodyFat": 9,
+          "muscleMass": 93
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 168,
+          "beepTest": 15,
+          "sprint40m": 4.8,
+          "benchPress": 128,
+          "verticalJump": 67
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 9,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 5,
+          "season": "2024",
+          "tackles": 65,
+          "penalties": 3,
+          "turnovers": 6,
+          "matchesPlayed": 17
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:14.149Z",
+      "updatedAt": "2025-06-19T08:56:14.149Z"
+    },
+    {
+      "id": "cameron_suafoa",
+      "personalDetails": {
+        "email": "cameron.suafoa@northharbour.co.nz",
+        "phone": "+64 21 2345678",
+        "address": "North Harbour, Auckland",
+        "lastName": "Suafoa",
+        "firstName": "Cameron",
+        "dateOfBirth": "1999-03-07",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 2345679",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 28,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 187,
+          "weight": 96,
+          "bodyFat": 8,
+          "muscleMass": 88
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 160,
+          "beepTest": 15,
+          "sprint40m": 4.9,
+          "benchPress": 120,
+          "verticalJump": 63
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 7,
+        "rucking": 8,
+        "scrummaging": 7,
+        "ballHandling": 8,
+        "communication": 7,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 48,
+          "penalties": 2,
+          "turnovers": 5,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "jarred_adams",
+      "personalDetails": {
+        "email": "jarred.adams@northharbour.co.nz",
+        "phone": "+64 21 3456789",
+        "address": "North Harbour, Auckland",
+        "lastName": "Adams",
+        "firstName": "Jarred",
+        "dateOfBirth": "1998-07-12",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 3456790",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 29,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "North Harbour"
+        ],
+        "primaryPosition": "Lock",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 201,
+          "weight": 112,
+          "bodyFat": 11,
+          "muscleMass": 99
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 178,
+          "beepTest": 12,
+          "sprint40m": 5.4,
+          "benchPress": 138,
+          "verticalJump": 61
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 8,
+        "ballHandling": 7,
+        "communication": 7,
+        "lineoutThrowing": 8
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 41,
+          "penalties": 4,
+          "turnovers": 2,
+          "matchesPlayed": 11
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "marcel_renata",
+      "personalDetails": {
+        "email": "marcel.renata@northharbour.co.nz",
+        "phone": "+64 21 4567890",
+        "address": "North Harbour, Auckland",
+        "lastName": "Renata",
+        "firstName": "Marcel",
+        "dateOfBirth": "1997-10-28",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 4567891",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 30,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 182,
+          "weight": 89,
+          "bodyFat": 7,
+          "muscleMass": 82
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 142,
+          "beepTest": 16,
+          "sprint40m": 4.4,
+          "benchPress": 102,
+          "verticalJump": 71
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 7,
+          "season": "2024",
+          "tackles": 33,
+          "penalties": 1,
+          "turnovers": 3,
+          "matchesPlayed": 13
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "rayasi_rayasi",
+      "personalDetails": {
+        "email": "rayasi.rayasi@northharbour.co.nz",
+        "phone": "+64 21 5678901",
+        "address": "North Harbour, Auckland",
+        "lastName": "Rayasi",
+        "firstName": "Rayasi",
+        "dateOfBirth": "1999-12-03",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 5678902",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 31,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 179,
+          "weight": 86,
+          "bodyFat": 6,
+          "muscleMass": 80
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 136,
+          "beepTest": 17,
+          "sprint40m": 4.3,
+          "benchPress": 96,
+          "verticalJump": 74
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 5,
+        "ballHandling": 9,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 25,
+          "penalties": 0,
+          "turnovers": 2,
+          "matchesPlayed": 9
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "aisea_halo",
+      "personalDetails": {
+        "email": "aisea.halo@northharbour.co.nz",
+        "phone": "+64 21 6789012",
+        "address": "North Harbour, Auckland",
+        "lastName": "Halo",
+        "firstName": "Aisea",
+        "dateOfBirth": "1996-04-15",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 6789013",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 4,
+        "jerseyNumber": 32,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Prop",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 183,
+          "weight": 116,
+          "bodyFat": 13,
+          "muscleMass": 101
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 182,
+          "beepTest": 11,
+          "sprint40m": 5.5,
+          "benchPress": 142,
+          "verticalJump": 52
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 4,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 6,
+        "communication": 6,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 0,
+          "season": "2024",
+          "tackles": 36,
+          "penalties": 5,
+          "turnovers": 1,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "lotu_inisi",
+      "personalDetails": {
+        "email": "lotu.inisi@northharbour.co.nz",
+        "phone": "+64 21 7890123",
+        "address": "North Harbour, Auckland",
+        "lastName": "Inisi",
+        "firstName": "Lotu",
+        "dateOfBirth": "1999-03-22",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 7890124",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 33,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Centre",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 185,
+          "weight": 91,
+          "bodyFat": 8,
+          "muscleMass": 83
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 148,
+          "beepTest": 15,
+          "sprint40m": 4.7,
+          "benchPress": 108,
+          "verticalJump": 65
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 6,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 8,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 5,
+          "season": "2024",
+          "tackles": 41,
+          "penalties": 2,
+          "turnovers": 3,
+          "matchesPlayed": 9
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:56:47.947Z",
+      "updatedAt": "2025-06-19T08:56:47.947Z"
+    },
+    {
+      "id": "ethan_blackadder",
+      "personalDetails": {
+        "email": "ethan.blackadder@northharbour.co.nz",
+        "phone": "+64 21 8901234",
+        "address": "North Harbour, Auckland",
+        "lastName": "Blackadder",
+        "firstName": "Ethan",
+        "dateOfBirth": "1995-08-09",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 8901235",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 34,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Crusaders",
+          "Canterbury"
+        ],
+        "primaryPosition": "Flanker",
+        "secondaryPositions": [
+          "Number 8"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 191,
+          "weight": 104,
+          "bodyFat": 9,
+          "muscleMass": 95
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 170,
+          "beepTest": 15,
+          "sprint40m": 4.8,
+          "benchPress": 130,
+          "verticalJump": 66
+        }
+      ],
+      "skills": {
+        "defense": 9,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 9,
+        "scrummaging": 8,
+        "ballHandling": 8,
+        "communication": 8,
+        "lineoutThrowing": 6
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 68,
+          "penalties": 3,
+          "turnovers": 7,
+          "matchesPlayed": 18
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "sam_nock",
+      "personalDetails": {
+        "email": "sam.nock@northharbour.co.nz",
+        "phone": "+64 21 9012345",
+        "address": "North Harbour, Auckland",
+        "lastName": "Nock",
+        "firstName": "Sam",
+        "dateOfBirth": "1997-11-25",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 9012346",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 3,
+        "jerseyNumber": 35,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Scrum-half",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 177,
+          "weight": 79,
+          "bodyFat": 7,
+          "muscleMass": 73
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 126,
+          "beepTest": 17,
+          "sprint40m": 4.3,
+          "benchPress": 86,
+          "verticalJump": 61
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 7,
+        "passing": 9,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 9,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 3,
+          "season": "2024",
+          "tackles": 30,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 14
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "harry_plummer",
+      "personalDetails": {
+        "email": "harry.plummer@northharbour.co.nz",
+        "phone": "+64 21 1234567",
+        "address": "North Harbour, Auckland",
+        "lastName": "Plummer",
+        "firstName": "Harry",
+        "dateOfBirth": "1999-05-17",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 1234568",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 2,
+        "jerseyNumber": 36,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Fly-half",
+        "secondaryPositions": [
+          "Centre"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 182,
+          "weight": 83,
+          "bodyFat": 7,
+          "muscleMass": 76
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 134,
+          "beepTest": 16,
+          "sprint40m": 4.6,
+          "benchPress": 94,
+          "verticalJump": 64
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 9,
+        "passing": 9,
+        "rucking": 6,
+        "scrummaging": 5,
+        "ballHandling": 9,
+        "communication": 9,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 4,
+          "season": "2024",
+          "tackles": 26,
+          "penalties": 1,
+          "turnovers": 1,
+          "matchesPlayed": 11
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "connor_garden_bachop",
+      "personalDetails": {
+        "email": "connor.garden-bachop@northharbour.co.nz",
+        "phone": "+64 21 2345678",
+        "address": "North Harbour, Auckland",
+        "lastName": "Garden-Bachop",
+        "firstName": "Connor",
+        "dateOfBirth": "1998-09-08",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 2345679",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 37,
+        "playingLevel": "Professional",
+        "previousClubs": [
+          "Highlanders",
+          "Wellington"
+        ],
+        "primaryPosition": "Centre",
+        "secondaryPositions": [
+          "Wing"
+        ]
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 183,
+          "weight": 89,
+          "bodyFat": 8,
+          "muscleMass": 81
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 143,
+          "beepTest": 15,
+          "sprint40m": 4.5,
+          "benchPress": 103,
+          "verticalJump": 67
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 7,
+        "passing": 8,
+        "rucking": 7,
+        "scrummaging": 6,
+        "ballHandling": 9,
+        "communication": 8,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 6,
+          "season": "2024",
+          "tackles": 38,
+          "penalties": 1,
+          "turnovers": 2,
+          "matchesPlayed": 12
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "james_parsons",
+      "personalDetails": {
+        "email": "james.parsons@northharbour.co.nz",
+        "phone": "+64 21 3456789",
+        "address": "North Harbour, Auckland",
+        "lastName": "Parsons",
+        "firstName": "James",
+        "dateOfBirth": "1987-06-13",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 3456790",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 10,
+        "jerseyNumber": 38,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Blues",
+          "Auckland"
+        ],
+        "primaryPosition": "Hooker",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 186,
+          "weight": 100,
+          "bodyFat": 12,
+          "muscleMass": 88
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 165,
+          "beepTest": 13,
+          "sprint40m": 5.3,
+          "benchPress": 125,
+          "verticalJump": 55
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 8,
+        "scrummaging": 8,
+        "ballHandling": 8,
+        "communication": 10,
+        "lineoutThrowing": 9
+      },
+      "gameStats": [
+        {
+          "tries": 2,
+          "season": "2024",
+          "tackles": 42,
+          "penalties": 3,
+          "turnovers": 3,
+          "matchesPlayed": 15
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "luke_romano",
+      "personalDetails": {
+        "email": "luke.romano@northharbour.co.nz",
+        "phone": "+64 21 4567890",
+        "address": "North Harbour, Auckland",
+        "lastName": "Romano",
+        "firstName": "Luke",
+        "dateOfBirth": "1991-12-01",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 4567891",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 39,
+        "playingLevel": "International",
+        "previousClubs": [
+          "Crusaders",
+          "Racing 92"
+        ],
+        "primaryPosition": "Lock",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 205,
+          "weight": 114,
+          "bodyFat": 11,
+          "muscleMass": 101
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 180,
+          "beepTest": 12,
+          "sprint40m": 5.5,
+          "benchPress": 140,
+          "verticalJump": 69
+        }
+      ],
+      "skills": {
+        "defense": 8,
+        "kicking": 5,
+        "passing": 6,
+        "rucking": 8,
+        "scrummaging": 9,
+        "ballHandling": 7,
+        "communication": 8,
+        "lineoutThrowing": 9
+      },
+      "gameStats": [
+        {
+          "tries": 1,
+          "season": "2024",
+          "tackles": 46,
+          "penalties": 4,
+          "turnovers": 2,
+          "matchesPlayed": 10
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    },
+    {
+      "id": "rico_simpson",
+      "personalDetails": {
+        "email": "rico.simpson@northharbour.co.nz",
+        "phone": "+64 21 5678901",
+        "address": "North Harbour, Auckland",
+        "lastName": "Simpson",
+        "firstName": "Rico",
+        "dateOfBirth": "2000-01-29",
+        "emergencyContact": {
+          "name": "Emergency Contact",
+          "phone": "+64 21 5678902",
+          "relationship": "Family"
+        }
+      },
+      "rugbyProfile": {
+        "yearsInTeam": 1,
+        "jerseyNumber": 40,
+        "playingLevel": "Development",
+        "previousClubs": [
+          "North Harbour Academy"
+        ],
+        "primaryPosition": "Wing",
+        "secondaryPositions": []
+      },
+      "physicalAttributes": [
+        {
+          "date": "2024-06-01",
+          "height": 180,
+          "weight": 85,
+          "bodyFat": 6,
+          "muscleMass": 79
+        }
+      ],
+      "testResults": [
+        {
+          "date": "2024-06-01",
+          "squat": 130,
+          "beepTest": 18,
+          "sprint40m": 4.2,
+          "benchPress": 90,
+          "verticalJump": 72
+        }
+      ],
+      "skills": {
+        "defense": 7,
+        "kicking": 6,
+        "passing": 7,
+        "rucking": 6,
+        "scrummaging": 5,
+        "ballHandling": 8,
+        "communication": 7,
+        "lineoutThrowing": 5
+      },
+      "gameStats": [
+        {
+          "tries": 2,
+          "season": "2024",
+          "tackles": 18,
+          "penalties": 0,
+          "turnovers": 1,
+          "matchesPlayed": 5
+        }
+      ],
+      "contributionsData": null,
+      "cohesionMetrics": null,
+      "contractInfo": null,
+      "characterProfile": null,
+      "physicalPerformance": null,
+      "injuries": [],
+      "reports": [],
+      "activities": [],
+      "videoAnalysis": [],
+      "status": {
+        "fitness": "available",
+        "medical": "cleared",
+        "availability": "available"
+      },
+      "aiRating": null,
+      "createdAt": "2025-06-19T08:57:27.644Z",
+      "updatedAt": "2025-06-19T08:57:27.644Z"
+    }
+  ],
+  "squads": [
+    {
+      "id": 1,
+      "name": "FIRST XV vs Auckland",
+      "matchName": "Auckland 2025",
+      "matchDate": "2025-09-18",
+      "createdBy": "current_user",
+      "createdAt": "2025-06-18T23:27:07.671Z",
+      "updatedAt": "2025-06-18T23:27:07.671Z",
+      "isActive": true,
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "name": "FIRST XV vs Auckland",
+      "matchName": "Auckland 2025",
+      "matchDate": "2025-09-18",
+      "createdBy": "user-1",
+      "createdAt": "2025-06-19T00:32:11.226Z",
+      "updatedAt": "2025-06-19T00:32:11.226Z",
+      "isActive": true,
+      "notes": ""
+    }
+  ],
+  "matchTryData": [
+    {
+      "id": 1,
+      "matchId": "nh_vs_auckland_2024",
+      "teamName": "North Harbour",
+      "isNorthHarbour": true,
+      "analysisPerspective": "attacking",
+      "tries": [
+        {
+          "x": 51.843317972350235,
+          "y": 76.60373422342755,
+          "id": "yxsmyt9e1",
+          "team": "home",
+          "type": "tap_penalty",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_2_3",
+          "quarter": 1
+        },
+        {
+          "x": 83.41013824884793,
+          "y": 66.59017419422135,
+          "id": "wmt5oy24f",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 1
+        },
+        {
+          "x": 83.6405529953917,
+          "y": 72.7652028788985,
+          "id": "4iy2tkm3c",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_4_6",
+          "quarter": 2
+        },
+        {
+          "x": 22.811059907834103,
+          "y": 31.375821424846144,
+          "id": "z8xf9nlzf",
+          "team": "home",
+          "type": "kick_return",
+          "zone": "defending_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 1
+        },
+        {
+          "x": 50.46082949308756,
+          "y": 59.24689683947012,
+          "id": "ha8voigxq",
+          "team": "home",
+          "type": "scrum",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_4_6",
+          "quarter": 3
+        }
+      ],
+      "zoneBreakdown": [
+        {
+          "name": "Attacking 22",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Attacking 22m Halfway",
+          "value": 4,
+          "percentage": 80
+        },
+        {
+          "name": "Defending 22m Halfway",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Defending 22",
+          "value": 0,
+          "percentage": 0
+        }
+      ],
+      "quarterBreakdown": [
+        {
+          "name": "Q1",
+          "value": 3,
+          "percentage": 60
+        },
+        {
+          "name": "Q2",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Q3",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Q4",
+          "value": 0,
+          "percentage": 0
+        }
+      ],
+      "phaseBreakdown": [
+        {
+          "name": "Phase 1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 2-3",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Phase 4-6",
+          "value": 2,
+          "percentage": 40
+        },
+        {
+          "name": "Phase 7+",
+          "value": 2,
+          "percentage": 40
+        }
+      ],
+      "sourceBreakdown": [
+        {
+          "name": "Kick Return",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Lineout",
+          "value": 2,
+          "percentage": 40
+        },
+        {
+          "name": "Scrum",
+          "value": 1,
+          "percentage": 20
+        },
+        {
+          "name": "Tap Penalty",
+          "value": 1,
+          "percentage": 20
+        }
+      ],
+      "aiAnalysis": "## North Harbour Rugby Attacking Analysis: vs Auckland (1 June 2024)\n\n**1. Our Attacking Efficiency:**\n\nNorth Harbour scored five tries against Auckland, a respectable return. However, the distribution reveals significant areas for improvement.  While the overall try count is positive, the alarmingly low number of tries from within the attacking 22 (0%) highlights a crucial weakness. Our ability to convert pressure within the opposition's 22m needs immediate attention.  We're relying too heavily on quick strike opportunities rather than sustained pressure culminating in tries close to the line.\n\n**2. Temporal Patterns:**\n\nThe strong first quarter (60% of tries scored) suggests a sharp start and excellent early game execution. However, the significant drop-off in subsequent quarters, particularly the scoreless fourth, indicates potential fitness concerns, a loss of focus, or a tactical inflexibility to adapt to Auckland's defensive adjustments.  The coaching staff needs to investigate why this momentum waned and implement strategies to maintain intensity throughout the match.\n\n**3. Our Phase Play:**\n\nOur success is surprisingly distributed across various phases. The equal contribution from phases 4-6 and 7+ (40% each) shows a capacity for both structured and unstructured attacking play.  The low number of tries from phases 1-3 (20%) suggests we need to focus on improving our early phase attacking game to create more immediate opportunities and relieve pressure on our set piece. We need to improve our ability to break the gain line early to set up quicker attacking opportunities.\n\n**4. Our Platform Success:**\n\nOur set-piece play yielded a healthy return, contributing 60% of our tries (2 lineouts and 1 scrum). This highlights the importance of our lineout and scrum dominance. This is a strength to build upon, but we must not become overly reliant on set piece plays. We must continue to develop our attacking maul and lineout options to ensure consistency from these platforms.\n\n**5. Zone Analysis:**\n\nThe overwhelming majority of our tries (80%) came from the attacking 22m halfway zone. This confirms our reliance on quick attacking plays and counter-attacking opportunities. The lack of tries within both the attacking and defending 22m is deeply concerning. We need to implement specific drills and strategies focused on attacking the opposition's defensive line, improving our breakdown efficiency, and creating opportunities closer to the try line.\n\n**6. Strategic Development:**\n\n* **Improve attacking 22m efficiency:** This is the paramount focus.  We need dedicated training sessions on close-range attacking play, improving our ability to create space, execute quick ball recycling, and maintain composure under pressure in the opposition's red zone.\n* **Maintain momentum:** Develop strategies to avoid the significant drop-off in try-scoring from Q1 onwards.  Analyze Auckland's adjustments and find counter-strategies. This may involve improved fitness, tactical flexibility, and mental resilience training.\n* **Increase early phase attacking effectiveness:** Improve our first and second phase play to quickly gain the upper hand and create immediate attacking opportunities, lessening our reliance on deeper phases.\n* **Develop more attacking variation:** While the set-piece has been effective, we need to develop more fluid attacking options from open play to reduce predictability.\n\n\n**7. Training Focus:**\n\n* **Close-range attacking drills:** Focus on maul variations, short-range passing, and ruck speed within the 22m.\n* **High-intensity fitness training:** Improve stamina and capacity to maintain intensity over 80 minutes.\n* **Mental resilience training:** Develop strategies to deal with setbacks and maintain composure under pressure.\n* **Breakdown efficiency:** Refine our skills in securing quick ball and preventing turnovers in crucial areas.\n* **Improved phase play:** Focus on varied attacking options from open play, focusing on phase 1-3.\n\nIn conclusion, while a 5-try performance is positive, the underlying analysis reveals significant areas for improvement.  The coaching staff must prioritize improving our attacking efficiency within the 22m, maintaining attacking momentum throughout the match, and developing a more varied and unpredictable attacking game. By addressing these key areas, North Harbour can significantly enhance its overall attacking potency and achieve consistent success.\n",
+      "savedAt": "2025-06-18T22:08:54.677Z",
+      "updatedAt": "2025-06-18T22:08:54.677Z"
+    },
+    {
+      "id": 2,
+      "matchId": "nh_vs_auckland_2024",
+      "teamName": "North Harbour",
+      "isNorthHarbour": true,
+      "analysisPerspective": "attacking",
+      "tries": [
+        {
+          "x": 39.823008849557525,
+          "y": 45.39480546573485,
+          "id": "8drkvzdwn",
+          "team": "home",
+          "type": "free_kick",
+          "zone": "defending_22m_halfway",
+          "phase": "phase_2_3",
+          "quarter": 3
+        },
+        {
+          "x": 82.19026548672566,
+          "y": 59.91446750808387,
+          "id": "jhokhovwu",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 2
+        },
+        {
+          "x": 16.5929203539823,
+          "y": 52.90497548763952,
+          "id": "syuxoag20",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_4_6",
+          "quarter": 4
+        },
+        {
+          "x": 47.23451327433628,
+          "y": 63.919891519766345,
+          "id": "sbd051x4k",
+          "team": "home",
+          "type": "scrum",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 3
+        }
+      ],
+      "zoneBreakdown": [
+        {
+          "name": "Attacking 22",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Attacking 22m Halfway",
+          "value": 3,
+          "percentage": 75
+        },
+        {
+          "name": "Defending 22m Halfway",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Defending 22",
+          "value": 0,
+          "percentage": 0
+        }
+      ],
+      "quarterBreakdown": [
+        {
+          "name": "Q1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Q2",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Q3",
+          "value": 2,
+          "percentage": 50
+        },
+        {
+          "name": "Q4",
+          "value": 1,
+          "percentage": 25
+        }
+      ],
+      "phaseBreakdown": [
+        {
+          "name": "Phase 1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 2-3",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Phase 4-6",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Phase 7+",
+          "value": 2,
+          "percentage": 50
+        }
+      ],
+      "sourceBreakdown": [
+        {
+          "name": "Free Kick",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Lineout",
+          "value": 2,
+          "percentage": 50
+        },
+        {
+          "name": "Scrum",
+          "value": 1,
+          "percentage": 25
+        }
+      ],
+      "aiAnalysis": "## North Harbour Rugby – Attacking Analysis: vs Auckland (1/6/2024)\n\n**1. Our Attacking Efficiency:**\n\nNorth Harbour scored four tries against Auckland, a respectable tally, however, the distribution reveals areas for significant improvement.  Our efficiency is hampered by a concerning reliance on longer phases of play (50% of tries from Phase 7+). While this demonstrates a capacity for sustained pressure, it also suggests a lack of cutting edge in the early phases of attack.  We need to create more opportunities to score early and avoid overly prolonged phases that risk turnovers and fatigue. The conversion rate from attacking opportunities needs further investigation.  We need to quantify the number of attacking opportunities versus the number of tries to accurately assess efficiency.\n\n**2. Temporal Patterns:**\n\nThe distribution of tries across quarters (0, 1, 2, 1) shows a positive trend of building momentum throughout the game.  The scoreless first quarter is a concern, possibly indicating slow starts or issues with initial game management.  The strong performance in the third quarter suggests good fitness levels and effective halftime adjustments. Maintaining this momentum throughout all four quarters is crucial for future matches.  We need to analyse video footage to understand the reasons behind the strong Q3 and identify strategies to replicate this performance in Q1.\n\n**3. Our Phase Play:**\n\nOur reliance on later phases highlights a need to sharpen our early attacking play.  The success rate from phases 2-3 and 4-6 is only 50%, demonstrating a vulnerability in our mid-range attacking structures. We need to drill our attacking shape and decision-making in the first six phases to create more immediate scoring chances. This may require simplifying our attacking structure for phases 1-6, prioritizing quick ball and decisive play.\n\n**4. Our Platform Success:**\n\nThe even distribution of tries from lineouts (50%), scrums (25%), and free kicks (25%) suggests a balanced approach to set-piece attacking.  While this is positive, we need to examine the quality of our set-piece play. Were these tries the result of dominance, or opportunistic moments? We should focus on consistently winning quick ball from the scrum and lineout to provide a more reliable attacking platform, even under pressure.\n\n**5. Zone Analysis:**\n\nThe complete lack of tries from our attacking 22 is alarming.  This suggests a critical breakdown in our attacking execution in the most crucial area of the field.  Conversely, our success in the Attacking 22m Halfway zone (3 tries, 75%) highlights our ability to create opportunities from distance.  However, this shouldn't come at the expense of finishing in the opposition 22.  We need targeted training drills focused on penetrating the defensive line and finishing plays inside the 22m.\n\n**6. Strategic Development:**\n\n* **Improve attacking 22 efficiency:** This is the highest priority.  Analysis of why we aren’t scoring in the 22 must be undertaken, looking at decision-making, support play, and the effectiveness of our attacking patterns inside the 22.\n* **Reduce reliance on longer phases:** Emphasize sharp, quick plays in the early phases of attack. This requires improved decision-making at the breakdown, quicker ball distribution, and better exploitation of space.\n* **Improve first-quarter performance:** Identify and address factors contributing to our slow starts.  This could involve pre-game warm-up adjustments, different game management strategies, or addressing any mental aspects of starting the match.\n\n**7. Training Focus:**\n\n* **Attacking 22 entry and finish:** Dedicated training sessions simulating game-like situations in the opposition 22, focusing on decision-making under pressure, accurate passing, and finishing moves.\n* **Phase 1-6 attacking plays:**  Implement drills to improve the speed and effectiveness of our attacking shape in the first six phases, including variations of passing combinations and offensive ruck strategies.\n* **Set-piece execution:**  Prioritize securing quick, clean ball from both scrum and lineout.\n* **Decision-making and Support Play:**  Focus on improving individual decision-making in attack with a strong emphasis on support play and maintaining width.\n\n\nThis analysis provides a roadmap for improving North Harbour's attacking game.  By focusing on these key areas and implementing the recommended training strategies, we can significantly enhance our attacking efficiency and scoring ability.  Further analysis using match video and individual player statistics will further refine our understanding and inform future training plans.\n",
+      "savedAt": "2025-06-18T22:42:42.051Z",
+      "updatedAt": "2025-06-18T22:42:42.051Z"
+    },
+    {
+      "id": 3,
+      "matchId": "nh_vs_auckland_2024",
+      "teamName": "Auckland",
+      "isNorthHarbour": false,
+      "analysisPerspective": "defensive",
+      "tries": [
+        {
+          "x": 50,
+          "y": 13.18452070512152,
+          "id": "vgpghbw4s",
+          "team": "away",
+          "type": "scrum",
+          "zone": "defending_22",
+          "phase": "phase_7_plus",
+          "quarter": 3
+        }
+      ],
+      "zoneBreakdown": [
+        {
+          "name": "Attacking 22",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Attacking 22m Halfway",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Defending 22m Halfway",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Defending 22",
+          "value": 1,
+          "percentage": 100
+        }
+      ],
+      "quarterBreakdown": [
+        {
+          "name": "Q1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Q2",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Q3",
+          "value": 1,
+          "percentage": 100
+        },
+        {
+          "name": "Q4",
+          "value": 0,
+          "percentage": 0
+        }
+      ],
+      "phaseBreakdown": [
+        {
+          "name": "Phase 1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 2-3",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 4-6",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 7+",
+          "value": 1,
+          "percentage": 100
+        }
+      ],
+      "sourceBreakdown": [
+        {
+          "name": "Scrum",
+          "value": 1,
+          "percentage": 100
+        }
+      ],
+      "aiAnalysis": "## North Harbour Rugby - Post-Match Analysis: Auckland Fixture (1 June 2024)\n\n**1. Opposition Scouting:** Auckland's lone try against us came from a scrum in our defending 22, in the third quarter, after a prolonged attacking sequence (Phase 7+). This highlights a concerning vulnerability in our scrum defense late in the game, particularly when facing sustained pressure.  Their complete lack of success elsewhere suggests a structured defense that was effective in most areas.\n\n**2. Their Temporal Patterns:** Auckland’s only successful attacking sequence occurred in the third quarter, suggesting potential fatigue or lapse in concentration in our defensive line during this period. This needs addressing through fitness and mental resilience training.\n\n**3. Their Attacking Structure:** The single try originating from a scrum demonstrates Auckland's ability to leverage set-piece dominance into attacking opportunities.  Their inability to score from open play suggests they struggle against a well-organized Harbour defensive line, especially outside of the scrum.\n\n**4. Their Platform Preferences:**  Auckland clearly prioritizes the scrum as their preferred attacking platform against us. Their lack of success elsewhere indicates they struggle to break us down in open play.\n\n**5. Defensive Strategy:** Our defensive strategy was largely successful, neutralizing Auckland's attack in all areas except the scrum in the third quarter.  However, the vulnerability at the scrum in the later stages of the game is a critical area for improvement.  We need to analyze the specific scrummaging techniques Auckland employed that led to the try, focusing on potential weaknesses in our scrum engagement, pushing, or defensive positioning around the breakdown.\n\n**6. Exploit Opportunities:** Auckland's inability to score from open play presents a significant opportunity. Our own try-scoring distribution (75% from the attacking 22m halfway) suggests we excel at exploiting space in midfield. We should continue to focus on this strength, maintaining quick ball movement and exploiting space to create scoring opportunities.  Their single try being the only one in Q3 further strengthens this focus on maintaining intensity throughout the match.\n\n**7. Game Plan Recommendations:**\n\n* **Scrum Defence:** Dedicated scrum defence sessions focusing on late-game fatigue management and counteracting Auckland's specific scrum tactics are crucial. This includes:\n    * **Strength and Conditioning:** Enhanced scrum-specific fitness training to address fatigue in the later stages of the game.\n    * **Technical Refinement:** Video analysis of the try to identify and correct technical flaws in our scrum defence.  Specific drills targeting engagement, pushing technique, and breakdown defence need to be implemented.\n    * **Mental Fortitude:** Focus on maintaining intensity and discipline throughout the game, especially under pressure in the late stages.\n\n\n* **Maintaining Intensity:** Strategies to prevent a drop-off in defensive intensity in the third quarter need to be implemented. This could include:\n    * **Rotation Policy:** Optimize player rotations to prevent fatigue.\n    * **Tactical Substitutions:** Introduce fresh players at key moments in the third quarter to maintain energy levels.\n    * **Water Breaks:** Strategically timed water breaks to provide short periods of rest and hydration.\n\n\n* **Exploit Midfield Dominance:** Continue to focus on our strengths – creating attacking opportunities from midfield. This requires:\n    * **Maintaining Quick Ball:** Emphasis on securing quick ball at the breakdown to maintain momentum and exploit gaps in Auckland's defence.\n    * **Strategic Kicking:**  Utilize tactical kicking to pin Auckland back in their own half and create attacking opportunities.\n\n\n* **Set-Piece Dominance:**  Since Auckland struggled to generate attacking opportunities outside the scrum, we should aim to secure our own set piece to create attacking platforms. This requires focus on both our scrum and lineout.\n\n\nBy focusing on these key areas, North Harbour can strengthen its defensive capabilities, particularly at the scrum, maintain a high level of intensity throughout the game, and continue to exploit Auckland's weaknesses in open play.  This multifaceted approach will significantly improve our chances of success in future encounters.\n",
+      "savedAt": "2025-06-18T22:43:31.027Z",
+      "updatedAt": "2025-06-18T22:43:31.027Z"
+    },
+    {
+      "id": 4,
+      "matchId": "nh_vs_auckland_2024",
+      "teamName": "North Harbour",
+      "isNorthHarbour": true,
+      "analysisPerspective": "attacking",
+      "tries": [
+        {
+          "x": 39.823008849557525,
+          "y": 45.39480546573485,
+          "id": "8drkvzdwn",
+          "team": "home",
+          "type": "free_kick",
+          "zone": "defending_22m_halfway",
+          "phase": "phase_2_3",
+          "quarter": 3
+        },
+        {
+          "x": 82.19026548672566,
+          "y": 59.91446750808387,
+          "id": "jhokhovwu",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 2
+        },
+        {
+          "x": 16.5929203539823,
+          "y": 52.90497548763952,
+          "id": "syuxoag20",
+          "team": "home",
+          "type": "lineout",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_4_6",
+          "quarter": 4
+        },
+        {
+          "x": 47.23451327433628,
+          "y": 63.919891519766345,
+          "id": "sbd051x4k",
+          "team": "home",
+          "type": "scrum",
+          "zone": "attacking_22m_halfway",
+          "phase": "phase_7_plus",
+          "quarter": 3
+        }
+      ],
+      "zoneBreakdown": [
+        {
+          "name": "Attacking 22",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Attacking 22m Halfway",
+          "value": 3,
+          "percentage": 75
+        },
+        {
+          "name": "Defending 22m Halfway",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Defending 22",
+          "value": 0,
+          "percentage": 0
+        }
+      ],
+      "quarterBreakdown": [
+        {
+          "name": "Q1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Q2",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Q3",
+          "value": 2,
+          "percentage": 50
+        },
+        {
+          "name": "Q4",
+          "value": 1,
+          "percentage": 25
+        }
+      ],
+      "phaseBreakdown": [
+        {
+          "name": "Phase 1",
+          "value": 0,
+          "percentage": 0
+        },
+        {
+          "name": "Phase 2-3",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Phase 4-6",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Phase 7+",
+          "value": 2,
+          "percentage": 50
+        }
+      ],
+      "sourceBreakdown": [
+        {
+          "name": "Free Kick",
+          "value": 1,
+          "percentage": 25
+        },
+        {
+          "name": "Lineout",
+          "value": 2,
+          "percentage": 50
+        },
+        {
+          "name": "Scrum",
+          "value": 1,
+          "percentage": 25
+        }
+      ],
+      "aiAnalysis": "## North Harbour Rugby - Post-Match Analysis: Auckland Fixture (1 June 2024)\n\n**1. Opposition Scouting:** Auckland's lone try against us came from a scrum in our defending 22, in the third quarter, after a prolonged attacking sequence (Phase 7+). This highlights a concerning vulnerability in our scrum defense late in the game, particularly when facing sustained pressure.  Their complete lack of success elsewhere suggests a structured defense that was effective in most areas.\n\n**2. Their Temporal Patterns:** Auckland’s only successful attacking sequence occurred in the third quarter, suggesting potential fatigue or lapse in concentration in our defensive line during this period. This needs addressing through fitness and mental resilience training.\n\n**3. Their Attacking Structure:** The single try originating from a scrum demonstrates Auckland's ability to leverage set-piece dominance into attacking opportunities.  Their inability to score from open play suggests they struggle against a well-organized Harbour defensive line, especially outside of the scrum.\n\n**4. Their Platform Preferences:**  Auckland clearly prioritizes the scrum as their preferred attacking platform against us. Their lack of success elsewhere indicates they struggle to break us down in open play.\n\n**5. Defensive Strategy:** Our defensive strategy was largely successful, neutralizing Auckland's attack in all areas except the scrum in the third quarter.  However, the vulnerability at the scrum in the later stages of the game is a critical area for improvement.  We need to analyze the specific scrummaging techniques Auckland employed that led to the try, focusing on potential weaknesses in our scrum engagement, pushing, or defensive positioning around the breakdown.\n\n**6. Exploit Opportunities:** Auckland's inability to score from open play presents a significant opportunity. Our own try-scoring distribution (75% from the attacking 22m halfway) suggests we excel at exploiting space in midfield. We should continue to focus on this strength, maintaining quick ball movement and exploiting space to create scoring opportunities.  Their single try being the only one in Q3 further strengthens this focus on maintaining intensity throughout the match.\n\n**7. Game Plan Recommendations:**\n\n* **Scrum Defence:** Dedicated scrum defence sessions focusing on late-game fatigue management and counteracting Auckland's specific scrum tactics are crucial. This includes:\n    * **Strength and Conditioning:** Enhanced scrum-specific fitness training to address fatigue in the later stages of the game.\n    * **Technical Refinement:** Video analysis of the try to identify and correct technical flaws in our scrum defence.  Specific drills targeting engagement, pushing technique, and breakdown defence need to be implemented.\n    * **Mental Fortitude:** Focus on maintaining intensity and discipline throughout the game, especially under pressure in the late stages.\n\n\n* **Maintaining Intensity:** Strategies to prevent a drop-off in defensive intensity in the third quarter need to be implemented. This could include:\n    * **Rotation Policy:** Optimize player rotations to prevent fatigue.\n    * **Tactical Substitutions:** Introduce fresh players at key moments in the third quarter to maintain energy levels.\n    * **Water Breaks:** Strategically timed water breaks to provide short periods of rest and hydration.\n\n\n* **Exploit Midfield Dominance:** Continue to focus on our strengths – creating attacking opportunities from midfield. This requires:\n    * **Maintaining Quick Ball:** Emphasis on securing quick ball at the breakdown to maintain momentum and exploit gaps in Auckland's defence.\n    * **Strategic Kicking:**  Utilize tactical kicking to pin Auckland back in their own half and create attacking opportunities.\n\n\n* **Set-Piece Dominance:**  Since Auckland struggled to generate attacking opportunities outside the scrum, we should aim to secure our own set piece to create attacking platforms. This requires focus on both our scrum and lineout.\n\n\nBy focusing on these key areas, North Harbour can strengthen its defensive capabilities, particularly at the scrum, maintain a high level of intensity throughout the game, and continue to exploit Auckland's weaknesses in open play.  This multifaceted approach will significantly improve our chances of success in future encounters.\n",
+      "savedAt": "2025-06-18T22:43:42.721Z",
+      "updatedAt": "2025-06-18T22:43:42.721Z"
+    }
+  ],
+  "sessions": [],
+  "users": [],
+  "exportDate": "2025-07-08 22:59:18",
+  "totalRecords": 48
+}
