@@ -153,8 +153,8 @@ export default function EnhancedPlayerProfile() {
         latestGameStats?.penalties || '',
         player.aiRating?.overall || '',
         player.aiRating?.potential || '',
-        player.status.fitness,
-        player.status.medical
+        player.status?.fitness || 'Unknown',
+        player.status?.medical || 'Unknown'
       ]
     ];
 
@@ -431,9 +431,9 @@ export default function EnhancedPlayerProfile() {
                 style={{ display: 'none' }}
                 onChange={handleFileUpload}
               />
-              <Badge className={`flex items-center gap-2 ${getStatusColor(player.status.fitness)}`}>
-                {getStatusIcon(player.status.fitness)}
-                {player.status.fitness}
+              <Badge className={`flex items-center gap-2 ${getStatusColor(player.status?.fitness || 'unknown')}`}>
+                {getStatusIcon(player.status?.fitness || 'unknown')}
+                {player.status?.fitness || 'Unknown'}
               </Badge>
             </div>
           </div>
