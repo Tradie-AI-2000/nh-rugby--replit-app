@@ -35,6 +35,7 @@ import WorkRateReport from "@/pages/work-rate-report";
 import DatabaseAdmin from "@/pages/database-admin";
 import RoleSelection from "@/pages/role-selection";
 import StrengthConditioning from "@/pages/strength-conditioning";
+import WebSocketTestPage from "@/pages/websocket-test";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -84,6 +85,7 @@ function Router() {
       <Route path="/moneyball" component={MoneyBallPlayers} />
       <Route path="/dashboard" component={MainDashboard} />
       <Route path="/strength-conditioning" component={StrengthConditioning} />
+      <Route path="/websocket-test" component={WebSocketTestPage} />
       <Route path="/" component={RoleSelection} />
       <Route component={NotFound} />
     </Switch>

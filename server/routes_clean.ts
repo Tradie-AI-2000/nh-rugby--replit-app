@@ -462,5 +462,47 @@ export function registerRoutes(app: Express): Server {
   });
 
   const httpServer = createServer(app);
+  
+  // Add WebSocket support
+  if (typeof WebSocket !== 'undefined') {
+    const { WebSocketServer } = require('ws');
+    const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+    
+    wss.on('connection', (ws: any) => {
+      console.log('WebSocket client connected');
+      
+      ws.on('message', (data: any) => {
+        try {
+          const message = JSON.parse(data);
+          console.log('Received WebSocket message:', message);
+          
+          // Echo the message back to the client
+          ws.send(JSON.stringify({
+            type: 'response',
+            data: message,
+            timestamp: new Date().toISOString()
+          }));
+        } catch (error) {
+          console.error('Error processing WebSocket message:', error);
+        }
+      });
+      
+      ws.on('close', () => {
+        console.log('WebSocket client disconnected');
+      });
+      
+      ws.on('error', (error: any) => {
+        console.error('WebSocket error:', error);
+      });
+      
+      // Send welcome message
+      ws.send(JSON.stringify({
+        type: 'welcome',
+        message: 'Connected to North Harbour Rugby Performance Hub',
+        timestamp: new Date().toISOString()
+      }));
+    });
+  }
+  
   return httpServer;
 }
