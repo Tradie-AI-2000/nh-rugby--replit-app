@@ -986,47 +986,23 @@ export type InsertMatchTryData = typeof matchTryData.$inferInsert;
 export type SeasonAnalysis = typeof seasonAnalysis.$inferSelect;
 export type InsertSeasonAnalysis = typeof seasonAnalysis.$inferInsert;
 
-// Squad Builder Tables
+// Squad Builder Tables - Updated to match Google Cloud schema
 export const squads = pgTable("squads", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  matchName: text("match_name"),
-  matchDate: text("match_date"),
-  createdBy: text("created_by").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-  isActive: boolean("is_active").default(true),
+  name: text("name"),
+  matchDate: text("matchDate"),  // date type in DB but text in schema for compatibility
+  opponent: text("opponent"),
+  venue: text("venue"),
+  startingXV: jsonb("startingXV").$type<string[]>(), // Array of player IDs
+  bench: jsonb("bench").$type<string[]>(), // Array of player IDs
+  unavailablePlayers: jsonb("unavailablePlayers").$type<string[]>(), // Array of player IDs
   notes: text("notes"),
-});
-
-export const squadSelections = pgTable("squad_selections", {
-  id: serial("id").primaryKey(),
-  squadId: integer("squad_id").references(() => squads.id),
-  playerId: text("player_id").notNull(),
-  position: text("position").notNull(),
-  isStarter: boolean("is_starter").default(true),
-  orderInPosition: integer("order_in_position").default(1),
-  selectionReason: text("selection_reason"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const squadAdvice = pgTable("squad_advice", {
-  id: serial("id").primaryKey(),
-  squadId: integer("squad_id").references(() => squads.id),
-  adviceType: text("advice_type").notNull(), // 'warning', 'suggestion', 'info'
-  category: text("category").notNull(), // 'injury', 'suspension', 'penalties', 'balance'
-  message: text("message").notNull(),
-  priority: integer("priority").default(1), // 1-5, 5 being highest
-  playerId: text("player_id"),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
 });
 
 export type Squad = typeof squads.$inferSelect;
 export type InsertSquad = typeof squads.$inferInsert;
-export type SquadSelection = typeof squadSelections.$inferSelect;
-export type InsertSquadSelection = typeof squadSelections.$inferInsert;
-export type SquadAdvice = typeof squadAdvice.$inferSelect;
-export type InsertSquadAdvice = typeof squadAdvice.$inferInsert;
 
 // ===== S&C PORTAL: NEW TABLES =====
 

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { eq, and, sql } from "drizzle-orm";
 import { db } from "./db";
-import { squads, squadSelections, squadAdvice } from "@shared/schema";
+import { squads } from "@shared/schema";
 import { northHarbourPlayers } from './northHarbourPlayers';
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
 import { DatabaseStorage } from "./storage";
@@ -39,14 +39,17 @@ export function registerRoutes(app: Express): Server {
   // Create new squad
   app.post('/api/squads', async (req, res) => {
     try {
-      const { name, matchName, matchDate, notes } = req.body;
+      const { name, matchDate, opponent, venue, notes } = req.body;
       
       const [squad] = await db.insert(squads).values({
         name,
-        matchName,
         matchDate,
+        opponent,
+        venue,
         notes,
-        createdBy: 'user-1' // Replace with actual user ID from auth
+        startingXV: [],
+        bench: [],
+        unavailablePlayers: []
       }).returning();
 
       res.status(201).json(squad);
@@ -59,7 +62,17 @@ export function registerRoutes(app: Express): Server {
   // Get all squads for user
   app.get('/api/squads', async (req, res) => {
     try {
-      const userSquads = await db.select().from(squads).where(eq(squads.createdBy, 'user-1'));
+      console.log('Attempting to fetch squads...');
+      
+      // Set a timeout for the database query
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Database query timeout')), 5000);
+      });
+      
+      const queryPromise = db.select().from(squads);
+      
+      const userSquads = await Promise.race([queryPromise, timeoutPromise]);
+      console.log('Successfully fetched squads:', userSquads.length);
       res.json(userSquads);
     } catch (error) {
       console.error('Error fetching squads:', error);
@@ -67,7 +80,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Get squad details with selections
+  // Get squad details 
   app.get('/api/squads/:squadId', async (req, res) => {
     try {
       const squadId = parseInt(req.params.squadId);
@@ -77,159 +90,62 @@ export function registerRoutes(app: Express): Server {
         return res.status(404).json({ error: 'Squad not found' });
       }
 
-      const selections = await db.select().from(squadSelections).where(eq(squadSelections.squadId, squadId));
-      const advice = await db.select().from(squadAdvice).where(eq(squadAdvice.squadId, squadId));
-
-      res.json({
-        ...squad,
-        selections,
-        advice
-      });
+      res.json(squad);
     } catch (error) {
       console.error('Error fetching squad details:', error);
       res.status(500).json({ error: 'Failed to fetch squad details' });
     }
   });
 
-  // Add player to squad
-  app.post('/api/squads/:squadId/players', async (req, res) => {
+  // Update squad with player selections
+  app.put('/api/squads/:squadId', async (req, res) => {
     try {
-      const { squadId } = req.params;
-      const { playerId, position, isStarter, selectionReason } = req.body;
+      const squadId = parseInt(req.params.squadId);
+      const { startingXV, bench, unavailablePlayers, name, matchDate, opponent, venue, notes } = req.body;
 
-      // Find the player to get their actual position if not provided
-      let playerPosition = position;
-      if (!playerPosition) {
-        const player = northHarbourPlayers.find(p => p.id === playerId);
-        if (player && player.personalDetails && player.personalDetails.position) {
-          playerPosition = player.personalDetails.position;
-        } else {
-          playerPosition = 'Forward';
-        }
+      const [updatedSquad] = await db.update(squads)
+        .set({
+          startingXV: startingXV || [],
+          bench: bench || [],
+          unavailablePlayers: unavailablePlayers || [],
+          name,
+          matchDate,
+          opponent,
+          venue,
+          notes,
+          updatedAt: new Date()
+        })
+        .where(eq(squads.id, squadId))
+        .returning();
+
+      if (!updatedSquad) {
+        return res.status(404).json({ error: 'Squad not found' });
       }
 
-      const [selection] = await db.insert(squadSelections).values({
-        squadId: parseInt(squadId),
-        playerId,
-        position: playerPosition,
-        isStarter: isStarter ?? true,
-        selectionReason
-      }).returning();
-
-      // Generate selection advice for this squad
-      await generateSquadAdvice(parseInt(squadId));
-
-      res.json(selection);
+      res.json(updatedSquad);
     } catch (error) {
-      console.error('Error adding player to squad:', error);
-      res.status(500).json({ error: 'Failed to add player to squad' });
+      console.error('Error updating squad:', error);
+      res.status(500).json({ error: 'Failed to update squad' });
     }
   });
 
-  // Remove player from squad
-  app.delete('/api/squads/:squadId/players/:playerId', async (req, res) => {
+  // Delete squad
+  app.delete('/api/squads/:squadId', async (req, res) => {
     try {
-      const { squadId, playerId } = req.params;
+      const squadId = parseInt(req.params.squadId);
       
-      await db.delete(squadSelections)
-        .where(
-          and(
-            eq(squadSelections.squadId, parseInt(squadId)),
-            eq(squadSelections.playerId, playerId)
-          )
-        );
-
-      // Regenerate selection advice
-      await generateSquadAdvice(parseInt(squadId));
+      await db.delete(squads).where(eq(squads.id, squadId));
 
       res.json({ success: true });
     } catch (error) {
-      console.error('Error removing player from squad:', error);
-      res.status(500).json({ error: 'Failed to remove player from squad' });
+      console.error('Error deleting squad:', error);
+      res.status(500).json({ error: 'Failed to delete squad' });
     }
   });
 
-  // Get squad selection advice
-  app.get('/api/squads/:squadId/advice', async (req, res) => {
-    try {
-      const squadId = parseInt(req.params.squadId);
-      const advice = await db.select().from(squadAdvice).where(eq(squadAdvice.squadId, squadId));
-      res.json(advice);
-    } catch (error) {
-      console.error('Error fetching squad advice:', error);
-      res.status(500).json({ error: 'Failed to fetch squad advice' });
-    }
-  });
 
-  // Generate squad advice helper function
-  async function generateSquadAdvice(squadId: number) {
-    try {
-      const selections = await db.select().from(squadSelections).where(eq(squadSelections.squadId, squadId));
-      
-      const selectedPlayerIds = selections.map(s => s.playerId);
-      const selectedPlayers = northHarbourPlayers.filter(p => selectedPlayerIds.includes(p.id));
 
-      // Analyze squad composition
-      const positions = selectedPlayers.map(p => p.personalDetails.position);
-      const positionCounts = positions.reduce((acc: any, pos) => {
-        acc[pos] = (acc[pos] || 0) + 1;
-        return acc;
-      }, {});
 
-      // Calculate risk factors
-      const injuredPlayers = selectedPlayers.filter(p => p.currentStatus === 'Injured');
-      const highPenaltyPlayers = selectedPlayers.filter(p => 
-        p.gameStats && p.gameStats[0] && p.gameStats[0].penalties > 5
-      );
-
-      // Generate advice
-      const adviceItems = [];
-
-      if (injuredPlayers.length > 0) {
-        adviceItems.push({
-          type: 'warning',
-          message: `${injuredPlayers.length} injured player(s) selected: ${injuredPlayers.map(p => p.personalDetails.firstName + ' ' + p.personalDetails.lastName).join(', ')}`,
-          priority: 'high'
-        });
-      }
-
-      if (highPenaltyPlayers.length > 2) {
-        adviceItems.push({
-          type: 'caution',
-          message: `High penalty risk: ${highPenaltyPlayers.length} players with 5+ penalties this season`,
-          priority: 'medium'
-        });
-      }
-
-      // Position balance check
-      const requiredPositions = ['Prop', 'Hooker', 'Lock', 'Flanker', 'Number 8', 'Scrum-half', 'Fly-half', 'Centre', 'Wing', 'Fullback'];
-      const missingPositions = requiredPositions.filter(pos => !positions.includes(pos));
-      
-      if (missingPositions.length > 0) {
-        adviceItems.push({
-          type: 'suggestion',
-          message: `Consider adding players for: ${missingPositions.join(', ')}`,
-          priority: 'medium'
-        });
-      }
-
-      // Clear existing advice and add new
-      await db.delete(squadAdvice).where(eq(squadAdvice.squadId, squadId));
-      
-      for (const advice of adviceItems) {
-        await db.insert(squadAdvice).values({
-          squadId,
-          adviceType: advice.type,
-          category: 'selection_advice',
-          message: advice.message,
-          priority: advice.priority === 'high' ? 5 : advice.priority === 'medium' ? 3 : 1
-        });
-      }
-
-    } catch (error) {
-      console.error('Error generating squad advice:', error);
-    }
-  }
 
   // Gemini AI Analysis Routes
   app.post("/api/gemini/analyze-section", async (req, res) => {
