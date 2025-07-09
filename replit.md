@@ -131,7 +131,8 @@ The platform supports multiple user roles including coaches, medical staff, phys
 - API rate limiting and request optimization
 
 ## Changelog
-- June 26, 2025. Initial setup
+- January 9, 2025: Fixed database connection timeout by replacing Neon serverless adapter with standard PostgreSQL driver for Google Cloud SQL compatibility
+- June 26, 2025: Initial setup
 
 ## User Preferences
 

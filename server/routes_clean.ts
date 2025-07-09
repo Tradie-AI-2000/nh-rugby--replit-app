@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { eq, and, sql } from "drizzle-orm";
-import { db } from "./db";
+import { db, pool } from "./db";
 import { squads } from "@shared/schema";
 import { northHarbourPlayers } from './northHarbourPlayers';
 import { geminiAnalyst, type MatchAnalysisRequest } from "./geminiAnalysis";
@@ -64,14 +64,10 @@ export function registerRoutes(app: Express): Server {
     try {
       console.log('Attempting to fetch squads...');
       
-      // Set a timeout for the database query
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Database query timeout')), 5000);
-      });
+      // Use raw SQL query as fallback for Drizzle ORM timeout issues
+      const result = await pool.query('SELECT * FROM squads ORDER BY id');
+      const userSquads = result.rows;
       
-      const queryPromise = db.select().from(squads);
-      
-      const userSquads = await Promise.race([queryPromise, timeoutPromise]);
       console.log('Successfully fetched squads:', userSquads.length);
       res.json(userSquads);
     } catch (error) {
