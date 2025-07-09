@@ -71,8 +71,8 @@ export default function ExperimentalPlayerProfile() {
   }
 
   const playerName = `${player.personalDetails?.firstName || ''} ${player.personalDetails?.lastName || ''}`.trim();
-  const position = player.rugbyProfile?.primaryPosition || 'Unknown';
-  const jerseyNumber = player.rugbyProfile?.jerseyNumber || 0;
+  const position = player.rugbyProfile?.primaryPosition || player.personalDetails?.position || 'Unknown';
+  const jerseyNumber = player.rugbyProfile?.jerseyNumber || player.personalDetails?.jerseyNumber || 0;
   const fitnessStatus = player.status?.fitness || 'unknown';
   const medicalStatus = player.status?.medical || 'unknown';
 

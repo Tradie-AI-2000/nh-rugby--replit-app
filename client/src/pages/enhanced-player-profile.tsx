@@ -132,11 +132,11 @@ export default function EnhancedPlayerProfile() {
         player.personalDetails.emergencyContact.name,
         player.personalDetails.emergencyContact.relationship,
         player.personalDetails.emergencyContact.phone,
-        player.rugbyProfile.jerseyNumber,
-        player.rugbyProfile.primaryPosition,
-        player.rugbyProfile.secondaryPositions?.join(';') || '',
-        player.rugbyProfile.playingLevel,
-        player.rugbyProfile.yearsInTeam,
+        player.rugbyProfile?.jerseyNumber || player.personalDetails?.jerseyNumber || 'N/A',
+        player.rugbyProfile?.primaryPosition || 'Unknown Position',
+        player.rugbyProfile?.secondaryPositions?.join(';') || '',
+        player.rugbyProfile?.playingLevel || 'Unknown Level',
+        player.rugbyProfile?.yearsInTeam || 0,
         latestPhysical?.height || '',
         latestPhysical?.weight || '',
         latestPhysical?.bodyFat || '',
@@ -356,8 +356,8 @@ export default function EnhancedPlayerProfile() {
   } else {
     // Create basic metrics from existing player data
     playerValueMetrics = {
-      position: player.rugbyProfile.primaryPosition,
-      secondaryPosition: player.rugbyProfile.secondaryPositions?.[0],
+      position: player.rugbyProfile?.primaryPosition || 'Unknown Position',
+      secondaryPosition: player.rugbyProfile?.secondaryPositions?.[0],
       weight: latestPhysical?.weight || 100,
       contractValue: 85000, // Sample value
       
@@ -402,7 +402,7 @@ export default function EnhancedPlayerProfile() {
                 <h1 className="text-2xl font-bold text-gray-900">
                   {player.personalDetails.firstName} {player.personalDetails.lastName}
                 </h1>
-                <p className="text-gray-600">#{player.rugbyProfile.jerseyNumber} • {player.rugbyProfile.primaryPosition}</p>
+                <p className="text-gray-600">#{player.rugbyProfile?.jerseyNumber || player.personalDetails?.jerseyNumber || 'N/A'} • {player.rugbyProfile?.primaryPosition || 'Unknown Position'}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -496,7 +496,7 @@ export default function EnhancedPlayerProfile() {
                       </AvatarFallback>
                     </Avatar>
                     <h3 className="text-xl font-bold">{player.personalDetails.firstName} {player.personalDetails.lastName}</h3>
-                    <p className="text-gray-600">#{player.rugbyProfile.jerseyNumber}</p>
+                    <p className="text-gray-600">#{player.rugbyProfile?.jerseyNumber || player.personalDetails?.jerseyNumber || 'N/A'}</p>
                   </div>
 
                   {/* Basic Info */}
@@ -511,7 +511,7 @@ export default function EnhancedPlayerProfile() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Award className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm">{player.rugbyProfile.playingLevel}</span>
+                      <span className="text-sm">{player.rugbyProfile?.playingLevel || 'Unknown Level'}</span>
                     </div>
                   </div>
 
